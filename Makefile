@@ -23,3 +23,16 @@ down:
 
 build:
 	docker-compose build
+
+# Quality Assurance Commands
+test:
+	@echo "Running API tests..."
+	# cd api && go test ./...
+	@echo "Running frontend tests..."
+	# cd frontend && pnpm test
+
+lint:
+	@echo "Linting API code..."
+	# golangci-lint run ./api/...
+	@echo "Linting frontend code..."
+	# cd frontend && pnpm lint

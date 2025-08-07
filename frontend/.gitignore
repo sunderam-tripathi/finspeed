@@ -9,3 +9,4 @@
 
 # Local Environment Variables
 .env*.local
+.pnpm-store/
