@@ -8,7 +8,7 @@ WORKDIR /app
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# --- Builder Stage ---
+# --- Builder Stage (for production later) ---
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
