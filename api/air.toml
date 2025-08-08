@@ -1,12 +1,17 @@
 # Config file for air: https://github.com/cosmtrek/air
-root = "."
+
+# Set an absolute path for the root inside the container
+root = "/app"
 tmp_dir = "tmp"
 
 [build]
-cmd = "go build -o ./tmp/server ./cmd/server"
-bin = "./tmp/server"
-full_bin = "./tmp/server"
+# Use absolute paths for the command and output
+cmd = "go build -o /app/tmp/server /app/cmd/server"
+# The binary that air will execute
+bin = "/app/tmp/server"
+# Files to watch
 include_ext = ["go", "tpl", "tmpl", "html"]
+# Directories to exclude from watching
 exclude_dir = ["assets", "tmp", "vendor"]
 log = "air.log"
 
