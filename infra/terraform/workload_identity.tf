@@ -19,21 +19,15 @@ resource "google_project_service" "sts_api" {
 }
 
 # Create Workload Identity Pool
-resource "google_iam_workload_identity_pool" "github_pool" {
-  workload_identity_pool_id = "github-actions-pool"
-  display_name              = "GitHub Actions Pool"
-  description               = "Workload Identity Pool for GitHub Actions"
+# Import existing Workload Identity Pool
+data "google_iam_workload_identity_pool" "github_pool" {
+  workload_identity_pool_id = "finspeed-pool-v2"
   project                   = local.project_id
-
-  depends_on = [
-    google_project_service.iam_api,
-    google_project_service.sts_api
-  ]
 }
 
 # Create Workload Identity Provider for GitHub
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
-  workload_identity_pool_id          = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  workload_identity_pool_id          = data.google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = "github-provider"
   display_name                       = "GitHub Provider"
   description                        = "OIDC identity pool provider for GitHub Actions"
@@ -70,7 +64,7 @@ resource "google_service_account_iam_binding" "github_actions_workload_identity"
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
-    "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
+    "principalSet://iam.googleapis.com/${data.google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
   ]
 }
 
