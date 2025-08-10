@@ -42,41 +42,19 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
       
-      - name: Deploy Infrastructure
-        working-directory: ./infra
+      - name: Verify Infrastructure
         run: |
-          # Install Terraform
-          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-          sudo apt update && sudo apt install terraform
+          echo "🔍 Verifying existing infrastructure..."
           
-          # Deploy with Terraform
-          cd terraform
-          terraform init
+          # Verify Cloud SQL instance exists
+          gcloud sql instances describe finspeed-postgres-staging --project=finspeed-staging || (echo "❌ Cloud SQL instance not found" && exit 1)
           
-          # Import existing resources to resolve 409 conflicts
-          echo "📥 Importing existing resources to resolve conflicts..."
-          set +e  # Continue on import errors
+          # Verify secrets exist
+          gcloud secrets describe finspeed-database-password-staging --project=finspeed-staging || (echo "❌ Database password secret not found" && exit 1)
+          gcloud secrets describe finspeed-database-url-staging --project=finspeed-staging || (echo "❌ Database URL secret not found" && exit 1)
+          gcloud secrets describe finspeed-jwt-secret-staging --project=finspeed-staging || (echo "❌ JWT secret not found" && exit 1)
           
-          PROJECT_ID="finspeed-staging"
-          PROJECT_NUMBER="568982729363"
-          
-          # Import existing resources that cause 409 conflicts
-          terraform import -var-file="environments/staging.tfvars" google_storage_bucket.terraform_state "finspeed-terraform-state-staging" 2>/dev/null || echo "⚠️ Bucket already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_compute_network.vpc_network "projects/$PROJECT_ID/global/networks/finspeed-vpc-staging" 2>/dev/null || echo "⚠️ VPC already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_secret_manager_secret.database_password "projects/$PROJECT_NUMBER/secrets/finspeed-database-password-staging" 2>/dev/null || echo "⚠️ DB password secret already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_secret_manager_secret.database_url "projects/$PROJECT_NUMBER/secrets/finspeed-database-url-staging" 2>/dev/null || echo "⚠️ DB URL secret already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_iam_workload_identity_pool.github_pool "projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions-pool" 2>/dev/null || echo "⚠️ Workload Identity Pool already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_iam_workload_identity_pool_provider.github_provider "projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider" 2>/dev/null || echo "⚠️ WIF Provider already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_service_account.github_actions "projects/$PROJECT_ID/serviceAccounts/github-actions-staging@$PROJECT_ID.iam.gserviceaccount.com" 2>/dev/null || echo "⚠️ GitHub Actions SA already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_service_account.cloud_run_sa "projects/$PROJECT_ID/serviceAccounts/finspeed-cloud-run-staging@$PROJECT_ID.iam.gserviceaccount.com" 2>/dev/null || echo "⚠️ Cloud Run SA already imported or doesn't exist"
-          terraform import -var-file="environments/staging.tfvars" google_sql_database_instance.postgres "$PROJECT_ID:finspeed-postgres-staging" 2>/dev/null || echo "⚠️ Cloud SQL already imported or doesn't exist"
-          
-          set -e  # Re-enable exit on error
-          
-          echo "✅ Import process completed, proceeding with deployment..."
-          terraform plan -var-file="environments/staging.tfvars" -out=staging.tfplan
-          terraform apply -auto-approve staging.tfplan
+          echo "✅ Infrastructure verification completed - all required resources exist"
       
       - name: Build and Deploy Applications
         run: |
