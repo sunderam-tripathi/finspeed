@@ -11,10 +11,11 @@ terraform {
     }
   }
 
-  backend "gcs" {
-    bucket = "finspeed-terraform-state-staging"
-    prefix = "terraform/state"
-  }
+  # Backend configuration will be added after bucket creation
+  # backend "gcs" {
+  #   bucket = "finspeed-terraform-state-staging"
+  #   prefix = "terraform/state"
+  # }
 }
 
 provider "google" {
@@ -43,6 +44,31 @@ locals {
   }
 }
 
+# Create GCS bucket for Terraform state
+resource "google_storage_bucket" "terraform_state" {
+  name     = "finspeed-terraform-state-${local.environment}"
+  location = local.region
+  project  = local.project_id
+
+  # Prevent accidental deletion
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  # Enable versioning for state file history
+  versioning {
+    enabled = true
+  }
+
+  # Enable uniform bucket-level access
+  uniform_bucket_level_access = true
+
+  # Set appropriate storage class
+  storage_class = "STANDARD"
+
+  labels = local.common_labels
+}
+
 # Enable required APIs
 resource "google_project_service" "required_apis" {
   for_each = toset([
@@ -55,7 +81,8 @@ resource "google_project_service" "required_apis" {
     "vpcaccess.googleapis.com",
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
-    "sts.googleapis.com"
+    "sts.googleapis.com",
+    "storage.googleapis.com"
   ])
 
   project = local.project_id
