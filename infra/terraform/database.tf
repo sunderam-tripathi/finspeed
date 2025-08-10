@@ -43,16 +43,16 @@ resource "google_sql_database_instance" "postgres" {
       ssl_mode                                      = "ENCRYPTED_ONLY"
     }
 
-    # Database flags for optimization
-    database_flags {
-      name  = "shared_preload_libraries"
-      value = "pg_stat_statements"
-    }
+    # Database flags for optimization (temporarily removed for troubleshooting)
+    # database_flags {
+    #   name  = "shared_preload_libraries"
+    #   value = "pg_stat_statements"
+    # }
 
-    database_flags {
-      name  = "log_min_duration_statement"
-      value = "1000"
-    }
+    # database_flags {
+    #   name  = "log_min_duration_statement"
+    #   value = "1000"
+    # }
 
     # Insights configuration for monitoring
     insights_config {

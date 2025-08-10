@@ -219,7 +219,7 @@ resource "google_vpc_access_connector" "connector" {
   min_instances = 2
   max_instances = var.environment == "production" ? 10 : 3
 
-  depends_on = [google_project_service.required_apis]
+  depends_on = [google_project_service.required_apis["vpcaccess.googleapis.com"]]
 }
 
 # IAM policy to allow public access to Cloud Run services
