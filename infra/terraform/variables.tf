@@ -31,6 +31,12 @@ variable "zone" {
   default     = "us-central1-a"
 }
 
+variable "subnet_cidr" {
+  description = "CIDR block for the subnet"
+  type        = string
+  default     = "10.0.0.0/24"
+}
+
 variable "github_repository" {
   description = "sunderam-tripathi/finspeed"
   type        = string
