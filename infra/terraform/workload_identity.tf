@@ -18,16 +18,14 @@ resource "google_project_service" "sts_api" {
   disable_on_destroy         = false
 }
 
-# Create Workload Identity Pool
-# Import existing Workload Identity Pool
-data "google_iam_workload_identity_pool" "github_pool" {
-  workload_identity_pool_id = "finspeed-pool-v2"
-  project                   = local.project_id
+# Reference existing Workload Identity Pool (hardcoded to avoid permission issues)
+locals {
+  workload_identity_pool_name = "projects/${local.project_id}/locations/global/workloadIdentityPools/finspeed-pool-v2"
 }
 
 # Create Workload Identity Provider for GitHub
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
-  workload_identity_pool_id          = data.google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  workload_identity_pool_id          = "finspeed-pool-v2"
   workload_identity_pool_provider_id = "github-provider"
   display_name                       = "GitHub Provider"
   description                        = "OIDC identity pool provider for GitHub Actions"
@@ -64,7 +62,7 @@ resource "google_service_account_iam_binding" "github_actions_workload_identity"
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
-    "principalSet://iam.googleapis.com/${data.google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
+    "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
   ]
 }
 
@@ -74,7 +72,7 @@ resource "google_service_account_iam_binding" "github_actions_token_creator" {
   role               = "roles/iam.serviceAccountTokenCreator"
 
   members = [
-    "principalSet://iam.googleapis.com/${data.google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
+    "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
   ]
 }
 
@@ -111,5 +109,5 @@ output "github_actions_service_account" {
 
 output "workload_identity_pool_id" {
   description = "The Workload Identity Pool ID"
-  value       = data.google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  value       = "finspeed-pool-v2"
 }
