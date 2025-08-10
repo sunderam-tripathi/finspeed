@@ -1,27 +1,46 @@
 package main
 
 import (
-	"net/http"
-	"github.com/gin-gonic/gin"
+	"log"
+
+	"finspeed/api/internal/config"
+	"finspeed/api/internal/database"
+	"finspeed/api/internal/logger"
+	"finspeed/api/internal/server"
+	"go.uber.org/zap"
 )
 
-// main is the entry point for the Finspeed API server.
 func main() {
-	// Setup Gin router
-	router := gin.Default()
+	// Load configuration
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
 
-	// Per task 1.13, define a health check route.
-	// This will be used by our Cloud Monitoring uptime checks (task 2.7).
-	router.GET("/healthz", healthCheckHandler)
+	// Initialize logger
+	zapLogger, err := logger.New(cfg.Environment, cfg.LogLevel)
+	if err != nil {
+		log.Fatalf("Failed to initialize logger: %v", err)
+	}
+	defer zapLogger.Sync()
 
-	// Start server. The port is exposed in our api.Dockerfile.
-	// We'll eventually pull the port from env vars.
-	router.Run(":8080")
-}
+	zapLogger.Info("Starting Finspeed API server")
 
-// healthCheckHandler responds with a simple health status.
-func healthCheckHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status": "ok",
-	})
+	// Initialize database
+	db, err := database.New(cfg.DatabaseURL, zapLogger)
+	if err != nil {
+		zapLogger.Fatal("Failed to initialize database", zap.Error(err))
+	}
+	defer db.Close()
+
+	// Run database migrations
+	if err := db.RunMigrations(cfg.MigrationsPath); err != nil {
+		zapLogger.Fatal("Failed to run database migrations", zap.Error(err))
+	}
+
+	// Initialize and start server
+	srv := server.New(cfg, db, zapLogger)
+	if err := srv.Start(); err != nil {
+		zapLogger.Fatal("Server failed to start", zap.Error(err))
+	}
 }
