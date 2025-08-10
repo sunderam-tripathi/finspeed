@@ -2,23 +2,23 @@
 FROM node:20-alpine AS base
 RUN npm install -g pnpm
 
-# --- Dependencies Stage ---
-FROM base AS deps
-WORKDIR /app
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
-# --- Builder Stage (for production later) ---
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY frontend/ ./
-RUN pnpm build
-
 # --- Development Stage ---
 FROM base AS dev
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
+# Set pnpm store directory to avoid conflicts
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN pnpm config set store-dir /app/.pnpm-store
+
+# Copy package files
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
+
+# Install ALL dependencies (including dev dependencies) with explicit store
+RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store
+
+# Copy source code
 COPY frontend/ ./
+
 EXPOSE 3000
 CMD ["pnpm", "dev"]
