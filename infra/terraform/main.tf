@@ -11,11 +11,11 @@ terraform {
     }
   }
 
-  # Backend configuration will be added after bucket creation
-  # backend "gcs" {
-  #   bucket = "finspeed-terraform-state-staging"
-  #   prefix = "terraform/state"
-  # }
+  # Backend configuration for remote state storage
+  backend "gcs" {
+    bucket = "finspeed-terraform-state-staging"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google" {
