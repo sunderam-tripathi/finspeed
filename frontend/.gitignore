@@ -1,0 +1,12 @@
+# Dependencies
+/node_modules
+/.pnpm
+.pnpm-debug.log
+
+# Next.js build output
+/.next/
+/out/
+
+# Local Environment Variables
+.env*.local
+.pnpm-store/

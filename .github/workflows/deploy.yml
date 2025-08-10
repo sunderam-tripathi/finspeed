@@ -1,0 +1,133 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+env:
+  PROJECT_ID_STAGING: finspeed-staging
+  PROJECT_ID_PROD: finspeed-prod
+  REGION: us-central1
+
+jobs:
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment: staging
+    
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC token generation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER_STAGING }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID_STAGING }}
+      
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+      
+      - name: Deploy Infrastructure
+        working-directory: ./infra
+        run: |
+          # Install Terraform
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install terraform
+          
+          # Deploy with Terraform
+          cd terraform
+          terraform init
+          terraform plan -var-file="environments/staging.tfvars" -out=staging.tfplan
+          terraform apply -auto-approve staging.tfplan
+      
+      - name: Build and Deploy Applications
+        run: |
+          echo "🚀 Building and deploying applications to staging..."
+          # Add your application build and deployment steps here
+          # Example:
+          # docker build -t $REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA ./api
+          # docker push $REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA
+          # gcloud run deploy finspeed-api-staging --image=$REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [deploy-staging]  # Only deploy to prod after staging succeeds
+    
+    permissions:
+      contents: read
+      id-token: write  # Required for OIDC token generation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER_PROD }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_PROD }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID_PROD }}
+      
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+      
+      - name: Deploy Infrastructure
+        working-directory: ./infra
+        run: |
+          # Install Terraform
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install terraform
+          
+          # Deploy with Terraform
+          cd terraform
+          terraform init
+          terraform plan -var-file="environments/production.tfvars" -out=production.tfplan
+          terraform apply -auto-approve production.tfplan
+      
+      - name: Build and Deploy Applications
+        run: |
+          echo "🚀 Building and deploying applications to production..."
+          # Add your application build and deployment steps here
+          # Example:
+          # docker build -t $REGION-docker.pkg.dev/$PROJECT_ID_PROD/finspeed/api:$GITHUB_SHA ./api
+          # docker push $REGION-docker.pkg.dev/$PROJECT_ID_PROD/finspeed/api:$GITHUB_SHA
+          # gcloud run deploy finspeed-api-production --image=$REGION-docker.pkg.dev/$PROJECT_ID_PROD/finspeed/api:$GITHUB_SHA
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Run tests
+        run: |
+          echo "🧪 Running tests..."
+          # Add your test commands here
+          # Example:
+          # npm test
+          # python -m pytest
+          # go test ./...
