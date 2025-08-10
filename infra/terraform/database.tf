@@ -50,11 +50,6 @@ resource "google_sql_database_instance" "postgres" {
     }
 
     database_flags {
-      name  = "log_statement"
-      value = "all"
-    }
-
-    database_flags {
       name  = "log_min_duration_statement"
       value = "1000"
     }

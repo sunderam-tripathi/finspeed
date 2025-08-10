@@ -211,7 +211,7 @@ resource "google_cloud_run_v2_service" "frontend" {
 
 # VPC Connector for Cloud Run to access private resources
 resource "google_vpc_access_connector" "connector" {
-  name          = "finspeed-vpc-connector-${local.environment}"
+  name          = "finspeed-vpc-${local.environment}"
   region        = local.region
   ip_cidr_range = "10.8.0.0/28"
   network       = google_compute_network.vpc_network.name
