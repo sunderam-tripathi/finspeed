@@ -47,7 +47,7 @@ locals {
 # Create GCS bucket for Terraform state
 resource "google_storage_bucket" "terraform_state" {
   name     = "finspeed-terraform-state-${local.environment}"
-  location = local.region
+  location = "IN"  # Match existing bucket location (India multi-region)
   project  = local.project_id
 
   # Prevent accidental deletion
