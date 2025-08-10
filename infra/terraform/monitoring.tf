@@ -85,8 +85,8 @@ resource "google_monitoring_alert_policy" "api_uptime_alert" {
     condition_threshold {
       filter          = "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" AND resource.type=\"uptime_url\" AND resource.labels.project_id=\"${local.project_id}\""
       duration        = "300s"
-      comparison      = "COMPARISON_EQUAL"
-      threshold_value = 0
+      comparison      = "COMPARISON_LT"
+      threshold_value = 1
       
       aggregations {
         alignment_period   = "300s"
@@ -116,7 +116,7 @@ resource "google_monitoring_alert_policy" "high_error_rate" {
     condition_threshold {
       filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${local.api_service_name}\" AND metric.type=\"run.googleapis.com/request_count\" AND metric.labels.response_code_class=\"5xx\""
       duration        = "300s"
-      comparison      = "COMPARISON_GREATER_THAN"
+      comparison      = "COMPARISON_GT"
       threshold_value = 5
       
       aggregations {
@@ -144,7 +144,7 @@ resource "google_monitoring_alert_policy" "high_latency" {
     condition_threshold {
       filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${local.api_service_name}\" AND metric.type=\"run.googleapis.com/request_latencies\""
       duration        = "300s"
-      comparison      = "COMPARISON_GREATER_THAN"
+      comparison      = "COMPARISON_GT"
       threshold_value = 1000  # 1 second in milliseconds
       
       aggregations {
@@ -172,7 +172,7 @@ resource "google_monitoring_alert_policy" "database_connection" {
     condition_threshold {
       filter          = "resource.type=\"cloudsql_database\" AND resource.labels.database_id=\"${local.project_id}:${google_sql_database_instance.postgres.name}\" AND metric.type=\"cloudsql.googleapis.com/database/postgresql/num_backends\""
       duration        = "300s"
-      comparison      = "COMPARISON_GREATER_THAN"
+      comparison      = "COMPARISON_GT"
       threshold_value = 80  # 80% of max connections
       
       aggregations {
@@ -190,6 +190,7 @@ resource "google_monitoring_dashboard" "finspeed_dashboard" {
   dashboard_json = jsonencode({
     displayName = "Finspeed Dashboard (${local.environment})"
     mosaicLayout = {
+      columns = 12
       tiles = [
         {
           width  = 6
