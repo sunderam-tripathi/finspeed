@@ -6,12 +6,15 @@ WORKDIR /app
 # Install dependencies
 RUN apk add --no-cache git ca-certificates tzdata
 
-# Copy go mod files
-COPY go.mod go.sum ./
+# Copy go mod files from api directory
+COPY api/go.mod api/go.sum ./
 RUN go mod download
 
-# Copy source code
-COPY . .
+# Copy API source code
+COPY api/ .
+
+# Copy migrations to builder stage
+COPY db/migrations ./db/migrations
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/server
@@ -25,7 +28,7 @@ WORKDIR /root/
 # Copy the binary from builder stage
 COPY --from=builder /app/main .
 
-# Copy migrations
+# Copy migrations from builder stage
 COPY --from=builder /app/db/migrations ./db/migrations
 
 # Expose port
