@@ -22,3 +22,10 @@
 
 # Local secrets
 secrets/
+
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfplan
+*.tfstate
+*.tfstate.backup
