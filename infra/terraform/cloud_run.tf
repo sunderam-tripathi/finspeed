@@ -61,10 +61,7 @@ resource "google_cloud_run_v2_service" "api" {
         value = local.environment
       }
 
-      env {
-        name  = "PORT"
-        value = "8080"
-      }
+
 
       env {
         name  = "LOG_LEVEL"
@@ -163,10 +160,7 @@ resource "google_cloud_run_v2_service" "frontend" {
         value = local.environment
       }
 
-      env {
-        name  = "PORT"
-        value = "3000"
-      }
+
 
       env {
         name  = "API_URL"

@@ -190,6 +190,7 @@ resource "google_monitoring_dashboard" "finspeed_dashboard" {
   dashboard_json = jsonencode({
     displayName = "Finspeed Dashboard (${local.environment})"
     mosaicLayout = {
+      columns = 12
       tiles = [
         {
           width  = 6
