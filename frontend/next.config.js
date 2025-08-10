@@ -3,6 +3,9 @@ const nextConfig = {
   // Suppress hydration warnings in development
   reactStrictMode: true,
   
+  // Enable standalone output for Docker deployment
+  output: 'standalone',
+  
   // Optional: Configure allowed dev origins for CORS
   experimental: {
     allowedDevOrigins: ['127.0.0.1', 'localhost'],

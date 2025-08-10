@@ -14,6 +14,7 @@ type Config struct {
 	Environment    string
 	LogLevel       string
 	MigrationsPath string
+	JWTSecret      string
 }
 
 func Load() (*Config, error) {
@@ -28,7 +29,8 @@ func Load() (*Config, error) {
 		DatabaseURL:    getEnvWithDefault("DATABASE_URL", "postgres://finspeed:finspeed@localhost:5432/finspeed?sslmode=disable"),
 		Environment:    getEnvWithDefault("ENVIRONMENT", "development"),
 		LogLevel:       getEnvWithDefault("LOG_LEVEL", "info"),
-		MigrationsPath: getEnvWithDefault("MIGRATIONS_PATH", "file://db/migrations"),
+		MigrationsPath: getEnvWithDefault("MIGRATIONS_PATH", "file:///app/db/migrations"),
+		JWTSecret:      getEnvWithDefault("JWT_SECRET", "your-super-secret-jwt-key-change-in-production"),
 	}
 
 	if err := config.validate(); err != nil {

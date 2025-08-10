@@ -50,6 +50,9 @@ func New(cfg *config.Config, db *database.DB, logger *zap.Logger) *Server {
 func (s *Server) SetupRoutes() {
 	// Initialize handlers
 	healthHandler := handlers.NewHealthHandler(s.db, s.logger)
+	authHandler := handlers.NewAuthHandler(s.db, s.logger, s.config)
+	productHandler := handlers.NewProductHandler(s.db, s.logger)
+	categoryHandler := handlers.NewCategoryHandler(s.db, s.logger)
 
 	// Health check routes
 	s.router.GET("/healthz", healthHandler.HealthCheck)
@@ -58,29 +61,45 @@ func (s *Server) SetupRoutes() {
 	// API v1 routes
 	v1 := s.router.Group("/api/v1")
 	{
-		// Products routes (placeholder)
-		v1.GET("/products", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Products endpoint - coming soon",
-				"data":    []interface{}{},
-			})
-		})
+		// Auth routes (public)
+		auth := v1.Group("/auth")
+		{
+			auth.POST("/register", authHandler.Register)
+			auth.POST("/login", authHandler.Login)
+		}
 
-		// Categories routes (placeholder)
-		v1.GET("/categories", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Categories endpoint - coming soon",
-				"data":    []interface{}{},
-			})
-		})
+		// Public product routes
+		v1.GET("/products", productHandler.GetProducts)
+		v1.GET("/products/:slug", productHandler.GetProduct)
 
-		// Cart routes (placeholder)
-		v1.GET("/cart", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "Cart endpoint - coming soon",
-				"data":    gin.H{},
+		// Public category routes
+		v1.GET("/categories", categoryHandler.GetCategories)
+		v1.GET("/categories/:slug", categoryHandler.GetCategory)
+
+		// Protected routes (require authentication)
+		protected := v1.Group("/")
+		protected.Use(middleware.AuthMiddleware(s.config, s.logger))
+		{
+			// Cart routes (coming soon)
+			protected.GET("/cart", func(c *gin.Context) {
+				c.JSON(http.StatusOK, gin.H{
+					"message": "Cart endpoint - coming soon",
+					"data":    gin.H{},
+				})
 			})
-		})
+		}
+
+		// Admin routes (require admin role)
+		admin := v1.Group("/admin")
+		admin.Use(middleware.AuthMiddleware(s.config, s.logger))
+		admin.Use(middleware.AdminMiddleware())
+		{
+			// Admin product management
+			admin.POST("/products", productHandler.CreateProduct)
+			
+			// Admin category management
+			admin.POST("/categories", categoryHandler.CreateCategory)
+		}
 	}
 
 	s.logger.Info("Routes configured successfully")
