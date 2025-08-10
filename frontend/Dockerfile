@@ -7,8 +7,8 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml* ./
+# Copy package files from frontend directory
+COPY frontend/package.json frontend/pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile
 
 # Builder stage
@@ -17,7 +17,7 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY frontend/ .
 
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED 1
