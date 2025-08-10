@@ -26,6 +26,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+      
+      - name: Debug - List repository contents
+        run: |
+          echo "🔍 Debugging repository contents..."
+          echo "Current directory: $(pwd)"
+          echo "Repository structure:"
+          find . -type f -name "*.go" -o -name "*.sql" -o -name "go.mod" -o -name "go.sum" | head -20
+          echo "API directory contents:"
+          ls -la api/ || echo "API directory not found"
+          echo "DB migrations directory contents:"
+          ls -la db/migrations/ || echo "DB migrations directory not found"
       
       - name: Authenticate to Google Cloud
         id: auth
@@ -73,7 +86,7 @@ jobs:
           
           # Build API container
           echo "📦 Building API container..."
-          docker build -t $API_IMAGE ./api
+          docker build -t $API_IMAGE -f ./api/Dockerfile .
           docker push $API_IMAGE
           
           # Build Frontend container
