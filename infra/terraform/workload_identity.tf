@@ -68,6 +68,16 @@ resource "google_service_account_iam_binding" "github_actions_workload_identity"
   ]
 }
 
+# Allow GitHub Actions to generate access tokens for the service account
+resource "google_service_account_iam_binding" "github_actions_token_creator" {
+  service_account_id = google_service_account.github_actions.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+
+  members = [
+    "principalSet://iam.googleapis.com/${data.google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
+  ]
+}
+
 # Grant necessary permissions to the service account
 resource "google_project_iam_member" "github_actions_permissions" {
   for_each = toset([
@@ -77,6 +87,7 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/monitoring.admin",            # Manage monitoring
     "roles/compute.networkAdmin",        # Manage VPC and networking
     "roles/iam.serviceAccountUser",      # Use service accounts
+    "roles/iam.serviceAccountTokenCreator", # Create access tokens for impersonation
     "roles/storage.admin",               # Access Cloud Storage (for Terraform state)
     "roles/artifactregistry.admin",      # Push/pull container images
     "roles/cloudbuild.builds.builder"    # Build containers
@@ -100,5 +111,5 @@ output "github_actions_service_account" {
 
 output "workload_identity_pool_id" {
   description = "The Workload Identity Pool ID"
-  value       = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
+  value       = data.google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
 }
