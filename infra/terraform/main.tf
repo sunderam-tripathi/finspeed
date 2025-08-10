@@ -66,6 +66,21 @@ resource "google_storage_bucket" "terraform_state" {
   # Set appropriate storage class
   storage_class = "STANDARD"
 
+  # Match existing bucket configuration to avoid destroy/recreate
+  custom_placement_config {
+    data_locations = ["ASIA-SOUTH1", "ASIA-SOUTH2"]
+  }
+
+  # Enable hierarchical namespace (matches existing bucket)
+  hierarchical_namespace {
+    enabled = true
+  }
+
+  # Soft delete policy (matches existing bucket)
+  soft_delete_policy {
+    retention_duration_seconds = 604800  # 7 days
+  }
+
   labels = local.common_labels
 }
 
