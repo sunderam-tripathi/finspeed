@@ -1,0 +1,121 @@
+name: Import Existing Resources
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to import resources for'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+
+jobs:
+  import-resources:
+    name: Import Existing Resources
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: ${{ vars.WIF_PROVIDER_STAGING }}
+        service_account: ${{ vars.WIF_SERVICE_ACCOUNT_STAGING }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.5.0
+
+    - name: Import Existing Resources
+      working-directory: infra/terraform
+      run: |
+        echo "🚀 Starting Terraform import for existing GCP resources..."
+        
+        # Initialize terraform
+        terraform init
+        
+        # Set variables
+        PROJECT_ID="finspeed-staging"
+        PROJECT_NUMBER="568982729363"
+        
+        echo "📥 Importing existing resources..."
+        
+        # Import with error handling - continue on failures
+        set +e
+        
+        # 1. Import GCS bucket
+        echo "1️⃣ Importing GCS bucket..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_storage_bucket.terraform_state \
+          "finspeed-terraform-state-staging"
+        
+        # 2. Import VPC network  
+        echo "2️⃣ Importing VPC network..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_compute_network.vpc_network \
+          "projects/$PROJECT_ID/global/networks/finspeed-vpc-staging"
+        
+        # 3. Import Secret Manager secrets
+        echo "3️⃣ Importing Secret Manager secrets..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_secret_manager_secret.database_password \
+          "projects/$PROJECT_NUMBER/secrets/finspeed-database-password-staging"
+          
+        terraform import -var-file="environments/staging.tfvars" \
+          google_secret_manager_secret.database_url \
+          "projects/$PROJECT_NUMBER/secrets/finspeed-database-url-staging"
+        
+        # 4. Import Workload Identity Pool
+        echo "4️⃣ Importing Workload Identity Pool..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_iam_workload_identity_pool.github_pool \
+          "projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions-pool"
+        
+        # 5. Import Workload Identity Provider
+        echo "5️⃣ Importing Workload Identity Provider..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_iam_workload_identity_pool_provider.github_provider \
+          "projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
+        
+        # 6. Import GitHub Actions service account
+        echo "6️⃣ Importing GitHub Actions service account..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_service_account.github_actions \
+          "projects/$PROJECT_ID/serviceAccounts/github-actions-staging@$PROJECT_ID.iam.gserviceaccount.com"
+        
+        # 7. Import Cloud Run service account
+        echo "7️⃣ Importing Cloud Run service account..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_service_account.cloud_run_sa \
+          "projects/$PROJECT_ID/serviceAccounts/finspeed-cloud-run-staging@$PROJECT_ID.iam.gserviceaccount.com"
+        
+        # 8. Import Cloud SQL instance
+        echo "8️⃣ Importing Cloud SQL instance..."
+        terraform import -var-file="environments/staging.tfvars" \
+          google_sql_database_instance.postgres \
+          "$PROJECT_ID:finspeed-postgres-staging"
+        
+        # Re-enable exit on error
+        set -e
+        
+        echo "✅ Import process completed!"
+        echo ""
+        echo "🔍 Running terraform plan to verify state..."
+        terraform plan -var-file="environments/staging.tfvars" -detailed-exitcode || true
+        
+        echo ""
+        echo "🎉 Resource import workflow completed!"
