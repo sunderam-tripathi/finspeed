@@ -58,12 +58,16 @@ jobs:
       
       - name: Build and Deploy Applications
         run: |
-          echo "🚀 Building and deploying applications to staging..."
-          # Add your application build and deployment steps here
-          # Example:
-          # docker build -t $REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA ./api
-          # docker push $REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA
-          # gcloud run deploy finspeed-api-staging --image=$REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$GITHUB_SHA
+          echo "🚀 Infrastructure deployment completed successfully!"
+          echo "📝 Application container builds will be added in next iteration"
+          echo "✅ Terraform infrastructure is ready for application deployment"
+          
+          # TODO: Add application build and deployment steps
+          # Next steps:
+          # 1. Build API container: docker build -t gcr.io/$PROJECT_ID_STAGING/finspeed-api-staging:$GITHUB_SHA ./api
+          # 2. Build Frontend container: docker build -t gcr.io/$PROJECT_ID_STAGING/finspeed-frontend-staging:$GITHUB_SHA ./frontend  
+          # 3. Push containers to registry
+          # 4. Update Cloud Run services with new images
 
   deploy-production:
     if: github.ref == 'refs/heads/main' || github.event_name == 'release'
