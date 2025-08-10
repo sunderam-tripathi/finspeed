@@ -31,6 +31,15 @@ variable "zone" {
   default     = "us-central1-a"
 }
 
+variable "github_repository" {
+  description = "sunderam-tripathi/finspeed"
+  type        = string
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9-]+\\/[a-zA-Z0-9-.]+$", var.github_repository))
+    error_message = "GitHub repository must be in the format 'owner/repo'."
+  }
+}
+
 # Database variables
 variable "database_tier" {
   description = "Cloud SQL instance tier"
