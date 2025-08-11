@@ -19,6 +19,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY frontend/ .
 
+# Ensure public directory exists (create if missing)
+RUN mkdir -p public
+
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN pnpm build
@@ -34,9 +37,11 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Copy built application
-COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Copy public directory (ensure it exists in builder stage)
+COPY --from=builder /app/public ./public
 
 USER nextjs
 
