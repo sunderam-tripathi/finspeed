@@ -117,7 +117,7 @@ jobs:
             --min-instances=0 \
             --max-instances=2 \
             --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest,JWT_SECRET=finspeed-jwt-secret-staging:latest \
-            --set-env-vars=GIN_MODE=release,ENVIRONMENT=staging,LOG_LEVEL=info,PORT=8080
+            --set-env-vars=GIN_MODE=release,ENVIRONMENT=staging,LOG_LEVEL=info
           
           # Get API URL
           export API_URL=$(gcloud run services describe finspeed-api-staging --region=$REGION --format='value(status.url)')
