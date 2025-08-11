@@ -40,7 +40,7 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      image = "gcr.io/${local.project_id}/finspeed-api-${local.environment}:latest"
+      image = "us-docker.pkg.dev/cloudrun/container/hello"
 
       ports {
         container_port = 8080
@@ -138,7 +138,7 @@ resource "google_cloud_run_v2_service" "frontend" {
     }
 
     containers {
-      image = "gcr.io/${local.project_id}/finspeed-frontend-${local.environment}:latest"
+      image = "us-docker.pkg.dev/cloudrun/container/hello"
 
       ports {
         container_port = 3000
@@ -215,7 +215,7 @@ resource "google_cloud_run_v2_job" "migrate" {
       timeout    = "600s" # 10 minutes
 
       containers {
-        image = "us-central1-docker.pkg.dev/${local.project_id}/finspeed/api:latest"
+        image = "us-docker.pkg.dev/cloudrun/container/hello"
         command = ["./main"]
         args    = ["migrate", "up"]
 

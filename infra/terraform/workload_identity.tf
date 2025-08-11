@@ -92,7 +92,9 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/secretmanager.admin",         # Manage secrets
     "roles/monitoring.admin",            # Manage monitoring
     "roles/compute.networkAdmin",        # Manage VPC and networking
-    "roles/iam.serviceAccountUser",      # Use service accounts
+    "roles/iam.serviceAccountUser",
+    "roles/cloudsql.client",
+    "roles/run.admin",                    # Deploy Cloud Run services
     "roles/iam.serviceAccountTokenCreator", # Create access tokens for impersonation
     "roles/storage.admin",               # Access Cloud Storage (for Terraform state)
     "roles/artifactregistry.admin",      # Push/pull container images
