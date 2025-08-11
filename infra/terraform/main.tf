@@ -23,27 +23,6 @@ provider "google" {
   region  = local.region
 }
 
-# Local values
-locals {
-  project_id   = var.project_id
-  region       = var.region
-  environment  = var.environment
-  
-  # Database configuration
-  database_name = "finspeed_${local.environment}"
-  database_user = "finspeed_user"
-  
-  # Service names
-  api_service_name      = "finspeed-api-${local.environment}"
-  frontend_service_name = "finspeed-frontend-${local.environment}"
-  
-  common_labels = {
-    environment = local.environment
-    project     = "finspeed"
-    managed_by  = "terraform"
-  }
-}
-
 # Create GCS bucket for Terraform state
 resource "google_storage_bucket" "terraform_state" {
   name     = "finspeed-terraform-state-${local.environment}"

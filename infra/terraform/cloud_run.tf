@@ -40,7 +40,7 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      image = local.api_image_uri
 
       ports {
         container_port = 8080
@@ -138,7 +138,7 @@ resource "google_cloud_run_v2_service" "frontend" {
     }
 
     containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      image = local.frontend_image_uri
 
       ports {
         container_port = 3000
@@ -215,7 +215,7 @@ resource "google_cloud_run_v2_job" "migrate" {
       timeout    = "600s" # 10 minutes
 
       containers {
-        image = "us-docker.pkg.dev/cloudrun/container/hello"
+        image = local.migrate_image_uri
         command = ["./main"]
         args    = ["migrate", "up"]
 

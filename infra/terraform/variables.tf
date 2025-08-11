@@ -147,7 +147,6 @@ variable "frontend_max_instances" {
   default     = 5
 }
 
-# Domain and SSL variables
 variable "domain_name" {
   description = "Custom domain name for the application"
   type        = string
@@ -158,6 +157,30 @@ variable "enable_ssl" {
   description = "Enable SSL certificate for custom domain"
   type        = bool
   default     = true
+}
+
+variable "artifact_registry_repository" {
+  description = "The name of the Artifact Registry repository for container images."
+  type        = string
+  default     = "finspeed-images"
+}
+
+variable "api_image_name" {
+  description = "The name of the API container image."
+  type        = string
+  default     = "api"
+}
+
+variable "frontend_image_name" {
+  description = "The name of the frontend container image."
+  type        = string
+  default     = "frontend"
+}
+
+variable "migrate_image_name" {
+  description = "The name of the database migration container image."
+  type        = string
+  default     = "migrate"
 }
 
 # Monitoring variables
