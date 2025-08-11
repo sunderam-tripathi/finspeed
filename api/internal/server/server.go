@@ -45,6 +45,10 @@ func New(cfg *config.Config, db *database.DB, logger *zap.Logger) *Server {
 		logger: logger,
 		router: router,
 	}
+
+	s.SetupRoutes()
+
+	return s
 }
 
 func (s *Server) SetupRoutes() {
@@ -106,7 +110,6 @@ func (s *Server) SetupRoutes() {
 }
 
 func (s *Server) Start() error {
-	s.SetupRoutes()
 
 	// Create HTTP server
 	srv := &http.Server{
