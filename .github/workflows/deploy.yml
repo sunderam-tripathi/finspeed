@@ -157,7 +157,7 @@ jobs:
           MAX_ATTEMPTS=12 # 12 attempts * 10 seconds = 120 seconds (2 minutes)
           SUCCESS=false
           until [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; do
-            if curl --fail --silent --show-error "$API_URL/healthz"; then
+            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused "$API_URL/healthz"; then
               echo "✅ API /healthz endpoint is healthy."
               SUCCESS=true
               break
