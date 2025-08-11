@@ -39,7 +39,7 @@ func New(cfg *config.Config, db *database.DB, logger *zap.Logger) *Server {
 	router.Use(middleware.Recovery(logger))
 	router.Use(middleware.CORS())
 
-	return &Server{
+	s := &Server{
 		config: cfg,
 		db:     db,
 		logger: logger,
