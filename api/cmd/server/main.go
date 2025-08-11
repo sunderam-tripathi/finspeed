@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"finspeed/api/internal/config"
 	"finspeed/api/internal/database"
@@ -24,8 +25,6 @@ func main() {
 	}
 	defer zapLogger.Sync()
 
-	zapLogger.Info("Starting Finspeed API server")
-
 	// Initialize database
 	db, err := database.New(cfg.DatabaseURL, zapLogger)
 	if err != nil {
@@ -33,12 +32,18 @@ func main() {
 	}
 	defer db.Close()
 
-	// Run database migrations
-	if err := db.RunMigrations(cfg.MigrationsPath); err != nil {
-		zapLogger.Fatal("Failed to run database migrations", zap.Error(err))
+	// Check for command-line arguments to determine run mode
+	if len(os.Args) > 1 && os.Args[1] == "migrate" {
+		zapLogger.Info("Running database migrations")
+		if err := db.RunMigrations(cfg.MigrationsPath); err != nil {
+			zapLogger.Fatal("Failed to run database migrations", zap.Error(err))
+		}
+		zapLogger.Info("Database migrations completed successfully")
+		return // Exit after running migrations
 	}
 
-	// Initialize and start server
+	// Default to starting the server
+	zapLogger.Info("Starting Finspeed API server")
 	srv := server.New(cfg, db, zapLogger)
 	if err := srv.Start(); err != nil {
 		zapLogger.Fatal("Server failed to start", zap.Error(err))
