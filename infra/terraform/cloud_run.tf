@@ -121,6 +121,15 @@ resource "google_cloud_run_v2_service" "api" {
   ]
 }
 
+# Allow unauthenticated access to the API service
+resource "google_cloud_run_v2_service_iam_binding" "api_public_access" {
+  project  = google_cloud_run_v2_service.api.project
+  location = google_cloud_run_v2_service.api.location
+  name     = google_cloud_run_v2_service.api.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
 # Cloud Run service for the Frontend
 resource "google_cloud_run_v2_service" "frontend" {
   name     = local.frontend_service_name
