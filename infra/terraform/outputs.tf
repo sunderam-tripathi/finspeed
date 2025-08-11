@@ -134,3 +134,8 @@ output "deployment_info" {
     environment              = local.environment
   }
 }
+
+output "load_balancer_ip" {
+  description = "The IP address of the external load balancer."
+  value       = google_compute_global_address.lb_ip.address
+}

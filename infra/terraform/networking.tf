@@ -101,3 +101,66 @@ resource "google_service_networking_connection" "private_vpc_connection" {
     google_project_service.required_apis
   ]
 }
+
+# Global External HTTPS Load Balancer
+
+# Static IP address for the load balancer
+resource "google_compute_global_address" "lb_ip" {
+  name    = "finspeed-lb-ip-${local.environment}"
+  project = local.project_id
+}
+
+# Serverless NEG for the frontend Cloud Run service
+resource "google_compute_region_network_endpoint_group" "frontend_neg" {
+  name                  = "finspeed-frontend-neg-${local.environment}"
+  network_endpoint_type = "SERVERLESS"
+  region                = local.region
+  cloud_run {
+    service = google_cloud_run_v2_service.frontend.name
+  }
+}
+
+# Backend service for the load balancer
+resource "google_compute_backend_service" "frontend_backend" {
+  name                            = "finspeed-frontend-backend-${local.environment}"
+  protocol                        = "HTTP"
+  port_name                       = "http"
+  timeout_sec                     = 30
+  load_balancing_scheme           = "EXTERNAL_MANAGED"
+  enable_cdn                      = true
+
+  backend {
+    group = google_compute_region_network_endpoint_group.frontend_neg.id
+  }
+}
+
+# URL map to route requests to the backend service
+resource "google_compute_url_map" "url_map" {
+  name            = "finspeed-lb-url-map-${local.environment}"
+  default_service = google_compute_backend_service.frontend_backend.id
+}
+
+# Managed SSL certificate for the custom domain
+resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
+  count = var.domain_name != "" && var.enable_ssl ? 1 : 0
+  name  = "finspeed-ssl-cert-${local.environment}"
+  managed {
+    domains = [var.domain_name, "api.${var.domain_name}"]
+  }
+}
+
+# HTTPS proxy for the load balancer
+resource "google_compute_target_https_proxy" "https_proxy" {
+  name             = "finspeed-https-proxy-${local.environment}"
+  url_map          = google_compute_url_map.url_map.id
+  ssl_certificates = var.domain_name != "" && var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
+}
+
+# Global forwarding rule to route traffic to the proxy
+resource "google_compute_global_forwarding_rule" "forwarding_rule" {
+  name                  = "finspeed-forwarding-rule-${local.environment}"
+  target                = google_compute_target_https_proxy.https_proxy.id
+  ip_address            = google_compute_global_address.lb_ip.address
+  port_range            = "443"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+}

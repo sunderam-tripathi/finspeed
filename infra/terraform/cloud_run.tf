@@ -26,7 +26,7 @@ resource "google_project_iam_member" "cloud_run_sa_permissions" {
 resource "google_cloud_run_v2_service" "api" {
   name     = local.api_service_name
   location = local.region
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   
   labels = local.common_labels
 
@@ -107,11 +107,6 @@ resource "google_cloud_run_v2_service" "api" {
     vpc_access {
       connector = google_vpc_access_connector.connector.id
       egress    = "PRIVATE_RANGES_ONLY"
-      network_interfaces {
-        network    = google_compute_network.vpc_network.id
-        subnetwork = google_compute_subnetwork.subnet.id
-        tags       = ["finspeed-web"]
-      }
     }
   }
 
@@ -126,19 +121,13 @@ resource "google_cloud_run_v2_service" "api" {
   ]
 }
 
-# Allow unauthenticated access to the API service
-resource "google_cloud_run_v2_service_iam_binding" "api_public_access" {
-  project  = google_cloud_run_v2_service.api.project
-  location = google_cloud_run_v2_service.api.location
-  name     = google_cloud_run_v2_service.api.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-}
+
 
 # Cloud Run service for the Frontend
 resource "google_cloud_run_v2_service" "frontend" {
   name     = local.frontend_service_name
   location = local.region
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   
   labels = local.common_labels
 
