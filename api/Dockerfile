@@ -6,12 +6,12 @@ WORKDIR /app
 # Install dependencies
 RUN apk add --no-cache git ca-certificates tzdata
 
-# Copy go mod files from api directory
-COPY api/go.mod api/go.sum ./
+# Copy go mod files
+COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy API source code
-COPY api/ .
+COPY . .
 
 # Copy migrations to builder stage
 COPY db/migrations ./db/migrations
