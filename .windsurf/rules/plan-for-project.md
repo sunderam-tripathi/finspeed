@@ -1,5 +1,5 @@
 ---
-trigger: always_on
+trigger: model_decision
 description: The project plan
 ---
 
@@ -177,3 +177,6 @@ Close P0/P1; no open P1/P2 security; perf budgets & Core Web Vitals “Good”; 
 
 ## 18) Important notes -
 Ask me to do actions in GCP console and GIthub and check things to resolve issues. A lot of issues cannot be resolved from the local development environment. Be proactive, I will always help you with all informations I can assemble.
+
+##19) Very Important - 
+domain - finspeed.online

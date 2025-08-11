@@ -147,6 +147,12 @@ variable "frontend_max_instances" {
   default     = 5
 }
 
+variable "api_domain_name" {
+  description = "The custom domain name for the API service (e.g., api.finspeed.online)"
+  type        = string
+  default     = ""
+}
+
 variable "domain_name" {
   description = "Custom domain name for the application"
   type        = string

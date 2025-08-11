@@ -149,8 +149,8 @@ jobs:
           echo "🧪 Running smoke tests..."
           
           # Get service URLs
-          export API_URL=$(gcloud run services describe finspeed-api-staging --region=$REGION --format='value(status.url)')
-          export FRONTEND_URL=$(gcloud run services describe finspeed-frontend-staging --region=$REGION --format='value(status.url)')
+          export API_URL="https://api.finspeed.online"
+          export FRONTEND_URL="https://finspeed.online"
           # Poll the /healthz endpoint until it's healthy or times out
           echo "Polling /healthz endpoint..."
           ATTEMPTS=0
