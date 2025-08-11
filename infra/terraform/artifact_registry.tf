@@ -8,15 +8,10 @@ resource "google_project_service" "artifact_registry_api" {
   disable_on_destroy        = false
 }
 
-resource "google_artifact_registry_repository" "main" {
-  provider      = google
+data "google_artifact_registry_repository" "main" {
   project       = local.project_id
   location      = local.region
   repository_id = var.artifact_registry_repository
-  description   = "Docker repository for Finspeed container images"
-  format        = "DOCKER"
-
-  labels = local.common_labels
 
   depends_on = [
     google_project_service.artifact_registry_api

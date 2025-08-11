@@ -26,7 +26,7 @@ frontend_min_instances = 0
 frontend_max_instances = 2
 
 # Domain configuration (optional)
-domain_name = ""  # Set to your staging domain if you have one
+domain_name = "finspeed.online"  # Set to your staging domain if you have one
 enable_ssl  = true
 
 # Monitoring configuration

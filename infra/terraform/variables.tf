@@ -162,7 +162,7 @@ variable "enable_ssl" {
 variable "artifact_registry_repository" {
   description = "The name of the Artifact Registry repository for container images."
   type        = string
-  default     = "finspeed-images"
+  default     = "finspeed"
 }
 
 variable "api_image_name" {
