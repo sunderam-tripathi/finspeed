@@ -63,6 +63,23 @@ resource "google_compute_firewall" "allow_ssh" {
   depends_on = [google_compute_network.vpc_network]
 }
 
+# Allow health checks from the Load Balancer
+resource "google_compute_firewall" "allow_health_checks" {
+  name    = "finspeed-allow-health-checks-${local.environment}"
+  network = google_compute_network.vpc_network.name
+  project = local.project_id
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443", "8080"]
+  }
+
+  source_ranges = ["35.191.0.0/16", "130.211.0.0/22"]
+  target_tags   = ["finspeed-web"]
+
+  depends_on = [google_compute_network.vpc_network]
+}
+
 resource "google_compute_firewall" "allow_http_https" {
   name    = "finspeed-allow-http-https-${local.environment}"
   network = google_compute_network.vpc_network.name
