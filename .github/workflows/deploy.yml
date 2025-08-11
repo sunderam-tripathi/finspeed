@@ -96,24 +96,11 @@ jobs:
           
           # Run database migrations
           echo "🗄️ Running database migrations..."
-          
-          # Delete existing job if it exists (to handle any corrupted state)
-          gcloud run jobs delete finspeed-migrate-staging --region=$REGION --quiet || echo "No existing job to delete"
-          
-          # Create the migration job
-          echo "Creating migration job..."
-          gcloud run jobs create finspeed-migrate-staging \
+          echo "Updating migration job with new image: $API_IMAGE"
+          gcloud run jobs update finspeed-migrate-staging \
             --image=$API_IMAGE \
-            --region=$REGION \
-            --set-env-vars="DATABASE_URL=$(gcloud secrets versions access latest --secret=finspeed-database-url-staging)" \
-            --set-env-vars="MIGRATIONS_PATH=file://./db/migrations" \
-            --command="./main" \
-            --args="migrate,up" \
-            --max-retries=3 \
-            --parallelism=1 \
-            --task-count=1
-          
-          # Execute the migration job
+            --region=$REGION
+
           echo "Executing migration job..."
           gcloud run jobs execute finspeed-migrate-staging --region=$REGION --wait
           
