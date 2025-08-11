@@ -40,7 +40,6 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      # This will be updated by CI/CD pipeline
       image = "gcr.io/${local.project_id}/finspeed-api-${local.environment}:latest"
 
       ports {
@@ -139,7 +138,6 @@ resource "google_cloud_run_v2_service" "frontend" {
     }
 
     containers {
-      # This will be updated by CI/CD pipeline
       image = "gcr.io/${local.project_id}/finspeed-frontend-${local.environment}:latest"
 
       ports {
@@ -203,6 +201,54 @@ resource "google_cloud_run_v2_service" "frontend" {
   ]
 }
 
+# Cloud Run Job for Database Migrations
+resource "google_cloud_run_v2_job" "migrate" {
+  name     = "finspeed-migrate-${local.environment}"
+  location = local.region
+  labels   = local.common_labels
+  deletion_protection = false
+
+  template {
+    template {
+      service_account = google_service_account.cloud_run_sa.email
+
+      timeout    = "600s" # 10 minutes
+
+      containers {
+        image = "us-central1-docker.pkg.dev/${local.project_id}/finspeed/api:latest"
+        command = ["./main"]
+        args    = ["migrate", "up"]
+
+        env {
+          name = "DATABASE_URL"
+          value_source {
+            secret_key_ref {
+              secret  = google_secret_manager_secret.database_url.secret_id
+              version = "latest"
+            }
+          }
+        }
+
+        resources {
+          limits = {
+            cpu    = "1"
+            memory = "512Mi"
+          }
+        }
+      }
+
+      vpc_access {
+        connector = google_vpc_access_connector.connector.id
+        egress    = "PRIVATE_RANGES_ONLY"
+      }
+    }
+  }
+
+  depends_on = [
+    google_project_service.required_apis
+  ]
+}
+
 # VPC Connector for Cloud Run to access private resources
 resource "google_vpc_access_connector" "connector" {
   name          = "finspeed-vpc-${local.environment}"
@@ -214,21 +260,6 @@ resource "google_vpc_access_connector" "connector" {
   max_instances = var.environment == "production" ? 10 : 3
 
   depends_on = [google_project_service.required_apis["vpcaccess.googleapis.com"]]
-}
-
-# IAM policy to allow public access to Cloud Run services
-resource "google_cloud_run_service_iam_member" "api_public_access" {
-  location = google_cloud_run_v2_service.api.location
-  service  = google_cloud_run_v2_service.api.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
-}
-
-resource "google_cloud_run_service_iam_member" "frontend_public_access" {
-  location = google_cloud_run_v2_service.frontend.location
-  service  = google_cloud_run_v2_service.frontend.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
 }
 
 # Custom domain mapping (optional)

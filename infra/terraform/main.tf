@@ -55,12 +55,7 @@ resource "google_storage_bucket" "terraform_state" {
     prevent_destroy = true
   }
 
-  # Enable versioning for state file history
-  versioning {
-    enabled = true
-  }
-
-  # Enable uniform bucket-level access
+  # Enable uniform bucket-level access for simplified IAM
   uniform_bucket_level_access = true
 
   # Set appropriate storage class

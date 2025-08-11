@@ -18,9 +18,17 @@ resource "google_project_service" "sts_api" {
   disable_on_destroy         = false
 }
 
+# Create the Workload Identity Pool for GitHub Actions
+resource "google_iam_workload_identity_pool" "github_pool" {
+  project                   = local.project_id
+  workload_identity_pool_id = "finspeed-pool-v2"
+  display_name              = "Finspeed Pool v2"
+  description               = "Workload Identity Pool for GitHub Actions"
+}
+
 # Reference existing Workload Identity Pool (hardcoded to avoid permission issues)
 locals {
-  workload_identity_pool_name = "projects/${local.project_id}/locations/global/workloadIdentityPools/finspeed-pool-v2"
+  workload_identity_pool_name = google_iam_workload_identity_pool.github_pool.name
 }
 
 # Create Workload Identity Provider for GitHub
