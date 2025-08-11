@@ -151,12 +151,26 @@ jobs:
           # Get service URLs
           export API_URL=$(gcloud run services describe finspeed-api-staging --region=$REGION --format='value(status.url)')
           export FRONTEND_URL=$(gcloud run services describe finspeed-frontend-staging --region=$REGION --format='value(status.url)')
-          
-          # Test API health endpoint
-          echo "Testing API health..."
-          curl -f "$API_URL/healthz" || (echo "❌ API health check failed" && exit 1)
-          
-          # Test API products endpoint
+          # Poll the /healthz endpoint until it's healthy or times out
+          echo "Polling /healthz endpoint..."
+          ATTEMPTS=0
+          MAX_ATTEMPTS=12 # 12 attempts * 10 seconds = 120 seconds (2 minutes)
+          SUCCESS=false
+          until [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; do
+            if curl --fail --silent --show-error "$API_URL/healthz"; then
+              echo "✅ API /healthz endpoint is healthy."
+              SUCCESS=true
+              break
+            fi
+            ATTEMPTS=$((ATTEMPTS + 1))
+            echo "Attempt $ATTEMPTS/$MAX_ATTEMPTS failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+
+          if [ "$SUCCESS" = false ]; then
+            echo "❌ API /healthz endpoint did not become healthy in time."
+            exit 1
+          fi
           echo "Testing API products endpoint..."
           curl -f "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
           
