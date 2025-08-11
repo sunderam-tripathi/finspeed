@@ -107,6 +107,11 @@ resource "google_cloud_run_v2_service" "api" {
     vpc_access {
       connector = google_vpc_access_connector.connector.id
       egress    = "PRIVATE_RANGES_ONLY"
+      network_interfaces {
+        network    = google_compute_network.vpc_network.id
+        subnetwork = google_compute_subnetwork.private_subnet.id
+        tags       = ["finspeed-web"]
+      }
     }
   }
 
