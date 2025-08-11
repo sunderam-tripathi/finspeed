@@ -114,13 +114,38 @@ resource "google_compute_global_address" "lb_ip" {
 resource "google_compute_region_network_endpoint_group" "frontend_neg" {
   name                  = "finspeed-frontend-neg-${local.environment}"
   network_endpoint_type = "SERVERLESS"
+  project               = var.project_id
   region                = local.region
   cloud_run {
     service = google_cloud_run_v2_service.frontend.name
   }
 }
 
-# Backend service for the load balancer
+# Serverless NEG for the API Cloud Run service
+resource "google_compute_region_network_endpoint_group" "api_neg" {
+  name                  = "finspeed-api-neg-${local.environment}"
+  network_endpoint_type = "SERVERLESS"
+  project               = var.project_id
+  region                = local.region
+  cloud_run {
+    service = google_cloud_run_v2_service.api.name
+  }
+}
+
+# Backend service for the API
+resource "google_compute_backend_service" "api_backend" {
+  name                  = "finspeed-api-backend-${local.environment}"
+  project               = var.project_id
+  protocol              = "HTTP"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = false # API content is not typically cached
+
+  backend {
+    group = google_compute_region_network_endpoint_group.api_neg.id
+  }
+}
+
+# Backend service for the Frontend
 resource "google_compute_backend_service" "frontend_backend" {
   name                            = "finspeed-frontend-backend-${local.environment}"
   protocol                        = "HTTP"
@@ -138,6 +163,16 @@ resource "google_compute_backend_service" "frontend_backend" {
 resource "google_compute_url_map" "url_map" {
   name            = "finspeed-lb-url-map-${local.environment}"
   default_service = google_compute_backend_service.frontend_backend.id
+
+  host_rule {
+    hosts        = [var.api_domain_name]
+    path_matcher = "api-matcher"
+  }
+
+  path_matcher {
+    name            = "api-matcher"
+    default_service = google_compute_backend_service.api_backend.id
+  }
 }
 
 # Managed SSL certificate for the custom domain
