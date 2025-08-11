@@ -91,7 +91,7 @@ jobs:
           
           # Build Frontend container
           echo "📦 Building Frontend container..."
-          docker build -t $FRONTEND_IMAGE ./frontend
+          docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
           docker push $FRONTEND_IMAGE
           
           # Run database migrations
