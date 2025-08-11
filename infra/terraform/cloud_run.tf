@@ -26,6 +26,7 @@ resource "google_project_iam_member" "cloud_run_sa_permissions" {
 resource "google_cloud_run_v2_service" "api" {
   name     = local.api_service_name
   location = local.region
+  ingress  = "INGRESS_TRAFFIC_ALL"
   
   labels = local.common_labels
 
