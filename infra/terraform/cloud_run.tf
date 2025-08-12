@@ -207,25 +207,29 @@ resource "google_cloud_run_v2_service" "frontend" {
 
 # Cloud Run Job for Database Migrations
 # Allow public access to the API service via the load balancer
-resource "google_cloud_run_v2_service_iam_binding" "api_invoker" {
+# Allow public access to the API service via the load balancer
+data "google_iam_policy" "noauth" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
+
+resource "google_cloud_run_v2_service_iam_policy" "api_noauth" {
   project  = google_cloud_run_v2_service.api.project
   location = google_cloud_run_v2_service.api.location
   name     = google_cloud_run_v2_service.api.name
-  role     = "roles/run.invoker"
-  members = [
-    "allUsers",
-  ]
+  policy_data = data.google_iam_policy.noauth.policy_data
 }
 
 # Allow public access to the frontend service via the load balancer
-resource "google_cloud_run_v2_service_iam_binding" "frontend_invoker" {
+resource "google_cloud_run_v2_service_iam_policy" "frontend_noauth" {
   project  = google_cloud_run_v2_service.frontend.project
   location = google_cloud_run_v2_service.frontend.location
   name     = google_cloud_run_v2_service.frontend.name
-  role     = "roles/run.invoker"
-  members = [
-    "allUsers",
-  ]
+  policy_data = data.google_iam_policy.noauth.policy_data
 }
 
 resource "google_cloud_run_v2_job" "migrate" {
