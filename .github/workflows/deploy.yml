@@ -18,93 +18,42 @@ jobs:
     if: github.ref == 'refs/heads/develop' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     environment: staging
-    
     permissions:
       contents: read
-      id-token: write  # Required for OIDC token generation
-    
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
-      
-      - name: Debug - List repository contents
-        run: |
-          echo "🔍 Debugging repository contents..."
-          echo "Current directory: $(pwd)"
-          echo "Repository structure:"
-          find . -type f -name "*.go" -o -name "*.sql" -o -name "go.mod" -o -name "go.sum" | head -20
-          echo "API directory contents:"
-          ls -la api/ || echo "API directory not found"
-          echo "DB migrations directory contents:"
-          ls -la db/migrations/ || echo "DB migrations directory not found"
-      
+          fetch-depth: 0
       - name: Authenticate to Google Cloud
         id: auth
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: ${{ secrets.WIF_PROVIDER_STAGING }}
           service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }}
-      
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ env.PROJECT_ID_STAGING }}
-      
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
-      
-      - name: Verify Infrastructure
-        run: |
-          echo "🔍 Verifying existing infrastructure..."
-          
-          # Verify Cloud SQL instance exists
-          gcloud sql instances describe finspeed-postgres-staging --project=finspeed-staging || (echo "❌ Cloud SQL instance not found" && exit 1)
-          
-          # Verify secrets exist
-          gcloud secrets describe finspeed-database-password-staging --project=finspeed-staging || (echo "❌ Database password secret not found" && exit 1)
-          gcloud secrets describe finspeed-database-url-staging --project=finspeed-staging || (echo "❌ Database URL secret not found" && exit 1)
-          gcloud secrets describe finspeed-jwt-secret-staging --project=finspeed-staging || (echo "❌ JWT secret not found" && exit 1)
-          
-          echo "✅ Infrastructure verification completed - all required resources exist"
-      
       - name: Build and Deploy Applications
         run: |
           echo "🚀 Building and deploying applications to staging..."
-          
-          # Set up environment variables
           export IMAGE_TAG=$GITHUB_SHA
           export API_IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/api:$IMAGE_TAG"
           export FRONTEND_IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID_STAGING/finspeed/frontend:$IMAGE_TAG"
-          
-          # Create Artifact Registry repository if it doesn't exist
-          gcloud artifacts repositories create finspeed \
-            --repository-format=docker \
-            --location=$REGION \
-            --description="Finspeed application images" || echo "Repository already exists"
-          
-          # Build API container
+          gcloud artifacts repositories create finspeed --repository-format=docker --location=$REGION --description="Finspeed application images" || echo "Repository already exists"
           echo "📦 Building API container..."
           docker build -t $API_IMAGE -f ./api/Dockerfile .
           docker push $API_IMAGE
-          
-          # Build Frontend container
           echo "📦 Building Frontend container..."
           docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
           docker push $FRONTEND_IMAGE
-          
-          # Run database migrations
           echo "🗄️ Running database migrations..."
-          echo "Updating migration job with new image: $API_IMAGE"
-          gcloud run jobs update finspeed-migrate-staging \
-            --image=$API_IMAGE \
-            --region=$REGION
-
-          echo "Executing migration job..."
+          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=$REGION
           gcloud run jobs execute finspeed-migrate-staging --region=$REGION --wait
-          
-          # Deploy API to Cloud Run
           echo "🚀 Deploying API to Cloud Run..."
           gcloud run deploy finspeed-api-staging \
             --image=$API_IMAGE \
@@ -118,11 +67,6 @@ jobs:
             --max-instances=2 \
             --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest,JWT_SECRET=finspeed-jwt-secret-staging:latest \
             --set-env-vars=GIN_MODE=release,ENVIRONMENT=staging,LOG_LEVEL=info
-          
-          # Get API URL
-          export API_URL=$(gcloud run services describe finspeed-api-staging --region=$REGION --format='value(status.url)')
-          
-          # Deploy Frontend to Cloud Run
           echo "🚀 Deploying Frontend to Cloud Run..."
           gcloud run deploy finspeed-frontend-staging \
             --image=$FRONTEND_IMAGE \
@@ -134,27 +78,19 @@ jobs:
             --cpu=1 \
             --min-instances=0 \
             --max-instances=10 \
-            --set-env-vars="NEXT_PUBLIC_API_URL=$API_URL" \
+            --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online" \
             --set-env-vars="NODE_ENV=production"
-          
-          # Get Frontend URL
-          export FRONTEND_URL=$(gcloud run services describe finspeed-frontend-staging --region=$REGION --format='value(status.url)')
-          
           echo "✅ Deployment completed successfully!"
-          echo "🌐 Frontend URL: $FRONTEND_URL"
-          echo "🔗 API URL: $API_URL"
-          
+          echo "🌐 Frontend URL: https://finspeed.online"
+          echo "🔗 API URL: https://api.finspeed.online"
       - name: Run Smoke Tests
         run: |
           echo "🧪 Running smoke tests..."
-          
-          # Get service URLs
           export API_URL="https://api.finspeed.online"
           export FRONTEND_URL="https://finspeed.online"
-          # Poll the /healthz endpoint until it's healthy or times out
           echo "Polling /healthz endpoint..."
           ATTEMPTS=0
-          MAX_ATTEMPTS=12 # 12 attempts * 10 seconds = 120 seconds (2 minutes)
+          MAX_ATTEMPTS=12
           SUCCESS=false
           until [ $ATTEMPTS -ge $MAX_ATTEMPTS ]; do
             if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused "$API_URL/healthz"; then
@@ -166,22 +102,16 @@ jobs:
             echo "Attempt $ATTEMPTS/$MAX_ATTEMPTS failed. Retrying in 10 seconds..."
             sleep 10
           done
-
           if [ "$SUCCESS" = false ]; then
             echo "❌ API /healthz endpoint did not become healthy in time."
             exit 1
           fi
           echo "Testing API products endpoint..."
           curl -f "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
-          
-          # Test API categories endpoint
           echo "Testing API categories endpoint..."
           curl -f "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
-          
-          # Test Frontend homepage
           echo "Testing Frontend homepage..."
           curl -f "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
-          
           echo "✅ All smoke tests passed!"
           echo "🎉 Staging deployment is healthy and ready!"
 
