@@ -40,6 +40,11 @@ resource "google_cloud_run_v2_service" "api" {
       max_instance_count = var.api_max_instances
     }
 
+    vpc_access {
+      connector = google_vpc_access_connector.connector.id
+      egress    = "ALL_TRAFFIC"
+    }
+
     containers {
       image = local.api_image_uri
 
@@ -139,6 +144,11 @@ resource "google_cloud_run_v2_service" "frontend" {
     scaling {
       min_instance_count = var.frontend_min_instances
       max_instance_count = var.frontend_max_instances
+    }
+
+    vpc_access {
+      connector = google_vpc_access_connector.connector.id
+      egress    = "ALL_TRAFFIC"
     }
 
     containers {
