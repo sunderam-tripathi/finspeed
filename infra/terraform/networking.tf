@@ -160,6 +160,10 @@ resource "google_compute_backend_service" "api_backend" {
   backend {
     group = google_compute_region_network_endpoint_group.api_neg.id
   }
+
+  service_account = google_service_account.lb_invoker.email
+
+
 }
 
 # Backend service for the Frontend
@@ -174,6 +178,10 @@ resource "google_compute_backend_service" "frontend_backend" {
   backend {
     group = google_compute_region_network_endpoint_group.frontend_neg.id
   }
+
+  service_account = google_service_account.lb_invoker.email
+
+
 }
 
 # URL map to route requests to the backend service
