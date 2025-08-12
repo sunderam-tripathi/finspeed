@@ -98,7 +98,7 @@ jobs:
         id: get_iap_client_id
         run: |
           terraform init -backend-config="bucket=finspeed-tfstate-${{ env.PROJECT_ID_STAGING }}" -reconfigure
-          terraform workspace select staging
+          terraform workspace select staging || terraform workspace new staging
           echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
         working-directory: ./infra/terraform
 
