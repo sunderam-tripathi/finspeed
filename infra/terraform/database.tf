@@ -1,4 +1,3 @@
-/*
 # Cloud SQL PostgreSQL Database Configuration
 
 # Cloud SQL PostgreSQL instance
@@ -127,4 +126,3 @@ resource "google_sql_database_instance" "postgres_replica" {
 
   depends_on = [google_sql_database_instance.postgres]
 }
-*/

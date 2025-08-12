@@ -1,4 +1,3 @@
-/*
 # VPC Network
 resource "google_compute_network" "vpc_network" {
   name                    = "finspeed-vpc-${local.environment}"
@@ -238,13 +237,5 @@ resource "google_vpc_access_connector" "connector" {
   network       = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28"
 
-  depends_on = [google_project_service.vpcaccess_api]
+  depends_on = [google_project_service.required_apis]
 }
-
-resource "google_project_service" "vpcaccess_api" {
-  service                    = "vpcaccess.googleapis.com"
-  project                    = local.project_id
-  disable_dependent_services = false
-  disable_on_destroy         = false
-}
-*/

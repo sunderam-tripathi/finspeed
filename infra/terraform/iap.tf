@@ -1,18 +1,15 @@
-/*
-data "google_project" "project" {}
-
-resource "google_project_service" "iap" {
-  service = "iap.googleapis.com"
-  project = var.project_id
-
-  disable_dependent_services = false
-  disable_on_destroy        = false
+# This service identity is created by Google when the IAP API is enabled.
+# We are just gaining a reference to it.
+resource "google_project_service_identity" "iap_service_account" {
+  provider = google-beta
+  project  = local.project_id
+  service  = "iap.googleapis.com"
 }
 
 resource "google_iap_brand" "project_brand" {
   support_email     = var.iap_support_email
   application_title = "Finspeed ${var.environment}"
-  project           = google_project_service.iap.project
+
 }
 
 resource "google_iap_client" "project_client" {
@@ -26,7 +23,7 @@ resource "google_cloud_run_v2_service_iam_member" "api_iap_invoker" {
   location = google_cloud_run_v2_service.api.location
   name     = google_cloud_run_v2_service.api.name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-iap.iam.gserviceaccount.com"
+  member   = "serviceAccount:${google_project_service_identity.iap_service_account.email}"
 }
 
 # Grant the IAP service account permission to invoke the frontend service
@@ -35,7 +32,7 @@ resource "google_cloud_run_v2_service_iam_member" "frontend_iap_invoker" {
   location = google_cloud_run_v2_service.frontend.location
   name     = google_cloud_run_v2_service.frontend.name
   role     = "roles/run.invoker"
-  member   = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-iap.iam.gserviceaccount.com"
+  member   = "serviceAccount:${google_project_service_identity.iap_service_account.email}"
 }
 
 # Grant the allowed user access to the API backend via IAP
@@ -69,4 +66,3 @@ resource "google_iap_web_backend_service_iam_member" "frontend_iap_cicd" {
   role                 = "roles/iap.httpsResourceAccessor"
   member               = "serviceAccount:${google_service_account.github_actions.email}"
 }
-*/

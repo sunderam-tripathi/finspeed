@@ -43,24 +43,12 @@ jobs:
 
       - name: Create GCS Backend Bucket if it doesn't exist
         run: |
-          gcloud storage buckets describe gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} || \
-          gcloud storage buckets create gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} --project=${{ env.PROJECT_ID_STAGING }} --location=${{ env.REGION }} --uniform-bucket-level-access
-
-
+          gcloud storage buckets describe gs://finspeed-tf-state-central || \
+          gcloud storage buckets create gs://finspeed-tf-state-central --project=${{ env.PROJECT_ID_STAGING }} --location=US --uniform-bucket-level-access
 
       - name: Terraform Init
         id: init
         run: terraform init -reconfigure
-        working-directory: ./infra/terraform
-
-      - name: Select Terraform Workspace
-        id: select-workspace
-        run: terraform workspace select staging || terraform workspace new staging
-        working-directory: ./infra/terraform
-
-      - name: Verify Terraform State
-        id: state-list
-        run: terraform state list
         working-directory: ./infra/terraform
 
       - name: Terraform Plan

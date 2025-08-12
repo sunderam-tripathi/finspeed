@@ -71,21 +71,17 @@ resource "google_service_account_iam_member" "github_actions_workload_identity" 
   member             = "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
 }
 
-# Allow the project owner to impersonate the service account for local testing
-resource "google_service_account_iam_member" "github_actions_user_token_creator" {
-  service_account_id = google_service_account.github_actions.name
-  role               = "roles/iam.serviceAccountTokenCreator"
-  member             = "user:${var.project_owner_email}"
-}
-
-# Allow GitHub Actions to generate access tokens for the service account
+# Allow GitHub Actions (and optionally the project owner) to generate access tokens for the service account
 resource "google_service_account_iam_binding" "github_actions_token_creator" {
   service_account_id = google_service_account.github_actions.name
   role               = "roles/iam.serviceAccountTokenCreator"
 
-  members = [
-    "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
-  ]
+  members = concat(
+    [
+      "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
+    ],
+    var.project_owner_email != "" ? ["user:${var.project_owner_email}"] : [],
+  )
 }
 
 # Grant necessary permissions to the service account
