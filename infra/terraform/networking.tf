@@ -153,6 +153,11 @@ resource "google_compute_region_network_endpoint_group" "api_neg" {
 
 # Backend service for the API
 resource "google_compute_backend_service" "api_backend" {
+  iap {
+    enabled              = true
+    oauth2_client_id     = google_iap_client.project_client.client_id
+    oauth2_client_secret = google_iap_client.project_client.secret
+  }
   name                  = "finspeed-api-backend-${local.environment}"
   project               = var.project_id
   protocol              = "HTTP"
@@ -166,12 +171,17 @@ resource "google_compute_backend_service" "api_backend" {
 
 # Backend service for the Frontend
 resource "google_compute_backend_service" "frontend_backend" {
+  iap {
+    enabled              = true
+    oauth2_client_id     = google_iap_client.project_client.client_id
+    oauth2_client_secret = google_iap_client.project_client.secret
+  }
   name                            = "finspeed-frontend-backend-${local.environment}"
   protocol                        = "HTTP"
   port_name                       = "http"
   timeout_sec                     = 30
   load_balancing_scheme           = "EXTERNAL_MANAGED"
-  enable_cdn                      = true
+  enable_cdn                      = false
 
   backend {
     group = google_compute_region_network_endpoint_group.frontend_neg.id

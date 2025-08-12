@@ -31,7 +31,9 @@ api_domain_name = "api.finspeed.online"
 enable_ssl  = true
 
 # Monitoring configuration
-notification_email     = "care@finspeed.online"  # Updated with your email for alerts
+notification_email     = "sunderamtripathi96@gmail.com"  # Updated with your email for alerts
+iap_support_email = "care@finspeed.online"
+iap_allowed_user  = "user:care@finspeed.online"
 enable_uptime_checks   = true
 
 # Cost optimization
@@ -46,3 +48,4 @@ labels = {
 
 # GitHub Actions / CI/CD configuration
 github_repository = "sunderam-tripathi/finspeed"  # Replace with your actual GitHub repository
+project_owner_email = "care@finspeed.online" # Replace with your GCP login email

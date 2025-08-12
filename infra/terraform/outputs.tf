@@ -139,3 +139,8 @@ output "load_balancer_ip" {
   description = "The IP address of the external load balancer."
   value       = google_compute_global_address.lb_ip.address
 }
+
+output "iap_client_id" {
+  description = "The client ID of the IAP OAuth client."
+  value       = google_iap_client.project_client.client_id
+}

@@ -71,15 +71,23 @@ jobs:
             --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online,NODE_ENV=production"
           echo "✅ Deployment completed successfully!"
 
+      - name: Get IAP Client ID
+        id: get_iap_client_id
+        run: |
+          cd infra/terraform
+          echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
+
       - name: Run Smoke Tests
         run: |
           echo "🧪 Running smoke tests..."
+          echo "🔑 Minting IAP token..."
+          IAP_TOKEN=$(gcloud auth print-identity-token --audiences=${{ env.iap_client_id }})
           export API_URL="https://api.finspeed.online"
           export FRONTEND_URL="https://finspeed.online"
           echo "Polling /healthz endpoint..."
           SUCCESS=false
           for i in {1..12}; do
-            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused "$API_URL/healthz"; then
+            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/healthz"; then
               echo "✅ API /healthz endpoint is healthy."
               SUCCESS=true
               break
@@ -92,9 +100,9 @@ jobs:
             exit 1
           fi
           echo "Testing API products endpoint..."
-          curl -f "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
           echo "Testing API categories endpoint..."
-          curl -f "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
           echo "Testing Frontend homepage..."
-          curl -f "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
           echo "✅ All smoke tests passed!"
