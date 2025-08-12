@@ -32,17 +32,16 @@ resource "google_cloud_run_v2_service" "api" {
 
   template {
     labels = local.common_labels
+
+    annotations = {
+      "run.googleapis.com/invoker-iam-disabled" = "true"
+    }
     
     service_account = google_service_account.cloud_run_sa.email
 
     scaling {
       min_instance_count = var.api_min_instances
       max_instance_count = var.api_max_instances
-    }
-
-    vpc_access {
-      connector = google_vpc_access_connector.connector.id
-      egress    = "ALL_TRAFFIC"
     }
 
     containers {
@@ -138,6 +137,10 @@ resource "google_cloud_run_v2_service" "frontend" {
 
   template {
     labels = local.common_labels
+
+    annotations = {
+      "run.googleapis.com/invoker-iam-disabled" = "true"
+    }
     
     service_account = google_service_account.cloud_run_sa.email
 

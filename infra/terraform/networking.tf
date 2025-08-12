@@ -96,16 +96,7 @@ resource "google_compute_firewall" "allow_http_https" {
   depends_on = [google_compute_network.vpc_network]
 }
 
-# Serverless VPC Access Connector
-resource "google_vpc_access_connector" "connector" {
-  name          = "finspeed-vpc-connector-${local.environment}"
-  project       = local.project_id
-  region        = local.region
-  ip_cidr_range = "10.8.0.0/28"
-  network       = google_compute_network.vpc_network.id
 
-  depends_on = [google_project_service.required_apis]
-}
 
 # Private service connection for Cloud SQL
 resource "google_compute_global_address" "private_ip_address" {
@@ -171,10 +162,6 @@ resource "google_compute_backend_service" "api_backend" {
   backend {
     group = google_compute_region_network_endpoint_group.api_neg.id
   }
-
-  service_account = google_service_account.lb_invoker.email
-
-
 }
 
 # Backend service for the Frontend
@@ -189,10 +176,6 @@ resource "google_compute_backend_service" "frontend_backend" {
   backend {
     group = google_compute_region_network_endpoint_group.frontend_neg.id
   }
-
-  service_account = google_service_account.lb_invoker.email
-
-
 }
 
 # URL map to route requests to the backend service
