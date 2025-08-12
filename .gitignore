@@ -29,3 +29,6 @@ secrets/
 *.tfplan
 *.tfstate
 *.tfstate.backup
+
+# Windsurf
+.windsurf/

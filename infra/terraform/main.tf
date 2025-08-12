@@ -1,14 +1,9 @@
-terraform {
-  backend "gcs" {
-    bucket = "finspeed-tfstate-finspeed-staging"
-    prefix = "terraform/state"
-  }
-}
-
 # Enable required APIs
 resource "google_project_service" "required_apis" {
   for_each = toset([
     "compute.googleapis.com",
+    "iap.googleapis.com",
+    "vpcaccess.googleapis.com",
     "sqladmin.googleapis.com",
     "run.googleapis.com",
     "secretmanager.googleapis.com",

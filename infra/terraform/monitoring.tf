@@ -1,4 +1,3 @@
-/*
 # Cloud Monitoring and Alerting Configuration
 
 # Notification channel for alerts (email)
@@ -309,4 +308,3 @@ resource "google_monitoring_dashboard" "finspeed_dashboard" {
     }
   })
 }
-*/

@@ -1,4 +1,3 @@
-/*
 # Cloud Run Services Configuration
 
 # Service account for Cloud Run services
@@ -216,48 +215,57 @@ resource "google_cloud_run_v2_service" "frontend" {
 # Allow public access to the API service via the load balancer
 
 
-# resource "google_cloud_run_v2_job" "migrate" {
-#   name     = "finspeed-migrate-${local.environment}"
-#   location = local.region
-#   labels   = local.common_labels
-#   deletion_protection = false
-# 
-#   template {
-#     template {
-#       service_account = google_service_account.cloud_run_sa.email
-# 
-#       timeout    = "600s" # 10 minutes
-# 
-#       containers {
-#         image = local.migrate_image_uri
-#         command = ["./main"]
-#         args    = ["migrate", "up"]
-# 
-#         env {
-#           name = "DATABASE_URL"
-#           value_source {
-#             secret_key_ref {
-#               secret  = google_secret_manager_secret.database_url.secret_id
-#               version = "latest"
-#             }
-#           }
-#         }
-# 
-#         resources {
-#           limits = {
-#             cpu    = "1"
-#             memory = "512Mi"
-#           }
-#         }
-#       }
-# 
-#       vpc_access {
-#         connector = google_vpc_access_connector.connector.id
-#         egress    = "PRIVATE_RANGES_ONLY"
+resource "google_cloud_run_v2_job" "migrate" {
+  name     = "finspeed-migrate-${local.environment}"
+  location = local.region
+  labels   = local.common_labels
+  deletion_protection = false
+
+  template {
+    template {
+      service_account = google_service_account.cloud_run_sa.email
+
+      timeout    = "600s" # 10 minutes
+
+      containers {
+        image = local.migrate_image_uri
+        command = ["./main"]
+        args    = ["migrate", "up"]
+
+        env {
+          name = "DATABASE_URL"
+          value_source {
+            secret_key_ref {
+              secret  = google_secret_manager_secret.database_url.secret_id
+              version = "latest"
+            }
+          }
+        }
+
+        resources {
+          limits = {
+            cpu    = "1"
+            memory = "512Mi"
+          }
+        }
+      }
+
+      vpc_access {
+        connector = google_vpc_access_connector.connector.id
+        egress    = "PRIVATE_RANGES_ONLY"
+      }
+    }
+  }
+
+  depends_on = [
+    google_project_service.required_apis,
+    google_vpc_access_connector.connector
+  ]
+}
 #       }
 #     }
 #   }
-# 
+#
 #   depends_on = [
 #     google_project_service.required_apis,
 #     google_secret_manager_secret_version.database_url
@@ -296,4 +304,3 @@ resource "google_cloud_run_domain_mapping" "frontend_domain" {
     route_name = google_cloud_run_v2_service.frontend.name
   }
 }
-*/

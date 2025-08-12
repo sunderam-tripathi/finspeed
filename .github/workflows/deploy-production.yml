@@ -1,0 +1,142 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+
+env:
+  PROJECT_ID_PRODUCTION: finspeed-prod
+  REGION: us-central1
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER_PRODUCTION }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_PRODUCTION }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID_PRODUCTION }}
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+
+      - name: Create GCS Backend Bucket if it doesn't exist
+        run: |
+          gcloud storage buckets describe gs://finspeed-tf-state-central || \
+          gcloud storage buckets create gs://finspeed-tf-state-central --project=${{ env.PROJECT_ID_PRODUCTION }} --location=US --uniform-bucket-level-access
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -reconfigure
+        working-directory: ./infra/terraform
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="environments/production.tfvars" -out=tfplan
+        working-directory: ./infra/terraform
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: ./infra/terraform
+      - name: Build and Deploy Applications
+        run: |
+          echo "🚀 Building and deploying applications to production..."
+          export IMAGE_TAG=$GITHUB_SHA
+          export API_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_PRODUCTION }}/finspeed/api:$IMAGE_TAG"
+          export FRONTEND_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_PRODUCTION }}/finspeed/frontend:$IMAGE_TAG"
+          gcloud artifacts repositories create finspeed --repository-format=docker --location=${{ env.REGION }} --description="Finspeed application images" || echo "Repository already exists"
+          echo "📦 Building API container..."
+          docker build -t $API_IMAGE -f ./api/Dockerfile .
+          docker push $API_IMAGE
+          echo "📦 Building Frontend container..."
+          docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
+          docker push $FRONTEND_IMAGE
+          echo "🗄️ Ensuring database migration job exists..."
+          gcloud run jobs describe finspeed-migrate-prod --region=${{ env.REGION }} >/dev/null 2>&1 || \
+            gcloud run jobs create finspeed-migrate-prod \
+              --image=$API_IMAGE \
+              --region=${{ env.REGION }} \
+              --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_PRODUCTION }} \
+              --set-secrets=DATABASE_URL=finspeed-database-url-prod:latest \
+              --vpc-connector=finspeed-vpc-prod \
+              --vpc-egress=private-ranges-only \
+              --command=./main \
+              --args=migrate,up
+
+          echo "🔄 Updating and running database migrations..."
+          gcloud run jobs update finspeed-migrate-prod --image=$API_IMAGE --region=${{ env.REGION }} --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_PRODUCTION }} --vpc-connector=finspeed-vpc-prod --vpc-egress=private-ranges-only --command=./main --args=migrate,up
+          gcloud run jobs execute finspeed-migrate-prod --region=${{ env.REGION }} --wait
+          echo "🚀 Deploying API to Cloud Run..."
+          gcloud run deploy finspeed-api-prod \
+            --image=$API_IMAGE \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=8080 \
+            --set-secrets=DATABASE_URL=finspeed-database-url-prod:latest,JWT_SECRET=finspeed-jwt-secret-prod:latest \
+            --set-env-vars=GIN_MODE=release,ENVIRONMENT=production,LOG_LEVEL=info
+          echo "🚀 Deploying Frontend to Cloud Run..."
+          gcloud run deploy finspeed-frontend-prod \
+            --image=$FRONTEND_IMAGE \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=3000 \
+            --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.app,NODE_ENV=production"
+          echo "✅ Deployment completed successfully!"
+
+      - name: Get IAP Client ID
+        id: get_iap_client_id
+        run: |
+          echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
+        working-directory: ./infra/terraform
+
+      - name: Run Smoke Tests
+        run: |
+          echo "🧪 Running smoke tests..."
+          echo "🔑 Minting IAP token..."
+          IAP_TOKEN=$(gcloud auth print-identity-token --audiences=$iap_client_id)
+          export API_URL="https://api.finspeed.app"
+          export FRONTEND_URL="https://finspeed.app"
+          echo "Polling /healthz endpoint..."
+          SUCCESS=false
+          for i in {1..12}; do
+            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/healthz"; then
+              echo "✅ API /healthz endpoint is healthy."
+              SUCCESS=true
+              break
+            fi
+            echo "Attempt $i/12 failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+          if [ "$SUCCESS" = false ]; then
+            echo "❌ API /healthz endpoint did not become healthy in time."
+            exit 1
+          fi
+          echo "Testing API products endpoint..."
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
+          echo "Testing API categories endpoint..."
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
+          echo "Testing Frontend homepage..."
+          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
+          echo "✅ All smoke tests passed!"

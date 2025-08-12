@@ -1,4 +1,3 @@
-/*
 # Terraform Outputs for Finspeed Infrastructure
 
 # Network outputs
@@ -145,4 +144,3 @@ output "iap_client_id" {
   description = "The client ID of the IAP OAuth client."
   value       = google_iap_client.project_client.client_id
 }
-*/
