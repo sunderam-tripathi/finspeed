@@ -50,7 +50,7 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          terraform init -backend-config="bucket=finspeed-tfstate-${{ env.PROJECT_ID_STAGING }}" -backend-config="prefix=terraform/state" -reconfigure
+          terraform init -backend-config=backend.hcl -reconfigure
           terraform workspace select staging || terraform workspace new staging
           terraform apply -auto-approve -var-file="environments/staging.tfvars"
         working-directory: ./infra/terraform
