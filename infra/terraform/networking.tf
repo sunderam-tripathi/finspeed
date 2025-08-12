@@ -231,7 +231,7 @@ resource "google_compute_global_forwarding_rule" "forwarding_rule" {
 
 # Serverless VPC Access Connector
 resource "google_vpc_access_connector" "connector" {
-  name          = "finspeed-vpc-connector-${local.environment}"
+  name          = "finspeed-vpc-${local.environment}"
   project       = local.project_id
   region        = local.region
   network       = google_compute_network.vpc_network.name

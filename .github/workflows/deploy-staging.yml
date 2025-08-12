@@ -57,11 +57,11 @@ jobs:
               --region=${{ env.REGION }} \
               --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} \
               --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest \
-              --vpc-connector=finspeed-vpc-connector-staging \
+              --vpc-connector=finspeed-vpc-staging \
               --vpc-egress=private-ranges-only
 
           echo "🔄 Updating and running database migrations..."
-          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }} --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} --vpc-connector=finspeed-vpc-connector-staging --vpc-egress=private-ranges-only
+          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }} --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} --vpc-connector=finspeed-vpc-staging --vpc-egress=private-ranges-only
           gcloud run jobs execute finspeed-migrate-staging --region=${{ env.REGION }} --wait
           echo "🚀 Deploying API to Cloud Run..."
           gcloud run deploy finspeed-api-staging \
