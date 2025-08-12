@@ -102,7 +102,10 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/iam.serviceAccountTokenCreator", # Create access tokens for impersonation
     "roles/storage.admin",               # Access Cloud Storage (for Terraform state)
     "roles/artifactregistry.admin",      # Push/pull container images
-    "roles/cloudbuild.builds.builder"    # Build containers
+    "roles/cloudbuild.builds.builder",   # Build containers
+    "roles/iam.serviceAccountAdmin",     # Create and manage service accounts
+    "roles/iap.admin",                   # Manage IAP settings
+    "roles/compute.securityAdmin"      # Manage SSL certificates and security policies
   ])
 
   project = local.project_id
