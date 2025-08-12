@@ -50,7 +50,7 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          terraform init -backend-config=backend.hcl -reconfigure
+          terraform init -reconfigure
           terraform workspace select staging || terraform workspace new staging
           terraform apply -auto-approve -var-file="environments/staging.tfvars"
         working-directory: ./infra/terraform
