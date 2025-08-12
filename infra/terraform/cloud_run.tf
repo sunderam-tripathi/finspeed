@@ -206,6 +206,28 @@ resource "google_cloud_run_v2_service" "frontend" {
 }
 
 # Cloud Run Job for Database Migrations
+# Allow public access to the API service via the load balancer
+resource "google_cloud_run_v2_service_iam_binding" "api_invoker" {
+  project  = google_cloud_run_v2_service.api.project
+  location = google_cloud_run_v2_service.api.location
+  name     = google_cloud_run_v2_service.api.name
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers",
+  ]
+}
+
+# Allow public access to the frontend service via the load balancer
+resource "google_cloud_run_v2_service_iam_binding" "frontend_invoker" {
+  project  = google_cloud_run_v2_service.frontend.project
+  location = google_cloud_run_v2_service.frontend.location
+  name     = google_cloud_run_v2_service.frontend.name
+  role     = "roles/run.invoker"
+  members = [
+    "allUsers",
+  ]
+}
+
 resource "google_cloud_run_v2_job" "migrate" {
   name     = "finspeed-migrate-${local.environment}"
   location = local.region
