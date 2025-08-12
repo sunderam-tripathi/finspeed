@@ -263,18 +263,7 @@ resource "google_cloud_run_v2_service" "frontend" {
 #   ]
 # }
 
-# VPC Connector for Cloud Run to access private resources
-resource "google_vpc_access_connector" "connector" {
-  name          = "finspeed-vpc-${local.environment}"
-  region        = local.region
-  ip_cidr_range = "10.8.0.0/28"
-  network       = google_compute_network.vpc_network.name
-  
-  min_instances = 2
-  max_instances = var.environment == "production" ? 10 : 3
 
-  depends_on = [google_project_service.required_apis["vpcaccess.googleapis.com"]]
-}
 
 # Custom domain mapping (optional)
 resource "google_cloud_run_domain_mapping" "api_domain" {

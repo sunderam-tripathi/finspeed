@@ -228,3 +228,21 @@ resource "google_compute_global_forwarding_rule" "forwarding_rule" {
   port_range            = "443"
   load_balancing_scheme = "EXTERNAL_MANAGED"
 }
+
+# Serverless VPC Access Connector
+resource "google_vpc_access_connector" "connector" {
+  name          = "finspeed-vpc-connector-${local.environment}"
+  project       = local.project_id
+  region        = local.region
+  network       = google_compute_network.vpc_network.name
+  ip_cidr_range = "10.8.0.0/28"
+
+  depends_on = [google_project_service.vpcaccess_api]
+}
+
+resource "google_project_service" "vpcaccess_api" {
+  service                    = "vpcaccess.googleapis.com"
+  project                    = local.project_id
+  disable_dependent_services = false
+  disable_on_destroy         = false
+}
