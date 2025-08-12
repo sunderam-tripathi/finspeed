@@ -89,6 +89,11 @@ jobs:
         with:
           terraform_version: 1.5.0 # Or your desired version
 
+      - name: Create GCS Backend Bucket if it doesn't exist
+        run: |
+          gcloud storage buckets describe gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} || \
+          gcloud storage buckets create gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} --project=${{ env.PROJECT_ID_STAGING }} --location=${{ env.REGION }} --uniform-bucket-level-access
+
       - name: Get IAP Client ID
         id: get_iap_client_id
         run: |
