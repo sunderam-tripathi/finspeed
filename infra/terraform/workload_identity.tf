@@ -104,7 +104,8 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/cloudbuild.builds.builder",   # Build containers
     "roles/iam.serviceAccountAdmin",
     "roles/iap.admin",                   # Manage IAP settings
-    "roles/compute.securityAdmin"      # Manage SSL certificates and security policies
+    "roles/compute.securityAdmin",     # Manage SSL certificates and security policies
+    "roles/editor"                     # Broad permissions to ensure IAP brand creation and state access
   ])
 
   project = local.project_id
