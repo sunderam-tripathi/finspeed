@@ -49,7 +49,15 @@ jobs:
           echo "📦 Building Frontend container..."
           docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
           docker push $FRONTEND_IMAGE
-          echo "🗄️ Running database migrations..."
+          echo "🗄️ Ensuring database migration job exists..."
+          # Check if the job exists. If not, create it. This makes the workflow idempotent.
+          gcloud run jobs describe finspeed-migrate-staging --region=${{ env.REGION }} >/dev/null 2>&1 || \
+            gcloud run jobs create finspeed-migrate-staging \
+              --image=$API_IMAGE \
+              --region=${{ env.REGION }} \
+              --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest
+
+          echo "🔄 Updating and running database migrations..."
           gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }}
           gcloud run jobs execute finspeed-migrate-staging --region=${{ env.REGION }} --wait
           echo "🚀 Deploying API to Cloud Run..."
