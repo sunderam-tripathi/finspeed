@@ -84,17 +84,24 @@ jobs:
             --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online,NODE_ENV=production"
           echo "✅ Deployment completed successfully!"
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0 # Or your desired version
+
       - name: Get IAP Client ID
         id: get_iap_client_id
         run: |
-          cd infra/terraform
+          terraform init -backend-config="bucket=finspeed-tfstate-${{ env.PROJECT_ID_STAGING }}" -reconfigure
+          terraform workspace select staging
           echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
+        working-directory: ./infra/terraform
 
       - name: Run Smoke Tests
         run: |
           echo "🧪 Running smoke tests..."
           echo "🔑 Minting IAP token..."
-          IAP_TOKEN=$(gcloud auth print-identity-token --audiences=${{ env.iap_client_id }})
+          IAP_TOKEN=$(gcloud auth print-identity-token --audiences=$iap_client_id)
           export API_URL="https://api.finspeed.online"
           export FRONTEND_URL="https://finspeed.online"
           echo "Polling /healthz endpoint..."
