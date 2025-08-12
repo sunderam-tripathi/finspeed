@@ -1,0 +1,100 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+env:
+  PROJECT_ID_STAGING: finspeed-staging
+  REGION: us-central1
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER_STAGING }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID_STAGING }}
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      - name: Build and Deploy Applications
+        run: |
+          echo "🚀 Building and deploying applications to staging..."
+          export IMAGE_TAG=$GITHUB_SHA
+          export API_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_STAGING }}/finspeed/api:$IMAGE_TAG"
+          export FRONTEND_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_STAGING }}/finspeed/frontend:$IMAGE_TAG"
+          gcloud artifacts repositories create finspeed --repository-format=docker --location=${{ env.REGION }} --description="Finspeed application images" || echo "Repository already exists"
+          echo "📦 Building API container..."
+          docker build -t $API_IMAGE -f ./api/Dockerfile .
+          docker push $API_IMAGE
+          echo "📦 Building Frontend container..."
+          docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
+          docker push $FRONTEND_IMAGE
+          echo "🗄️ Running database migrations..."
+          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }}
+          gcloud run jobs execute finspeed-migrate-staging --region=${{ env.REGION }} --wait
+          echo "🚀 Deploying API to Cloud Run..."
+          gcloud run deploy finspeed-api-staging \
+            --image=$API_IMAGE \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=8080 \
+            --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest,JWT_SECRET=finspeed-jwt-secret-staging:latest \
+            --set-env-vars=GIN_MODE=release,ENVIRONMENT=staging,LOG_LEVEL=info
+          echo "🚀 Deploying Frontend to Cloud Run..."
+          gcloud run deploy finspeed-frontend-staging \
+            --image=$FRONTEND_IMAGE \
+            --region=${{ env.REGION }} \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=3000 \
+            --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online,NODE_ENV=production"
+          echo "✅ Deployment completed successfully!"
+
+      - name: Run Smoke Tests
+        run: |
+          echo "🧪 Running smoke tests..."
+          export API_URL="https://api.finspeed.online"
+          export FRONTEND_URL="https://finspeed.online"
+          echo "Polling /healthz endpoint..."
+          SUCCESS=false
+          for i in {1..12}; do
+            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused "$API_URL/healthz"; then
+              echo "✅ API /healthz endpoint is healthy."
+              SUCCESS=true
+              break
+            fi
+            echo "Attempt $i/12 failed. Retrying in 10 seconds..."
+            sleep 10
+          done
+          if [ "$SUCCESS" = false ]; then
+            echo "❌ API /healthz endpoint did not become healthy in time."
+            exit 1
+          fi
+          echo "Testing API products endpoint..."
+          curl -f "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
+          echo "Testing API categories endpoint..."
+          curl -f "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
+          echo "Testing Frontend homepage..."
+          curl -f "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
+          echo "✅ All smoke tests passed!"
