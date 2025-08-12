@@ -48,11 +48,21 @@ jobs:
 
 
 
-      - name: Terraform Apply
+      - name: Terraform Init & Select Workspace
+        id: init
         run: |
           terraform init -reconfigure
+          terraform workspace select staging || terraform workspace new staging
+        working-directory: ./infra/terraform
 
-          terraform apply -auto-approve -var-file="environments/staging.tfvars"
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="environments/staging.tfvars" -out=tfplan
+        working-directory: ./infra/terraform
+
+      - name: Terraform Apply
+        id: apply
+        run: terraform apply -auto-approve tfplan
         working-directory: ./infra/terraform
 
       - name: Build and Deploy Applications
