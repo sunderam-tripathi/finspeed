@@ -36,6 +36,23 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0 # Or your desired version
+
+      - name: Create GCS Backend Bucket if it doesn't exist
+        run: |
+          gcloud storage buckets describe gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} || \
+          gcloud storage buckets create gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} --project=${{ env.PROJECT_ID_STAGING }} --location=${{ env.REGION }} --uniform-bucket-level-access
+
+      - name: Terraform Apply
+        run: |
+          terraform init -backend-config="bucket=finspeed-tfstate-${{ env.PROJECT_ID_STAGING }}" -reconfigure
+          terraform workspace select staging || terraform workspace new staging
+          terraform apply -auto-approve -var-file="environments/staging.tfvars"
+        working-directory: ./infra/terraform
+
       - name: Build and Deploy Applications
         run: |
           echo "🚀 Building and deploying applications to staging..."
@@ -84,21 +101,9 @@ jobs:
             --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online,NODE_ENV=production"
           echo "✅ Deployment completed successfully!"
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.5.0 # Or your desired version
-
-      - name: Create GCS Backend Bucket if it doesn't exist
-        run: |
-          gcloud storage buckets describe gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} || \
-          gcloud storage buckets create gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} --project=${{ env.PROJECT_ID_STAGING }} --location=${{ env.REGION }} --uniform-bucket-level-access
-
       - name: Get IAP Client ID
         id: get_iap_client_id
         run: |
-          terraform init -backend-config="bucket=finspeed-tfstate-${{ env.PROJECT_ID_STAGING }}" -reconfigure
-          terraform workspace select staging || terraform workspace new staging
           echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
         working-directory: ./infra/terraform
 
