@@ -55,10 +55,11 @@ jobs:
             gcloud run jobs create finspeed-migrate-staging \
               --image=$API_IMAGE \
               --region=${{ env.REGION }} \
+              --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} \
               --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest
 
           echo "🔄 Updating and running database migrations..."
-          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }}
+          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }} --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }}
           gcloud run jobs execute finspeed-migrate-staging --region=${{ env.REGION }} --wait
           echo "🚀 Deploying API to Cloud Run..."
           gcloud run deploy finspeed-api-staging \
