@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
     bucket = "finspeed-tfstate-finspeed-staging"
-    path = "terraform/state/staging.tfstate"
+    prefix = "terraform/state"
   }
 }
 
