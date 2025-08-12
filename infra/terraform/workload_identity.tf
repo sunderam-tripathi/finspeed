@@ -65,13 +65,17 @@ resource "google_service_account" "github_actions" {
 }
 
 # Allow GitHub Actions to impersonate the service account
-resource "google_service_account_iam_binding" "github_actions_workload_identity" {
+resource "google_service_account_iam_member" "github_actions_workload_identity" {
   service_account_id = google_service_account.github_actions.name
   role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
+}
 
-  members = [
-    "principalSet://iam.googleapis.com/${local.workload_identity_pool_name}/attribute.repository/${var.github_repository}"
-  ]
+# Allow the project owner to impersonate the service account for local testing
+resource "google_service_account_iam_member" "github_actions_user_token_creator" {
+  service_account_id = google_service_account.github_actions.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = "user:${var.project_owner_email}"
 }
 
 # Allow GitHub Actions to generate access tokens for the service account

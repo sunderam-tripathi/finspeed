@@ -214,3 +214,24 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+# IAP variables
+variable "iap_support_email" {
+  description = "The support email address for the OAuth consent screen."
+  type        = string
+  validation {
+    condition     = can(regex("@", var.iap_support_email))
+    error_message = "Must be a valid email address."
+  }
+}
+
+variable "iap_allowed_user" {
+  description = "The user to grant access to the IAP-secured application (e.g., user:email@example.com)."
+  type        = string
+}
+
+variable "project_owner_email" {
+  description = "The email address of the project owner, used for granting impersonation rights for local testing."
+  type        = string
+  default     = ""
+}

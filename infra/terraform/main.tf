@@ -1,15 +1,6 @@
 terraform {
   required_version = ">= 1.0"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 5.30.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.1"
-    }
-  }
+
 
   # Backend configuration for remote state storage
   backend "gcs" {
@@ -18,10 +9,7 @@ terraform {
   }
 }
 
-provider "google" {
-  project = local.project_id
-  region  = local.region
-}
+
 
 # Create GCS bucket for Terraform state
 resource "google_storage_bucket" "terraform_state" {

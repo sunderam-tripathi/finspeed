@@ -32,10 +32,6 @@ resource "google_cloud_run_v2_service" "api" {
 
   template {
     labels = local.common_labels
-
-    annotations = {
-      "run.googleapis.com/invoker-iam-disabled" = "true"
-    }
     
     service_account = google_service_account.cloud_run_sa.email
 
@@ -137,10 +133,6 @@ resource "google_cloud_run_v2_service" "frontend" {
 
   template {
     labels = local.common_labels
-
-    annotations = {
-      "run.googleapis.com/invoker-iam-disabled" = "true"
-    }
     
     service_account = google_service_account.cloud_run_sa.email
 
@@ -221,75 +213,55 @@ resource "google_cloud_run_v2_service" "frontend" {
 # Cloud Run Job for Database Migrations
 # Allow public access to the API service via the load balancer
 # Allow public access to the API service via the load balancer
-# Allow the load balancer's service account to invoke the API service
-resource "google_cloud_run_v2_service_iam_binding" "api_invoker" {
-  project  = google_cloud_run_v2_service.api.project
-  location = google_cloud_run_v2_service.api.location
-  name     = google_cloud_run_v2_service.api.name
-  role     = "roles/run.invoker"
-  members = [
-    "serviceAccount:${google_service_account.lb_invoker.email}",
-  ]
-}
 
-# Allow the load balancer's service account to invoke the frontend service
-resource "google_cloud_run_v2_service_iam_binding" "frontend_invoker" {
-  project  = google_cloud_run_v2_service.frontend.project
-  location = google_cloud_run_v2_service.frontend.location
-  name     = google_cloud_run_v2_service.frontend.name
-  role     = "roles/run.invoker"
-  members = [
-    "serviceAccount:${google_service_account.lb_invoker.email}",
-  ]
-}
 
-resource "google_cloud_run_v2_job" "migrate" {
-  name     = "finspeed-migrate-${local.environment}"
-  location = local.region
-  labels   = local.common_labels
-  deletion_protection = false
-
-  template {
-    template {
-      service_account = google_service_account.cloud_run_sa.email
-
-      timeout    = "600s" # 10 minutes
-
-      containers {
-        image = local.migrate_image_uri
-        command = ["./main"]
-        args    = ["migrate", "up"]
-
-        env {
-          name = "DATABASE_URL"
-          value_source {
-            secret_key_ref {
-              secret  = google_secret_manager_secret.database_url.secret_id
-              version = "latest"
-            }
-          }
-        }
-
-        resources {
-          limits = {
-            cpu    = "1"
-            memory = "512Mi"
-          }
-        }
-      }
-
-      vpc_access {
-        connector = google_vpc_access_connector.connector.id
-        egress    = "PRIVATE_RANGES_ONLY"
-      }
-    }
-  }
-
-  depends_on = [
-    google_project_service.required_apis,
-    google_secret_manager_secret_version.database_url
-  ]
-}
+# resource "google_cloud_run_v2_job" "migrate" {
+#   name     = "finspeed-migrate-${local.environment}"
+#   location = local.region
+#   labels   = local.common_labels
+#   deletion_protection = false
+# 
+#   template {
+#     template {
+#       service_account = google_service_account.cloud_run_sa.email
+# 
+#       timeout    = "600s" # 10 minutes
+# 
+#       containers {
+#         image = local.migrate_image_uri
+#         command = ["./main"]
+#         args    = ["migrate", "up"]
+# 
+#         env {
+#           name = "DATABASE_URL"
+#           value_source {
+#             secret_key_ref {
+#               secret  = google_secret_manager_secret.database_url.secret_id
+#               version = "latest"
+#             }
+#           }
+#         }
+# 
+#         resources {
+#           limits = {
+#             cpu    = "1"
+#             memory = "512Mi"
+#           }
+#         }
+#       }
+# 
+#       vpc_access {
+#         connector = google_vpc_access_connector.connector.id
+#         egress    = "PRIVATE_RANGES_ONLY"
+#       }
+#     }
+#   }
+# 
+#   depends_on = [
+#     google_project_service.required_apis,
+#     google_secret_manager_secret_version.database_url
+#   ]
+# }
 
 # VPC Connector for Cloud Run to access private resources
 resource "google_vpc_access_connector" "connector" {
