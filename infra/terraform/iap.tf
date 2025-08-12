@@ -1,3 +1,4 @@
+/*
 data "google_project" "project" {}
 
 resource "google_project_service" "iap" {
@@ -68,3 +69,4 @@ resource "google_iap_web_backend_service_iam_member" "frontend_iap_cicd" {
   role                 = "roles/iap.httpsResourceAccessor"
   member               = "serviceAccount:${google_service_account.github_actions.email}"
 }
+*/

@@ -1,3 +1,4 @@
+/*
 # Cloud Run Services Configuration
 
 # Service account for Cloud Run services
@@ -295,3 +296,4 @@ resource "google_cloud_run_domain_mapping" "frontend_domain" {
     route_name = google_cloud_run_v2_service.frontend.name
   }
 }
+*/

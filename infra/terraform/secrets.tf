@@ -1,3 +1,4 @@
+/*
 # Secret Management Configuration
 
 # Generate a random password for the database
@@ -43,3 +44,4 @@ resource "google_secret_manager_secret_version" "database_url" {
 
 
 }
+*/
