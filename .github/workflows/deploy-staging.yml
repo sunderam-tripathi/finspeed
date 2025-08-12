@@ -50,7 +50,9 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init -reconfigure
+        run: |
+          terraform init -reconfigure
+          terraform workspace select staging || terraform workspace new staging
         working-directory: ./infra/terraform
 
       - name: Terraform Plan
