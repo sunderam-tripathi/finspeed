@@ -46,21 +46,7 @@ jobs:
           gcloud storage buckets describe gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} || \
           gcloud storage buckets create gs://finspeed-tfstate-${{ env.PROJECT_ID_STAGING }} --project=${{ env.PROJECT_ID_STAGING }} --location=${{ env.REGION }} --uniform-bucket-level-access
 
-      - name: 'Bootstrap GitHub Actions Service Account'
-        id: create_sa
-        run: |
-          gcloud iam service-accounts describe github-actions-staging@${{ env.PROJECT_ID_STAGING }}.iam.gserviceaccount.com || \
-          gcloud iam service-accounts create github-actions-staging \
-            --display-name="GitHub Actions Service Account (staging)" \
-            --project=${{ env.PROJECT_ID_STAGING }}
 
-      - name: 'Bootstrap IAM Permissions'
-        run: |
-          SA_EMAIL="github-actions-staging@${{ env.PROJECT_ID_STAGING }}.iam.gserviceaccount.com"
-          gcloud projects add-iam-policy-binding ${{ env.PROJECT_ID_STAGING }} --member="serviceAccount:$SA_EMAIL" --role="roles/iam.serviceAccountAdmin" --condition=None
-          gcloud projects add-iam-policy-binding ${{ env.PROJECT_ID_STAGING }} --member="serviceAccount:$SA_EMAIL" --role="roles/iap.admin" --condition=None
-          gcloud projects add-iam-policy-binding ${{ env.PROJECT_ID_STAGING }} --member="serviceAccount:$SA_EMAIL" --role="roles/compute.securityAdmin" --condition=None
-          gcloud projects add-iam-policy-binding ${{ env.PROJECT_ID_STAGING }} --member="serviceAccount:$SA_EMAIL" --role="roles/iam.workloadIdentityUser" --condition=None
 
       - name: Terraform Apply
         run: |
