@@ -207,24 +207,26 @@ resource "google_cloud_run_v2_service" "frontend" {
 
 # Cloud Run Job for Database Migrations
 # Allow public access to the API service via the load balancer
+# Allow public access to the API service via the load balancer
+# Allow the load balancer's service account to invoke the API service
 resource "google_cloud_run_v2_service_iam_binding" "api_invoker" {
   project  = google_cloud_run_v2_service.api.project
   location = google_cloud_run_v2_service.api.location
   name     = google_cloud_run_v2_service.api.name
   role     = "roles/run.invoker"
   members = [
-    "allUsers",
+    "serviceAccount:${google_service_account.lb_invoker.email}",
   ]
 }
 
-# Allow public access to the frontend service via the load balancer
+# Allow the load balancer's service account to invoke the frontend service
 resource "google_cloud_run_v2_service_iam_binding" "frontend_invoker" {
   project  = google_cloud_run_v2_service.frontend.project
   location = google_cloud_run_v2_service.frontend.location
   name     = google_cloud_run_v2_service.frontend.name
   role     = "roles/run.invoker"
   members = [
-    "allUsers",
+    "serviceAccount:${google_service_account.lb_invoker.email}",
   ]
 }
 
