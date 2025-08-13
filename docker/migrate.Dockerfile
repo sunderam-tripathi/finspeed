@@ -18,7 +18,7 @@ COPY . .
 # -o /app/main: output the binary to /app/main
 # CGO_ENABLED=0: disable CGO for a statically linked binary
 # -ldflags "-w -s": strip debug information to reduce binary size
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-w -s" -o /app/main ./cmd/migrate
+RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-w -s" -o /app/main ./api/cmd/migrate
 
 # --- Final Stage ---
 # Use a minimal image for the final container
