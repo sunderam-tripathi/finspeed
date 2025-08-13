@@ -12,6 +12,7 @@ import (
 )
 
 // Trigger CI for final validation
+// Trigger CI/CD pipeline to deploy the latest image.
 func main() {
 	log.Println("[BOOT] Starting application...")
 
