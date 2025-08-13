@@ -11,7 +11,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// Trigger CI
+// Trigger CI for final validation
 func main() {
 	log.Println("[BOOT] Starting application...")
 
