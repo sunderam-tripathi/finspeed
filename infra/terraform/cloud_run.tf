@@ -42,7 +42,7 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
+      image = var.api_image
 
       ports {
         container_port = 8080
@@ -149,7 +149,7 @@ resource "google_cloud_run_v2_service" "frontend" {
     }
 
     containers {
-      image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
+      image = var.frontend_image
 
       ports {
         container_port = 3000
@@ -230,7 +230,7 @@ resource "google_cloud_run_v2_job" "migrate" {
       timeout    = "600s" # 10 minutes
 
       containers {
-        image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
+        image = var.migrate_image
         command = ["./main"]
         args    = ["migrate", "up"]
 

@@ -199,6 +199,24 @@ variable "enable_uptime_checks" {
   default     = true
 }
 
+variable "api_image" {
+  description = "The full Docker image URL for the API service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+
+variable "frontend_image" {
+  description = "The full Docker image URL for the frontend service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+
+variable "migrate_image" {
+  description = "The full Docker image URL for the database migration job."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+
 # Cost optimization variables
 variable "enable_deletion_protection" {
   description = "Enable deletion protection for critical resources"

@@ -29,8 +29,8 @@ permissions:
   contents: read
 
 jobs:
-  # This job determines which components have changed.
   changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -46,7 +46,6 @@ jobs:
         uses: dorny/paths-filter@v3
         id: filter
         with:
-          # For pull_request_target events, the base and head commits must be specified explicitly.
           base: ${{ github.event.pull_request.base.sha }}
           head: ${{ github.event.pull_request.head.sha }}
           filters: |
@@ -57,19 +56,18 @@ jobs:
             infra:
               - 'infra/terraform/**'
 
-  # This job runs `terraform plan` on pull requests to `develop`.
   terraform-plan:
     name: Terraform Plan
-    needs: changes
     if: needs.changes.outputs.infra == 'true' && github.event_name == 'pull_request_target'
+    needs: changes
     runs-on: ubuntu-latest
     environment: staging
     permissions:
       contents: read
-      id-token: write # For GCP auth
-      pull-requests: write # To comment on PR
+      id-token: write
+      pull-requests: write
     steps:
-      - name: Checkout code
+      - name: Checkout PR code
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -82,11 +80,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.8.0
 
       - name: Terraform Init
-        id: init
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
@@ -104,27 +99,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Terraform Plan 📖\n\n<details><summary>Show Plan</summary>\n\n\`\`\`terraform\n${process.env.PLAN}\n\`\`\`\n\n</details>\n\n*Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-
+            const output = `#### Terraform Plan 📖\n\n<details><summary>Show Plan</summary>\n\n\`\`\`terraform\n${process.env.PLAN}\n\`\`\`\n\n</details>`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
             });
+            if ('${{ steps.plan.outcome }}' == 'failure') process.exit(1);
 
-            if ('${{ steps.plan.outcome }}' == 'failure') {
-              process.exit(1);
-            }
-
-  # This job builds and pushes container images if the source code has changed.
   build-and-push:
-    needs: changes
+    name: Build and Push Images
     if: (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true') && github.event_name == 'push'
+    needs: changes
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # Required for authentication to GCP
+      id-token: write
     outputs:
       image_tag: ${{ steps.image-metadata.outputs.image_tag }}
     steps:
@@ -137,9 +128,6 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
 
@@ -149,33 +137,27 @@ jobs:
 
       - name: Build and Push API Image
         if: needs.changes.outputs.api == 'true'
-        uses: docker/build-push-action@v5
-        with:
-          context: ./api
-          push: true
-          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          IMAGE_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}"
+          docker build -f api/Dockerfile -t "$IMAGE_URL" .
+          docker push "$IMAGE_URL"
 
       - name: Build and Push Frontend Image
         if: needs.changes.outputs.frontend == 'true'
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          push: true
-          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          IMAGE_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}"
+          docker build -f frontend/Dockerfile -t "$IMAGE_URL" .
+          docker push "$IMAGE_URL"
 
-  # This job deploys the Terraform infrastructure if it has changed.
-  deploy-infra:
-    needs: changes
-    if: needs.changes.outputs.infra == 'true' && github.event_name == 'push'
+  deploy:
+    name: Deploy to Staging
+    if: github.event_name == 'push'
+    needs: [changes, build-and-push]
     runs-on: ubuntu-latest
     environment: staging
     permissions:
       contents: read
-      id-token: write # Required for authentication to GCP
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -188,60 +170,15 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.8.0
 
       - name: Terraform Init
-        id: init
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -out=tfplan
-        working-directory: ./infra/terraform/staging
-
       - name: Terraform Apply
-        id: apply
-        run: terraform apply -auto-approve tfplan
+        run: |
+          terraform apply -auto-approve \
+            -var="api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" \
+            -var="frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}"
         working-directory: ./infra/terraform/staging
-
-  # This job deploys the applications to Cloud Run.
-  deploy-apps:
-    needs: [build-and-push, deploy-infra]
-    if: always() && (needs.build-and-push.result == 'success' || needs.deploy-infra.result == 'success')
-    runs-on: ubuntu-latest
-    environment: staging
-    permissions:
-      contents: read
-      id-token: write # Required for authentication to GCP
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Deploy API to Cloud Run
-        if: needs.changes.outputs.api == 'true'
-        run: |
-          gcloud run deploy finspeed-api-staging \
-            --image ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }} \
-            --region ${{ env.GCP_REGION }} \
-            --platform managed \
-            --allow-unauthenticated
-
-      - name: Deploy Frontend to Cloud Run
-        if: needs.changes.outputs.frontend == 'true'
-        run: |
-          gcloud run deploy finspeed-frontend-staging \
-            --image ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }} \
-            --region ${{ env.GCP_REGION }} \
-            --platform managed \
             --allow-unauthenticated
