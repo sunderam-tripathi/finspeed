@@ -12,13 +12,13 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /app/.pnpm-store
 
 # Copy package files
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
+COPY package*.json pnpm-lock.yaml ./
 
 # Install ALL dependencies (including dev dependencies) with explicit store
 RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store
 
 # Copy source code
-COPY frontend/ ./
+COPY . ./
 
 EXPOSE 3000
 CMD ["pnpm", "dev"]
