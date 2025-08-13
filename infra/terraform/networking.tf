@@ -204,13 +204,17 @@ resource "google_compute_url_map" "url_map" {
   }
 }
 
+resource "random_id" "cert_suffix" {
+  byte_length = 4
+}
+
 # Managed SSL certificate for the custom domain
 resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
   lifecycle {
     create_before_destroy = true
   }
   count = var.domain_name != "" && var.enable_ssl ? 1 : 0
-  name  = "finspeed-ssl-cert-${local.environment}"
+  name  = "finspeed-ssl-cert-${local.environment}-${random_id.cert_suffix.hex}"
   managed {
     domains = [var.domain_name, "api.${var.domain_name}"]
   }
