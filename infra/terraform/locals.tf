@@ -13,9 +13,10 @@ locals {
 
   # Common tags for all resources
   common_labels = {
-    managed-by  = "terraform"
-    environment = local.environment
-    project     = "finspeed"
+    managed-by   = "terraform"
+    environment  = local.environment
+    project      = "finspeed"
+    validated-by = "cascade-test"
   }
 
   # Image URIs - using current working commit SHA
