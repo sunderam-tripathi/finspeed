@@ -6,13 +6,14 @@ FROM golang:1.21-alpine AS builder
 WORKDIR /app
 
 # Copy go mod and sum files
-COPY go.mod go.sum ./
+COPY api/go.mod api/go.sum ./
 
 # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
 # Copy the source code
-COPY . .
+COPY api/ ./api/
+COPY cmd/ ./cmd/
 
 # Build the Go app
 # -o /app/main: output the binary to /app/main
