@@ -14,9 +14,9 @@ env:
   GCP_REGION: asia-south2
   GAR_LOCATION: asia-south2 # Google Artifact Registry location
   TF_STATE_BUCKET: finspeed-st-tf-state-prod
-  API_IMAGE_NAME: api
-  FRONTEND_IMAGE_NAME: frontend
-  MIGRATE_IMAGE_NAME: migrate
+  API_IMAGE_NAME: finspeed-api-production
+  FRONTEND_IMAGE_NAME: finspeed-frontend-production
+  MIGRATE_IMAGE_NAME: finspeed-migrate-production
 
 # Default permissions are read-only, reducing the attack surface.
 permissions:

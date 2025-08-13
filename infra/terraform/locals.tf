@@ -2,6 +2,7 @@ locals {
   project_id   = var.project_id
   region       = var.region
   environment  = var.environment
+  project_name = "finspeed"
 
   # Database configuration
   database_name = "finspeed_${local.environment}"

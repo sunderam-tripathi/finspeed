@@ -1,26 +1,48 @@
 # Artifact Registry Repositories
-resource "google_artifact_registry_repository" "api_repo" {
-  provider      = google-beta
-  location      = local.region
-  repository_id = "api"
-  description   = "Docker repository for API images"
-  format        = "DOCKER"
+# Enable the Artifact Registry API
+resource "google_project_service" "artifact_registry_api" {
+  project = local.project_id
+  service = "artifactregistry.googleapis.com"
+
+  disable_dependent_services = false
+  disable_on_destroy         = false
 }
 
-resource "google_artifact_registry_repository" "frontend_repo" {
-  provider      = google-beta
+# Create Artifact Registry repositories for each service
+resource "google_artifact_registry_repository" "api" {
+  project       = local.project_id
   location      = local.region
-  repository_id = "frontend"
-  description   = "Docker repository for frontend images"
+  repository_id = "${local.project_name}-api-${local.environment}"
   format        = "DOCKER"
+  description   = "Docker repository for the API service"
+
+  depends_on = [
+    google_project_service.artifact_registry_api
+  ]
 }
 
-resource "google_artifact_registry_repository" "migrate_repo" {
-  provider      = google-beta
+resource "google_artifact_registry_repository" "frontend" {
+  project       = local.project_id
   location      = local.region
-  repository_id = "migrate"
-  description   = "Docker repository for migrate job images"
+  repository_id = "${local.project_name}-frontend-${local.environment}"
   format        = "DOCKER"
+  description   = "Docker repository for the Frontend service"
+
+  depends_on = [
+    google_project_service.artifact_registry_api
+  ]
+}
+
+resource "google_artifact_registry_repository" "migrate" {
+  project       = local.project_id
+  location      = local.region
+  repository_id = "${local.project_name}-migrate-${local.environment}"
+  format        = "DOCKER"
+  description   = "Docker repository for the Migrate job"
+
+  depends_on = [
+    google_project_service.artifact_registry_api
+  ]
 }
 
 # Cloud Run Services Configuration
