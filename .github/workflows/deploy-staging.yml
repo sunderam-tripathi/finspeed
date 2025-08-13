@@ -149,7 +149,7 @@ jobs:
 
   deploy:
     name: Deploy to Staging
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && (needs.changes.outputs.infra == 'true' || needs.build-and-push.conclusion == 'success')
     needs: [changes, build-and-push]
     runs-on: ubuntu-latest
     environment: staging
