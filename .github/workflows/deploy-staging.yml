@@ -111,6 +111,7 @@ jobs:
     if: (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true') && github.event_name == 'push'
     needs: changes
     runs-on: ubuntu-latest
+    environment: staging
     permissions:
       contents: read
       id-token: write
@@ -149,7 +150,7 @@ jobs:
 
   deploy:
     name: Deploy to Staging
-    if: github.event_name == 'push' && (needs.changes.outputs.infra == 'true' || needs.build-and-push.conclusion == 'success')
+    if: github.event_name == 'push' && (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true')
     needs: [changes, build-and-push]
     runs-on: ubuntu-latest
     environment: staging
