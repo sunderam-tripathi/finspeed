@@ -18,7 +18,7 @@ COPY . .
 # -o /app/main: output the binary to /app/main
 # CGO_ENABLED=0: disable CGO for a statically linked binary
 # -ldflags "-w -s": strip debug information to reduce binary size
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-w -s" -o /app/main ./cmd/migrate
+RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags "-w -s" -o /app/main ./cmd/server
 
 # --- Final Stage ---
 # Use a minimal image for the final container
@@ -28,7 +28,9 @@ WORKDIR /app
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/main .
+# Copy the migrations directory
+COPY --from=builder /app/db/migrations ./db/migrations
 
 # This container is a one-off job, so it doesn't need to expose a port.
 # The command to run the migration will be specified in the Cloud Run Job configuration.
-ENTRYPOINT ["/app/main"]
+ENTRYPOINT ["/app/main", "migrate"]
