@@ -8,6 +8,7 @@ module "finspeed_infra" {
   source = "../"
 
   # Pass variables from terraform.tfvars to the module
+  # Final validation of the PR workflow.
   project_id                       = var.project_id
   environment                      = var.environment
   region                           = var.region
