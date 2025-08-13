@@ -33,7 +33,7 @@ locals {
 
 # Create Workload Identity Provider for GitHub
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
-  workload_identity_pool_id          = "finspeed-pool-v2"
+  workload_identity_pool_id          = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = "github-provider"
   display_name                       = "GitHub Provider"
   description                        = "OIDC identity pool provider for GitHub Actions"

@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket  = "finspeed-tfstate-finspeed-staging"
+    bucket  = "finspeed-st-tf-state"
     prefix  = "staging"
   }
 }

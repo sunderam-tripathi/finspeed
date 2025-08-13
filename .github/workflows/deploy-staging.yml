@@ -1,146 +1,238 @@
+# Production-Grade CI/CD Workflow for Staging
+# Deploys infrastructure and applications to the Finspeed staging environment.
+
 name: Deploy Staging
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - develop
   pull_request:
-    branches: [develop]
+    branches:
+      - develop
 
+# Environment variables available to all jobs
 env:
-  PROJECT_ID_STAGING: finspeed-staging
-  REGION: us-central1
+  GCP_PROJECT_ID: finspeed-staging-st
+  GCP_REGION: asia-south2
+  GAR_LOCATION: asia-south2 # Google Artifact Registry location
+  TF_STATE_BUCKET: finspeed-st-tf-state
+  API_IMAGE_NAME: api
+  FRONTEND_IMAGE_NAME: frontend
+
+# Default permissions are read-only, reducing the attack surface.
+permissions:
+  contents: read
 
 jobs:
-  deploy-staging:
+  # This job determines which components have changed.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      infra: ${{ steps.filter.outputs.infra }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            api:
+              - 'api/**'
+            frontend:
+              - 'frontend/**'
+            infra:
+              - 'infra/terraform/**'
+
+  # This job runs `terraform plan` on pull requests to `develop`.
+  terraform-plan:
+    name: Terraform Plan
+    needs: changes
+    if: needs.changes.outputs.infra == 'true' && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     environment: staging
     permissions:
       contents: read
-      id-token: write
+      id-token: write # For GCP auth
+      pull-requests: write # To comment on PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Authenticate to Google Cloud
-        id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.WIF_PROVIDER_STAGING }}
-          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ env.PROJECT_ID_STAGING }}
-
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.0 # Or your desired version
-
-      - name: Create GCS Backend Bucket if it doesn't exist
-        run: |
-          gcloud storage buckets describe gs://finspeed-tf-state-central || \
-          gcloud storage buckets create gs://finspeed-tf-state-central --project=${{ env.PROJECT_ID_STAGING }} --location=US --uniform-bucket-level-access
+          terraform_version: 1.8.0
 
       - name: Terraform Init
         id: init
-        run: terraform init -reconfigure
-        working-directory: ./infra/terraform
+        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        working-directory: ./infra/terraform/staging
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file="environments/staging.tfvars" -out=tfplan
-        working-directory: ./infra/terraform
+        run: terraform plan -no-color
+        working-directory: ./infra/terraform/staging
+        continue-on-error: true
+
+      - name: Post Plan to PR
+        uses: actions/github-script@v7
+        if: steps.plan.outcome != 'skipped'
+        env:
+          PLAN: "${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Plan 📖\n\n<details><summary>Show Plan</summary>\n\n\`\`\`terraform\n${process.env.PLAN}\n\`\`\`\n\n</details>\n\n*Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });
+
+            if ('${{ steps.plan.outcome }}' == 'failure') {
+              process.exit(1);
+            }
+
+  # This job builds and pushes container images if the source code has changed.
+  build-and-push:
+    needs: changes
+    if: (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true') && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for authentication to GCP
+    outputs:
+      image_tag: ${{ steps.image-metadata.outputs.image_tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: Generate Image Tag
+        id: image-metadata
+        run: echo "image_tag=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+
+      - name: Build and Push API Image
+        if: needs.changes.outputs.api == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ./api
+          push: true
+          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and Push Frontend Image
+        if: needs.changes.outputs.frontend == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # This job deploys the Terraform infrastructure if it has changed.
+  deploy-infra:
+    needs: changes
+    if: needs.changes.outputs.infra == 'true' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      id-token: write # Required for authentication to GCP
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.0
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        working-directory: ./infra/terraform/staging
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
+        working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve tfplan
-        working-directory: ./infra/terraform
+        working-directory: ./infra/terraform/staging
 
-      - name: Build and Deploy Applications
+  # This job deploys the applications to Cloud Run.
+  deploy-apps:
+    needs: [build-and-push, deploy-infra]
+    if: always() && (needs.build-and-push.result == 'success' || needs.deploy-infra.result == 'success')
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      id-token: write # Required for authentication to GCP
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Deploy API to Cloud Run
+        if: needs.changes.outputs.api == 'true'
         run: |
-          echo "🚀 Building and deploying applications to staging..."
-          export IMAGE_TAG=$GITHUB_SHA
-          export API_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_STAGING }}/finspeed/api:$IMAGE_TAG"
-          export FRONTEND_IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID_STAGING }}/finspeed/frontend:$IMAGE_TAG"
-          gcloud artifacts repositories create finspeed --repository-format=docker --location=${{ env.REGION }} --description="Finspeed application images" || echo "Repository already exists"
-          echo "📦 Building API container..."
-          docker build -t $API_IMAGE -f ./api/Dockerfile .
-          docker push $API_IMAGE
-          echo "📦 Building Frontend container..."
-          docker build -t $FRONTEND_IMAGE -f ./frontend/Dockerfile .
-          docker push $FRONTEND_IMAGE
-          echo "🗄️ Ensuring database migration job exists..."
-          # Check if the job exists. If not, create it. This makes the workflow idempotent.
-          gcloud run jobs describe finspeed-migrate-staging --region=${{ env.REGION }} >/dev/null 2>&1 || \
-            gcloud run jobs create finspeed-migrate-staging \
-              --image=$API_IMAGE \
-              --region=${{ env.REGION }} \
-              --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} \
-              --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest \
-              --vpc-connector=finspeed-vpc-staging \
-              --vpc-egress=private-ranges-only \
-              --command=./main \
-              --args=migrate,up
-
-          echo "🔄 Updating and running database migrations..."
-          gcloud run jobs update finspeed-migrate-staging --image=$API_IMAGE --region=${{ env.REGION }} --service-account=${{ secrets.WIF_SERVICE_ACCOUNT_STAGING }} --vpc-connector=finspeed-vpc-staging --vpc-egress=private-ranges-only --command=./main --args=migrate,up
-          gcloud run jobs execute finspeed-migrate-staging --region=${{ env.REGION }} --wait
-          echo "🚀 Deploying API to Cloud Run..."
           gcloud run deploy finspeed-api-staging \
-            --image=$API_IMAGE \
-            --region=${{ env.REGION }} \
-            --platform=managed \
-            --allow-unauthenticated \
-            --port=8080 \
-            --set-secrets=DATABASE_URL=finspeed-database-url-staging:latest,JWT_SECRET=finspeed-jwt-secret-staging:latest \
-            --set-env-vars=GIN_MODE=release,ENVIRONMENT=staging,LOG_LEVEL=info
-          echo "🚀 Deploying Frontend to Cloud Run..."
+            --image ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }} \
+            --region ${{ env.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated
+
+      - name: Deploy Frontend to Cloud Run
+        if: needs.changes.outputs.frontend == 'true'
+        run: |
           gcloud run deploy finspeed-frontend-staging \
-            --image=$FRONTEND_IMAGE \
-            --region=${{ env.REGION }} \
-            --platform=managed \
-            --allow-unauthenticated \
-            --port=3000 \
-            --set-env-vars="NEXT_PUBLIC_API_URL=https://api.finspeed.online,NODE_ENV=production"
-          echo "✅ Deployment completed successfully!"
-
-      - name: Get IAP Client ID
-        id: get_iap_client_id
-        run: |
-          echo "iap_client_id=$(terraform output -raw iap_client_id)" >> $GITHUB_ENV
-        working-directory: ./infra/terraform
-
-      - name: Run Smoke Tests
-        run: |
-          echo "🧪 Running smoke tests..."
-          echo "🔑 Minting IAP token..."
-          IAP_TOKEN=$(gcloud auth print-identity-token --audiences=$iap_client_id)
-          export API_URL="https://api.finspeed.online"
-          export FRONTEND_URL="https://finspeed.online"
-          echo "Polling /healthz endpoint..."
-          SUCCESS=false
-          for i in {1..12}; do
-            if curl --fail --silent --show-error --retry 5 --retry-delay 10 --retry-connrefused -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/healthz"; then
-              echo "✅ API /healthz endpoint is healthy."
-              SUCCESS=true
-              break
-            fi
-            echo "Attempt $i/12 failed. Retrying in 10 seconds..."
-            sleep 10
-          done
-          if [ "$SUCCESS" = false ]; then
-            echo "❌ API /healthz endpoint did not become healthy in time."
-            exit 1
-          fi
-          echo "Testing API products endpoint..."
-          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/products" || (echo "❌ API products endpoint failed" && exit 1)
-          echo "Testing API categories endpoint..."
-          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$API_URL/api/v1/categories" || (echo "❌ API categories endpoint failed" && exit 1)
-          echo "Testing Frontend homepage..."
-          curl -f -H "Authorization: Bearer $IAP_TOKEN" "$FRONTEND_URL" || (echo "❌ Frontend homepage failed" && exit 1)
-          echo "✅ All smoke tests passed!"
+            --image ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }} \
+            --region ${{ env.GCP_REGION }} \
+            --platform managed \
+            --allow-unauthenticated

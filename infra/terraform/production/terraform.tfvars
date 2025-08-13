@@ -1,13 +1,13 @@
 # Production Environment Configuration for Finspeed
 
 # Basic configuration
-project_id  = "finspeed-prod"  # Updated with your actual GCP project ID
+project_id  = "finspeed-prod-st"  # Updated with your actual GCP project ID
 environment = "production"
-region      = "us-central1"
-zone        = "us-central1-a"
+region      = "asia-south2"
+zone        = "asia-south2-a"
 
 # Database configuration (production-ready with high availability)
-database_tier                      = "db-n1-standard-2"
+database_tier                      = "db-custom-2-8192" # Using custom machine type compatible with asia-south2
 database_version                   = "POSTGRES_15"
 database_backup_enabled            = true
 database_backup_start_time         = "03:00"
@@ -26,11 +26,12 @@ frontend_min_instances = 1  # Always keep at least 1 instance warm
 frontend_max_instances = 5
 
 # Domain configuration
-domain_name = "finspeed.online"  # Updated with your actual domain
-enable_ssl  = true
+domain_name     = "finspeed.online"
+api_domain_name = "api.finspeed.online"
+enable_ssl      = true
 
 # Monitoring configuration
-notification_email     = "care@finspeed.online"  # Updated with your alerts email
+notification_email     = "welcome@sunderamtripathi.com"  # Updated with your alerts email
 enable_uptime_checks   = true
 
 # Security and reliability
@@ -46,3 +47,8 @@ labels = {
 
 # GitHub Actions / CI/CD configuration
 github_repository = "sunderam-tripathi/finspeed"  # Replace with your actual GitHub repository
+
+# IAP (Identity-Aware Proxy) configuration
+iap_support_email = "welcome@sunderamtripathi.com"
+iap_allowed_user  = "user:welcome@sunderamtripathi.com"
+project_owner_email = "welcome@sunderamtripathi.com"

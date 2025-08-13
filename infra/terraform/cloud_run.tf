@@ -26,6 +26,7 @@ resource "google_project_iam_member" "cloud_run_sa_permissions" {
 resource "google_cloud_run_v2_service" "api" {
   name     = local.api_service_name
   location = local.region
+  deletion_protection = var.enable_deletion_protection
   ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   
   labels = local.common_labels
@@ -41,7 +42,7 @@ resource "google_cloud_run_v2_service" "api" {
     }
 
     containers {
-      image = local.api_image_uri
+      image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
 
       ports {
         container_port = 8080
@@ -127,6 +128,7 @@ resource "google_cloud_run_v2_service" "api" {
 resource "google_cloud_run_v2_service" "frontend" {
   name     = local.frontend_service_name
   location = local.region
+  deletion_protection = var.enable_deletion_protection
   ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
   
   labels = local.common_labels
@@ -147,7 +149,7 @@ resource "google_cloud_run_v2_service" "frontend" {
     }
 
     containers {
-      image = local.frontend_image_uri
+      image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
 
       ports {
         container_port = 3000
@@ -228,7 +230,7 @@ resource "google_cloud_run_v2_job" "migrate" {
       timeout    = "600s" # 10 minutes
 
       containers {
-        image = local.migrate_image_uri
+        image = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" # Placeholder for initial deployment
         command = ["./main"]
         args    = ["migrate", "up"]
 
@@ -259,7 +261,8 @@ resource "google_cloud_run_v2_job" "migrate" {
 
   depends_on = [
     google_project_service.required_apis,
-    google_vpc_access_connector.connector
+    google_vpc_access_connector.connector,
+    google_secret_manager_secret_version.database_url # Ensure secret is created before job
   ]
 }
 #       }
@@ -276,7 +279,7 @@ resource "google_cloud_run_v2_job" "migrate" {
 
 # Custom domain mapping (optional)
 resource "google_cloud_run_domain_mapping" "api_domain" {
-  count = var.domain_name != "" ? 1 : 0
+  count = var.domain_name != "" && local.region != "asia-south2" ? 1 : 0
   
   location = google_cloud_run_v2_service.api.location
   name     = "api.${var.domain_name}"
@@ -291,7 +294,7 @@ resource "google_cloud_run_domain_mapping" "api_domain" {
 }
 
 resource "google_cloud_run_domain_mapping" "frontend_domain" {
-  count = var.domain_name != "" ? 1 : 0
+  count = var.domain_name != "" && local.region != "asia-south2" ? 1 : 0
   
   location = google_cloud_run_v2_service.frontend.location
   name     = var.domain_name

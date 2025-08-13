@@ -236,6 +236,8 @@ resource "google_vpc_access_connector" "connector" {
   region        = local.region
   network       = google_compute_network.vpc_network.name
   ip_cidr_range = "10.8.0.0/28"
+  min_throughput = 200
+  max_throughput = 300
 
   depends_on = [google_project_service.required_apis]
 }
