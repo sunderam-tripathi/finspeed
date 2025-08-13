@@ -45,6 +45,31 @@ resource "google_artifact_registry_repository" "migrate" {
   ]
 }
 
+# Grant write access to the GitHub Actions service account for each repository
+resource "google_artifact_registry_repository_iam_member" "api_repo_writer" {
+  project    = google_artifact_registry_repository.api.project
+  location   = google_artifact_registry_repository.api.location
+  repository = google_artifact_registry_repository.api.name
+  role       = "roles/artifactregistry.writer"
+  member     = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_artifact_registry_repository_iam_member" "frontend_repo_writer" {
+  project    = google_artifact_registry_repository.frontend.project
+  location   = google_artifact_registry_repository.frontend.location
+  repository = google_artifact_registry_repository.frontend.name
+  role       = "roles/artifactregistry.writer"
+  member     = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_artifact_registry_repository_iam_member" "migrate_repo_writer" {
+  project    = google_artifact_registry_repository.migrate.project
+  location   = google_artifact_registry_repository.migrate.location
+  repository = google_artifact_registry_repository.migrate.name
+  role       = "roles/artifactregistry.writer"
+  member     = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
 # Cloud Run Services Configuration
 
 # Service account for Cloud Run services
