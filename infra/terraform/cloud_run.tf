@@ -1,3 +1,28 @@
+# Artifact Registry Repositories
+resource "google_artifact_registry_repository" "api_repo" {
+  provider      = google-beta
+  location      = local.region
+  repository_id = "api"
+  description   = "Docker repository for API images"
+  format        = "DOCKER"
+}
+
+resource "google_artifact_registry_repository" "frontend_repo" {
+  provider      = google-beta
+  location      = local.region
+  repository_id = "frontend"
+  description   = "Docker repository for frontend images"
+  format        = "DOCKER"
+}
+
+resource "google_artifact_registry_repository" "migrate_repo" {
+  provider      = google-beta
+  location      = local.region
+  repository_id = "migrate"
+  description   = "Docker repository for migrate job images"
+  format        = "DOCKER"
+}
+
 # Cloud Run Services Configuration
 
 # Service account for Cloud Run services
