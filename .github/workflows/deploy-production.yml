@@ -85,7 +85,7 @@ jobs:
         working-directory: ./infra/terraform/production
 
       - name: Terraform Apply Infra
-        run: terraform apply -auto-approve -var='api_image=placeholder' -var='frontend_image=placeholder' -var='migrate_image=placeholder'
+        run: terraform apply -auto-approve
         working-directory: ./infra/terraform/production
 
   build-and-push:
