@@ -21,6 +21,11 @@ variable "frontend_cpu" {}
 variable "frontend_memory" {}
 variable "frontend_min_instances" {}
 variable "frontend_max_instances" {}
+variable "frontend_image" {
+  description = "The full Docker image URL for the frontend service."
+  type        = string
+  default     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:latest"
+}
 
 # Domain configuration
 variable "domain_name" {}
