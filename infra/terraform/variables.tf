@@ -144,12 +144,6 @@ variable "frontend_max_instances" {
   default     = 5
 }
 
-variable "frontend_image" {
-  description = "Container image for the frontend service"
-  type        = string
-  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
-}
-
 variable "api_domain_name" {
   description = "The custom domain name for the API service (e.g., api.finspeed.online)"
   type        = string
