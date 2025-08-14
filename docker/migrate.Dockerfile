@@ -5,14 +5,18 @@ FROM golang:1.24.5-alpine AS builder
 # Set the Current Working Directory inside the container
 WORKDIR /app
 
-# Copy go mod and sum files
-COPY go.mod go.sum ./
+# Copy the Go module files
+COPY api/go.mod api/go.sum ./
 
 # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy the source code
-COPY . .
+# Copy the API source code
+COPY api/ .
+
+# Create and copy the migrations directory
+RUN mkdir -p /app/db/migrations
+COPY db/migrations/ /app/db/migrations/
 
 # Build the Go app
 # -o /app/main: output the binary to /app/main
