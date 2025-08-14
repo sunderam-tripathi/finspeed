@@ -5,11 +5,6 @@ const nextConfig = {
   
   // Enable standalone output for Docker deployment
   output: 'standalone',
-  
-  // Optional: Configure allowed dev origins for CORS
-  experimental: {
-    allowedDevOrigins: ['127.0.0.1', 'localhost'],
-  },
 
   // Suppress hydration warnings caused by browser extensions
   compiler: {

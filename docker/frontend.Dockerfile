@@ -42,12 +42,6 @@ RUN pnpm run build
 FROM base AS prod
 WORKDIR /app
 
-# Install serve to run the application
-RUN npm install -g serve
-
-# Copy production dependencies
-COPY --from=deps /app/node_modules ./node_modules
-
 # Copy built application from builder
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
@@ -56,6 +50,7 @@ COPY --from=builder /app/public ./public
 # Environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 # Expose the port the app runs on
 EXPOSE 3000
