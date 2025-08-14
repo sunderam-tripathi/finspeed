@@ -139,9 +139,15 @@ variable "frontend_min_instances" {
 }
 
 variable "frontend_max_instances" {
-  description = "Maximum number of frontend instances"
+  description = "Maximum number of frontend service instances"
   type        = number
   default     = 5
+}
+
+variable "frontend_image" {
+  description = "Container image for the frontend service"
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
 }
 
 variable "api_domain_name" {

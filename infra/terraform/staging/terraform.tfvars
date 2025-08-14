@@ -24,6 +24,7 @@ frontend_cpu          = "1"
 frontend_memory       = "512Mi"
 frontend_min_instances = 0
 frontend_max_instances = 2
+frontend_image   = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:latest"
 
 # Domain configuration (optional)
 domain_name = "staging.finspeed.online"  # Set to your staging domain if you have one
