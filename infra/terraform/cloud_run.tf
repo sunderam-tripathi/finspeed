@@ -224,7 +224,7 @@ resource "google_cloud_run_v2_service" "frontend" {
       image = var.frontend_image
 
       ports {
-        container_port = 3000
+        container_port = 8080
       }
 
       resources {
@@ -252,7 +252,7 @@ resource "google_cloud_run_v2_service" "frontend" {
       startup_probe {
         http_get {
           path = "/"
-          port = 3000
+          port = 8080
         }
         initial_delay_seconds = 10
         timeout_seconds       = 5
@@ -263,7 +263,7 @@ resource "google_cloud_run_v2_service" "frontend" {
       liveness_probe {
         http_get {
           path = "/"
-          port = 3000
+          port = 8080
         }
         initial_delay_seconds = 30
         timeout_seconds       = 5

@@ -198,9 +198,27 @@ resource "google_compute_url_map" "url_map" {
     path_matcher = "api-matcher"
   }
 
+  # Route main domain traffic to frontend by default, but /api/* to API backend
+  host_rule {
+    hosts        = [var.domain_name]
+    path_matcher = "frontend-matcher"
+  }
+
+  # Host-based routing for API subdomain
   path_matcher {
     name            = "api-matcher"
     default_service = google_compute_backend_service.api_backend.id
+  }
+
+  # Path-based routing on primary domain: send /api/* to API backend
+  path_matcher {
+    name            = "frontend-matcher"
+    default_service = google_compute_backend_service.frontend_backend.id
+
+    path_rule {
+      paths   = ["/api/*", "/api/v1/*"]
+      service = google_compute_backend_service.api_backend.id
+    }
   }
 }
 
