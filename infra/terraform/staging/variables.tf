@@ -21,11 +21,6 @@ variable "frontend_cpu" {}
 variable "frontend_memory" {}
 variable "frontend_min_instances" {}
 variable "frontend_max_instances" {}
-variable "frontend_image" {
-  description = "The full Docker image URL for the frontend service."
-  type        = string
-  default     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:latest"
-}
 
 # Domain configuration
 variable "domain_name" {}
@@ -43,6 +38,10 @@ variable "enable_deletion_protection" {}
 
 # Additional labels
 variable "labels" { type = map(string) }
+
+# Image variables (passed in by CI)
+variable "api_image" {}
+variable "migrate_image" {}
 
 # GitHub Actions / CI/CD configuration
 variable "github_repository" {}

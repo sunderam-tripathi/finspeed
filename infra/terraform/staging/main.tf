@@ -48,6 +48,8 @@ module "finspeed_infra" {
   enable_uptime_checks             = var.enable_uptime_checks
   enable_deletion_protection       = var.enable_deletion_protection
   labels                           = var.labels
+  api_image                        = var.api_image
+  migrate_image                    = var.migrate_image
   frontend_image                   = var.frontend_image
   iap_support_email                = var.iap_support_email
   iap_allowed_user                 = var.iap_allowed_user
