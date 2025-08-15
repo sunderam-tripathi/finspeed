@@ -91,7 +91,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -lock-timeout=5m
         working-directory: ./infra/terraform/staging
         continue-on-error: true
 
@@ -145,7 +145,7 @@ jobs:
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply Infra
-        run: terraform apply -auto-approve
+        run: terraform apply -lock-timeout=5m -auto-approve
         working-directory: ./infra/terraform/staging
 
   build-and-push:
@@ -293,7 +293,7 @@ jobs:
             VARS="$VARS -var=migrate_image=${TF_VAR_migrate_image}"
           fi
           echo "Applying Terraform with: $VARS"
-          terraform apply -auto-approve $VARS
+          terraform apply -lock-timeout=5m -auto-approve $VARS
         working-directory: ./infra/terraform/staging
 
       - name: Set up Cloud SDK
