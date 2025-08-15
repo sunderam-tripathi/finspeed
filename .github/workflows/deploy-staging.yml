@@ -15,6 +15,11 @@ on:
     branches:
       - develop
 
+# Ensure only one staging deploy runs at a time; queue newer runs
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
 # Environment variables available to all jobs
 env:
   GCP_PROJECT_ID: finspeed-staging-st
