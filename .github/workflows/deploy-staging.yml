@@ -186,7 +186,10 @@ jobs:
 
       - name: Prepare API Dockerfile in context root
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
-        run: cp docker/api.prod.Dockerfile ./api.prod.Dockerfile
+        run: |
+          set -euo pipefail
+          git show HEAD:docker/api.prod.Dockerfile > ./api.prod.Dockerfile
+        working-directory: ${{ github.workspace }}
 
       - name: Build and Push API Image
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
@@ -203,7 +206,11 @@ jobs:
 
       - name: Prepare Frontend Dockerfile in frontend context
         if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
-        run: cp docker/frontend.Dockerfile ./frontend/frontend.Dockerfile
+        run: |
+          set -euo pipefail
+          mkdir -p ./frontend
+          git show HEAD:docker/frontend.Dockerfile > ./frontend/frontend.Dockerfile
+        working-directory: ${{ github.workspace }}
 
       - name: Build and Push Frontend Image
         if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
@@ -221,7 +228,10 @@ jobs:
 
       - name: Prepare Migrate Dockerfile in context root
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
-        run: cp docker/migrate.Dockerfile ./migrate.Dockerfile
+        run: |
+          set -euo pipefail
+          git show HEAD:docker/migrate.Dockerfile > ./migrate.Dockerfile
+        working-directory: ${{ github.workspace }}
 
       - name: Build and Push Migrate Image
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
