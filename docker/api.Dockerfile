@@ -1,6 +1,6 @@
 # --- Final Development Dockerfile for API ---
 # Use the full Go image so the 'go' command is available for live-reloading.
-FROM golang:1.23-alpine
+FROM golang:1.25-alpine
 
 # Install air for live reloading
 RUN go install github.com/air-verse/air@latest

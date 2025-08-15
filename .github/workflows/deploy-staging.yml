@@ -89,16 +89,44 @@ jobs:
                 workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
                 service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Clean up stale Terraform lock (best-effort)
+        shell: bash
+        run: |
+          set -euo pipefail
+          OBJECT="gs://${{ env.TF_STATE_BUCKET }}/staging/default.tflock"
+          if gsutil -q stat "$OBJECT"; then
+            MTIME=$(gsutil stat "$OBJECT" | awk -F': +' '/Update time:/ {print $2}' | head -n1)
+            if [ -n "${MTIME:-}" ]; then
+              LOCK_TS=$(date -d "$MTIME" +%s || echo 0)
+              NOW=$(date +%s)
+              AGE=$((NOW - LOCK_TS))
+            else
+              AGE=999999
+            fi
+            if [ "$AGE" -gt 900 ]; then
+              echo "Deleting stale Terraform lock ($AGE seconds old) at $OBJECT"
+              gsutil rm "$OBJECT" || true
+            else
+              echo "Terraform lock exists but is recent ($AGE seconds); not deleting."
+            fi
+          else
+            echo "No Terraform lock file present."
+          fi
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
 
+      
       - name: Terraform Init
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -lock-timeout=5m
+        run: terraform plan -no-color -lock=false -input=false
         working-directory: ./infra/terraform/staging
         continue-on-error: true
 
@@ -138,6 +166,9 @@ jobs:
                 workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
                 service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
 
@@ -146,6 +177,30 @@ jobs:
         with:
           path: ~/.terraform.d/plugin-cache
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
+
+      - name: Clean up stale Terraform lock (best-effort)
+        shell: bash
+        run: |
+          set -euo pipefail
+          OBJECT="gs://${{ env.TF_STATE_BUCKET }}/staging/default.tflock"
+          if gsutil -q stat "$OBJECT"; then
+            MTIME=$(gsutil stat "$OBJECT" | awk -F': +' '/Update time:/ {print $2}' | head -n1)
+            if [ -n "${MTIME:-}" ]; then
+              LOCK_TS=$(date -d "$MTIME" +%s || echo 0)
+              NOW=$(date +%s)
+              AGE=$((NOW - LOCK_TS))
+            else
+              AGE=999999
+            fi
+            if [ "$AGE" -gt 900 ]; then
+              echo "Deleting stale Terraform lock ($AGE seconds old) at $OBJECT"
+              gsutil rm "$OBJECT" || true
+            else
+              echo "Terraform lock exists but is recent ($AGE seconds); not deleting."
+            fi
+          else
+            echo "No Terraform lock file present."
+          fi
 
       - name: Terraform Init
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
@@ -290,6 +345,9 @@ jobs:
                 workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
                 service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
 
@@ -298,6 +356,30 @@ jobs:
         with:
           path: ~/.terraform.d/plugin-cache
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
+
+      - name: Clean up stale Terraform lock (best-effort)
+        shell: bash
+        run: |
+          set -euo pipefail
+          OBJECT="gs://${{ env.TF_STATE_BUCKET }}/staging/default.tflock"
+          if gsutil -q stat "$OBJECT"; then
+            MTIME=$(gsutil stat "$OBJECT" | awk -F': +' '/Update time:/ {print $2}' | head -n1)
+            if [ -n "${MTIME:-}" ]; then
+              LOCK_TS=$(date -d "$MTIME" +%s || echo 0)
+              NOW=$(date +%s)
+              AGE=$((NOW - LOCK_TS))
+            else
+              AGE=999999
+            fi
+            if [ "$AGE" -gt 900 ]; then
+              echo "Deleting stale Terraform lock ($AGE seconds old) at $OBJECT"
+              gsutil rm "$OBJECT" || true
+            else
+              echo "Terraform lock exists but is recent ($AGE seconds); not deleting."
+            fi
+          else
+            echo "No Terraform lock file present."
+          fi
 
       - name: Terraform Init
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
@@ -332,10 +414,6 @@ jobs:
           echo "Applying Terraform with: $VARS"
           terraform apply -lock-timeout=5m -auto-approve $VARS
         working-directory: ./infra/terraform/staging
-
-      - name: Set up Cloud SDK
-        if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
-        uses: google-github-actions/setup-gcloud@v2
 
       - name: Run database migrations job
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
