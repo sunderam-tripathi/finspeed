@@ -47,6 +47,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        with:
+          fetch-depth: 0
 
       - name: Detect changed paths
         uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
@@ -193,7 +195,11 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         run: |
           set -euo pipefail
-          git show HEAD:docker/api.prod.Dockerfile > ./api.prod.Dockerfile
+          if [ -f docker/api.prod.Dockerfile ]; then
+            cp docker/api.prod.Dockerfile ./api.prod.Dockerfile
+          else
+            git show ${GITHUB_SHA}:docker/api.prod.Dockerfile > ./api.prod.Dockerfile
+          fi
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push API Image
@@ -214,7 +220,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ./frontend
-          git show HEAD:docker/frontend.Dockerfile > ./frontend/frontend.Dockerfile
+          if [ -f docker/frontend.Dockerfile ]; then
+            cp docker/frontend.Dockerfile ./frontend/frontend.Dockerfile
+          else
+            git show ${GITHUB_SHA}:docker/frontend.Dockerfile > ./frontend/frontend.Dockerfile
+          fi
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push Frontend Image
@@ -235,7 +245,11 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         run: |
           set -euo pipefail
-          git show HEAD:docker/migrate.Dockerfile > ./migrate.Dockerfile
+          if [ -f docker/migrate.Dockerfile ]; then
+            cp docker/migrate.Dockerfile ./migrate.Dockerfile
+          else
+            git show ${GITHUB_SHA}:docker/migrate.Dockerfile > ./migrate.Dockerfile
+          fi
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push Migrate Image
