@@ -126,7 +126,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -lock-timeout=5m
+        run: terraform plan -no-color -lock=false -input=false
         working-directory: ./infra/terraform/staging
         continue-on-error: true
 
