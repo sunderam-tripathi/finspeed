@@ -195,11 +195,15 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         run: |
           set -euo pipefail
-          if [ -f docker/api.prod.Dockerfile ]; then
-            cp docker/api.prod.Dockerfile ./api.prod.Dockerfile
-          else
-            git show ${GITHUB_SHA}:docker/api.prod.Dockerfile > ./api.prod.Dockerfile
+          if [ ! -f docker/api.prod.Dockerfile ]; then
+            echo "ERROR: docker/api.prod.Dockerfile not found in workspace." >&2
+            echo "Workspace listing:" >&2
+            ls -la . >&2 || true
+            echo "Docker dir listing:" >&2
+            ls -la docker >&2 || true
+            exit 1
           fi
+          cp docker/api.prod.Dockerfile ./api.prod.Dockerfile
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push API Image
@@ -220,11 +224,13 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p ./frontend
-          if [ -f docker/frontend.Dockerfile ]; then
-            cp docker/frontend.Dockerfile ./frontend/frontend.Dockerfile
-          else
-            git show ${GITHUB_SHA}:docker/frontend.Dockerfile > ./frontend/frontend.Dockerfile
+          if [ ! -f docker/frontend.Dockerfile ]; then
+            echo "ERROR: docker/frontend.Dockerfile not found in workspace." >&2
+            echo "Docker dir listing:" >&2
+            ls -la docker >&2 || true
+            exit 1
           fi
+          cp docker/frontend.Dockerfile ./frontend/frontend.Dockerfile
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push Frontend Image
@@ -245,11 +251,13 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         run: |
           set -euo pipefail
-          if [ -f docker/migrate.Dockerfile ]; then
-            cp docker/migrate.Dockerfile ./migrate.Dockerfile
-          else
-            git show ${GITHUB_SHA}:docker/migrate.Dockerfile > ./migrate.Dockerfile
+          if [ ! -f docker/migrate.Dockerfile ]; then
+            echo "ERROR: docker/migrate.Dockerfile not found in workspace." >&2
+            echo "Docker dir listing:" >&2
+            ls -la docker >&2 || true
+            exit 1
           fi
+          cp docker/migrate.Dockerfile ./migrate.Dockerfile
         working-directory: ${{ github.workspace }}
 
       - name: Build and Push Migrate Image
