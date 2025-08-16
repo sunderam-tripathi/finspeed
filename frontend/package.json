@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "World-class e-commerce platform frontend",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
