@@ -505,10 +505,12 @@ jobs:
               --region=${{ env.GCP_REGION }} \
               --project=${{ env.GCP_PROJECT_ID }} \
               --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
-            if [[ -n "${MIG_IMG}" ]]; then
+            if [[ -n "${MIG_IMG}" && "${MIG_IMG}" != "null" ]]; then
+              echo "Using existing migrate image: ${MIG_IMG}"
               echo "TF_VAR_migrate_image=${MIG_IMG}" >> $GITHUB_ENV
             else
-              echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+              echo "No existing migrate job found, using placeholder image"
+              echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
             fi
           fi
 
