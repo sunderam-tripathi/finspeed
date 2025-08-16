@@ -22,10 +22,13 @@ export default function HomePage() {
         apiClient.getCategories()
       ]);
       
-      setFeaturedProducts(productsResponse.products);
-      setCategories(categoriesResponse.categories.slice(0, 4));
+      setFeaturedProducts(productsResponse.products || []);
+      setCategories(categoriesResponse.categories?.slice(0, 4) || []);
     } catch (error) {
       console.error('Failed to load data:', error);
+      // Set empty arrays to prevent UI issues
+      setFeaturedProducts([]);
+      setCategories([]);
     } finally {
       setLoading(false);
     }

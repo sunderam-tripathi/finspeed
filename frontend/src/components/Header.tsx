@@ -11,11 +11,15 @@ export default function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check authentication status
-    setIsAuthenticated(apiClient.isAuthenticated());
-    
-    // Load cart
-    loadCart();
+    try {
+      // Check authentication status
+      setIsAuthenticated(apiClient.isAuthenticated());
+      
+      // Load cart
+      loadCart();
+    } catch (error) {
+      console.error('Failed to initialize header:', error);
+    }
   }, []);
 
   const loadCart = async () => {
@@ -24,6 +28,8 @@ export default function Header() {
       setCart(cartData);
     } catch (error) {
       console.error('Failed to load cart:', error);
+      // Set empty cart to prevent UI issues
+      setCart({ items: [], count: 0, subtotal: 0, total: 0 });
     }
   };
 
