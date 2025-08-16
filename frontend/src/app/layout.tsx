@@ -1,10 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import Header from '@/components/Header'
 import Link from "next/link";
-import "./globals.css";
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Finspeed - Premium Cycles for India",
-  description: "Fast, reliable e-commerce platform for premium bicycles and accessories in India",
+  title: 'Finspeed - Premium E-commerce Platform',
+  description: 'Fast, reliable e-commerce platform for premium products. Built with modern technology for the best shopping experience.',
 };
 
 export default function RootLayout({
@@ -15,41 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        {/* Navigation */}
-        <nav className="bg-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center py-4">
-              <div className="flex items-center">
-                <Link href="/" className="text-2xl font-bold text-primary-600">
-                  Finspeed
-                </Link>
-              </div>
-              <div className="hidden md:flex space-x-8">
-                <Link href="/products" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  Products
-                </Link>
-                <Link href="/categories" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  Categories
-                </Link>
-                <Link href="/cart" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  Cart
-                </Link>
-                <Link href="/admin" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  Admin
-                </Link>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Link href="/auth/login" className="text-gray-700 hover:text-primary-600 transition-colors">
-                  Login
-                </Link>
-                <Link href="/auth/register" className="btn-primary">
-                  Sign Up
-                </Link>
-              </div>
-            </div>
-          </div>
-        </nav>
-
+        <Header />
+        
         {/* Main Content */}
         <main>
           {children}

@@ -124,6 +124,43 @@ jobs:
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
+      - name: Seed TF_VAR image variables (best-effort)
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Seed API image variable from existing Cloud Run service if present; fallback to placeholder
+          API_IMG=$(gcloud run services describe finspeed-api-staging \
+            --region=${{ env.GCP_REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || true)
+          if [[ -n "${API_IMG:-}" ]]; then
+            echo "Using existing API image: $API_IMG"
+            echo "TF_VAR_api_image=$API_IMG" >> $GITHUB_ENV
+          else
+            echo "No existing API service found or image empty; using placeholder to avoid prompts."
+            echo "TF_VAR_api_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+          fi
+
+          # Seed migrate job image from existing Cloud Run Job if present; try multiple paths; fallback to placeholder
+          MIG_IMG=$(gcloud run jobs describe finspeed-migrate-staging \
+            --region=${{ env.GCP_REGION }} \
+            --project=${{ env.GCP_PROJECT_ID }} \
+            --format="value(spec.template.template.spec.containers[0].image)" 2>/dev/null || true)
+          if [[ -z "${MIG_IMG:-}" ]]; then
+            MIG_IMG=$(gcloud run jobs describe finspeed-migrate-staging \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || true)
+          fi
+          if [[ -n "${MIG_IMG:-}" ]]; then
+            echo "Using existing migrate image: $MIG_IMG"
+            echo "TF_VAR_migrate_image=$MIG_IMG" >> $GITHUB_ENV
+          else
+            echo "No existing migrate job found or image empty; using placeholder."
+            echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+          fi
+        working-directory: ./infra/terraform/staging
+
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -lock=false -input=false
