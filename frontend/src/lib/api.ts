@@ -54,6 +54,61 @@ export interface ProductsResponse {
   limit: number;
 }
 
+export interface CartItem {
+  product_id: number;
+  qty: number;
+  product: Product;
+  subtotal: number;
+}
+
+export interface Cart {
+  items: CartItem[];
+  subtotal: number;
+  total: number;
+  count: number;
+}
+
+export interface ShippingAddress {
+  name: string;
+  phone: string;
+  address1: string;
+  address2?: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+}
+
+export interface OrderItem {
+  id: number;
+  order_id: number;
+  product_id: number;
+  qty: number;
+  price_each: number;
+  product?: Product;
+}
+
+export interface Order {
+  id: number;
+  user_id: number;
+  status: string;
+  subtotal: number;
+  shipping_fee: number;
+  tax_amount: number;
+  total: number;
+  payment_id?: string;
+  shipping_address: ShippingAddress;
+  created_at: string;
+  items?: OrderItem[];
+}
+
+export interface OrdersResponse {
+  orders: Order[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 class ApiClient {
   private baseUrl: string;
   private token: string | null = null;
@@ -159,6 +214,58 @@ class ApiClient {
     return this.request<Category>('/admin/categories', {
       method: 'POST',
       body: JSON.stringify(category),
+    });
+  }
+
+  // Cart methods
+  async getCart(): Promise<Cart> {
+    return this.request<Cart>('/cart');
+  }
+
+  async addToCart(productId: number, qty: number): Promise<Cart> {
+    return this.request<Cart>('/cart/items', {
+      method: 'POST',
+      body: JSON.stringify({ product_id: productId, qty }),
+    });
+  }
+
+  async updateCartItem(productId: number, qty: number): Promise<Cart> {
+    return this.request<Cart>(`/cart/items/${productId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ qty }),
+    });
+  }
+
+  async removeFromCart(productId: number): Promise<Cart> {
+    return this.request<Cart>(`/cart/items/${productId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async clearCart(): Promise<Cart> {
+    return this.request<Cart>('/cart', {
+      method: 'DELETE',
+    });
+  }
+
+  // Order methods
+  async getOrders(params?: { page?: number; limit?: number }): Promise<OrdersResponse> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set('page', params.page.toString());
+    if (params?.limit) searchParams.set('limit', params.limit.toString());
+
+    const query = searchParams.toString();
+    return this.request<OrdersResponse>(`/orders${query ? `?${query}` : ''}`);
+  }
+
+  async getOrder(id: number): Promise<Order> {
+    return this.request<Order>(`/orders/${id}`);
+  }
+
+  async createOrder(items: { product_id: number; qty: number }[], shippingAddress: ShippingAddress): Promise<{ order_id: number; total: number }> {
+    return this.request<{ order_id: number; total: number }>('/orders', {
+      method: 'POST',
+      body: JSON.stringify({ items, shipping_address: shippingAddress }),
     });
   }
 

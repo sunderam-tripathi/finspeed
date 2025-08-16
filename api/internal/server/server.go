@@ -67,6 +67,8 @@ func (s *Server) SetupRoutes() {
 	authHandler := handlers.NewAuthHandler(s.db, s.logger, s.config)
 	productHandler := handlers.NewProductHandler(s.db, s.logger)
 	categoryHandler := handlers.NewCategoryHandler(s.db, s.logger)
+	cartHandler := handlers.NewCartHandler(s.db, s.logger)
+	orderHandler := handlers.NewOrderHandler(s.db, s.logger)
 	s.logger.Info("[ROUTES] All handlers initialized.")
 
 	// Health check routes
@@ -96,19 +98,27 @@ func (s *Server) SetupRoutes() {
 		v1.GET("/categories/:slug", categoryHandler.GetCategory)
 		s.logger.Info("[ROUTES] Public category routes configured.")
 
+		// Cart routes (public for session-based cart)
+		cart := v1.Group("/cart")
+		{
+			cart.GET("", cartHandler.GetCart)
+			cart.POST("/items", cartHandler.AddToCart)
+			cart.PUT("/items/:product_id", cartHandler.UpdateCartItem)
+			cart.DELETE("/items/:product_id", cartHandler.RemoveFromCart)
+			cart.DELETE("", cartHandler.ClearCart)
+		}
+		s.logger.Info("[ROUTES] Cart routes configured.")
+
 		// Protected routes (require authentication)
 		protected := v1.Group("/")
 		protected.Use(middleware.AuthMiddleware(s.config, s.logger))
 		{
-			// Cart routes (coming soon)
-			protected.GET("/cart", func(c *gin.Context) {
-				c.JSON(http.StatusOK, gin.H{
-					"message": "Cart endpoint - coming soon",
-					"data":    gin.H{},
-				})
-			})
+			// Order routes
+			protected.GET("/orders", orderHandler.GetOrders)
+			protected.GET("/orders/:id", orderHandler.GetOrder)
+			protected.POST("/orders", orderHandler.CreateOrder)
 		}
-		s.logger.Info("[ROUTES] Protected (cart) routes configured.")
+		s.logger.Info("[ROUTES] Protected (order) routes configured.")
 
 		// Admin routes (require admin role)
 		admin := v1.Group("/admin")
