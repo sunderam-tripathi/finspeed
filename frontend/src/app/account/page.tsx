@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { UserIcon, ShoppingBagIcon, CogIcon, LogOutIcon } from '@heroicons/react/24/outline';
+import { UserIcon, ShoppingBagIcon, CogIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import { apiClient, Order } from '@/lib/api';
 
 export default function AccountPage() {
@@ -103,8 +103,7 @@ export default function AccountPage() {
                   onClick={handleLogout}
                   className="w-full flex items-center px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-md"
                 >
-                  <LogOutIcon className="h-5 w-5 mr-3" />
-                  Sign Out
+                  <ArrowRightOnRectangleIcon className="w-5 h-5" /> Sign Out
                 </button>
               </nav>
             </div>
