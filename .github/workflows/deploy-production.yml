@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # Environment variables available to all jobs
 env:
@@ -21,6 +22,10 @@ env:
 # Default permissions are read-only, reducing the attack surface.
 permissions:
   contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
 
 jobs:
   changes:
@@ -44,6 +49,7 @@ jobs:
             api:
               - 'api/**'
               - 'docker/api.Dockerfile'
+              - 'docker/api.prod.Dockerfile'
               - 'docker/migrate.Dockerfile'
             frontend:
               - 'frontend/**'
@@ -54,7 +60,7 @@ jobs:
 
   deploy-infra:
     name: Deploy Infrastructure
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: changes
     runs-on: ubuntu-latest
     environment: production
@@ -85,12 +91,18 @@ jobs:
         working-directory: ./infra/terraform/production
 
       - name: Terraform Apply Infra
-        run: terraform apply -auto-approve
+        run: terraform apply -lock-timeout=5m -auto-approve -input=false
+        working-directory: ./infra/terraform/production
+
+      - name: Show Load Balancer IP
+        run: |
+          echo "Load Balancer IP (from Terraform output):"
+          terraform output -raw load_balancer_ip || terraform output load_balancer_ip || true
         working-directory: ./infra/terraform/production
 
   build-and-push:
     name: Build and Push Images
-    if: github.event_name == 'push' && (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true')
+    if: (github.event_name == 'push' && (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true')) || github.event_name == 'workflow_dispatch'
     needs: [changes, deploy-infra]
     runs-on: ubuntu-latest
     environment: production
@@ -128,10 +140,12 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
-          context: ./api
-          file: ./docker/api.Dockerfile
+          context: ${{ github.workspace }}
+          file: ./docker/api.prod.Dockerfile
           push: true
-          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+          tags: |
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -139,10 +153,15 @@ jobs:
         if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
         uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
-          context: ./frontend
+          context: ${{ github.workspace }}
           file: ./docker/frontend.Dockerfile
+          target: prod
           push: true
-          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+          build-args: |
+            NEXT_PUBLIC_ENVIRONMENT=production
+          tags: |
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -150,17 +169,19 @@ jobs:
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
         uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
-          context: ./api
+          context: ${{ github.workspace }}
           file: ./docker/migrate.Dockerfile
           push: true
-          tags: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+          tags: |
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
   deploy-services:
     name: Deploy Services
-    if: github.event_name == 'push' && needs.build-and-push.outputs.image_tag != ''
-    needs: build-and-push
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: [changes, build-and-push]
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -176,6 +197,9 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_PROD }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_PROD }}
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
 
@@ -189,6 +213,82 @@ jobs:
         run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/production
 
+      - name: Set image variables from existing deployments or new builds
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Set API image - use new build if API changed, otherwise get from existing deployment
+          if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+          else
+            API_IMG=$(gcloud run services describe finspeed-api-production \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            if [[ -n "${API_IMG}" ]]; then
+              echo "TF_VAR_api_image=${API_IMG}" >> $GITHUB_ENV
+            else
+              echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+            fi
+          fi
+
+          # Set Frontend image - use new build if frontend changed, otherwise get from existing deployment
+          if [[ "${{ needs.changes.outputs.frontend }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+          else
+            FRONTEND_IMG=$(gcloud run services describe finspeed-frontend-production \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            if [[ -n "${FRONTEND_IMG}" ]]; then
+              echo "TF_VAR_frontend_image=${FRONTEND_IMG}" >> $GITHUB_ENV
+            else
+              echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+            fi
+          fi
+
+          # Set Migrate image - use new build if API changed, otherwise get from existing deployment
+          if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+          else
+            MIG_IMG=$(gcloud run jobs describe finspeed-migrate-production \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --format="value(spec.template.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            if [[ -z "${MIG_IMG}" ]]; then
+              MIG_IMG=$(gcloud run jobs describe finspeed-migrate-production \
+                --region=${{ env.GCP_REGION }} \
+                --project=${{ env.GCP_PROJECT_ID }} \
+                --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            fi
+            if [[ -n "${MIG_IMG}" && "${MIG_IMG}" != "null" ]]; then
+              echo "TF_VAR_migrate_image=${MIG_IMG}" >> $GITHUB_ENV
+            else
+              echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+            fi
+          fi
+        working-directory: ./infra/terraform/production
+
       - name: Terraform Apply Service Images
-        run: terraform apply -auto-approve
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Applying Terraform with:"
+          echo "  api_image=${TF_VAR_api_image}"
+          echo "  frontend_image=${TF_VAR_frontend_image}"
+          echo "  migrate_image=${TF_VAR_migrate_image}"
+          terraform apply -lock-timeout=5m -input=false -auto-approve \
+            -var=api_image="${TF_VAR_api_image}" \
+            -var=frontend_image="${TF_VAR_frontend_image}" \
+            -var=migrate_image="${TF_VAR_migrate_image}"
+          # Execute migrations when API or infra changed (new migrate image)
+          if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
+            echo "Running database migrations job..."
+            gcloud run jobs execute finspeed-migrate-production \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --wait
+          else
+            echo "Skipping migrations; no API/infra changes detected."
+          fi
         working-directory: ./infra/terraform/production
