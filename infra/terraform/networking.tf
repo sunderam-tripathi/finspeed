@@ -200,7 +200,7 @@ resource "google_compute_url_map" "url_map" {
 
   # Route main domain traffic to frontend by default, but /api/* to API backend
   host_rule {
-    hosts        = [var.domain_name]
+    hosts        = [var.domain_name, "www.${var.domain_name}"]
     path_matcher = "frontend-matcher"
   }
 
@@ -234,7 +234,7 @@ resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
   count = var.domain_name != "" && var.enable_ssl ? 1 : 0
   name  = "finspeed-ssl-cert-${local.environment}-${random_id.cert_suffix.hex}"
   managed {
-    domains = [var.domain_name, "api.${var.domain_name}"]
+    domains = [var.domain_name, "www.${var.domain_name}", "api.${var.domain_name}"]
   }
 }
 
