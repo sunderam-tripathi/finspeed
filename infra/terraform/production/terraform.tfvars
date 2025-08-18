@@ -52,3 +52,9 @@ github_repository = "sunderam-tripathi/finspeed"  # Replace with your actual Git
 iap_support_email = "welcome@sunderamtripathi.com"
 iap_allowed_user  = "user:welcome@sunderamtripathi.com"
 project_owner_email = "welcome@sunderamtripathi.com"
+
+# Public access and IAP settings for production
+enable_iap_api        = false
+enable_iap_frontend   = false
+allow_public_api      = true
+allow_public_frontend = true

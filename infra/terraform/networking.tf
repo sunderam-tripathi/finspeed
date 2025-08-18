@@ -154,7 +154,7 @@ resource "google_compute_region_network_endpoint_group" "api_neg" {
 # Backend service for the API
 resource "google_compute_backend_service" "api_backend" {
   iap {
-    enabled              = true
+    enabled              = var.enable_iap_api
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
@@ -172,7 +172,7 @@ resource "google_compute_backend_service" "api_backend" {
 # Backend service for the Frontend
 resource "google_compute_backend_service" "frontend_backend" {
   iap {
-    enabled              = true
+    enabled              = var.enable_iap_frontend
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
