@@ -21,7 +21,5 @@ locals {
   }
 
   # Image URIs - using current working commit SHA
-  api_image_uri      = "${local.region}-docker.pkg.dev/${local.project_id}/${var.artifact_registry_repository}/${var.api_image_name}:23282b3d5ecab94bf867664c5167c78879ef832f"
-  frontend_image_uri = "${local.region}-docker.pkg.dev/${local.project_id}/${var.artifact_registry_repository}/${var.frontend_image_name}:23282b3d5ecab94bf867664c5167c78879ef832f"
-  migrate_image_uri  = "${local.region}-docker.pkg.dev/${local.project_id}/${var.artifact_registry_repository}/${var.migrate_image_name}:23282b3d5ecab94bf867664c5167c78879ef832f"
+  # (removed) image URI locals; images are passed via variables (var.api_image, var.frontend_image, var.migrate_image)
 }
