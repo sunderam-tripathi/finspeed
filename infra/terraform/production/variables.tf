@@ -27,3 +27,8 @@ variable "labels" {}
 variable "iap_support_email" {}
 variable "iap_allowed_user" {}
 variable "project_owner_email" {}
+
+// Image variables (injected by CI during deploy)
+variable "api_image" {}
+variable "frontend_image" {}
+variable "migrate_image" {}
