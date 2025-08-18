@@ -53,7 +53,7 @@ jobs:
               - 'docker/migrate.Dockerfile'
             frontend:
               - 'frontend/**'
-              - 'docker/frontend.Dockerfile'
+              - 'docker/admin.Dockerfile'
             infra:
               - 'infra/terraform/**'
               - '.github/workflows/deploy-production.yml'
@@ -149,13 +149,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build and Push Frontend Image
+      - name: Build and Push Admin Image
         if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
         uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
           context: ${{ github.workspace }}
-          file: ./docker/frontend.Dockerfile
-          target: prod
+          file: ./docker/admin.Dockerfile
           push: true
           build-args: |
             NEXT_PUBLIC_ENVIRONMENT=production
@@ -164,6 +163,14 @@ jobs:
             ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Build and Deploy Static Frontend
+        if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
+        run: |
+          cd frontend
+          npm ci
+          BUILD_TARGET=static npm run build
+          gsutil -m rsync -r -d ./out gs://finspeed-static-production/
 
       - name: Build and Push Migrate Image
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true'
@@ -264,7 +271,8 @@ jobs:
             if [[ -n "${MIG_IMG}" && "${MIG_IMG}" != "null" ]]; then
               echo "TF_VAR_migrate_image=${MIG_IMG}" >> $GITHUB_ENV
             else
-              echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+              # Fallback to our repository's latest tag rather than a sample image
+              echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
             fi
           fi
         working-directory: ./infra/terraform/production

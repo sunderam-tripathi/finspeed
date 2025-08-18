@@ -15,11 +15,6 @@ const nextConfig = {
   },
   
   // Environment variables
-  env: {
-    // Leave empty by default; client code falls back to same-origin '/api/v1'
-    NEXT_PUBLIC_API_URL: process.env.API_URL || '',
-    NEXT_PUBLIC_ENVIRONMENT: process.env.ENVIRONMENT || 'development',
-  },
   
   // Configure headers (only for non-export)
   async headers() {
@@ -77,11 +72,19 @@ if (process.env.NODE_ENV === 'production') {
   nextConfig.generateEtags = true;
   nextConfig.compress = true;
   
-  // Enable standalone output for production
-  nextConfig.output = 'standalone';
-  
-  // Disable static export for now to avoid issues with dynamic routes
-  // nextConfig.output = 'export';
+  // Choose output based on build target
+  if (process.env.BUILD_TARGET === 'static') {
+    // Static export for CDN deployment
+    nextConfig.output = 'export';
+    nextConfig.trailingSlash = true;
+    nextConfig.images = {
+      ...nextConfig.images,
+      unoptimized: true,
+    };
+  } else {
+    // Standalone output for Cloud Run (admin interface)
+    nextConfig.output = 'standalone';
+  }
 }
 
 module.exports = nextConfig;

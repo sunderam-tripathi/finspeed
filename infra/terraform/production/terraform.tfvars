@@ -54,7 +54,7 @@ iap_allowed_user  = "user:welcome@sunderamtripathi.com"
 project_owner_email = "welcome@sunderamtripathi.com"
 
 # Public access and IAP settings for production
-enable_iap_api        = false
-enable_iap_frontend   = false
-allow_public_api      = true
-allow_public_frontend = true
+enable_iap_api        = true
+enable_iap_frontend   = true
+allow_public_api      = false
+allow_public_frontend = false

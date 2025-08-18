@@ -127,9 +127,19 @@ func (s *Server) SetupRoutes() {
 		{
 			// Admin product management
 			admin.POST("/products", productHandler.CreateProduct)
+		admin.PUT("/products/:id", productHandler.UpdateProduct)
+		admin.DELETE("/products/:id", productHandler.DeleteProduct)
 			
 			// Admin category management
 			admin.POST("/categories", categoryHandler.CreateCategory)
+			admin.PUT("/categories/:id", categoryHandler.UpdateCategory)
+			admin.DELETE("/categories/:id", categoryHandler.DeleteCategory)
+
+			// Admin user management
+			admin.GET("/users", authHandler.GetUsers)
+			admin.GET("/users/:id", authHandler.GetUser)
+			admin.PUT("/users/:id", authHandler.UpdateUser)
+			admin.DELETE("/users/:id", authHandler.DeleteUser)
 		}
 		s.logger.Info("[ROUTES] Admin routes configured.")
 	}
