@@ -230,6 +230,13 @@ variable "labels" {
   default     = {}
 }
 
+# Static hosting toggle
+variable "use_static_hosting" {
+  description = "Enable static hosting resources (Cloud Storage bucket, backends, routing) when true"
+  type        = bool
+  default     = false
+}
+
 # IAP variables
 variable "iap_support_email" {
   description = "The support email address for the OAuth consent screen."
