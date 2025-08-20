@@ -53,7 +53,8 @@ jobs:
               - 'docker/migrate.Dockerfile'
             frontend:
               - 'frontend/**'
-              - 'docker/admin.Dockerfile'
+              - 'docker/frontend.Dockerfile'
+              - 'docker/frontend.static.Dockerfile'
             infra:
               - 'infra/terraform/**'
               - '.github/workflows/deploy-production.yml'
@@ -149,12 +150,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build and Push Admin Image
-        if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
+      - name: Build and Push Frontend Image
+        if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true' || github.event_name == 'workflow_dispatch'
         uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
         with:
           context: ${{ github.workspace }}
-          file: ./docker/admin.Dockerfile
+          file: ./docker/frontend.Dockerfile
           push: true
           build-args: |
             NEXT_PUBLIC_ENVIRONMENT=production
@@ -165,11 +166,13 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build and Deploy Static Frontend
-        if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true'
+        if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           cd frontend
-          npm ci
-          BUILD_TARGET=static npm run build
+          corepack enable
+          pnpm --version
+          pnpm install --frozen-lockfile
+          BUILD_TARGET=static pnpm run build
           gsutil -m rsync -r -d ./out gs://finspeed-static-production/
 
       - name: Build and Push Migrate Image

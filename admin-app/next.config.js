@@ -5,7 +5,6 @@ const nextConfig = {
   
   // Configure images
   images: {
-    unoptimized: true, // Disable default Image Optimization API
     domains: [
       'localhost',
       'staging.finspeed.online',
@@ -58,11 +57,6 @@ const nextConfig = {
   
   // Add trailing slash for better static export compatibility
   trailingSlash: false,
-  
-  // Enable React 18 concurrent features
-  experimental: {
-    serverActions: true,
-  },
 };
 
 // Only enable the following in production
