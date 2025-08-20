@@ -137,8 +137,8 @@ jobs:
             echo "Using existing API image: $API_IMG"
             echo "TF_VAR_api_image=$API_IMG" >> $GITHUB_ENV
           else
-            echo "No existing API service found or image empty; using placeholder to avoid prompts."
-            echo "TF_VAR_api_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+            echo "No existing API service found or image empty; using GAR latest fallback."
+            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:latest" >> $GITHUB_ENV
           fi
 
           # Seed migrate job image from existing Cloud Run Job if present; try multiple paths; fallback to placeholder
@@ -156,8 +156,8 @@ jobs:
             echo "Using existing migrate image: $MIG_IMG"
             echo "TF_VAR_migrate_image=$MIG_IMG" >> $GITHUB_ENV
           else
-            echo "No existing migrate job found or image empty; using placeholder."
-            echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+            echo "No existing migrate job found or image empty; using GAR latest fallback."
+            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
           fi
         working-directory: ./infra/terraform/staging
 
@@ -256,8 +256,8 @@ jobs:
             echo "Using existing API image: $API_IMG"
             echo "TF_VAR_api_image=$API_IMG" >> $GITHUB_ENV
           else
-            echo "No existing API service found or image empty; using placeholder to avoid prompts."
-            echo "TF_VAR_api_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+            echo "No existing API service found or image empty; using GAR latest fallback."
+            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:latest" >> $GITHUB_ENV
           fi
 
           # Seed migrate job image from existing Cloud Run Job if present; try multiple paths; fallback to placeholder
@@ -275,8 +275,8 @@ jobs:
             echo "Using existing migrate image: $MIG_IMG"
             echo "TF_VAR_migrate_image=$MIG_IMG" >> $GITHUB_ENV
           else
-            echo "No existing migrate job found or image empty; using placeholder."
-            echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+            echo "No existing migrate job found or image empty; using GAR latest fallback."
+            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
           fi
         working-directory: ./infra/terraform/staging
 
@@ -509,8 +509,8 @@ jobs:
               echo "Using existing migrate image: ${MIG_IMG}"
               echo "TF_VAR_migrate_image=${MIG_IMG}" >> $GITHUB_ENV
             else
-              echo "No existing migrate job found, using placeholder image"
-              echo "TF_VAR_migrate_image=us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0" >> $GITHUB_ENV
+              echo "No existing migrate job found, using GAR latest image"
+              echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
             fi
           fi
 

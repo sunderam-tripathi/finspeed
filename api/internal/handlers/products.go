@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -75,14 +76,15 @@ func (h *ProductHandler) GetProducts(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "20"))
 	categoryID := c.Query("category_id")
-	
+	search := c.Query("search") // New search parameter
+
 	if page < 1 {
 		page = 1
 	}
 	if limit < 1 || limit > 100 {
 		limit = 20
 	}
-	
+
 	offset := (page - 1) * limit
 
 	// Build query
@@ -97,24 +99,39 @@ func (h *ProductHandler) GetProducts(c *gin.Context) {
 	
 	countQuery := "SELECT COUNT(*) FROM products p"
 	args := []interface{}{}
-	
+	whereClauses := []string{}
+	argCount := 1
+
 	if categoryID != "" {
-		baseQuery += " WHERE p.category_id = $1"
-		countQuery += " WHERE p.category_id = $1"
+		whereClauses = append(whereClauses, "p.category_id = $"+strconv.Itoa(argCount))
 		args = append(args, categoryID)
+		argCount++
+	}
+
+	if search != "" {
+		searchClause := "(p.title ILIKE $" + strconv.Itoa(argCount) + " OR p.slug ILIKE $" + strconv.Itoa(argCount) + " OR p.sku ILIKE $" + strconv.Itoa(argCount) + ")"
+		whereClauses = append(whereClauses, searchClause)
+		args = append(args, "%"+search+"%")
+		argCount++
 	}
 	
-	baseQuery += " ORDER BY p.created_at DESC LIMIT $" + strconv.Itoa(len(args)+1) + " OFFSET $" + strconv.Itoa(len(args)+2)
-	args = append(args, limit, offset)
-
-	// Get total count
+	if len(whereClauses) > 0 {
+		whereStatement := " WHERE " + strings.Join(whereClauses, " AND ")
+		baseQuery += whereStatement
+		countQuery += whereStatement
+	}
+	
+	// Get total count first
 	var total int
-	countArgs := args[:len(args)-2] // Remove limit and offset for count
-	if err := h.db.QueryRow(countQuery, countArgs...).Scan(&total); err != nil {
+	if err := h.db.QueryRow(countQuery, args...).Scan(&total); err != nil {
 		h.logger.Error("Failed to get products count", zap.Error(err))
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch products"})
 		return
 	}
+
+	// Add ordering, limit and offset for the main query
+	baseQuery += " ORDER BY p.created_at DESC LIMIT $" + strconv.Itoa(argCount) + " OFFSET $" + strconv.Itoa(argCount+1)
+	args = append(args, limit, offset)
 
 	// Get products
 	rows, err := h.db.Query(baseQuery, args...)
@@ -227,6 +244,19 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, p)
 }
 
+type UpdateProductRequest struct {
+	Title          *string                `json:"title,omitempty"`
+	Slug           *string                `json:"slug,omitempty"`
+	Price          *float64               `json:"price,omitempty"`
+	Currency       *string                `json:"currency,omitempty"`
+	SKU            *string                `json:"sku,omitempty"`
+	HSN            *string                `json:"hsn,omitempty"`
+	StockQty       *int                   `json:"stock_qty,omitempty"`
+	CategoryID     *int64                 `json:"category_id,omitempty"`
+	SpecsJSON      map[string]interface{} `json:"specs,omitempty"`
+	WarrantyMonths *int                   `json:"warranty_months,omitempty"`
+}
+
 // CreateProduct handles POST /api/v1/admin/products
 func (h *ProductHandler) CreateProduct(c *gin.Context) {
 	var req CreateProductRequest
@@ -264,6 +294,143 @@ func (h *ProductHandler) CreateProduct(c *gin.Context) {
 
 	// Return the created product
 	h.GetProduct(c)
+}
+
+// UpdateProduct handles PUT /api/v1/admin/products/:id
+func (h *ProductHandler) UpdateProduct(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+		return
+	}
+
+	var req UpdateProductRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		h.logger.Warn("Invalid update product request", zap.Error(err))
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	// Dynamically build update query
+	query := "UPDATE products SET "
+	args := []interface{}{}
+	argId := 1
+
+	if req.Title != nil {
+		query += "title = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.Title)
+		argId++
+	}
+	if req.Slug != nil {
+		query += "slug = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.Slug)
+		argId++
+	}
+	if req.Price != nil {
+		query += "price = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.Price)
+		argId++
+	}
+	if req.Currency != nil {
+		query += "currency = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.Currency)
+		argId++
+	}
+	if req.SKU != nil {
+		query += "sku = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.SKU)
+		argId++
+	}
+	if req.HSN != nil {
+		query += "hsn = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.HSN)
+		argId++
+	}
+	if req.StockQty != nil {
+		query += "stock_qty = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.StockQty)
+		argId++
+	}
+	if req.CategoryID != nil {
+		query += "category_id = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.CategoryID)
+		argId++
+	}
+	if req.SpecsJSON != nil {
+		query += "specs_json = $" + strconv.Itoa(argId) + ", "
+		args = append(args, req.SpecsJSON)
+		argId++
+	}
+	if req.WarrantyMonths != nil {
+		query += "warranty_months = $" + strconv.Itoa(argId) + ", "
+		args = append(args, *req.WarrantyMonths)
+		argId++
+	}
+
+	if len(args) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No fields to update"})
+		return
+	}
+
+	query += "updated_at = NOW() WHERE id = $" + strconv.Itoa(argId)
+	args = append(args, id)
+
+	// Execute query
+	result, err := h.db.Exec(query, args...)
+	if err != nil {
+		h.logger.Error("Failed to update product", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
+		return
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		h.logger.Error("Failed to get rows affected", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
+		return
+	}
+
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		return
+	}
+
+	h.logger.Info("Product updated successfully", zap.Int64("product_id", id))
+	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
+}
+
+// DeleteProduct handles DELETE /api/v1/admin/products/:id
+func (h *ProductHandler) DeleteProduct(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+		return
+	}
+
+	query := "DELETE FROM products WHERE id = $1"
+	result, err := h.db.Exec(query, id)
+	if err != nil {
+		h.logger.Error("Failed to delete product", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
+		return
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		h.logger.Error("Failed to get rows affected", zap.Error(err))
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
+		return
+	}
+
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		return
+	}
+
+	h.logger.Info("Product deleted successfully", zap.Int64("product_id", id))
+	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }
 
 // getProductImages fetches images for a product

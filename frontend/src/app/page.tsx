@@ -6,7 +6,14 @@ import Image from 'next/image';
 import { ArrowRightIcon, ShoppingBagIcon, TruckIcon, ShieldCheckIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import { apiClient, Product, Category } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
+import WelcomePage from '@/components/WelcomePage';
+
 export default function HomePage() {
+  // If environment is production, show the welcome page
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'production') {
+    return <WelcomePage />;
+  }
+
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,9 +26,9 @@ export default function HomePage() {
     try {
       const [productsResponse, categoriesResponse] = await Promise.all([
         apiClient.getProducts({ limit: 6 }),
-        apiClient.getCategories()
+        apiClient.getCategories(),
       ]);
-      
+
       setFeaturedProducts(productsResponse.products || []);
       setCategories(categoriesResponse.categories?.slice(0, 4) || []);
     } catch (error) {

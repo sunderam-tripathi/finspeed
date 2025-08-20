@@ -154,7 +154,7 @@ resource "google_compute_region_network_endpoint_group" "api_neg" {
 # Backend service for the API
 resource "google_compute_backend_service" "api_backend" {
   iap {
-    enabled              = true
+    enabled              = var.enable_iap_api
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
@@ -172,7 +172,7 @@ resource "google_compute_backend_service" "api_backend" {
 # Backend service for the Frontend
 resource "google_compute_backend_service" "frontend_backend" {
   iap {
-    enabled              = true
+    enabled              = var.enable_iap_frontend
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
@@ -188,8 +188,9 @@ resource "google_compute_backend_service" "frontend_backend" {
   }
 }
 
-# URL map to route requests to the backend service
+# Legacy URL map (will be replaced by static hosting version)
 resource "google_compute_url_map" "url_map" {
+  count           = var.domain_name == "" ? 1 : 0
   name            = "finspeed-lb-url-map-${local.environment}"
   default_service = google_compute_backend_service.frontend_backend.id
 
@@ -200,7 +201,7 @@ resource "google_compute_url_map" "url_map" {
 
   # Route main domain traffic to frontend by default, but /api/* to API backend
   host_rule {
-    hosts        = [var.domain_name, "www.${var.domain_name}"]
+    hosts        = [var.domain_name]
     path_matcher = "frontend-matcher"
   }
 
@@ -228,30 +229,29 @@ resource "random_id" "cert_suffix" {
 
 # Managed SSL certificate for the custom domain
 resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
-  lifecycle {
-    create_before_destroy = true
-  }
   count = var.domain_name != "" && var.enable_ssl ? 1 : 0
   name  = "finspeed-ssl-cert-${local.environment}-${random_id.cert_suffix.hex}"
   managed {
-    domains = [var.domain_name, "www.${var.domain_name}", "api.${var.domain_name}"]
+    domains = [var.domain_name, "api.${var.domain_name}"]
   }
 }
 
-# HTTPS proxy for the load balancer
+# Legacy HTTPS proxy (will be replaced by static hosting version)
 resource "google_compute_target_https_proxy" "https_proxy" {
+  count = var.domain_name == "" ? 1 : 0
   lifecycle {
     create_before_destroy = true
   }
   name             = "finspeed-https-proxy-${local.environment}"
-  url_map          = google_compute_url_map.url_map.id
-  ssl_certificates = var.domain_name != "" && var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
+  url_map          = google_compute_url_map.url_map[0].id
+  ssl_certificates = var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
 }
 
-# Global forwarding rule to route traffic to the proxy
+# Legacy forwarding rule (will be replaced by static hosting version)
 resource "google_compute_global_forwarding_rule" "forwarding_rule" {
+  count                 = var.domain_name == "" ? 1 : 0
   name                  = "finspeed-forwarding-rule-${local.environment}"
-  target                = google_compute_target_https_proxy.https_proxy.id
+  target                = google_compute_target_https_proxy.https_proxy[0].id
   ip_address            = google_compute_global_address.lb_ip.address
   port_range            = "443"
   load_balancing_scheme = "EXTERNAL_MANAGED"

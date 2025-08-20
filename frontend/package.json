@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "BUILD_TARGET=static next build",
+    "build:admin": "BUILD_TARGET=admin next build",
     "start": "next start",
     "lint": "next lint",
     "test": "echo \"No tests configured yet - this is expected for now\" && exit 0"
@@ -16,6 +18,7 @@
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "jwt-decode": "^4.0.0",
     "next": "^15.4.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

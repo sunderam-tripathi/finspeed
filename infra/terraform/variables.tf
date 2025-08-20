@@ -250,3 +250,29 @@ variable "project_owner_email" {
   type        = string
   default     = ""
 }
+
+# Feature flags to enable/disable IAP per backend
+variable "enable_iap_api" {
+  description = "Enable IAP protection for the API backend and corresponding IAM bindings."
+  type        = bool
+  default     = true
+}
+
+variable "enable_iap_frontend" {
+  description = "Enable IAP protection for the Frontend backend and corresponding IAM bindings."
+  type        = bool
+  default     = true
+}
+
+# Public access flags for Cloud Run ingress and IAM
+variable "allow_public_api" {
+  description = "Allow unauthenticated public access to the API via Cloud Run (and load balancer)."
+  type        = bool
+  default     = false
+}
+
+variable "allow_public_frontend" {
+  description = "Allow unauthenticated public access to the Frontend via Cloud Run (and load balancer)."
+  type        = bool
+  default     = false
+}
