@@ -108,19 +108,27 @@ jobs:
             echo "is_fork=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Prepare plan log files (always available)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p infra/terraform/staging
+          : > infra/terraform/staging/tfplan.txt
+          : > infra/terraform/staging/tf-plan-debug.log
+
       - name: Authenticate to Google Cloud
-        if: steps.fork.outputs.is_fork == 'false'
+        if: steps.fork.outputs.is_fork == 'false' && secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING != '' && secrets.GCP_SERVICE_ACCOUNT_STAGING != ''
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12 # v2.1.2
         with:
                 workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
                 service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
       - name: Set up Cloud SDK
-        if: steps.fork.outputs.is_fork == 'false'
+        if: steps.fork.outputs.is_fork == 'false' && secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING != '' && secrets.GCP_SERVICE_ACCOUNT_STAGING != ''
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Clean up stale Terraform lock (best-effort)
-        if: steps.fork.outputs.is_fork == 'false'
+        if: steps.fork.outputs.is_fork == 'false' && secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING != '' && secrets.GCP_SERVICE_ACCOUNT_STAGING != ''
         shell: bash
         run: |
           set -euo pipefail
@@ -264,6 +272,7 @@ jobs:
           path: |
             infra/terraform/staging/tfplan.txt
             infra/terraform/staging/tf-plan-debug.log
+          if-no-files-found: warn
 
   deploy-infra:
     name: Deploy Infrastructure
