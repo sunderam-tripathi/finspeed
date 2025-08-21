@@ -1,10 +1,14 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Link from "next/link";
 
-const inter = Inter({ subsets: ['latin'] })
+const rubik = Rubik({
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '900'],
+  variable: '--font-body',
+})
 
 export const metadata: Metadata = {
   title: 'Finspeed - Premium E-commerce Platform',
@@ -18,7 +22,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      </head>
+      <body className={`${rubik.variable} antialiased`} suppressHydrationWarning>
         <Header />
         
         {/* Main Content */}
