@@ -13,31 +13,25 @@ export default function AccountPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    checkAuth();
-    if (apiClient.isAuthenticated()) {
-      loadOrders();
-    }
-  }, []);
-
-  const checkAuth = () => {
-    const authenticated = apiClient.isAuthenticated();
-    setIsAuthenticated(authenticated);
-    if (!authenticated) {
-      router.push('/auth/login?redirect=/account');
-    }
-  };
-
-  const loadOrders = async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.getOrders({ limit: 5 });
-      setOrders(response.orders);
-    } catch (error) {
-      console.error('Failed to load orders:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const run = async () => {
+      const authenticated = apiClient.isAuthenticated();
+      setIsAuthenticated(authenticated);
+      if (!authenticated) {
+        router.push('/auth/login?redirect=/account');
+        return;
+      }
+      try {
+        setLoading(true);
+        const response = await apiClient.getOrders({ limit: 5 });
+        setOrders(response.orders);
+      } catch (error) {
+        console.error('Failed to load orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void run();
+  }, [router]);
 
   const handleLogout = () => {
     apiClient.clearToken();

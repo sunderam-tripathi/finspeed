@@ -52,10 +52,16 @@ export default function AdminPage() {
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiClient.createProduct({
-        ...newProduct,
+      const payload = {
+        title: newProduct.title,
+        slug: newProduct.slug,
+        price: newProduct.price,
+        sku: newProduct.sku.trim() ? newProduct.sku : undefined,
+        stock_qty: newProduct.stock_qty,
+        category_id: newProduct.category_id ?? undefined,
         currency: 'INR',
-      });
+      };
+      await apiClient.createProduct(payload);
       
       // Reset form and reload data
       setNewProduct({
@@ -75,7 +81,11 @@ export default function AdminPage() {
   const handleCreateCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiClient.createCategory(newCategory);
+      await apiClient.createCategory({
+        name: newCategory.name,
+        slug: newCategory.slug,
+        parent_id: newCategory.parent_id ?? undefined,
+      });
       
       // Reset form and reload data
       setNewCategory({

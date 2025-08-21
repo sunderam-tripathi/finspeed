@@ -24,7 +24,7 @@ export interface Product {
   hsn?: string;
   stock_qty: number;
   category_id?: number;
-  specs?: Record<string, any>;
+  specs?: Record<string, string | number | boolean | null | undefined>;
   warranty_months?: number;
   created_at: string;
   updated_at?: string;
@@ -44,6 +44,7 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  description?: string | null;
   parent_id?: number;
 }
 
@@ -104,6 +105,13 @@ export interface Order {
 
 export interface OrdersResponse {
   orders: Order[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface UsersResponse {
+  users: User[];
   total: number;
   page: number;
   limit: number;
@@ -180,11 +188,13 @@ class ApiClient {
     page?: number;
     limit?: number;
     category_id?: number;
+    search?: string;
   }): Promise<ProductsResponse> {
     const searchParams = new URLSearchParams();
     if (params?.page) searchParams.set('page', params.page.toString());
     if (params?.limit) searchParams.set('limit', params.limit.toString());
     if (params?.category_id) searchParams.set('category_id', params.category_id.toString());
+    if (params?.search) searchParams.set('search', params.search);
 
     const query = searchParams.toString();
     return this.request<ProductsResponse>(`/products${query ? `?${query}` : ''}`);
@@ -201,9 +211,31 @@ class ApiClient {
     });
   }
 
+  async updateProduct(
+    id: number,
+    product: Partial<Omit<Product, 'id' | 'created_at' | 'updated_at' | 'images' | 'category'>>
+  ): Promise<Product> {
+    return this.request<Product>(`/admin/products/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(product),
+    });
+  }
+
+  async deleteProduct(id: number): Promise<{ status: string } | { message: string }> {
+    return this.request<{ status: string } | { message: string }>(`/admin/products/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
   // Category methods
-  async getCategories(): Promise<{ categories: Category[]; total: number }> {
-    return this.request<{ categories: Category[]; total: number }>('/categories');
+  async getCategories(params?: { page?: number; limit?: number; search?: string }): Promise<{ categories: Category[]; total: number; page?: number; limit?: number }> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set('page', params.page.toString());
+    if (params?.limit) searchParams.set('limit', params.limit.toString());
+    if (params?.search) searchParams.set('search', params.search);
+
+    const query = searchParams.toString();
+    return this.request<{ categories: Category[]; total: number; page?: number; limit?: number }>(`/categories${query ? `?${query}` : ''}`);
   }
 
   async getCategory(slug: string): Promise<Category> {
@@ -214,6 +246,19 @@ class ApiClient {
     return this.request<Category>('/admin/categories', {
       method: 'POST',
       body: JSON.stringify(category),
+    });
+  }
+
+  async updateCategory(id: number, category: Omit<Category, 'id'>): Promise<Category> {
+    return this.request<Category>(`/admin/categories/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(category),
+    });
+  }
+
+  async deleteCategory(id: number): Promise<{ status: string } | { message: string }> {
+    return this.request<{ status: string } | { message: string }>(`/admin/categories/${id}`, {
+      method: 'DELETE',
     });
   }
 
@@ -272,6 +317,34 @@ class ApiClient {
   // Health check
   async healthCheck(): Promise<{ status: string; database: string }> {
     return this.request<{ status: string; database: string }>('/healthz');
+  }
+
+  // Admin User methods
+  async getUsers(params?: { page?: number; limit?: number; search?: string }): Promise<UsersResponse> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.set('page', params.page.toString());
+    if (params?.limit) searchParams.set('limit', params.limit.toString());
+    if (params?.search) searchParams.set('search', params.search);
+
+    const query = searchParams.toString();
+    return this.request<UsersResponse>(`/admin/users${query ? `?${query}` : ''}`);
+  }
+
+  async getUser(id: number): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`);
+  }
+
+  async updateUser(id: number, payload: { email: string; role: string }): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    });
+  }
+
+  async deleteUser(id: number): Promise<{ status: string } | { message: string }> {
+    return this.request<{ status: string } | { message: string }>(`/admin/users/${id}`, {
+      method: 'DELETE',
+    });
   }
 
   // Token management

@@ -1,22 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-
-interface Category {
-  id?: number;
-  name: string;
-  slug: string;
-  description: string | null;
-}
+import type { Category } from '@/lib/api';
 
 interface CategoryModalProps {
   category: Category | null;
   onClose: () => void;
-  onSave: (category: Category) => void;
+  onSave: (category: Omit<Category, 'id'> & { id?: number }) => void;
 }
 
 export default function CategoryModal({ category, onClose, onSave }: CategoryModalProps) {
-  const [formData, setFormData] = useState<Category>(category || { name: '', slug: '', description: '' });
+  const [formData, setFormData] = useState<Omit<Category, 'id'> & { id?: number }>(
+    category || { name: '', slug: '', description: '' }
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -37,7 +33,7 @@ export default function CategoryModal({ category, onClose, onSave }: CategoryMod
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="w-full p-2 border rounded" required />
           <input type="text" name="slug" value={formData.slug} onChange={handleChange} placeholder="Slug" className="w-full p-2 border rounded" required />
-          <textarea name="description" value={formData.description || ''} onChange={handleChange} placeholder="Description" className="w-full p-2 border rounded" />
+          <textarea name="description" value={formData.description ?? ''} onChange={handleChange} placeholder="Description" className="w-full p-2 border rounded" />
           <div className="flex justify-end space-x-2">
             <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</button>
             <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>

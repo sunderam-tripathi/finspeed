@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { apiClient, Product } from '@/lib/api';
 
 export default function ProductDetailPage() {
@@ -16,23 +17,21 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    if (slug) {
-      loadProduct();
-    }
+    if (!slug) return;
+    const load = async () => {
+      try {
+        setLoading(true);
+        const productData = await apiClient.getProduct(slug);
+        setProduct(productData);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load product');
+      } finally {
+        setLoading(false);
+      }
+    };
+    void load();
   }, [slug]);
-
-  const loadProduct = async () => {
-    try {
-      setLoading(true);
-      const productData = await apiClient.getProduct(slug);
-      setProduct(productData);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load product');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -48,9 +47,9 @@ export default function ProductDetailPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
           <p className="text-gray-600 mb-4">{error || 'The product you are looking for does not exist.'}</p>
-          <a href="/products" className="btn-primary">
+          <Link href="/products" className="btn-primary">
             Back to Products
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -70,9 +69,9 @@ export default function ProductDetailPage() {
         {/* Breadcrumb */}
         <nav className="flex mb-8" aria-label="Breadcrumb">
           <ol className="flex items-center space-x-2">
-            <li><a href="/" className="text-gray-500 hover:text-gray-700">Home</a></li>
+            <li><Link href="/" className="text-gray-500 hover:text-gray-700">Home</Link></li>
             <li><span className="text-gray-400">/</span></li>
-            <li><a href="/products" className="text-gray-500 hover:text-gray-700">Products</a></li>
+            <li><Link href="/products" className="text-gray-500 hover:text-gray-700">Products</Link></li>
             {product.category && (
               <>
                 <li><span className="text-gray-400">/</span></li>

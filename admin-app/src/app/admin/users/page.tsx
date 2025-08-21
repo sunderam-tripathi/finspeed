@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import UserModal from '@/components/admin/UserModal';
+import { apiClient } from '@/lib/api';
 
 // Define the User type based on your API response
 interface User {
@@ -23,39 +24,14 @@ export default function AdminUsersPage() {
 
   const fetchUsers = useCallback(async (page: number, search: string) => {
     setIsLoading(true);
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const params = new URLSearchParams({
-        page: String(page),
-        limit: String(limit),
-      });
-      if (search) {
-        params.append('search', search);
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/users?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch users: ${response.statusText}`);
-      }
-
-      const data = await response.json();
+      const data = await apiClient.getUsers({ page, limit, search: search || undefined });
       setUsers(data.users || []);
       setTotalUsers(data.total || 0);
-      setCurrentPage(data.page || 1);
+      setCurrentPage(data.page || page);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch users');
     } finally {
       setIsLoading(false);
     }
@@ -80,25 +56,12 @@ export default function AdminUsersPage() {
   };
 
   const handleSaveUser = async (updatedUser: User) => {
-    const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/users/${updatedUser.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ email: updatedUser.email, role: updatedUser.role }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save user');
-      }
-
+      await apiClient.updateUser(updatedUser.id, { email: updatedUser.email, role: updatedUser.role });
       await fetchUsers(currentPage, searchTerm); // Refresh the list
       handleCloseModal();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update user');
     }
   };
 
@@ -106,23 +69,11 @@ export default function AdminUsersPage() {
     if (!window.confirm('Are you sure you want to delete this user?')) {
       return;
     }
-
-    const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/users/${userId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete user');
-      }
-
+      await apiClient.deleteUser(userId);
       await fetchUsers(currentPage, searchTerm); // Refresh the list
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete user');
     }
   };
 

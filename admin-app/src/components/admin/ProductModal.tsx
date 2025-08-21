@@ -1,11 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { apiClient, Category as ApiCategory } from '@/lib/api';
 
-interface Category {
-  id: number;
-  name: string;
-}
+// Using Category type from api client (ApiCategory)
 
 interface Product {
   id?: number;
@@ -25,24 +23,42 @@ interface ProductModalProps {
 
 export default function ProductModal({ product, onClose, onSave }: ProductModalProps) {
   const [formData, setFormData] = useState<Product>(product || { title: '', slug: '', price: 0, stock_qty: 0, category_id: null, sku: null });
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ApiCategory[]>([]);
 
   useEffect(() => {
-    // Fetch categories for the dropdown
+    // Fetch categories for the dropdown via centralized apiClient
     const fetchCategories = async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/categories`, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-      const data = await response.json();
-      setCategories(data.categories);
+      try {
+        const data = await apiClient.getCategories();
+        setCategories(data.categories);
+      } catch {
+        // Silently ignore here; parent page handles errors
+        setCategories([]);
+      }
     };
     fetchCategories();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => {
+      switch (name) {
+        case 'price':
+          return { ...prev, price: Number(value) };
+        case 'stock_qty':
+          return { ...prev, stock_qty: Number(value) };
+        case 'category_id':
+          return { ...prev, category_id: value === '' ? null : Number(value) };
+        case 'sku':
+          return { ...prev, sku: value.trim() === '' ? null : value };
+        case 'title':
+          return { ...prev, title: value };
+        case 'slug':
+          return { ...prev, slug: value };
+        default:
+          return prev;
+      }
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {

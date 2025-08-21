@@ -24,33 +24,28 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    checkAuth();
-    loadCart();
-  }, []);
-
-  const checkAuth = () => {
-    const authenticated = apiClient.isAuthenticated();
-    setIsAuthenticated(authenticated);
-    if (!authenticated) {
-      router.push('/auth/login?redirect=/checkout');
-    }
-  };
-
-  const loadCart = async () => {
-    try {
-      setLoading(true);
-      const cartData = await apiClient.getCart();
-      setCart(cartData);
-      
-      if (!cartData || cartData.items.length === 0) {
-        router.push('/cart');
+    const run = async () => {
+      const authenticated = apiClient.isAuthenticated();
+      setIsAuthenticated(authenticated);
+      if (!authenticated) {
+        router.push('/auth/login?redirect=/checkout');
+        return;
       }
-    } catch (error) {
-      console.error('Failed to load cart:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        setLoading(true);
+        const cartData = await apiClient.getCart();
+        setCart(cartData);
+        if (!cartData || cartData.items.length === 0) {
+          router.push('/cart');
+        }
+      } catch (error) {
+        console.error('Failed to load cart:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    void run();
+  }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
