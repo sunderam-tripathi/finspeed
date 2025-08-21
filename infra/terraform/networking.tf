@@ -169,6 +169,19 @@ resource "google_compute_backend_service" "api_backend" {
   }
 }
 
+# Legacy public API backend (kept temporarily to avoid in-use deletion during switchover)
+resource "google_compute_backend_service" "api_backend_public" {
+  name                  = "finspeed-api-backend-public-${local.environment}"
+  project               = var.project_id
+  protocol              = "HTTP"
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = false
+
+  backend {
+    group = google_compute_region_network_endpoint_group.api_neg.id
+  }
+}
+
 # Backend service for the Frontend
 resource "google_compute_backend_service" "frontend_backend" {
   iap {
@@ -176,27 +189,53 @@ resource "google_compute_backend_service" "frontend_backend" {
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
-  name                            = "finspeed-frontend-backend-${local.environment}"
-  protocol                        = "HTTP"
-  port_name                       = "http"
-  timeout_sec                     = 30
-  load_balancing_scheme           = "EXTERNAL_MANAGED"
-  enable_cdn                      = false
+  name                  = "finspeed-frontend-backend-${local.environment}"
+  protocol              = "HTTP"
+  port_name             = "http"
+  timeout_sec           = 30
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = false
 
   backend {
     group = google_compute_region_network_endpoint_group.frontend_neg.id
   }
 }
 
-# Legacy URL map (will be replaced by static hosting version)
+# Backend service for the Admin (legacy)
+resource "google_compute_backend_service" "frontend_backend_admin" {
+  iap {
+    enabled              = var.enable_iap_frontend
+    oauth2_client_id     = google_iap_client.project_client.client_id
+    oauth2_client_secret = google_iap_client.project_client.secret
+  }
+  name                  = "finspeed-frontend-admin-backend-${local.environment}"
+  protocol              = "HTTP"
+  port_name             = "http"
+  timeout_sec           = 30
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = false
+
+  backend {
+    group = google_compute_region_network_endpoint_group.frontend_neg.id
+  }
+}
+
+# URL map used when static hosting is disabled
 resource "google_compute_url_map" "url_map" {
-  count           = var.domain_name == "" ? 1 : 0
+  # Keep legacy URL map even when static hosting is enabled to ensure smooth switchover
+  count           = var.domain_name != "" ? 1 : 0
   name            = "finspeed-lb-url-map-${local.environment}"
   default_service = google_compute_backend_service.frontend_backend.id
 
   host_rule {
     hosts        = [var.api_domain_name]
     path_matcher = "api-matcher"
+  }
+
+  # Admin subdomain routes to Frontend (legacy compatibility)
+  host_rule {
+    hosts        = ["admin.${var.domain_name}"]
+    path_matcher = "admin-matcher"
   }
 
   # Route main domain traffic to frontend by default, but /api/* to API backend
@@ -209,6 +248,12 @@ resource "google_compute_url_map" "url_map" {
   path_matcher {
     name            = "api-matcher"
     default_service = google_compute_backend_service.api_backend.id
+  }
+
+  # Admin subdomain matcher
+  path_matcher {
+    name            = "admin-matcher"
+    default_service = var.environment == "production" ? google_compute_backend_service.frontend_backend_admin.id : google_compute_backend_service.frontend_backend.id
   }
 
   # Path-based routing on primary domain: send /api/* to API backend
@@ -229,27 +274,41 @@ resource "random_id" "cert_suffix" {
 
 # Managed SSL certificate for the custom domain
 resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
+  # Use the same managed SSL certificate regardless of static hosting setting
   count = var.domain_name != "" && var.enable_ssl ? 1 : 0
   name  = "finspeed-ssl-cert-${local.environment}-${random_id.cert_suffix.hex}"
   managed {
-    domains = [var.domain_name, "api.${var.domain_name}"]
+    domains = [
+      var.domain_name,
+      "api.${var.domain_name}",
+      "admin.${var.domain_name}"
+    ]
   }
-}
 
-# Legacy HTTPS proxy (will be replaced by static hosting version)
-resource "google_compute_target_https_proxy" "https_proxy" {
-  count = var.domain_name == "" ? 1 : 0
   lifecycle {
     create_before_destroy = true
   }
-  name             = "finspeed-https-proxy-${local.environment}"
-  url_map          = google_compute_url_map.url_map[0].id
+}
+
+# Main HTTPS proxy points to whichever URL map exists (static or legacy)
+resource "google_compute_target_https_proxy" "https_proxy" {
+  count = var.domain_name != "" ? 1 : 0
+  lifecycle {
+    create_before_destroy = true
+  }
+  name = "finspeed-https-proxy-${local.environment}"
+  url_map = element(concat(
+    google_compute_url_map.url_map_with_static[*].id,
+    google_compute_url_map.url_map[*].id
+  ), 0)
+
+  # Reuse unified managed SSL certificate
   ssl_certificates = var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
 }
 
-# Legacy forwarding rule (will be replaced by static hosting version)
+# Global forwarding rule targeting the active HTTPS proxy
 resource "google_compute_global_forwarding_rule" "forwarding_rule" {
-  count                 = var.domain_name == "" ? 1 : 0
+  count                 = var.domain_name != "" ? 1 : 0
   name                  = "finspeed-forwarding-rule-${local.environment}"
   target                = google_compute_target_https_proxy.https_proxy[0].id
   ip_address            = google_compute_global_address.lb_ip.address
@@ -259,11 +318,11 @@ resource "google_compute_global_forwarding_rule" "forwarding_rule" {
 
 # Serverless VPC Access Connector
 resource "google_vpc_access_connector" "connector" {
-  name          = "finspeed-vpc-${local.environment}"
-  project       = local.project_id
-  region        = local.region
-  network       = google_compute_network.vpc_network.name
-  ip_cidr_range = "10.8.0.0/28"
+  name           = "finspeed-vpc-${local.environment}"
+  project        = local.project_id
+  region         = local.region
+  network        = google_compute_network.vpc_network.name
+  ip_cidr_range  = "10.8.0.0/28"
   min_throughput = 200
   max_throughput = 300
 
