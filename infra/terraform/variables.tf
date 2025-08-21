@@ -230,6 +230,13 @@ variable "labels" {
   default     = {}
 }
 
+# Static hosting toggle
+variable "use_static_hosting" {
+  description = "Enable static hosting resources (Cloud Storage bucket, backends, routing) when true"
+  type        = bool
+  default     = false
+}
+
 # IAP variables
 variable "iap_support_email" {
   description = "The support email address for the OAuth consent screen."
@@ -249,4 +256,30 @@ variable "project_owner_email" {
   description = "The email address of the project owner, used for granting impersonation rights for local testing."
   type        = string
   default     = ""
+}
+
+# Feature flags to enable/disable IAP per backend
+variable "enable_iap_api" {
+  description = "Enable IAP protection for the API backend and corresponding IAM bindings."
+  type        = bool
+  default     = true
+}
+
+variable "enable_iap_frontend" {
+  description = "Enable IAP protection for the Frontend backend and corresponding IAM bindings."
+  type        = bool
+  default     = true
+}
+
+# Public access flags for Cloud Run ingress and IAM
+variable "allow_public_api" {
+  description = "Allow unauthenticated public access to the API via Cloud Run (and load balancer)."
+  type        = bool
+  default     = false
+}
+
+variable "allow_public_frontend" {
+  description = "Allow unauthenticated public access to the Frontend via Cloud Run (and load balancer)."
+  type        = bool
+  default     = false
 }

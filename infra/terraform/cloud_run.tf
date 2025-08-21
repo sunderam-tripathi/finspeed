@@ -303,8 +303,8 @@ resource "google_cloud_run_v2_job" "migrate" {
 
       containers {
         image = var.migrate_image
-        command = ["./main"]
-        args    = ["migrate", "up"]
+        command = ["/app/main"]
+        args    = ["migrate"]
 
         env {
           name = "DATABASE_URL"

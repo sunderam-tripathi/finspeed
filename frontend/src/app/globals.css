@@ -2,11 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Load Barlow Rounded Black for headings */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Rounded:wght@900&display=swap');
 
 @layer base {
+  :root {
+    --font-heading: 'Barlow Rounded';
+  }
   html {
-    font-family: 'Inter', sans-serif;
+    /* Fonts are provided via next/font CSS variables and Tailwind font families */
+  }
+  body {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-black;
   }
 }
 

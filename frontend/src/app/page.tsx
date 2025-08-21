@@ -6,7 +6,14 @@ import Image from 'next/image';
 import { ArrowRightIcon, ShoppingBagIcon, TruckIcon, ShieldCheckIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import { apiClient, Product, Category } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
+import WelcomePage from '@/components/WelcomePage';
+
 export default function HomePage() {
+  // If environment is production, show the welcome page
+  if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'production') {
+    return <WelcomePage />;
+  }
+
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,9 +26,9 @@ export default function HomePage() {
     try {
       const [productsResponse, categoriesResponse] = await Promise.all([
         apiClient.getProducts({ limit: 6 }),
-        apiClient.getCategories()
+        apiClient.getCategories(),
       ]);
-      
+
       setFeaturedProducts(productsResponse.products || []);
       setCategories(categoriesResponse.categories?.slice(0, 4) || []);
     } catch (error) {
@@ -38,11 +45,19 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
+      <section className="relative text-white">
+        <Image
+          src="/images/banners/home-hero.webp"
+          alt="Finspeed premium cycling and accessories"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-blue-900/30" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl mb-6">
               Premium Store
               <span className="block text-blue-200">for Modern Living</span>
             </h1>
@@ -76,21 +91,21 @@ export default function HomePage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
                 <TruckIcon className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Free Shipping</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Free Shipping</h3>
               <p className="text-gray-600">Free shipping on orders above ₹500. Fast and reliable delivery.</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                 <ShieldCheckIcon className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Quality Guarantee</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Quality Guarantee</h3>
               <p className="text-gray-600">Premium products with warranty and quality assurance.</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
                 <CreditCardIcon className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Secure Payment</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Secure Payment</h3>
               <p className="text-gray-600">Safe and secure payment processing with multiple options.</p>
             </div>
           </div>
@@ -101,7 +116,7 @@ export default function HomePage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+            <h2 className="text-3xl text-gray-900 mb-4">Shop by Category</h2>
             <p className="text-lg text-gray-600">Explore our diverse range of premium products</p>
           </div>
           
@@ -140,7 +155,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
+            <h2 className="text-3xl text-gray-900 mb-4">Featured Products</h2>
             <p className="text-lg text-gray-600">Handpicked products from our premium collection</p>
           </div>
           
@@ -166,7 +181,7 @@ export default function HomePage() {
           ) : (
             <div className="text-center py-12">
               <ShoppingBagIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No products available</h3>
+              <h3 className="text-lg text-gray-900 mb-2">No products available</h3>
               <p className="text-gray-500">Check back soon for our latest products!</p>
             </div>
           )}
@@ -186,7 +201,7 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-16 bg-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Shopping?</h2>
+          <h2 className="text-3xl text-white mb-4">Ready to Start Shopping?</h2>
           <p className="text-xl text-blue-100 mb-8">Join thousands of satisfied customers who trust our premium products</p>
           <Link
             href="/products"

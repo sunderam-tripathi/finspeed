@@ -29,7 +29,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['var(--font-body)', 'Rubik', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-heading)', '"Barlow Rounded"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

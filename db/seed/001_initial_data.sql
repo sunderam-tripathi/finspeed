@@ -14,11 +14,11 @@ INSERT INTO categories (id, name, slug, parent_id) VALUES
 
 -- Insert admin user (password: admin123)
 INSERT INTO users (id, email, password_hash, role) VALUES
-(1, 'admin@finspeed.in', '$2a$10$rOvHPxfuWuakvwhV2rvZAeJ9LsGD6SxMhLqU8YQXN6ByYzQm6Nm4K', 'admin');
+(1, 'admin@finspeed.online', '$2a$10$P4AxZAZ/ildXBuaNc/YghuarHjScp87XyfKjw5pKNHbfWK4d25duS', 'admin');
 
 -- Insert test customer (password: customer123)
 INSERT INTO users (id, email, password_hash, role) VALUES
-(2, 'customer@example.com', '$2a$10$rOvHPxfuWuakvwhV2rvZAeJ9LsGD6SxMhLqU8YQXN6ByYzQm6Nm4K', 'customer');
+(2, 'customer@finspeed.online', '$2a$10$geZUWBEZEf6/6HdI8FOloeFbt3c3qTik6kINxLKfQ2HM8P9EIfkha', 'customer');
 
 -- Insert sample products
 INSERT INTO products (id, title, slug, price, currency, sku, hsn, stock_qty, category_id, specs_json, warranty_months) VALUES

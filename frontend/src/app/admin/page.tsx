@@ -39,8 +39,8 @@ export default function AdminPage() {
         apiClient.getCategories(),
       ]);
       
-      setProducts(productsResponse.products);
-      setCategories(categoriesResponse.categories);
+      setProducts(productsResponse.products || []);
+      setCategories(categoriesResponse.categories || []);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load data');

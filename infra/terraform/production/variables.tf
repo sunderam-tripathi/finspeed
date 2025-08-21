@@ -27,3 +27,26 @@ variable "labels" {}
 variable "iap_support_email" {}
 variable "iap_allowed_user" {}
 variable "project_owner_email" {}
+
+# Flags to control IAP and public access in production
+variable "enable_iap_api" {}
+variable "enable_iap_frontend" {}
+variable "allow_public_api" {}
+variable "allow_public_frontend" {}
+
+// Image variables (injected by CI during deploy). Defaults keep infra apply working.
+variable "api_image" {
+  description = "The full Docker image URL for the API service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "frontend_image" {
+  description = "The full Docker image URL for the frontend service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "migrate_image" {
+  description = "The full Docker image URL for the database migration job."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}

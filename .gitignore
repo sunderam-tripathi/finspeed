@@ -12,6 +12,7 @@
 
 # Binaries and build artifacts
 /tmp
+/api/tmp/
 /vendor/
 *.exe
 *.out

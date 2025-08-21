@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingBagIcon, UserIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { apiClient, Cart } from '@/lib/api';
 
@@ -40,7 +41,14 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold text-gray-900">Finspeed</span>
+              <Image
+                src="/images/brand/logo.svg"
+                alt="Finspeed"
+                width={28}
+                height={28}
+                priority
+              />
+              <span className="ml-2 text-2xl text-gray-900 font-heading font-black">Finspeed</span>
               <span className="ml-2 text-sm text-gray-500 hidden sm:block">Premium Store</span>
             </Link>
           </div>
