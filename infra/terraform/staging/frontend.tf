@@ -1,7 +1,4 @@
 # Frontend service configuration for the Finspeed application
 
-variable "frontend_image" {
-  description = "The full Docker image URL for the frontend service."
-  type        = string
-  default     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:latest"
-}
+// Note: frontend_image is declared in variables.tf and its value is set in terraform.tfvars.
+// This file intentionally contains no variable declarations to avoid duplication.
