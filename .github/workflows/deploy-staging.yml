@@ -72,6 +72,7 @@ jobs:
     if: needs.changes.outputs.infra == 'true' && github.event_name == 'pull_request_target'
     needs: changes
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     environment: staging
     permissions:
       contents: read
@@ -121,7 +122,7 @@ jobs:
 
       
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" -backend-config="prefix=staging-ci"
         working-directory: ./infra/terraform/staging
 
       - name: Seed TF_VAR image variables (best-effort)
@@ -163,7 +164,24 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -lock=false -input=false
+        env:
+          TF_LOG: DEBUG
+          TF_LOG_PATH: tf-plan-debug.log
+          TF_INPUT: "0"
+          TF_IN_AUTOMATION: "1"
+        run: |
+          set -euo pipefail
+          # Show Terraform and providers info to aid debugging
+          terraform version
+          terraform providers
+          # Run plan and capture output
+          terraform plan -no-color -lock=false -input=false -refresh=false -parallelism=10 | tee tfplan.txt
+          # Expose plan text as a step output for later steps
+          {
+            echo "plan<<'EOF'"
+            sed -e 's/%/%25/g' -e 's/\r/%0D/g' -e 's/\n/%0A/g' tfplan.txt
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
         working-directory: ./infra/terraform/staging
         continue-on-error: true
 
@@ -171,7 +189,7 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1 # v7.0.1
         if: steps.plan.outcome != 'skipped'
         env:
-          PLAN: "${{ steps.plan.outputs.stdout }}"
+          PLAN: "${{ steps.plan.outputs.plan }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -183,6 +201,15 @@ jobs:
               body: output
             });
             if ('${{ steps.plan.outcome }}' == 'failure') process.exit(1);
+
+      - name: Upload Terraform plan logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tf-plan-debug
+          path: |
+            infra/terraform/staging/tfplan.txt
+            infra/terraform/staging/tf-plan-debug.log
 
   deploy-infra:
     name: Deploy Infrastructure
