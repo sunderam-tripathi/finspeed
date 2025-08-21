@@ -136,7 +136,7 @@ resource "google_compute_url_map" "url_map_with_static" {
       match_rules {
         prefix_match = "/api/"
       }
-      service = var.allow_public_api ? google_compute_backend_service.api_gateway_backend[0].id : google_compute_backend_service.api_backend.id
+      service = element(concat(google_compute_backend_service.api_gateway_backend[*].id, [google_compute_backend_service.api_backend.id]), 0)
     }
   }
 }
