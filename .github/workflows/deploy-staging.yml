@@ -410,9 +410,48 @@ jobs:
           fi
         working-directory: ./infra/terraform/staging
 
+      - name: Authenticate to Google Cloud (bootstrap SA, optional)
+        if: ${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING != '' }}
+        uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING }}
+
       - name: "Bootstrap IAM: ensure projectIamAdmin on GH Actions SA"
-        run: terraform apply -lock-timeout=5m -input=false -auto-approve -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]'
+        run: |
+          terraform apply -lock-timeout=5m -input=false -auto-approve \
+            -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]' \
+            -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/iam.workloadIdentityPoolAdmin"]'
         working-directory: ./infra/terraform/staging
+
+      - name: Authenticate to Google Cloud (switch to GH Actions SA)
+        if: ${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING != '' }}
+        uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+
+      - name: Best-effort import existing URL map (avoid name conflict)
+        shell: bash
+        env:
+          URL_MAP_NAME: finspeed-lb-url-map-staging
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          # Only attempt import if resource is in config (count=1) and not already in state
+          if terraform state list | grep -q 'module.finspeed_infra.google_compute_url_map.url_map\[0\]'; then
+            echo "URL map already in TF state; skipping import"
+            exit 0
+          fi
+          echo "Checking if URL map ${URL_MAP_NAME} exists in project ${GCP_PROJECT_ID}..."
+          if gcloud compute url-maps describe "${URL_MAP_NAME}" --global --project "${GCP_PROJECT_ID}" >/dev/null 2>&1; then
+            echo "Importing existing URL map into Terraform state"
+            terraform import \
+              'module.finspeed_infra.google_compute_url_map.url_map[0]' \
+              "projects/${GCP_PROJECT_ID}/global/urlMaps/${URL_MAP_NAME}" || true
+          else
+            echo "URL map ${URL_MAP_NAME} not found; no import needed"
+          fi
 
       - name: Terraform Apply Infra
         run: terraform apply -lock-timeout=5m -auto-approve -input=false
