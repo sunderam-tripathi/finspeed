@@ -29,9 +29,11 @@ func New(databaseURL string, logger *zap.Logger) (*DB, error) {
 	db.SetMaxIdleConns(25)
 	db.SetConnMaxLifetime(5 * time.Minute)
 
-	// Test the connection
-	if err := db.Ping(); err != nil {
-		return nil, fmt.Errorf("failed to ping database: %w", err)
+	// Test the connection with a timeout to avoid indefinite hangs
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := db.PingContext(ctx); err != nil {
+		return nil, fmt.Errorf("failed to ping database (timeout 10s): %w", err)
 	}
 
 	logger.Info("Successfully connected to database")
