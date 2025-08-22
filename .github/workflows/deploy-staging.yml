@@ -137,8 +137,8 @@ jobs:
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true'
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12 # v2.1.2
         with:
-                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
-                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
       - name: Set up Cloud SDK
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true'
@@ -325,8 +325,8 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12 # v2.1.2
         with:
-                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
-                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -553,8 +553,8 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12 # v2.1.2
         with:
-                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
-                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -598,12 +598,14 @@ jobs:
 
       - name: Set image variables from existing deployments or new builds
         shell: bash
+        env:
+          IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
         run: |
           set -euo pipefail
           
           # Set API image - use new build if API changed, otherwise get from existing deployment
           if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
           else
             # Get existing API image from Cloud Run service
             API_IMG=$(gcloud run services describe finspeed-api-staging \
@@ -619,7 +621,7 @@ jobs:
           
           # Set Frontend image - use new build if frontend changed, otherwise get from existing deployment
           if [[ "${{ needs.changes.outputs.frontend }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+            echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
           else
             # Get existing frontend image from Cloud Run service
             FRONTEND_IMG=$(gcloud run services describe finspeed-frontend-staging \
@@ -635,7 +637,7 @@ jobs:
           
           # Set Migrate image - use new build if API changed, otherwise get from existing deployment
           if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
           else
             # Get existing migrate image from Cloud Run job
             MIG_IMG=$(gcloud run jobs describe finspeed-migrate-staging \
@@ -714,8 +716,8 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12
         with:
-                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
-                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
