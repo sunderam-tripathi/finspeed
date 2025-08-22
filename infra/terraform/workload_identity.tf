@@ -29,6 +29,10 @@ resource "google_iam_workload_identity_pool" "github_pool" {
 # Reference existing Workload Identity Pool (hardcoded to avoid permission issues)
 locals {
   workload_identity_pool_name = google_iam_workload_identity_pool.github_pool.name
+  # Attribute condition varies by environment:
+  # - production: only allow main branch and tags
+  # - staging: allow develop, PR merge refs, and tags
+  wif_attribute_condition = var.environment == "production" ? "assertion.repository == '${var.github_repository}' && (assertion.ref == 'refs/heads/main' || assertion.ref_type == 'tag')" : "assertion.repository == '${var.github_repository}' && (assertion.ref == 'refs/heads/develop' || startswith(assertion.ref, 'refs/pull/') || assertion.ref_type == 'tag')"
 }
 
 # Create Workload Identity Provider for GitHub
@@ -53,7 +57,7 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
   }
 
   # Condition to restrict access to specific repository and branches (temporarily allowing feature branches for testing)
-  attribute_condition = "assertion.repository == '${var.github_repository}' && (assertion.ref == 'refs/heads/main' || assertion.ref == 'refs/heads/develop' || assertion.ref_type == 'tag' || assertion.ref == 'refs/heads/feat/p1-local-dev-setup')"
+  attribute_condition = local.wif_attribute_condition
 }
 
 # Create service account for GitHub Actions
