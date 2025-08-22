@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}";
+self.__REACT_LOADABLE_MANIFEST='{"theme/m3.ts -> @material/material-color-utilities":{"id":5236,"files":["static/chunks/236.ce2f52b87595c15e.js"]}}';

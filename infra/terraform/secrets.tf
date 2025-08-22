@@ -39,7 +39,7 @@ resource "google_secret_manager_secret" "database_url" {
 
 resource "google_secret_manager_secret_version" "database_url" {
   secret      = google_secret_manager_secret.database_url.id
-    secret_data = "postgres://${google_sql_user.finspeed_user.name}:${urlencode(random_password.database_password.result)}@${google_sql_database_instance.postgres.private_ip_address}:5432/${google_sql_database.finspeed_database.name}?sslmode=require"
+  secret_data = "postgres://${google_sql_user.finspeed_user.name}:${urlencode(random_password.database_password.result)}@${google_sql_database_instance.postgres.private_ip_address}:5432/${google_sql_database.finspeed_database.name}?sslmode=require"
 
 
 }

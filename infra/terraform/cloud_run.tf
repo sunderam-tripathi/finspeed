@@ -96,16 +96,16 @@ resource "google_project_iam_member" "cloud_run_sa_permissions" {
 
 # Cloud Run service for the API
 resource "google_cloud_run_v2_service" "api" {
-  name     = local.api_service_name
-  location = local.region
+  name                = local.api_service_name
+  location            = local.region
   deletion_protection = var.enable_deletion_protection
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
-  
+  ingress             = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
   labels = local.common_labels
 
   template {
     labels = local.common_labels
-    
+
     service_account = google_service_account.cloud_run_sa.email
 
     scaling {
@@ -198,16 +198,16 @@ resource "google_cloud_run_v2_service" "api" {
 
 # Cloud Run service for the Frontend
 resource "google_cloud_run_v2_service" "frontend" {
-  name     = local.frontend_service_name
-  location = local.region
+  name                = local.frontend_service_name
+  location            = local.region
   deletion_protection = var.enable_deletion_protection
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
-  
+  ingress             = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
   labels = local.common_labels
 
   template {
     labels = local.common_labels
-    
+
     service_account = google_service_account.cloud_run_sa.email
 
     scaling {
@@ -290,19 +290,21 @@ resource "google_cloud_run_v2_service" "frontend" {
 
 
 resource "google_cloud_run_v2_job" "migrate" {
-  name     = "finspeed-migrate-${local.environment}"
-  location = local.region
-  labels   = local.common_labels
+  name                = "finspeed-migrate-${local.environment}"
+  location            = local.region
+  labels              = local.common_labels
   deletion_protection = false
 
   template {
+    task_count = 1
     template {
       service_account = google_service_account.cloud_run_sa.email
 
-      timeout    = "600s" # 10 minutes
+      max_retries = 0
+      timeout     = "600s" # 10 minutes
 
       containers {
-        image = var.migrate_image
+        image   = var.migrate_image
         command = ["/app/main"]
         args    = ["migrate"]
 
@@ -314,6 +316,11 @@ resource "google_cloud_run_v2_job" "migrate" {
               version = "latest"
             }
           }
+        }
+
+        env {
+          name  = "MIGRATIONS_PATH"
+          value = "file:///app/db/migrations"
         }
 
         resources {
@@ -352,7 +359,7 @@ resource "google_cloud_run_v2_job" "migrate" {
 # Custom domain mapping (optional)
 resource "google_cloud_run_domain_mapping" "api_domain" {
   count = var.domain_name != "" && local.region != "asia-south2" ? 1 : 0
-  
+
   location = google_cloud_run_v2_service.api.location
   name     = "api.${var.domain_name}"
 
@@ -367,7 +374,7 @@ resource "google_cloud_run_domain_mapping" "api_domain" {
 
 resource "google_cloud_run_domain_mapping" "frontend_domain" {
   count = var.domain_name != "" && local.region != "asia-south2" ? 1 : 0
-  
+
   location = google_cloud_run_v2_service.frontend.location
   name     = var.domain_name
 

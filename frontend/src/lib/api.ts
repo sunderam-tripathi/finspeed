@@ -109,6 +109,15 @@ export interface OrdersResponse {
   limit: number;
 }
 
+// Razorpay types
+export interface RazorpayOrderResponse {
+  order_id: number;
+  razorpay_order_id: string;
+  amount: number; // in paise
+  currency: string; // e.g., INR
+  key_id: string;
+}
+
 class ApiClient {
   private baseUrl: string;
   private token: string | null = null;
@@ -144,6 +153,7 @@ class ApiClient {
     const response = await fetch(url, {
       ...options,
       headers,
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -263,9 +273,29 @@ class ApiClient {
   }
 
   async createOrder(items: { product_id: number; qty: number }[], shippingAddress: ShippingAddress): Promise<{ order_id: number; total: number }> {
-    return this.request<{ order_id: number; total: number }>('/orders', {
-      method: 'POST',
+    return this.request<{ order_id: number; total: number }>("/orders", {
+      method: "POST",
       body: JSON.stringify({ items, shipping_address: shippingAddress }),
+    });
+  }
+
+  // Payments (Razorpay)
+  async createRazorpayOrder(orderId: number): Promise<RazorpayOrderResponse> {
+    return this.request<RazorpayOrderResponse>("/payments/razorpay/order", {
+      method: "POST",
+      body: JSON.stringify({ order_id: orderId }),
+    });
+  }
+
+  async verifyRazorpayPayment(payload: {
+    order_id: number;
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }): Promise<{ status: string }> {
+    return this.request<{ status: string }>("/payments/razorpay/verify", {
+      method: "POST",
+      body: JSON.stringify(payload),
     });
   }
 

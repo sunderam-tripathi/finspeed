@@ -87,21 +87,21 @@ resource "google_service_account_iam_binding" "github_actions_token_creator" {
 # Grant necessary permissions to the service account
 resource "google_project_iam_member" "github_actions_permissions" {
   for_each = toset([
-    "roles/run.admin",                    # Deploy Cloud Run services
-    "roles/cloudsql.admin",              # Manage Cloud SQL
-    "roles/secretmanager.admin",         # Manage secrets
-    "roles/monitoring.admin",            # Manage monitoring
-    "roles/compute.networkAdmin",        # Manage VPC and networking
+    "roles/run.admin",            # Deploy Cloud Run services
+    "roles/cloudsql.admin",       # Manage Cloud SQL
+    "roles/secretmanager.admin",  # Manage secrets
+    "roles/monitoring.admin",     # Manage monitoring
+    "roles/compute.networkAdmin", # Manage VPC and networking
     "roles/iam.serviceAccountUser",
     "roles/cloudsql.client",
     "roles/iam.serviceAccountTokenCreator", # Create access tokens for impersonation
-    "roles/storage.admin",               # Access Cloud Storage (for Terraform state)
-    "roles/artifactregistry.admin",      # Push/pull container images
-    "roles/cloudbuild.builds.builder",   # Build containers
+    "roles/storage.admin",                  # Access Cloud Storage (for Terraform state)
+    "roles/artifactregistry.admin",         # Push/pull container images
+    "roles/cloudbuild.builds.builder",      # Build containers
     "roles/iam.serviceAccountAdmin",
-    "roles/iap.admin",                   # Manage IAP settings
-    "roles/compute.securityAdmin",     # Manage SSL certificates and security policies
-    "roles/editor"                     # Broad permissions to ensure IAP brand creation and state access
+    "roles/iap.admin",             # Manage IAP settings
+    "roles/compute.securityAdmin", # Manage SSL certificates and security policies
+    "roles/editor"                 # Broad permissions to ensure IAP brand creation and state access
   ])
 
   project = local.project_id

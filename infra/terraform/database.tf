@@ -9,12 +9,12 @@ resource "google_sql_database_instance" "postgres" {
   deletion_protection = false
 
   settings {
-    tier                        = var.database_tier
-    availability_type           = var.environment == "production" ? "REGIONAL" : "ZONAL"
-    disk_type                   = "PD_SSD"
-    disk_size                   = var.environment == "production" ? 100 : 20
-    disk_autoresize             = true
-    disk_autoresize_limit       = var.environment == "production" ? 500 : 100
+    tier                  = var.database_tier
+    availability_type     = var.environment == "production" ? "REGIONAL" : "ZONAL"
+    disk_type             = "PD_SSD"
+    disk_size             = var.environment == "production" ? 100 : 20
+    disk_autoresize       = true
+    disk_autoresize_limit = var.environment == "production" ? 500 : 100
 
     # Backup configuration
     backup_configuration {
@@ -74,7 +74,7 @@ resource "google_sql_database_instance" "postgres" {
 resource "google_sql_database" "finspeed_database" {
   name     = local.database_name
   instance = google_sql_database_instance.postgres.name
-  
+
   depends_on = [google_sql_database_instance.postgres]
 }
 
@@ -83,14 +83,14 @@ resource "google_sql_user" "finspeed_user" {
   name     = local.database_user
   instance = google_sql_database_instance.postgres.name
   password = random_password.database_password.result
-  
+
   depends_on = [google_sql_database_instance.postgres]
 }
 
 # Create a read replica for production
 resource "google_sql_database_instance" "postgres_replica" {
   count = var.environment == "production" ? 1 : 0
-  
+
   name                 = "finspeed-postgres-replica-${local.environment}"
   master_instance_name = google_sql_database_instance.postgres.name
   region               = local.region
@@ -101,11 +101,11 @@ resource "google_sql_database_instance" "postgres_replica" {
   }
 
   settings {
-    tier                        = var.database_tier
-    availability_type           = "ZONAL"
-    disk_type                   = "PD_SSD"
-    disk_autoresize             = true
-    disk_autoresize_limit       = 500
+    tier                  = var.database_tier
+    availability_type     = "ZONAL"
+    disk_type             = "PD_SSD"
+    disk_autoresize       = true
+    disk_autoresize_limit = 500
 
     ip_configuration {
       ipv4_enabled                                  = false

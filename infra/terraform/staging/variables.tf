@@ -40,8 +40,21 @@ variable "enable_deletion_protection" {}
 variable "labels" { type = map(string) }
 
 # Image variables (passed in by CI)
-variable "api_image" {}
-variable "migrate_image" {}
+variable "api_image" {
+  description = "The full Docker image URL for the API service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "frontend_image" {
+  description = "The full Docker image URL for the frontend service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "migrate_image" {
+  description = "The full Docker image URL for the database migration job."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
 
 # GitHub Actions / CI/CD configuration
 variable "github_repository" {}

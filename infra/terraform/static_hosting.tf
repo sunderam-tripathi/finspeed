@@ -1,6 +1,6 @@
 # Cloud Storage bucket for static website hosting
 resource "google_storage_bucket" "static_website" {
-  count                      = var.use_static_hosting ? 1 : 0
+  count                       = var.use_static_hosting ? 1 : 0
   name                        = "finspeed-static-${local.environment}"
   location                    = "US"
   project                     = local.project_id
