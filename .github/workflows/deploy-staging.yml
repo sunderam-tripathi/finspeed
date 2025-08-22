@@ -410,8 +410,18 @@ jobs:
           fi
         working-directory: ./infra/terraform/staging
 
+      - name: Check bootstrap SA secret present
+        id: bootstrap_present
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING }}" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Authenticate to Google Cloud (bootstrap SA, optional)
-        if: ${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING != '' }}
+        if: ${{ steps.bootstrap_present.outputs.ok == 'true' }}
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
@@ -425,7 +435,7 @@ jobs:
         working-directory: ./infra/terraform/staging
 
       - name: Authenticate to Google Cloud (switch to GH Actions SA)
-        if: ${{ secrets.GCP_BOOTSTRAP_SERVICE_ACCOUNT_STAGING != '' }}
+        if: ${{ steps.bootstrap_present.outputs.ok == 'true' }}
         uses: google-github-actions/auth@b7593ed2efd1c1617e1b0254da33b86225adb2a5 # v2.1.12
         with:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
