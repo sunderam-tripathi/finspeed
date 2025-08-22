@@ -13,12 +13,14 @@ resource "google_project_service" "required_apis" {
     "iam.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "sts.googleapis.com",
-    "storage.googleapis.com"
+    "storage.googleapis.com",
+    "cloudfunctions.googleapis.com",
+    "cloudbuild.googleapis.com"
   ])
 
   project = local.project_id
   service = each.value
 
   disable_dependent_services = false
-  disable_on_destroy        = false
+  disable_on_destroy         = false
 }

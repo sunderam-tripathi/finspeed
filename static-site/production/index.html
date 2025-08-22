@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finspeed — Welcome</title>
+  <style>
+    :root { color-scheme: light dark; }
+    html, body { margin: 0; height: 100%; }
+    body { display: grid; place-items: center; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: radial-gradient(1200px 600px at 50% -10%, #0ea5e922, #0000), #0b1020; color: #eef2ff; }
+    .card { max-width: 720px; padding: 2.5rem; border-radius: 16px; background: #0f172aCC; backdrop-filter: blur(6px); border: 1px solid #334155; box-shadow: 0 20px 60px rgba(2,6,23,.45); }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 .5rem; letter-spacing: .5px; }
+    p { margin: .25rem 0; color: #cbd5e1; }
+    .badge { display: inline-block; padding: .25rem .6rem; border: 1px solid #22d3ee66; border-radius: 999px; color: #67e8f9; background: #06b6d422; font-size: .8rem; margin-bottom: 1rem; }
+    .row { display: flex; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .btn { padding: .6rem .9rem; border-radius: 10px; border: 1px solid #334155; color: #e2e8f0; background: #111827; text-decoration: none; }
+    .btn.primary { background: #0ea5e9; border-color: #38bdf8; color: #021018; }
+    .muted { font-size: .9rem; color: #94a3b8; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <span class="badge">Finspeed</span>
+    <h1>Welcome — We’re getting ready</h1>
+    <p>This production site is currently serving a temporary landing page.</p>
+    <p class="muted">Our new experience is being built and tested in staging. Check back soon.</p>
+    <div class="row">
+      <a class="btn primary" href="/index.html">Refresh</a>
+      <a class="btn" href="https://admin.finspeed.online">Admin</a>
+    </div>
+  </main>
+</body>
+</html>

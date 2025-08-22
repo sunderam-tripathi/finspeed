@@ -29,6 +29,8 @@ RUN pnpm config set store-dir /app/.pnpm-store
 # Accept environment arg for the build
 ARG NEXT_PUBLIC_ENVIRONMENT
 ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
+ARG NEXT_PUBLIC_ENABLE_M3
+ENV NEXT_PUBLIC_ENABLE_M3=$NEXT_PUBLIC_ENABLE_M3
 
 # Copy package files
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
@@ -45,6 +47,12 @@ RUN pnpm run build
 # --- Production Stage ---
 FROM base AS prod
 WORKDIR /app
+
+# Accept build args again in this stage and set as runtime env vars
+ARG NEXT_PUBLIC_ENVIRONMENT
+ARG NEXT_PUBLIC_ENABLE_M3
+ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
+ENV NEXT_PUBLIC_ENABLE_M3=$NEXT_PUBLIC_ENABLE_M3
 
 # Copy built application from builder
 COPY --from=builder /app/.next/standalone ./

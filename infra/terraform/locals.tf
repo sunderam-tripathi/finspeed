@@ -11,6 +11,7 @@ locals {
   # Cloud Run service names
   api_service_name      = "finspeed-api-${local.environment}"
   frontend_service_name = "finspeed-frontend-${local.environment}"
+  admin_service_name    = "finspeed-admin-${local.environment}"
 
   # Common tags for all resources
   common_labels = {

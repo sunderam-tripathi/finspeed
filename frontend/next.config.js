@@ -51,6 +51,20 @@ const nextConfig = {
     // Important: return the modified config
     return config;
   },
+
+  // Dev-time proxy for API to keep same-origin and preserve cookies (cart/session)
+  async rewrites() {
+    if (process.env.NODE_ENV !== 'production') {
+      const target = process.env.API_PROXY_TARGET || 'http://localhost:8080';
+      return [
+        {
+          source: '/api/v1/:path*',
+          destination: `${target}/api/v1/:path*`,
+        },
+      ];
+    }
+    return [];
+  },
   
   // Configure page extensions
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],

@@ -33,6 +33,7 @@ variable "enable_iap_api" {}
 variable "enable_iap_frontend" {}
 variable "allow_public_api" {}
 variable "allow_public_frontend" {}
+variable "use_static_hosting" {}
 
 // Image variables (injected by CI during deploy). Defaults keep infra apply working.
 variable "api_image" {

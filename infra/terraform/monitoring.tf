@@ -3,10 +3,10 @@
 # Notification channel for alerts (email)
 resource "google_monitoring_notification_channel" "email" {
   count = var.notification_email != "" ? 1 : 0
-  
+
   display_name = "Finspeed Email Notifications (${local.environment})"
   type         = "email"
-  
+
   labels = {
     email_address = var.notification_email
   }
@@ -17,7 +17,7 @@ resource "google_monitoring_notification_channel" "email" {
 # Uptime check for API service
 resource "google_monitoring_uptime_check_config" "api_uptime_check" {
   count = var.enable_uptime_checks ? 1 : 0
-  
+
   display_name = "Finspeed API Uptime Check (${local.environment})"
   timeout      = "10s"
   period       = "60s"
@@ -48,7 +48,7 @@ resource "google_monitoring_uptime_check_config" "api_uptime_check" {
 # Uptime check for Frontend service
 resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
   count = var.enable_uptime_checks ? 1 : 0
-  
+
   display_name = "Finspeed Frontend Uptime Check (${local.environment})"
   timeout      = "10s"
   period       = "60s"
@@ -74,20 +74,20 @@ resource "google_monitoring_uptime_check_config" "frontend_uptime_check" {
 # Alert policy for API uptime
 resource "google_monitoring_alert_policy" "api_uptime_alert" {
   count = var.enable_uptime_checks && var.notification_email != "" ? 1 : 0
-  
+
   display_name = "Finspeed API Down Alert (${local.environment})"
   combiner     = "OR"
   enabled      = true
 
   conditions {
     display_name = "API Uptime Check Failed"
-    
+
     condition_threshold {
       filter          = "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" AND resource.type=\"uptime_url\" AND resource.labels.project_id=\"${local.project_id}\""
       duration        = "300s"
       comparison      = "COMPARISON_LT"
       threshold_value = 1
-      
+
       aggregations {
         alignment_period   = "300s"
         per_series_aligner = "ALIGN_NEXT_OLDER"
@@ -105,20 +105,20 @@ resource "google_monitoring_alert_policy" "api_uptime_alert" {
 # Alert policy for high error rate
 resource "google_monitoring_alert_policy" "high_error_rate" {
   count = var.notification_email != "" ? 1 : 0
-  
+
   display_name = "Finspeed High Error Rate (${local.environment})"
   combiner     = "OR"
   enabled      = true
 
   conditions {
     display_name = "High 5xx Error Rate"
-    
+
     condition_threshold {
       filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${local.api_service_name}\" AND metric.type=\"run.googleapis.com/request_count\" AND metric.labels.response_code_class=\"5xx\""
       duration        = "300s"
       comparison      = "COMPARISON_GT"
       threshold_value = 5
-      
+
       aggregations {
         alignment_period     = "300s"
         per_series_aligner   = "ALIGN_RATE"
@@ -133,20 +133,20 @@ resource "google_monitoring_alert_policy" "high_error_rate" {
 # Alert policy for high response latency
 resource "google_monitoring_alert_policy" "high_latency" {
   count = var.notification_email != "" ? 1 : 0
-  
+
   display_name = "Finspeed High Response Latency (${local.environment})"
   combiner     = "OR"
   enabled      = true
 
   conditions {
     display_name = "High P95 Response Latency"
-    
+
     condition_threshold {
       filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"${local.api_service_name}\" AND metric.type=\"run.googleapis.com/request_latencies\""
       duration        = "300s"
       comparison      = "COMPARISON_GT"
-      threshold_value = 1000  # 1 second in milliseconds
-      
+      threshold_value = 1000 # 1 second in milliseconds
+
       aggregations {
         alignment_period     = "300s"
         per_series_aligner   = "ALIGN_DELTA"
@@ -161,20 +161,20 @@ resource "google_monitoring_alert_policy" "high_latency" {
 # Alert policy for database connection issues
 resource "google_monitoring_alert_policy" "database_connection" {
   count = var.notification_email != "" ? 1 : 0
-  
+
   display_name = "Finspeed Database Connection Issues (${local.environment})"
   combiner     = "OR"
   enabled      = true
 
   conditions {
     display_name = "High Database Connection Count"
-    
+
     condition_threshold {
       filter          = "resource.type=\"cloudsql_database\" AND resource.labels.database_id=\"${local.project_id}:${google_sql_database_instance.postgres.name}\" AND metric.type=\"cloudsql.googleapis.com/database/postgresql/num_backends\""
       duration        = "300s"
       comparison      = "COMPARISON_GT"
-      threshold_value = 80  # 80% of max connections
-      
+      threshold_value = 80 # 80% of max connections
+
       aggregations {
         alignment_period   = "300s"
         per_series_aligner = "ALIGN_MEAN"

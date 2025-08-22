@@ -15,6 +15,11 @@ type Config struct {
 	LogLevel       string
 	MigrationsPath string
 	JWTSecret      string
+	// Payments / Frontend
+	RazorpayKeyID        string
+	RazorpayKeySecret    string
+	RazorpayWebhookSecret string
+	FrontendBaseURL     string
 }
 
 func Load() (*Config, error) {
@@ -31,6 +36,10 @@ func Load() (*Config, error) {
 		LogLevel:       getEnvWithDefault("LOG_LEVEL", "info"),
 		MigrationsPath: getEnvWithDefault("MIGRATIONS_PATH", "file:///app/db/migrations"),
 		JWTSecret:      getEnvWithDefault("JWT_SECRET", "your-super-secret-jwt-key-change-in-production"),
+		RazorpayKeyID:        getEnvWithDefault("RAZORPAY_KEY_ID", ""),
+		RazorpayKeySecret:    getEnvWithDefault("RAZORPAY_KEY_SECRET", ""),
+		RazorpayWebhookSecret: getEnvWithDefault("RAZORPAY_WEBHOOK_SECRET", ""),
+		FrontendBaseURL:     getEnvWithDefault("FRONTEND_BASE_URL", "http://localhost:3000"),
 	}
 
 	if err := config.validate(); err != nil {
@@ -73,3 +82,4 @@ func getEnvAsInt(key string, defaultValue int) int {
 	}
 	return defaultValue
 }
+

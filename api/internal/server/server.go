@@ -69,6 +69,7 @@ func (s *Server) SetupRoutes() {
 	categoryHandler := handlers.NewCategoryHandler(s.db, s.logger)
 	cartHandler := handlers.NewCartHandler(s.db, s.logger)
 	orderHandler := handlers.NewOrderHandler(s.db, s.logger)
+	paymentHandler := handlers.NewPaymentHandler(s.db, s.logger, s.config)
 	s.logger.Info("[ROUTES] All handlers initialized.")
 
 	// Health check routes
@@ -109,6 +110,9 @@ func (s *Server) SetupRoutes() {
 		}
 		s.logger.Info("[ROUTES] Cart routes configured.")
 
+		        // Public payments webhook (Razorpay)
+        v1.POST("/payments/razorpay/webhook", paymentHandler.RazorpayWebhook)
+
 		// Protected routes (require authentication)
 		protected := v1.Group("/")
 		protected.Use(middleware.AuthMiddleware(s.config, s.logger))
@@ -117,6 +121,10 @@ func (s *Server) SetupRoutes() {
 			protected.GET("/orders", orderHandler.GetOrders)
 			protected.GET("/orders/:id", orderHandler.GetOrder)
 			protected.POST("/orders", orderHandler.CreateOrder)
+
+			            // Payments routes (Razorpay)
+            protected.POST("/payments/razorpay/order", paymentHandler.CreateRazorpayOrder)
+            protected.POST("/payments/razorpay/verify", paymentHandler.VerifyRazorpayPayment)
 		}
 		s.logger.Info("[ROUTES] Protected (order) routes configured.")
 

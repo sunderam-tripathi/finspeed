@@ -22,6 +22,7 @@ export default function CheckoutPage() {
     pincode: '',
     country: 'India',
   });
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'razorpay'>('cod');
 
   useEffect(() => {
     checkAuth();
@@ -57,6 +58,20 @@ export default function CheckoutPage() {
     setShippingAddress(prev => ({ ...prev, [name]: value }));
   };
 
+  // Load Razorpay checkout script once
+  const loadRazorpayScript = () => {
+    return new Promise<boolean>((resolve) => {
+      if (typeof window === 'undefined') return resolve(false);
+      if ((window as any).Razorpay) return resolve(true);
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -74,11 +89,69 @@ export default function CheckoutPage() {
 
       const result = await apiClient.createOrder(orderItems, shippingAddress);
       
-      // Clear cart after successful order
-      await apiClient.clearCart();
-      
-      // Redirect to order confirmation
-      router.push(`/orders/${result.order_id}?success=true`);
+      if (paymentMethod === 'razorpay') {
+        // Create Razorpay order and open checkout
+        try {
+          const ok = await loadRazorpayScript();
+          if (!ok) {
+            alert('Failed to load Razorpay. Please try again or choose COD.');
+            return;
+          }
+
+          const rzpOrder = await apiClient.createRazorpayOrder(result.order_id);
+
+          const options: any = {
+            key: rzpOrder.key_id,
+            amount: rzpOrder.amount,
+            currency: rzpOrder.currency,
+            name: 'Finspeed',
+            description: `Order #${rzpOrder.order_id}`,
+            image: '/images/brand/logo-512.png',
+            order_id: rzpOrder.razorpay_order_id,
+            prefill: {
+              name: shippingAddress.name,
+              contact: shippingAddress.phone,
+            },
+            theme: { color: '#2563EB' },
+            handler: async (response: any) => {
+              try {
+                const verifyRes = await apiClient.verifyRazorpayPayment({
+                  order_id: rzpOrder.order_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                });
+                if (verifyRes.status === 'verified') {
+                  await apiClient.clearCart();
+                  window.location.href = `/orders/${rzpOrder.order_id}?success=true`;
+                } else {
+                  alert('Payment verification failed.');
+                }
+              } catch (verErr) {
+                console.error('Verification error:', verErr);
+                alert('Payment verification failed.');
+              }
+            },
+            modal: {
+              ondismiss: () => {
+                // User closed the payment modal
+              }
+            }
+          };
+
+          const rzp = new (window as any).Razorpay(options);
+          rzp.open();
+          return; // Stop further execution
+        } catch (err) {
+          console.error('Razorpay error:', err);
+          alert('Failed to initiate Razorpay payment. You can try Cash on Delivery or try again.');
+          return;
+        }
+      } else {
+        // COD: clear cart and go to order page
+        await apiClient.clearCart();
+        router.push(`/orders/${result.order_id}?success=true`);
+      }
     } catch (error) {
       console.error('Failed to create order:', error);
       alert('Failed to place order. Please try again.');
@@ -243,14 +316,50 @@ export default function CheckoutPage() {
               {/* Payment Method */}
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h3>
-                <div className="border border-gray-300 rounded-md p-4">
-                  <div className="flex items-center">
-                    <CreditCardIcon className="h-6 w-6 text-gray-400 mr-3" />
-                    <span className="text-gray-700">Cash on Delivery (COD)</span>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Pay when your order is delivered to your doorstep.
-                  </p>
+                <div className="space-y-3">
+                  <label className={`flex items-start p-4 border rounded-md cursor-pointer ${paymentMethod === 'cod' ? 'border-blue-500 ring-1 ring-blue-200 bg-blue-50' : 'border-gray-300'}`}>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="cod"
+                      checked={paymentMethod === 'cod'}
+                      onChange={() => setPaymentMethod('cod')}
+                      className="mt-1 mr-3"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        <CreditCardIcon className="h-6 w-6 text-gray-400 mr-3" />
+                        <span className="text-gray-700 font-medium">Cash on Delivery (COD)</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">Pay when your order is delivered to your doorstep.</p>
+                    </div>
+                  </label>
+
+                  <label className={`flex items-start p-4 border rounded-md cursor-pointer ${paymentMethod === 'razorpay' ? 'border-blue-500 ring-1 ring-blue-200 bg-blue-50' : 'border-gray-300'}`}>
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="razorpay"
+                      checked={paymentMethod === 'razorpay'}
+                      onChange={() => setPaymentMethod('razorpay')}
+                      className="mt-1 mr-3"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        <CreditCardIcon className="h-6 w-6 text-gray-400 mr-3" />
+                        <span className="text-gray-700 font-medium">Online Payment (Razorpay UPI/Cards)</span>
+                      </div>
+                      <p className="text-sm text-gray-500 mt-1">Pay securely using UPI, Cards, and more via Razorpay.</p>
+                      <div className="mt-2 flex items-center gap-3">
+                        <Image src="/images/payments/razorpay.svg" alt="Razorpay" width={28} height={18} />
+                        <Image src="/images/payments/upi.svg" alt="UPI" width={28} height={18} />
+                        <Image src="/images/payments/visa.svg" alt="Visa" width={28} height={18} />
+                        <Image src="/images/payments/mastercard.svg" alt="Mastercard" width={28} height={18} />
+                        <Image src="/images/payments/rupay.svg" alt="RuPay" width={28} height={18} />
+                        <Image src="/images/payments/amex.svg" alt="Amex" width={28} height={18} />
+                      </div>
+                    </div>
+                  </label>
                 </div>
               </div>
 
@@ -264,7 +373,9 @@ export default function CheckoutPage() {
                 ) : (
                   <LockClosedIcon className="h-5 w-5 mr-2" />
                 )}
-                {submitting ? 'Placing Order...' : 'Place Order'}
+                {submitting
+                  ? (paymentMethod === 'razorpay' ? 'Opening Razorpay...' : 'Placing Order...')
+                  : (paymentMethod === 'razorpay' ? 'Continue to Payment' : 'Place Order')}
               </button>
             </form>
           </div>

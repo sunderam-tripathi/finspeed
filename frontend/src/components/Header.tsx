@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingBagIcon, UserIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { apiClient, Cart } from '@/lib/api';
+import ThemeControls from '@/components/ThemeControls';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +36,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="top-app-bar md-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -48,8 +49,7 @@ export default function Header() {
                 height={28}
                 priority
               />
-              <span className="ml-2 text-2xl text-gray-900 font-heading font-black">Finspeed</span>
-              <span className="ml-2 text-sm text-gray-500 hidden sm:block">Premium Store</span>
+              <span className="ml-2 text-2xl font-heading font-black uppercase">Finspeed</span>
             </Link>
           </div>
 
@@ -57,18 +57,18 @@ export default function Header() {
           <div className="hidden md:flex flex-1 max-w-lg mx-8">
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                <MagnifyingGlassIcon className="h-5 w-5 text-[color:var(--md-sys-color-outline)]" />
               </div>
               <input
                 type="text"
                 placeholder="Search products..."
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-10 pr-3 py-2 md-textfield leading-5 placeholder-gray-500"
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             <Link href="/products" className="text-gray-700 hover:text-gray-900 font-medium">
               Products
             </Link>
@@ -80,7 +80,7 @@ export default function Header() {
             <Link href="/cart" className="relative p-2 text-gray-700 hover:text-gray-900">
               <ShoppingBagIcon className="h-6 w-6" />
               {cart && cart.count > 0 && (
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cart.count}
                 </span>
               )}
@@ -96,13 +96,18 @@ export default function Header() {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link href="/auth/login" className="text-gray-700 hover:text-gray-900 font-medium">
+                <Link href="/auth/login" className="btn-outlined">
                   Sign In
                 </Link>
-                <Link href="/auth/register" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium">
+                <Link href="/auth/register" className="btn-filled">
                   Sign Up
                 </Link>
               </div>
+            )}
+
+            {/* Theme Controls */}
+            {(process.env.NEXT_PUBLIC_ENABLE_M3 === '1' || process.env.NEXT_PUBLIC_ENABLE_M3 === 'true') && (
+              <ThemeControls />
             )}
           </nav>
 
@@ -125,21 +130,26 @@ export default function Header() {
         <div className="md:hidden pb-4">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+              <MagnifyingGlassIcon className="h-5 w-5 text-[color:var(--md-sys-color-outline)]" />
             </div>
             <input
               type="text"
               placeholder="Search products..."
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full pl-10 pr-3 py-2 md-textfield leading-5 placeholder-gray-500"
             />
           </div>
+          {(process.env.NEXT_PUBLIC_ENABLE_M3 === '1' || process.env.NEXT_PUBLIC_ENABLE_M3 === 'true') && (
+            <div className="mt-3 flex justify-end">
+              <ThemeControls />
+            </div>
+          )}
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 md-surface border-t border-[color:var(--md-sys-color-outline-variant)]">
             <Link
               href="/products"
               className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
@@ -183,7 +193,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="block px-3 py-2 text-base font-medium bg-blue-600 text-white hover:bg-blue-700 rounded-md"
+                  className="block px-3 py-2 text-base font-medium bg-primary-600 text-white hover:bg-primary-700 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign Up

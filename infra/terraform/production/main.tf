@@ -42,4 +42,5 @@ module "finspeed_infra" {
   enable_iap_frontend              = var.enable_iap_frontend
   allow_public_api                 = var.allow_public_api
   allow_public_frontend            = var.allow_public_frontend
+  use_static_hosting               = var.use_static_hosting
 }

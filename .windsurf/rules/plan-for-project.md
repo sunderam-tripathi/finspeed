@@ -8,7 +8,7 @@ description: The project plan
 **Owner:** You  
 **Goal:** Launch a fast, reliable e‑commerce site for cycles & accessories in India with an MVP + scale foundations.  
 **Stack:** Next.js (App Router + Tailwind, SSR/ISR), Go API + Postgres (Cloud SQL), GCP Cloud Run, GitHub Actions CI/CD.  
-**MVP Payments:** Stripe (test → live), then UPI/COD in v1.1.  
+**MVP Payments:** Razorpay (test → live), then UPI/COD in v1.1.  
 **Non‑negotiables:** HTTPS, Secret Manager, backups + restore drill, uptime checks, WAF/rate‑limit, SEO/a11y, policy pages, rollback.
 
 > **Out of scope v1.0:** Marketplace/multi‑seller, complex loyalty, multi‑warehouse, subscriptions, mobile apps.
@@ -48,7 +48,7 @@ finspeed/
 ---
 
 ## 4) Environment Variables & Secrets (contract)
-`DATABASE_URL`, `DB_MAX_CONNS`, `JWT_SECRET`, `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `WEB_BASE_URL`, `NEXT_PUBLIC_API_URL`, `EMAIL_PROVIDER_API_KEY`, `SESSION_COOKIE_DOMAIN`, `LOG_LEVEL`, `ALLOWED_ORIGINS`.  
+`DATABASE_URL`, `DB_MAX_CONNS`, `JWT_SECRET`, `Razorpay_SECRET_KEY`, `Razorpay_PUBLISHABLE_KEY`, `WEB_BASE_URL`, `NEXT_PUBLIC_API_URL`, `EMAIL_PROVIDER_API_KEY`, `SESSION_COOKIE_DOMAIN`, `LOG_LEVEL`, `ALLOWED_ORIGINS`.  
 **Rules:** All secrets in **GCP Secret Manager**, never in repo. Per‑service SAs (least privilege). Rotation policy (quarterly or on role change).
 
 ---
@@ -75,8 +75,8 @@ finspeed/
 - **Auth/Users:** Email/password; bcrypt/argon2; JWT access+refresh with rotation & revoke list; RBAC (`admin`, `customer`); audit log.  
 - **Catalogue:** Product & Category CRUD; pagination/sort/filter; images (primary/alt); inventory (`stock_qty`, `sku`, `hsn`, `warranty_months`).  
 - **Cart/Orders:** Idempotent add/remove; merge guest→user; order state machine; shipping model (address, pincode, fee rules).  
-- **Payments:** Stripe (test): webhook sig verify; idempotency keys; persist records; finalize order on `payment_intent.succeeded`; email confirmations/failures.  
-- **Admin Console:** Auth; product CRUD; inventory adjustments; order status updates; payment reconciliation view.
+- **Payments:** Razorpay (test): webhook sig verify; idempotency keys; persist records; finalize order on `payment_intent.succeeded`; email confirmations/failures.  
+- **Admin Console:** Auth; product CRUD; inventory adjustments; order status updates; payment (Razorpay) reconciliation view.
 
 ### D) Frontend Sprints
 - **UI:** Tailwind tokens; responsive grid; base components; pages (Home, Category, PDP, Cart, Checkout, Auth, Orders, Admin).  
@@ -95,7 +95,7 @@ finspeed/
 - **Freeze:** Migrations/content freeze except P0s.
 
 ### F) Launch & Hyper‑care (process only)
-- **Launch:** Pre‑launch DB snapshot; merge `develop`→`main`; prod deploy + migrations; switch live payment keys; place a real test order; smoke + SLO watch; rollback if P1s.  
+- **Launch:** Pre‑launch DB snapshot; merge `develop`→`main`; prod deploy + migrations; switch live payment (Razorpay) keys; place a real test order; smoke + SLO watch; rollback if P1s.  
 - **Hyper‑care:** Daily triage; SEO & Core Web Vitals; cost tuning; rollback + DB restore drills; seed v1.1 (UPI, wishlists, reviews, search, email templates).
 
 ---
@@ -103,7 +103,7 @@ finspeed/
 ## 6) Product & Ops (Cycles, India)
 - **PDP:** ≥1200px images; zoom; size/fit charts; specs; warranty; assembly/maintenance; accessories cross‑sell.  
 - **Checkout:** Address validation (basic); serviceable pincode flag; fee logic; ETA; GST invoice (name/GSTIN); order notes.  
-- **Payments:** v1.0 Stripe cards; v1.1 add UPI (Stripe/local PSP) and evaluate COD (limits/OTP/address verify).  
+- **Payments:** v1.0 Razorpay cards; v1.1 add UPI (Razorpay/local PSP) and evaluate COD (limits/OTP/address verify).  
 - **Shipping/Returns:** Courier choice; packaging; bike box specs; fragile labels; returns window 7–10d; restocking rules; DOA handling; RMA email template.  
 - **Tax/Compliance:** GST invoices + HSN; DPDP‑aligned privacy & data‑subject steps.  
 - **Support:** Contact (email/phone/WhatsApp); basic order tracking (status + AWB).
@@ -125,7 +125,7 @@ FE (Cloud Run) → API (Cloud Run) → Cloud SQL (Postgres). Secrets via Secret 
 - **Catalogue:** `GET /v1/products`, `GET /v1/products/:slug`, `GET /v1/categories`  
 - **Cart:** `GET/POST/DELETE /v1/cart*` (idempotent ops)  
 - **Orders:** `POST /v1/orders`, `GET /v1/orders/:id`  
-- **Payments (Stripe):** `POST /v1/payments/stripe/intent`, `POST /v1/payments/stripe/webhook`  
+- **Payments (Razorpay):** `POST /v1/payments/Razorpay/intent`, `POST /v1/payments/Razorpay/webhook`  
 - **Admin:** `/v1/admin/*` (RBAC + audit).  
 - **OpenAPI:** `/openapi.json` published; FE client types generated.
 
@@ -153,7 +153,7 @@ Unit (Go/React); integration (API+Postgres; FE→API contracts); E2E (Cypress fl
 ---
 
 ## 13) Risks & Mitigations
-Payment failures (retry paths, support, reconcile cron); inventory mismatch (server‑side checks, transactional updates, back‑order guard); shipping issues (RMA/photos/serials, DOA window, restocking fees); perf spikes (autoscale, ISR, image opt, caching, budgets in CI); cost overruns (budgets, min instances=0, right‑size DB, monthly review); solo‑builder risk (docs, runbooks, restore drills, ADRs).
+payment (Razorpay) failures (retry paths, support, reconcile cron); inventory mismatch (server‑side checks, transactional updates, back‑order guard); shipping issues (RMA/photos/serials, DOA window, restocking fees); perf spikes (autoscale, ISR, image opt, caching, budgets in CI); cost overruns (budgets, min instances=0, right‑size DB, monthly review); solo‑builder risk (docs, runbooks, restore drills, ADRs).
 
 ---
 
@@ -168,7 +168,7 @@ UPI; COD (guardrails: value cap/OTP/address verify); wishlists; reviews/ratings;
 ---
 
 ## 16) One‑Time Admin Checklist
-GCP billing + budgets; GitHub→GCP OIDC (no long‑lived keys); Stripe (test in staging; live only prod); email domain verified (DKIM/SPF/DMARC pass); support channels listed on Contact; privacy email alias live.
+GCP billing + budgets; GitHub→GCP OIDC (no long‑lived keys); Razorpay (test in staging; live only prod); email domain verified (DKIM/SPF/DMARC pass); support channels listed on Contact; privacy email alias live.
 
 ---
 
