@@ -429,7 +429,7 @@ jobs:
 
       - name: "Bootstrap IAM: ensure projectIamAdmin on GH Actions SA"
         run: |
-          terraform apply -lock-timeout=5m -input=false -auto-approve \
+          terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
             -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]' \
             -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/iam.workloadIdentityPoolAdmin"]'
         working-directory: ./infra/terraform/staging
