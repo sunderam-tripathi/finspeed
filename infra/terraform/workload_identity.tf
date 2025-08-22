@@ -103,9 +103,10 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/artifactregistry.admin",         # Push/pull container images
     "roles/cloudbuild.builds.builder",      # Build containers
     "roles/iam.serviceAccountAdmin",
-    "roles/iap.admin",             # Manage IAP settings
-    "roles/compute.securityAdmin", # Manage SSL certificates and security policies
-    "roles/editor"                 # Broad permissions to ensure IAP brand creation and state access
+    "roles/resourcemanager.projectIamAdmin", # Modify project IAM policy (required to add/remove project IAM members)
+    "roles/iap.admin",                       # Manage IAP settings
+    "roles/compute.securityAdmin",           # Manage SSL certificates and security policies
+    "roles/editor"                           # Broad permissions to ensure IAP brand creation and state access
   ])
 
   project = local.project_id
