@@ -268,7 +268,7 @@ jobs:
           set -e
           # Expose plan text and exit code as step outputs for later steps
           {
-            echo "plan<<'EOF'"
+            echo "plan<<EOF"
             cat tfplan.txt
             echo "EOF"
             echo "exitcode=$PLAN_EXIT"
