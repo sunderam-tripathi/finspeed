@@ -33,6 +33,8 @@ locals {
   # - production: only allow main branch and tags
   # - staging: allow develop, PR merge refs, and tags
   wif_attribute_condition = var.environment == "production" ? "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/main' || attribute.ref_type == 'tag')" : "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/develop' || startswith(attribute.ref, 'refs/pull/') || attribute.ref_type == 'tag')"
+  # Compute the GitHub Actions service account email to avoid hard dependency during targeted applies
+  github_actions_sa_email = "github-actions-${var.environment}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 # Create Workload Identity Provider for GitHub
@@ -114,7 +116,7 @@ resource "google_project_iam_member" "github_actions_permissions" {
 
   project = local.project_id
   role    = each.value
-  member  = "serviceAccount:${google_service_account.github_actions.email}"
+  member  = "serviceAccount:${local.github_actions_sa_email}"
 }
 
 # Output important values for GitHub Actions configuration
