@@ -297,14 +297,14 @@ jobs:
             if (process.env.EXITCODE && process.env.EXITCODE !== '0') process.exit(1);
 
       - name: Upload Terraform plan logs
-        if: always()
+        if: ${{ always() && !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: tf-plan-debug
           path: |
             infra/terraform/staging/tfplan.txt
             infra/terraform/staging/tf-plan-debug.log
-          if-no-files-found: warn
+          if-no-files-found: ignore
 
   deploy-infra:
     name: Deploy Infrastructure
@@ -403,6 +403,10 @@ jobs:
             echo "No existing migrate job found or image empty; using GAR latest fallback."
             echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
           fi
+        working-directory: ./infra/terraform/staging
+
+      - name: Bootstrap IAM: ensure projectIamAdmin on GH Actions SA
+        run: terraform apply -lock-timeout=5m -input=false -auto-approve -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]'
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply Infra
