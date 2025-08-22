@@ -405,7 +405,7 @@ jobs:
           fi
         working-directory: ./infra/terraform/staging
 
-      - name: Bootstrap IAM: ensure projectIamAdmin on GH Actions SA
+      - name: "Bootstrap IAM: ensure projectIamAdmin on GH Actions SA"
         run: terraform apply -lock-timeout=5m -input=false -auto-approve -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]'
         working-directory: ./infra/terraform/staging
 
