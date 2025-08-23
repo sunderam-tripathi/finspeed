@@ -266,6 +266,11 @@ resource "google_compute_url_map" "url_map" {
       service = google_compute_backend_service.api_backend.id
     }
   }
+
+  lifecycle {
+    # Guard against accidental destroy while attached to HTTPS proxy
+    prevent_destroy = true
+  }
 }
 
 resource "random_id" "cert_suffix" {
