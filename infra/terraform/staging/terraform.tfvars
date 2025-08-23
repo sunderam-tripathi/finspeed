@@ -50,3 +50,6 @@ labels = {
 # GitHub Actions / CI/CD configuration
 github_repository   = "sunderam-tripathi/finspeed"   # Replace with your actual GitHub repository
 project_owner_email = "welcome@sunderamtripathi.com" # Replace with your GCP login email
+
+# Static hosting configuration
+use_static_hosting = false  # Use Cloud Run for frontend in staging
