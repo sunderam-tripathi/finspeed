@@ -142,9 +142,7 @@ resource "google_compute_url_map" "url_map_with_static" {
 
   lifecycle {
     prevent_destroy = true
-    replace_triggered_by = [
-      var.use_static_hosting
-    ]
+    create_before_destroy = true
   }
 }
 
