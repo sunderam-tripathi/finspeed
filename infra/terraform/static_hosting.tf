@@ -140,11 +140,12 @@ resource "google_compute_url_map" "url_map_with_static" {
     }
   }
 
-  # Temporarily removed lifecycle protection to allow cleanup
-  # lifecycle {
-  #   # Guard against accidental destroy while attached to HTTPS proxy
-  #   prevent_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+    replace_triggered_by = [
+      var.use_static_hosting
+    ]
+  }
 }
 
 ## Deprecated: unified certificate is managed in networking.tf; disable this resource to avoid conflicts
