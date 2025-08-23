@@ -267,10 +267,11 @@ resource "google_compute_url_map" "url_map" {
     }
   }
 
-  lifecycle {
-    # Guard against accidental destroy while attached to HTTPS proxy
-    prevent_destroy = true
-  }
+  # Temporarily removed lifecycle protection to allow cleanup
+  # lifecycle {
+  #   # Guard against accidental destroy while attached to HTTPS proxy
+  #   prevent_destroy = true
+  # }
 }
 
 resource "random_id" "cert_suffix" {

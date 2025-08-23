@@ -144,6 +144,32 @@ jobs:
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: google-github-actions/setup-gcloud@v2
 
+      - name: Terraform Format Check
+        if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          terraform validate
+
+      - name: Terraform Apply Infra
+        if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          terraform apply -lock-timeout=5m -auto-approve -input=false
+        env:
+          TF_LOG: INFO
+
       - name: Clean up stale Terraform lock (best-effort)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         shell: bash
