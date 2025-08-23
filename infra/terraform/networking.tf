@@ -303,10 +303,7 @@ resource "google_compute_target_https_proxy" "https_proxy" {
     create_before_destroy = true
   }
   name = "finspeed-https-proxy-${local.environment}"
-  url_map = element(concat(
-    google_compute_url_map.url_map_with_static[*].id,
-    google_compute_url_map.url_map[*].id
-  ), 0)
+  url_map = var.use_static_hosting && var.domain_name != "" ? google_compute_url_map.url_map_with_static[0].id : google_compute_url_map.url_map[0].id
 
   # Reuse unified managed SSL certificate
   ssl_certificates = var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
