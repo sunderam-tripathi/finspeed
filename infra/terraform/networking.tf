@@ -267,11 +267,12 @@ resource "google_compute_url_map" "url_map" {
     }
   }
 
-  # Temporarily removed lifecycle protection to allow cleanup
-  # lifecycle {
-  #   # Guard against accidental destroy while attached to HTTPS proxy
-  #   prevent_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+    replace_triggered_by = [
+      var.use_static_hosting
+    ]
+  }
 }
 
 resource "random_id" "cert_suffix" {
@@ -298,22 +299,31 @@ resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
 
 # Main HTTPS proxy points to whichever URL map exists (static or legacy)
 resource "google_compute_target_https_proxy" "https_proxy" {
-  # Temporarily disable HTTPS proxy to break URL map dependency during transition
-  count = 0
+  count = var.domain_name != "" ? 1 : 0
   lifecycle {
     create_before_destroy = true
+    # Ensure proxy recreates when switching between URL maps
+    replace_triggered_by = [
+      var.use_static_hosting
+    ]
   }
   name = "finspeed-https-proxy-${var.use_static_hosting ? "static" : "dynamic"}-${local.environment}"
   url_map = var.use_static_hosting && var.domain_name != "" ? google_compute_url_map.url_map_with_static[0].id : google_compute_url_map.url_map[0].id
 
   # Reuse unified managed SSL certificate
   ssl_certificates = var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate[0].id] : []
+  
+  # Explicit dependencies to ensure proper creation order
+  depends_on = [
+    google_compute_url_map.url_map,
+    google_compute_url_map.url_map_with_static,
+    google_compute_managed_ssl_certificate.ssl_certificate
+  ]
 }
 
 # Global forwarding rule targeting the active HTTPS proxy
 resource "google_compute_global_forwarding_rule" "forwarding_rule" {
-  # Temporarily disable forwarding rule to break HTTPS proxy dependency
-  count                 = 0
+  count                 = var.domain_name != "" ? 1 : 0
   name                  = "finspeed-forwarding-rule-${local.environment}"
   target                = google_compute_target_https_proxy.https_proxy[0].id
   ip_address            = google_compute_global_address.lb_ip.address
