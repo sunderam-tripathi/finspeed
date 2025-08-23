@@ -201,22 +201,22 @@ jobs:
       
       - name: Terraform Init (remote backend)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" -backend-config="prefix=staging-ci"
+        run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" -backend-config="prefix=staging-ci"
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Init (local backend for forks)
         if: steps.fork.outputs.is_fork == 'true'
-        run: terraform init -backend=false
+        run: terraform init -reconfigure -backend=false
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Init (local backend fallback when secrets missing)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok != 'true'
-        run: terraform init -backend=false
+        run: terraform init -reconfigure -backend=false
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Init (local backend for PRs)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
-        run: terraform init -backend=false
+        run: terraform init -reconfigure -backend=false
         working-directory: ./infra/terraform/staging
 
       - name: Seed placeholder TF_VARs (unauthenticated)
@@ -396,7 +396,7 @@ jobs:
           fi
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
       - name: Seed TF_VAR image variables (best-effort)
@@ -668,7 +668,7 @@ jobs:
           fi
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
       - name: Set image variables from existing deployments or new builds
