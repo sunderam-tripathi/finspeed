@@ -10,14 +10,6 @@ resource "google_project_service" "iam_api" {
   disable_on_destroy         = false
 }
 
-resource "google_project_service" "sts_api" {
-  service = "sts.googleapis.com"
-  project = local.project_id
-
-  disable_dependent_services = false
-  disable_on_destroy         = false
-}
-
 # Create the Workload Identity Pool for GitHub Actions
 resource "google_iam_workload_identity_pool" "github_pool" {
   project                   = local.project_id

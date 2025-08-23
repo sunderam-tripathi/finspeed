@@ -441,6 +441,14 @@ jobs:
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_STAGING }}
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_STAGING }}
 
+      - name: Wait for IAM propagation (WIF admin)
+        if: ${{ steps.bootstrap_present.outputs.ok == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Waiting 60s for IAM role changes to propagate..."
+          sleep 60
+
       - name: Best-effort import existing URL map (avoid name conflict)
         shell: bash
         env:
