@@ -298,7 +298,8 @@ resource "google_compute_managed_ssl_certificate" "ssl_certificate" {
 
 # Main HTTPS proxy points to whichever URL map exists (static or legacy)
 resource "google_compute_target_https_proxy" "https_proxy" {
-  count = var.domain_name != "" ? 1 : 0
+  # Temporarily disable HTTPS proxy to break URL map dependency during transition
+  count = 0
   lifecycle {
     create_before_destroy = true
   }
@@ -311,7 +312,8 @@ resource "google_compute_target_https_proxy" "https_proxy" {
 
 # Global forwarding rule targeting the active HTTPS proxy
 resource "google_compute_global_forwarding_rule" "forwarding_rule" {
-  count                 = var.domain_name != "" ? 1 : 0
+  # Temporarily disable forwarding rule to break HTTPS proxy dependency
+  count                 = 0
   name                  = "finspeed-forwarding-rule-${local.environment}"
   target                = google_compute_target_https_proxy.https_proxy[0].id
   ip_address            = google_compute_global_address.lb_ip.address
