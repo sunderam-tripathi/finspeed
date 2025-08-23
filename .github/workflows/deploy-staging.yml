@@ -396,7 +396,7 @@ jobs:
           fi
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
       - name: Seed TF_VAR image variables (best-effort)
@@ -668,7 +668,7 @@ jobs:
           fi
 
       - name: Terraform Init
-        run: terraform init -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
+        run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
       - name: Set image variables from existing deployments or new builds
