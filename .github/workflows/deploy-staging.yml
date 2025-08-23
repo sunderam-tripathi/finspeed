@@ -204,19 +204,20 @@ jobs:
         run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}" -backend-config="prefix=staging-ci"
         working-directory: ./infra/terraform/staging
 
-      - name: Terraform Init (local backend for forks)
-        if: steps.fork.outputs.is_fork == 'true'
-        run: terraform init -reconfigure -backend=false
+      - name: Terraform Init (PR - Local Backend)
+        if: github.event_name == 'pull_request'
+        run: |
+          # Temporarily rename backend.tf to disable remote backend for PR validation
+          mv backend.tf backend.tf.disabled || true
+          terraform init -reconfigure
         working-directory: ./infra/terraform/staging
 
       - name: Terraform Init (local backend fallback when secrets missing)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok != 'true'
-        run: terraform init -reconfigure -backend=false
-        working-directory: ./infra/terraform/staging
-
-      - name: Terraform Init (local backend for PRs)
-        if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
-        run: terraform init -reconfigure -backend=false
+        run: |
+          # Temporarily rename backend.tf to disable remote backend
+          mv backend.tf backend.tf.disabled || true
+          terraform init -reconfigure
         working-directory: ./infra/terraform/staging
 
       - name: Seed placeholder TF_VARs (unauthenticated)
@@ -297,6 +298,8 @@ jobs:
           terraform plan -no-color -lock=false -input=false -refresh=false -parallelism=10 | tee tfplan.txt
           PLAN_EXIT=$?
           set -e
+          # Restore backend.tf if it was disabled for PR validation
+          mv backend.tf.disabled backend.tf || true
           # Expose plan text and exit code as step outputs for later steps
           {
             echo "plan<<EOF"
