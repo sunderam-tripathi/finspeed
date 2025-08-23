@@ -24,7 +24,7 @@ locals {
   # Attribute condition varies by environment:
   # - production: only allow main branch and tags
   # - staging: allow develop, PR merge refs, and tags
-  wif_attribute_condition = var.environment == "production" ? "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/main' || attribute.ref_type == 'tag')" : "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/develop' || startswith(attribute.ref, 'refs/pull/') || attribute.ref_type == 'tag')"
+  wif_attribute_condition = var.environment == "production" ? "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/main' || attribute.ref_type == 'tag')" : "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/develop' || attribute.ref.startsWith('refs/pull/') || attribute.ref_type == 'tag')"
   # Compute the GitHub Actions service account email to avoid hard dependency during targeted applies
   github_actions_sa_email = "github-actions-${var.environment}@${var.project_id}.iam.gserviceaccount.com"
 }
@@ -51,7 +51,7 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
     "attribute.ref_type"   = "assertion.ref_type"
   }
 
-  # Condition to restrict access to specific repository and branches (temporarily allowing feature branches for testing)
+  # Condition to restrict access to specific repository and approved refs (develop, PR merges, tags)
   attribute_condition = local.wif_attribute_condition
 }
 

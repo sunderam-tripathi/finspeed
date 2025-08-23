@@ -139,6 +139,11 @@ resource "google_compute_url_map" "url_map_with_static" {
       service = element(concat(google_compute_backend_service.api_gateway_backend[*].id, [google_compute_backend_service.api_backend.id]), 0)
     }
   }
+
+  lifecycle {
+    # Guard against accidental destroy while attached to HTTPS proxy
+    prevent_destroy = true
+  }
 }
 
 ## Deprecated: unified certificate is managed in networking.tf; disable this resource to avoid conflicts
