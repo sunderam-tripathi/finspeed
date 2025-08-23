@@ -269,9 +269,7 @@ resource "google_compute_url_map" "url_map" {
 
   lifecycle {
     prevent_destroy = true
-    replace_triggered_by = [
-      var.use_static_hosting
-    ]
+    create_before_destroy = true
   }
 }
 
@@ -302,10 +300,6 @@ resource "google_compute_target_https_proxy" "https_proxy" {
   count = var.domain_name != "" ? 1 : 0
   lifecycle {
     create_before_destroy = true
-    # Ensure proxy recreates when switching between URL maps
-    replace_triggered_by = [
-      var.use_static_hosting
-    ]
   }
   name = "finspeed-https-proxy-${var.use_static_hosting ? "static" : "dynamic"}-${local.environment}"
   url_map = var.use_static_hosting && var.domain_name != "" ? google_compute_url_map.url_map_with_static[0].id : google_compute_url_map.url_map[0].id
