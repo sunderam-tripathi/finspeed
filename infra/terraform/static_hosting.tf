@@ -78,7 +78,7 @@ resource "google_compute_backend_bucket" "static_backend" {
 resource "google_compute_url_map" "url_map_with_static" {
   count           = var.use_static_hosting && var.domain_name != "" ? 1 : 0
   provider        = google-beta
-  name            = "finspeed-lb-url-map-static-${local.environment}"
+  name            = "finspeed-lb-url-map-with-static-${local.environment}"
   default_service = google_compute_backend_bucket.static_backend[0].id
 
   # API subdomain routes to Cloud Run API
