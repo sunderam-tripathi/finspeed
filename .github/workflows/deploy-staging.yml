@@ -735,16 +735,14 @@ jobs:
       - name: Clean up existing API Gateway function if present
         shell: bash
         run: |
-          set +e  # Don't fail if function doesn't exist
-          echo "Checking for existing API Gateway function (gen2)..."
-          gcloud functions describe finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --gen2 --quiet
-          if [ $? -eq 0 ]; then
-            echo "Deleting existing API Gateway function (gen2)..."
-            gcloud functions delete finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --gen2 --quiet
-          else
-            echo "No existing API Gateway function found."
-          fi
+          set +e  # Don't fail if resource doesn't exist
+          echo "Attempting to destroy existing API Gateway function via Terraform..."
+          terraform destroy -target="module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" -auto-approve \
+            -var=api_image="${TF_VAR_api_image}" \
+            -var=frontend_image="${TF_VAR_frontend_image}" \
+            -var=migrate_image="${TF_VAR_migrate_image}" || echo "No existing function to destroy"
           set -e
+        working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply Service Images
         shell: bash
