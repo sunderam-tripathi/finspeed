@@ -109,7 +109,9 @@ resource "google_project_iam_member" "cloudbuild_sa_permissions" {
     "roles/artifactregistry.writer",
     "roles/cloudbuild.builds.builder",
     "roles/source.reader",
-    "roles/logging.logWriter"
+    "roles/logging.logWriter",
+    "roles/run.admin",
+    "roles/iam.serviceAccountUser"
   ]) : toset([])
   
   project = local.project_id
