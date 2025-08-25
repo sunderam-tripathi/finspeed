@@ -531,39 +531,20 @@ jobs:
             echo "URL map ${URL_MAP_NAME} not found; no import needed"
           fi
 
-      - name: Import existing Cloud Function (if any)
+      - name: Remove Cloud Function from state if import conflicts exist
         shell: bash
         run: |
           set -euo pipefail
           cd infra/terraform/staging
           
-          # Check if already in Terraform state
-          if terraform state list | grep -q 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway\[0\]'; then
-            echo "Cloud Function already in Terraform state; skipping import"
-            exit 0
-          fi
-          
-          # Check if the Cloud Function exists in GCP
-          echo "Checking if Cloud Function exists in GCP to import..."
+          # Check if Cloud Function exists in GCP but import might fail
           if gcloud functions describe finspeed-api-gateway-staging \
              --region=${{ env.GCP_REGION }} \
              --project=${{ env.GCP_PROJECT_ID }} >/dev/null 2>&1; then
-            echo "Importing existing Cloud Function into Terraform state"
-            
-            # Retry import with backoff
-            for attempt in 1 2 3; do
-              if terraform import \
-                'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' \
-                "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging"; then
-                echo "Successfully imported Cloud Function"
-                break
-              else
-                echo "Import attempt $attempt failed; backing off before retry..."
-                sleep $((attempt * 5))
-              fi
-            done
+            echo "Cloud Function exists in GCP, removing from state to avoid import conflicts"
+            terraform state rm 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' || echo "Not in state or removal failed, continuing..."
           else
-            echo "Cloud Function finspeed-api-gateway-staging not found; will create new"
+            echo "Cloud Function not found in GCP, no state cleanup needed"
           fi
 
       - name: Terraform Apply Infra
