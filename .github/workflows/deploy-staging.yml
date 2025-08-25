@@ -736,11 +736,11 @@ jobs:
         shell: bash
         run: |
           set +e  # Don't fail if function doesn't exist
-          echo "Checking for existing API Gateway function..."
-          gcloud functions describe finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --quiet
+          echo "Checking for existing API Gateway function (gen2)..."
+          gcloud functions describe finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --gen2 --quiet
           if [ $? -eq 0 ]; then
-            echo "Deleting existing API Gateway function..."
-            gcloud functions delete finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --quiet
+            echo "Deleting existing API Gateway function (gen2)..."
+            gcloud functions delete finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --gen2 --quiet
           else
             echo "No existing API Gateway function found."
           fi
