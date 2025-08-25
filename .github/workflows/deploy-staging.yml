@@ -440,21 +440,29 @@ jobs:
           set -euo pipefail
           cd infra/terraform/staging
           RESOURCE='module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]'
+          CF_NAME="finspeed-api-gateway-staging"
+          CF_ID="projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/${CF_NAME}"
+          
           # If already in state, skip
           if terraform state show "$RESOURCE" >/dev/null 2>&1; then
             echo "Cloud Function already in Terraform state; skipping import"
           else
             echo "Checking if Cloud Function exists in GCP to import..."
-            if timeout 120s gcloud functions describe finspeed-api-gateway-staging \
+            # Use gcloud with explicit timeout and error handling
+            if timeout 120s gcloud functions describe "$CF_NAME" \
               --region="${{ env.GCP_REGION }}" \
               --project="${{ env.GCP_PROJECT_ID }}" \
               --gen2 \
               --format="value(name)" \
-              --quiet >/dev/null 2>&1; then
-              echo "Importing existing Cloud Function into Terraform state"
-              terraform import "$RESOURCE" "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || true
+              --quiet 2>/dev/null | grep -q "$CF_NAME"; then
+              echo "Found existing Cloud Function '$CF_NAME', importing into Terraform state..."
+              if terraform import "$RESOURCE" "$CF_ID"; then
+                echo "Successfully imported Cloud Function"
+              else
+                echo "Import failed, but continuing (may be transient)"
+              fi
             else
-              echo "Cloud Function not found or describe timed out; skipping import"
+              echo "Cloud Function '$CF_NAME' not found in GCP; will create new"
             fi
           fi
 
@@ -556,9 +564,36 @@ jobs:
             echo "URL map ${URL_MAP_NAME} not found; no import needed"
           fi
 
-      - name: Skip redundant CF state removal (idempotent import in place)
+      - name: Fallback: delete existing CF if import failed (409 prevention)
+        shell: bash
         run: |
-          echo "No-op: not removing Cloud Function from TF state"
+          set -euo pipefail
+          cd infra/terraform/staging
+          RESOURCE='module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]'
+          CF_NAME="finspeed-api-gateway-staging"
+          
+          # Only delete if resource is NOT in Terraform state but exists in GCP
+          if ! terraform state show "$RESOURCE" >/dev/null 2>&1; then
+            echo "Checking if CF exists in GCP (fallback for failed import)..."
+            if gcloud functions describe "$CF_NAME" \
+              --region="${{ env.GCP_REGION }}" \
+              --project="${{ env.GCP_PROJECT_ID }}" \
+              --gen2 \
+              --quiet >/dev/null 2>&1; then
+              echo "WARNING: CF exists in GCP but not in TF state. Deleting to prevent 409..."
+              gcloud functions delete "$CF_NAME" \
+                --region="${{ env.GCP_REGION }}" \
+                --project="${{ env.GCP_PROJECT_ID }}" \
+                --gen2 \
+                --quiet || echo "Delete failed, continuing anyway"
+              echo "Waiting 30s for deletion to propagate..."
+              sleep 30
+            else
+              echo "CF not found in GCP; no cleanup needed"
+            fi
+          else
+            echo "CF already in TF state; no cleanup needed"
+          fi
 
       - name: Pre-apply required APIs (idempotent)
         run: |
