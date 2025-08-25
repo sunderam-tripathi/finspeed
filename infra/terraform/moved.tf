@@ -1,8 +1,4 @@
-# Track resource address change for function source bucket
-moved {
-  from = google_storage_bucket.function_source[0]
-  to   = google_storage_bucket.function_source
-}
+# Removed conflicting moved block for function_source - keeping resource with count index
 
 # Preserve state when removing count from admin backend service
 moved {
