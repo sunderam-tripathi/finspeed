@@ -119,7 +119,7 @@ resource "google_compute_backend_service" "api_gateway_backend" {
 # Grant Compute Engine default service account permissions for function builds
 resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   for_each = var.allow_public_api ? toset([
-    "roles/cloudfunctions.developer",
+    "roles/cloudfunctions.admin",
     "roles/storage.admin",
     "roles/artifactregistry.writer",
     "roles/cloudbuild.builds.builder",
