@@ -537,15 +537,21 @@ jobs:
           set -euo pipefail
           cd infra/terraform/staging
           
-          # Check if the Cloud Function exists
+          # Check if the Cloud Function exists in GCP
           if gcloud functions describe finspeed-api-gateway-staging \
              --region=${{ env.GCP_REGION }} \
              --project=${{ env.GCP_PROJECT_ID }} >/dev/null 2>&1; then
+            echo "Cloud Function exists in GCP, checking Terraform state..."
+            
+            # Remove from state first if it exists there
+            terraform state rm 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' || echo "Not in state, continuing..."
+            
+            # Now import the actual resource
             echo "Importing existing Cloud Function into Terraform state"
             terraform import \
               'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' \
               "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || \
-              echo "Warning: Failed to import Cloud Function (may not exist or already imported)"
+              echo "Warning: Failed to import Cloud Function"
           else
             echo "Cloud Function finspeed-api-gateway-staging not found; will create new"
           fi
