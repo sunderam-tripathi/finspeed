@@ -564,6 +564,21 @@ jobs:
             echo "URL map ${URL_MAP_NAME} not found; no import needed"
           fi
 
+      - name: "Untaint CF resource (allow update instead of replacement)"
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          RESOURCE='module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]'
+          
+          # Untaint the CF resource if it's tainted
+          if terraform state show "$RESOURCE" >/dev/null 2>&1; then
+            echo "Untainting CF resource to allow update instead of replacement..."
+            terraform untaint "$RESOURCE" || echo "Untaint failed or resource not tainted"
+          else
+            echo "CF resource not in state; no untaint needed"
+          fi
+
       - name: "Fallback: delete existing CF if import failed (409 prevention)"
         shell: bash
         run: |
