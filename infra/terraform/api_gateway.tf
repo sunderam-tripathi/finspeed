@@ -68,10 +68,19 @@ resource "google_cloudfunctions2_function" "api_gateway" {
   # Ensure IAM bindings for the Cloud Build service account are applied
   # before attempting to create/build the function to avoid permission errors.
   depends_on = [
-    google_project_iam_member.cloudbuild_sa_permissions
+    google_project_iam_member.cloudbuild_sa_permissions,
+    google_service_account_iam_member.build_sa_can_use_run_sa
   ]
 }
 
+# Grant the Cloud Build service account permission to impersonate the Cloud Run service account
+resource "google_service_account_iam_member" "build_sa_can_use_run_sa" {
+  count              = var.allow_public_api ? 1 : 0
+  service_account_id = google_service_account.cloud_run_sa.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${data.google_project.current[0].number}@cloudbuild.gserviceaccount.com"
+}
+   
 # IAM binding to allow public access to the Cloud Function
 resource "google_cloudfunctions2_function_iam_member" "public_access" {
   count          = var.allow_public_api ? 1 : 0
