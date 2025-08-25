@@ -407,31 +407,20 @@ jobs:
         run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
-      - name: Best-effort import existing Cloud Function (avoid 409)
+      - name: Reconcile Cloud Function state (import if exists)
         shell: bash
         run: |
           set -euo pipefail
           cd infra/terraform/staging
           RESOURCE='module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]'
           # If already in state, skip
-          if terraform state list 2>/dev/null | grep -q "$RESOURCE"; then
+          if terraform state show "$RESOURCE" >/dev/null 2>&1; then
             echo "Cloud Function already in Terraform state; skipping import"
           else
             echo "Checking if Cloud Function exists in GCP to import..."
             if gcloud functions describe finspeed-api-gateway-staging --region="${{ env.GCP_REGION }}" --project="${{ env.GCP_PROJECT_ID }}" --gen2 >/dev/null 2>&1; then
               echo "Importing existing Cloud Function into Terraform state"
-              for i in 1 2 3; do
-                set +e
-                terraform import "$RESOURCE" "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging"
-                CODE=$?
-                set -e
-                if [ "$CODE" -eq 0 ]; then
-                  echo "Import succeeded"
-                  break
-                fi
-                echo "Import attempt $i failed; backing off before retry..."
-                sleep $((i*20))
-              done
+              terraform import "$RESOURCE" "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || true
             else
               echo "Cloud Function not found in GCP; skipping import"
             fi
