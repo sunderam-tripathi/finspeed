@@ -732,32 +732,16 @@ jobs:
             fi
           fi
 
-      - name: Clean up existing Cloud Function
+      - name: Import existing Cloud Function to Terraform state
         run: |
-          echo "Attempting to delete existing Cloud Function..."
-          
-          # Method 1: Try gcloud delete first
-          gcloud functions delete finspeed-api-gateway-staging \
-            --region=asia-south2 \
-            --project=finspeed-staging-st \
-            --gen2 \
-            --quiet || echo "gcloud delete failed or function doesn't exist"
-          
-          # Method 2: REST API delete as backup
-          ACCESS_TOKEN=$(gcloud auth print-access-token)
-          curl -X DELETE \
-            -H "Authorization: Bearer $ACCESS_TOKEN" \
-            -H "Content-Type: application/json" \
-            "https://cloudfunctions.googleapis.com/v2/projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging" \
-            || echo "REST API delete failed or function doesn't exist"
-          
-          # Method 3: Force delete with terraform destroy target
+          echo "Attempting to import existing Cloud Function to Terraform state..."
           cd infra/terraform/staging
-          terraform destroy -target="module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" \
-            -auto-approve || echo "Terraform destroy failed or function doesn't exist"
           
-          # Wait longer for all deletion methods to propagate
-          sleep 30
+          # Try to import the existing function
+          terraform import \
+            "module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" \
+            "projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging" \
+            || echo "Import failed - function may not exist or already in state"
 
       - name: Terraform Apply Service Images
         shell: bash
