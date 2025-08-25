@@ -1,6 +1,15 @@
-// API client utilities for Finspeed frontend
+// API client utilities for Finspeed Admin
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+
+// Admin-specific API paths
+const ADMIN_PATHS = {
+  USERS: '/admin/users',
+  PRODUCTS: '/admin/products',
+  ORDERS: '/admin/orders',
+  CATEGORIES: '/admin/categories',
+  DASHBOARD: '/admin/dashboard/stats',
+};
 
 export interface User {
   id: number;
@@ -55,19 +64,7 @@ export interface ProductsResponse {
   limit: number;
 }
 
-export interface CartItem {
-  product_id: number;
-  qty: number;
-  product: Product;
-  subtotal: number;
-}
-
-export interface Cart {
-  items: CartItem[];
-  subtotal: number;
-  total: number;
-  count: number;
-}
+// Cart-related interfaces and methods have been removed from the admin API client
 
 export interface ShippingAddress {
   name: string;
@@ -133,33 +130,53 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseUrl}${endpoint}`;
-    
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
+    try {
+      const url = `${this.baseUrl}${endpoint}`;
+      
+      const headers: Record<string, string> = {};
+      if (this.token) {
+        headers.Authorization = `Bearer ${this.token}`;
+      }
+      const bodyIsFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
+      if (options.body && !bodyIsFormData) {
+        headers['Content-Type'] = 'application/json';
+      }
 
-    // Add headers from options if provided
-    if (options.headers) {
-      Object.assign(headers, options.headers);
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          ...headers,
+          ...(options.headers || {}),
+        },
+      });
+
+      // Handle non-2xx responses
+      if (!response.ok) {
+        // Try to parse error response as JSON, fallback to text
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          const text = await response.text();
+          throw new Error(text || `HTTP ${response.status} ${response.statusText}`);
+        }
+        
+        const errorMessage = errorData?.message || 
+                           errorData?.error || 
+                           `Request failed with status ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      // For 204 No Content responses, return null
+      if (response.status === 204) {
+        return null as unknown as T;
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('API request failed:', error);
+      throw error instanceof Error ? error : new Error('Network request failed');
     }
-
-    // Add authorization header if token exists
-    if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
-    }
-
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
-
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Unknown error' }));
-      throw new Error(error.error || `HTTP ${response.status}`);
-    }
-
-    return response.json();
   }
 
   // Auth methods
@@ -227,6 +244,34 @@ class ApiClient {
     });
   }
 
+  // Product image methods
+  async uploadProductImage(
+    productId: number,
+    file: File | Blob,
+    opts?: { alt?: string; is_primary?: boolean }
+  ): Promise<{ image: ProductImage }> {
+    const form = new FormData();
+    form.append('file', file);
+    if (opts?.alt) form.append('alt', opts.alt);
+    if (typeof opts?.is_primary !== 'undefined') form.append('is_primary', String(!!opts.is_primary));
+    return this.request<{ image: ProductImage }>(`${ADMIN_PATHS.PRODUCTS}/${productId}/images`, {
+      method: 'POST',
+      body: form,
+    });
+  }
+
+  async deleteProductImage(productId: number, imageId: number): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`${ADMIN_PATHS.PRODUCTS}/${productId}/images/${imageId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async setPrimaryProductImage(productId: number, imageId: number): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`${ADMIN_PATHS.PRODUCTS}/${productId}/images/${imageId}/primary`, {
+      method: 'PUT',
+    });
+  }
+
   // Category methods
   async getCategories(params?: { page?: number; limit?: number; search?: string }): Promise<{ categories: Category[]; total: number; page?: number; limit?: number }> {
     const searchParams = new URLSearchParams();
@@ -262,35 +307,15 @@ class ApiClient {
     });
   }
 
-  // Cart methods
-  async getCart(): Promise<Cart> {
-    return this.request<Cart>('/cart');
-  }
-
-  async addToCart(productId: number, qty: number): Promise<Cart> {
-    return this.request<Cart>('/cart/items', {
-      method: 'POST',
-      body: JSON.stringify({ product_id: productId, qty }),
-    });
-  }
-
-  async updateCartItem(productId: number, qty: number): Promise<Cart> {
-    return this.request<Cart>(`/cart/items/${productId}`, {
-      method: 'PUT',
-      body: JSON.stringify({ qty }),
-    });
-  }
-
-  async removeFromCart(productId: number): Promise<Cart> {
-    return this.request<Cart>(`/cart/items/${productId}`, {
-      method: 'DELETE',
-    });
-  }
-
-  async clearCart(): Promise<Cart> {
-    return this.request<Cart>('/cart', {
-      method: 'DELETE',
-    });
+  // Admin-specific methods
+  async getDashboardStats() {
+    return this.request<{
+      totalProducts: number;
+      totalOrders: number;
+      totalUsers: number;
+      recentOrders: any[];
+      revenueStats: any;
+    }>(ADMIN_PATHS.DASHBOARD);
   }
 
   // Order methods
@@ -300,7 +325,7 @@ class ApiClient {
     if (params?.limit) searchParams.set('limit', params.limit.toString());
 
     const query = searchParams.toString();
-    return this.request<OrdersResponse>(`/orders${query ? `?${query}` : ''}`);
+    return this.request<OrdersResponse>(`${ADMIN_PATHS.ORDERS}${query ? `?${query}` : ''}`);
   }
 
   async getOrder(id: number): Promise<Order> {

@@ -177,35 +177,27 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Add to Cart */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <label htmlFor="quantity" className="text-sm font-medium text-gray-700">
-                  Quantity:
-                </label>
-                <select
-                  id="quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(parseInt(e.target.value))}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm"
-                  disabled={product.stock_qty === 0}
+            {/* Admin Actions */}
+            <div className="space-y-4 mt-6">
+              <div className="grid grid-cols-2 gap-4">
+                <Link
+                  href={`/admin/products/edit/${product.id}`}
+                  className="py-2 px-4 bg-primary-600 text-white rounded-md hover:bg-primary-700 text-center font-medium"
                 >
-                  {Array.from({ length: Math.min(product.stock_qty, 10) }, (_, i) => i + 1).map((num) => (
-                    <option key={num} value={num}>{num}</option>
-                  ))}
-                </select>
+                  Edit Product
+                </Link>
+                <button
+                  onClick={() => {}}
+                  className="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 font-medium"
+                >
+                  Delete Product
+                </button>
               </div>
-
-              <button
-                className={`w-full py-3 px-6 rounded-md font-medium text-lg transition-colors ${
-                  product.stock_qty > 0
-                    ? 'bg-primary-600 text-white hover:bg-primary-700'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-                disabled={product.stock_qty === 0}
-              >
-                {product.stock_qty > 0 ? 'Add to Cart' : 'Out of Stock'}
-              </button>
+              <div className="text-sm text-gray-500 mt-2">
+                <p>Stock: {product.stock_qty} units</p>
+                <p>SKU: {product.sku || 'N/A'}</p>
+                <p>Status: {product.stock_qty > 0 ? 'In Stock' : 'Out of Stock'}</p>
+              </div>
             </div>
 
             {/* Specifications */}

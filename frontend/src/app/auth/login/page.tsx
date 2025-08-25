@@ -23,7 +23,8 @@ export default function LoginPage() {
       
       // Redirect based on user role
       if (response.user.role === 'admin') {
-        router.push('/admin');
+        // Redirect admin users to the dedicated admin app on port 3001
+        window.location.href = 'http://localhost:3001/admin';
       } else {
         router.push('/products');
       }

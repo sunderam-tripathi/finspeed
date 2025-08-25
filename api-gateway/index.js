@@ -10,7 +10,7 @@ const corsHandler = cors({
     'http://localhost:3000'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Proxy-Authorization', 'X-App-Authorization', 'X-Requested-With'],
   credentials: true
 });
 
@@ -27,17 +27,27 @@ functions.http('apiGateway', async (req, res) => {
 
       // Forward the request to the private Cloud Run API
       const targetUrl = `${apiBaseUrl}${req.path}`;
-      
+  
+      // Normalize auth headers: Cloud Run/IAP expects Authorization; accept Proxy-Authorization from clients
+      const incomingAuth = req.headers['authorization']
+      const incomingProxyAuth = req.headers['proxy-authorization']
+      const downstreamAuth = incomingAuth || incomingProxyAuth
+
       const response = await fetch(targetUrl, {
         method: req.method,
         headers: {
           'Content-Type': req.headers['content-type'] || 'application/json',
           'User-Agent': 'Finspeed-API-Gateway/1.0',
-          // Forward authorization header if present
-          ...(req.headers.authorization && { 'Authorization': req.headers.authorization })
+          // Forward Authorization to backend; if absent, map Proxy-Authorization -> Authorization for IAP
+          ...(downstreamAuth && { 'Authorization': downstreamAuth }),
+          // Also forward Proxy-Authorization as-is for visibility if needed
+          ...(incomingProxyAuth && { 'Proxy-Authorization': incomingProxyAuth }),
+          // Forward app JWT header if client uses a separate header to avoid conflicts with IAP
+          ...(req.headers['x-app-authorization'] && { 'X-App-Authorization': req.headers['x-app-authorization'] })
         },
-        ...(req.method !== 'GET' && req.method !== 'HEAD' && { 
-          body: JSON.stringify(req.body) 
+        // Use rawBody when available to preserve binary/form-data payloads
+        ...(req.method !== 'GET' && req.method !== 'HEAD' && {
+          body: req.rawBody && req.rawBody.length ? req.rawBody : (req.body ? JSON.stringify(req.body) : undefined)
         })
       });
 

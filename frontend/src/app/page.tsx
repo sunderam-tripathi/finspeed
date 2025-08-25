@@ -226,7 +226,6 @@ export default function HomePage() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/products" className="hover:text-white">All Products</Link></li>
                 <li><Link href="/categories" className="hover:text-white">Categories</Link></li>
-                <li><Link href="/cart" className="hover:text-white">Shopping Cart</Link></li>
               </ul>
             </div>
             <div>

@@ -1,20 +1,225 @@
 package handlers
 
 import (
-	"database/sql"
-	"net/http"
-	"strconv"
-	"strings"
+    "database/sql"
+    "encoding/json"
+    "errors"
+    "fmt"
+    "net/http"
+    "strconv"
+    "strings"
+    "time"
 
-	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
+    "github.com/gin-gonic/gin"
+    "go.uber.org/zap"
 
-	"finspeed/api/internal/database"
+    "finspeed/api/internal/database"
+    "finspeed/api/internal/storage"
 )
 
 type ProductHandler struct {
 	db     *database.DB
 	logger *zap.Logger
+	store  storage.Storage
+}
+
+// UploadProductImage handles POST /api/v1/admin/products/:id/images
+func (h *ProductHandler) UploadProductImage(c *gin.Context) {
+    idStr := c.Param("id")
+    productID, err := strconv.ParseInt(idStr, 10, 64)
+    if err != nil || productID <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+        return
+    }
+
+    // Validate product exists
+    var exists bool
+    if err := h.db.QueryRow("SELECT EXISTS(SELECT 1 FROM products WHERE id = $1)", productID).Scan(&exists); err != nil || !exists {
+        if err != nil {
+            h.logger.Error("Failed to validate product existence", zap.Error(err))
+        }
+        c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+        return
+    }
+
+    fileHeader, err := c.FormFile("file")
+    if err != nil {
+        h.logger.Warn("No file provided or invalid form data", zap.Error(err))
+        c.JSON(http.StatusBadRequest, gin.H{"error": "File is required (field name: file)"})
+        return
+    }
+
+    if fileHeader.Size <= 0 || fileHeader.Size > 10*1024*1024 { // 10MB limit
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid file size (max 10MB)"})
+        return
+    }
+
+    // Detect content type safely
+    src, err := fileHeader.Open()
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read uploaded file"})
+        return
+    }
+    buf := make([]byte, 512)
+    n, _ := src.Read(buf)
+    _ = src.Close()
+    contentType := http.DetectContentType(buf[:n])
+    allowed := map[string]string{
+        "image/jpeg": ".jpg",
+        "image/png":  ".png",
+        "image/webp": ".webp",
+        "image/gif":  ".gif",
+    }
+    ext, ok := allowed[contentType]
+    if !ok {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Unsupported image type"})
+        return
+    }
+
+    // Generate filename and save via storage backend
+    filename := fmt.Sprintf("%d%s", time.Now().UnixNano(), ext)
+    reader, err := fileHeader.Open()
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read uploaded file"})
+        return
+    }
+    defer reader.Close()
+    url, err := h.store.SaveProductImage(c.Request.Context(), productID, filename, contentType, reader)
+    if err != nil {
+        h.logger.Error("Failed to save uploaded image", zap.Error(err))
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save image"})
+        return
+    }
+
+    alt := c.PostForm("alt")
+    isPrimaryStr := c.PostForm("is_primary")
+    isPrimary := strings.ToLower(isPrimaryStr) == "true" || isPrimaryStr == "1"
+
+    // If setting primary, reset others
+    if isPrimary {
+        if _, err := h.db.Exec("UPDATE product_images SET is_primary = FALSE WHERE product_id = $1", productID); err != nil {
+            h.logger.Error("Failed to reset primary images", zap.Error(err))
+            // continue; not fatal for insertion, but better to fail early
+        }
+    }
+
+    // Insert DB record
+    var imageID int64
+    if err := h.db.QueryRow(
+        "INSERT INTO product_images (product_id, url, alt, is_primary) VALUES ($1, $2, $3, $4) RETURNING id",
+        productID, url, nullableString(alt), isPrimary,
+    ).Scan(&imageID); err != nil {
+        h.logger.Error("Failed to insert product image", zap.Error(err))
+        // Attempt cleanup of previously saved object
+        _ = h.store.DeleteByURL(c.Request.Context(), url)
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save image metadata"})
+        return
+    }
+
+    img := ProductImage{ID: imageID, ProductID: productID, URL: url, IsPrimary: isPrimary}
+    if alt != "" {
+        img.Alt = &alt
+    }
+    c.JSON(http.StatusCreated, gin.H{"image": img})
+}
+
+// DeleteProductImage handles DELETE /api/v1/admin/products/:id/images/:image_id
+func (h *ProductHandler) DeleteProductImage(c *gin.Context) {
+    idStr := c.Param("id")
+    productID, err := strconv.ParseInt(idStr, 10, 64)
+    if err != nil || productID <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+        return
+    }
+    imgIDStr := c.Param("image_id")
+    imageID, err := strconv.ParseInt(imgIDStr, 10, 64)
+    if err != nil || imageID <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid image ID"})
+        return
+    }
+
+    // Get file path for cleanup
+    var urlStr string
+    var isPrimary bool
+    err = h.db.QueryRow("SELECT url, is_primary FROM product_images WHERE id = $1 AND product_id = $2", imageID, productID).Scan(&urlStr, &isPrimary)
+    if err != nil {
+        if errors.Is(err, sql.ErrNoRows) {
+            c.JSON(http.StatusNotFound, gin.H{"error": "Image not found"})
+            return
+        }
+        h.logger.Error("Failed to query image", zap.Error(err))
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete image"})
+        return
+    }
+
+    // Delete DB record first
+    if _, err := h.db.Exec("DELETE FROM product_images WHERE id = $1 AND product_id = $2", imageID, productID); err != nil {
+        h.logger.Error("Failed to delete image record", zap.Error(err))
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete image"})
+        return
+    }
+
+    // Remove underlying object via storage (idempotent)
+    if err := h.store.DeleteByURL(c.Request.Context(), urlStr); err != nil {
+        h.logger.Warn("Failed to remove image object", zap.String("url", urlStr), zap.Error(err))
+    }
+
+    // If the deleted image was primary, try to set another as primary (first one)
+    if isPrimary {
+        _, _ = h.db.Exec(`UPDATE product_images SET is_primary = TRUE WHERE id = (
+            SELECT id FROM product_images WHERE product_id = $1 ORDER BY id ASC LIMIT 1
+        )`, productID)
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Image deleted"})
+}
+
+// SetPrimaryProductImage handles PUT /api/v1/admin/products/:id/images/:image_id/primary
+func (h *ProductHandler) SetPrimaryProductImage(c *gin.Context) {
+    idStr := c.Param("id")
+    productID, err := strconv.ParseInt(idStr, 10, 64)
+    if err != nil || productID <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+        return
+    }
+    imgIDStr := c.Param("image_id")
+    imageID, err := strconv.ParseInt(imgIDStr, 10, 64)
+    if err != nil || imageID <= 0 {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid image ID"})
+        return
+    }
+
+    // Ensure the image belongs to the product
+    var exists bool
+    if err := h.db.QueryRow("SELECT EXISTS(SELECT 1 FROM product_images WHERE id = $1 AND product_id = $2)", imageID, productID).Scan(&exists); err != nil || !exists {
+        if err != nil {
+            h.logger.Error("Failed to validate image existence", zap.Error(err))
+        }
+        c.JSON(http.StatusNotFound, gin.H{"error": "Image not found"})
+        return
+    }
+
+    // Reset all to false, then set chosen to true
+    if _, err := h.db.Exec("UPDATE product_images SET is_primary = FALSE WHERE product_id = $1", productID); err != nil {
+        h.logger.Error("Failed to reset primary images", zap.Error(err))
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update image"})
+        return
+    }
+    if _, err := h.db.Exec("UPDATE product_images SET is_primary = TRUE WHERE id = $1 AND product_id = $2", imageID, productID); err != nil {
+        h.logger.Error("Failed to set primary image", zap.Error(err))
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update image"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "Primary image updated"})
+}
+
+// helper to convert empty string to NULL for SQL insertion
+func nullableString(s string) *string {
+    if strings.TrimSpace(s) == "" {
+        return nil
+    }
+    return &s
 }
 
 type Product struct {
@@ -63,10 +268,11 @@ type ProductsResponse struct {
 	Limit    int       `json:"limit"`
 }
 
-func NewProductHandler(db *database.DB, logger *zap.Logger) *ProductHandler {
+func NewProductHandler(db *database.DB, logger *zap.Logger, store storage.Storage) *ProductHandler {
 	return &ProductHandler{
 		db:     db,
 		logger: logger,
+		store:  store,
 	}
 }
 
@@ -146,15 +352,24 @@ func (h *ProductHandler) GetProducts(c *gin.Context) {
 	for rows.Next() {
 		var p Product
 		var categoryName, categorySlug sql.NullString
+		var specsRaw []byte
 		
 		err := rows.Scan(
 			&p.ID, &p.Title, &p.Slug, &p.Price, &p.Currency, &p.SKU, &p.HSN,
-			&p.StockQty, &p.CategoryID, &p.SpecsJSON, &p.WarrantyMonths,
+			&p.StockQty, &p.CategoryID, &specsRaw, &p.WarrantyMonths,
 			&p.CreatedAt, &p.UpdatedAt, &categoryName, &categorySlug,
 		)
 		if err != nil {
 			h.logger.Error("Failed to scan product", zap.Error(err))
 			continue
+		}
+
+		// Unmarshal specs_json if present
+		if len(specsRaw) > 0 {
+			if err := json.Unmarshal(specsRaw, &p.SpecsJSON); err != nil {
+				h.logger.Warn("Failed to unmarshal specs_json", zap.Int64("product_id", p.ID), zap.Error(err))
+				p.SpecsJSON = nil
+			}
 		}
 
 		// Add category if present
@@ -197,6 +412,7 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 
 	var p Product
 	var categoryName, categorySlug sql.NullString
+	var specsRaw []byte
 	
 	query := `
 		SELECT p.id, p.title, p.slug, p.price, p.currency, p.sku, p.hsn, 
@@ -210,7 +426,7 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 
 	err := h.db.QueryRow(query, slug).Scan(
 		&p.ID, &p.Title, &p.Slug, &p.Price, &p.Currency, &p.SKU, &p.HSN,
-		&p.StockQty, &p.CategoryID, &p.SpecsJSON, &p.WarrantyMonths,
+		&p.StockQty, &p.CategoryID, &specsRaw, &p.WarrantyMonths,
 		&p.CreatedAt, &p.UpdatedAt, &categoryName, &categorySlug,
 	)
 
@@ -222,6 +438,14 @@ func (h *ProductHandler) GetProduct(c *gin.Context) {
 		h.logger.Error("Failed to fetch product", zap.String("slug", slug), zap.Error(err))
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch product"})
 		return
+	}
+
+	// Unmarshal specs_json if present
+	if len(specsRaw) > 0 {
+		if err := json.Unmarshal(specsRaw, &p.SpecsJSON); err != nil {
+			h.logger.Warn("Failed to unmarshal specs_json", zap.Int64("product_id", p.ID), zap.Error(err))
+			p.SpecsJSON = nil
+		}
 	}
 
 	// Add category if present
@@ -278,10 +502,20 @@ func (h *ProductHandler) CreateProduct(c *gin.Context) {
 		RETURNING id
 	`
 
+	// Marshal specs_json to JSONB
+	var specsJSONParam interface{} = nil
+	if req.SpecsJSON != nil {
+		if data, mErr := json.Marshal(req.SpecsJSON); mErr != nil {
+			h.logger.Warn("Failed to marshal specs_json", zap.Error(mErr))
+		} else {
+			specsJSONParam = data
+		}
+	}
+
 	err := h.db.QueryRow(
 		query,
 		req.Title, req.Slug, req.Price, req.Currency, req.SKU, req.HSN,
-		req.StockQty, req.CategoryID, req.SpecsJSON, req.WarrantyMonths,
+		req.StockQty, req.CategoryID, specsJSONParam, req.WarrantyMonths,
 	).Scan(&productID)
 
 	if err != nil {
@@ -358,8 +592,15 @@ func (h *ProductHandler) UpdateProduct(c *gin.Context) {
 		argId++
 	}
 	if req.SpecsJSON != nil {
+		// Marshal specs_json to JSONB
+		var specsJSONParam interface{} = nil
+		if data, mErr := json.Marshal(req.SpecsJSON); mErr != nil {
+			h.logger.Warn("Failed to marshal specs_json", zap.Error(mErr))
+		} else {
+			specsJSONParam = data
+		}
 		query += "specs_json = $" + strconv.Itoa(argId) + ", "
-		args = append(args, req.SpecsJSON)
+		args = append(args, specsJSONParam)
 		argId++
 	}
 	if req.WarrantyMonths != nil {

@@ -144,3 +144,9 @@ output "iap_client_id" {
   description = "The client ID of the IAP OAuth client."
   value       = google_iap_client.project_client.client_id
 }
+
+# Storage outputs
+output "product_images_bucket_name" {
+  description = "Name of the GCS bucket used for product images"
+  value       = google_storage_bucket.product_images.name
+}

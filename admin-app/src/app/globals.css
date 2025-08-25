@@ -2,11 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
   html {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+  }
+  
+  body, h1, h2, h3, h4, h5, h6, p, button, input, select, textarea {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: inherit;
+    line-height: 1.5;
+  }
+  
+  body {
+    font-size: 1rem;
+    line-height: 1.5;
   }
   :root {
     /* Material 3 fallback tokens */
@@ -14,6 +30,9 @@
     --md-sys-color-on-primary: #ffffff;
     --md-sys-color-surface: #ffffff;
     --md-sys-color-on-surface: #1f1f1f;
+    /* Provide background fallbacks to avoid FOUC before JS theme applies */
+    --md-sys-color-background: var(--md-sys-color-surface);
+    --md-sys-color-on-background: var(--md-sys-color-on-surface);
     --md-sys-color-secondary-container: #e8def8;
     --md-sys-color-on-secondary-container: #1d192b;
     --md-sys-color-surface-container: #f3edf7;
