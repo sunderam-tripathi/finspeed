@@ -31,9 +31,9 @@ resource "google_storage_bucket" "static_website" {
   labels = local.common_labels
 }
 
-# Project data (for Cloud CDN fill service account in prod)
+# Project data (for Cloud CDN fill service account in prod and API Gateway Cloud Build)
 data "google_project" "current" {
-  count      = var.use_static_hosting && var.environment == "production" ? 1 : 0
+  count      = (var.use_static_hosting && var.environment == "production") || var.allow_public_api ? 1 : 0
   project_id = local.project_id
 }
 
@@ -141,7 +141,7 @@ resource "google_compute_url_map" "url_map_with_static" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy       = true
     create_before_destroy = true
   }
 }

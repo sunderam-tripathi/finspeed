@@ -111,10 +111,5 @@ resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   
   project = local.project_id
   role    = each.value
-  member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
-}
-
-# Get current project info for Cloud Build service account
-data "google_project" "current" {
-  project_id = local.project_id
+  member  = "serviceAccount:${data.google_project.current[0].number}@cloudbuild.gserviceaccount.com"
 }
