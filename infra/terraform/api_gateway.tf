@@ -100,3 +100,21 @@ resource "google_compute_backend_service" "api_gateway_backend" {
     group = google_compute_region_network_endpoint_group.api_gateway_neg[0].id
   }
 }
+
+# Grant Cloud Build service account permissions for function builds
+resource "google_project_iam_member" "cloudbuild_sa_permissions" {
+  for_each = var.allow_public_api ? toset([
+    "roles/cloudfunctions.developer",
+    "roles/storage.admin",
+    "roles/artifactregistry.writer"
+  ]) : toset([])
+  
+  project = local.project_id
+  role    = each.value
+  member  = "serviceAccount:${data.google_project.current.number}@cloudbuild.gserviceaccount.com"
+}
+
+# Get current project info for Cloud Build service account
+data "google_project" "current" {
+  project_id = local.project_id
+}
