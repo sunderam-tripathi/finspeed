@@ -536,7 +536,8 @@ jobs:
           fi
 
       - name: Skip redundant CF state removal (idempotent import in place)
-        run: echo "No-op: not removing Cloud Function from TF state"
+        run: |
+          echo "No-op: not removing Cloud Function from TF state"
 
       - name: Pre-apply IAM for Cloud Build (CF builds)
         run: |
@@ -741,56 +742,58 @@ jobs:
           IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
         run: |
           set -euo pipefail
-          
-          # Set API image - use new build if API changed, otherwise get from existing deployment
-          if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
-          else
-            # Get existing API image from Cloud Run service
-            API_IMG=$(gcloud run services describe finspeed-api-staging \
+          cd infra/terraform/staging
+
+          # Default to newly built image tag if available
+          API_IMG_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:${IMAGE_TAG}"
+          MIGRATE_IMG_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${IMAGE_TAG}"
+          FRONTEND_IMG_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${IMAGE_TAG}"
+
+          # If no new API build, find the latest from Cloud Run
+          if [ "${{ needs.changes.outputs.api }}" != "true" ]; then
+            LATEST_API_IMG=$(gcloud run services describe finspeed-api-staging \
               --region=${{ env.GCP_REGION }} \
               --project=${{ env.GCP_PROJECT_ID }} \
               --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
-            if [[ -n "${API_IMG}" ]]; then
-              echo "TF_VAR_api_image=${API_IMG}" >> $GITHUB_ENV
-            else
-              echo "TF_VAR_api_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.API_IMAGE_NAME }}/${{ env.API_IMAGE_NAME }}:latest" >> $GITHUB_ENV
-            fi
+            if [ -n "$LATEST_API_IMG" ]; then API_IMG_URL=$LATEST_API_IMG; fi
           fi
-          
-          # Set Frontend image - use new build if frontend changed, otherwise get from existing deployment
-          if [[ "${{ needs.changes.outputs.frontend }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
-          else
-            # Get existing frontend image from Cloud Run service
+
+          # If no new frontend/infra build, get the latest from Cloud Run service
+          if [ "${{ needs.changes.outputs.frontend }}" != "true" ] && [ "${{ needs.changes.outputs.infra }}" != "true" ]; then
             FRONTEND_IMG=$(gcloud run services describe finspeed-frontend-staging \
               --region=${{ env.GCP_REGION }} \
               --project=${{ env.GCP_PROJECT_ID }} \
               --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
-            if [[ -n "${FRONTEND_IMG}" ]]; then
-              echo "TF_VAR_frontend_image=${FRONTEND_IMG}" >> $GITHUB_ENV
+            if [ -n "$FRONTEND_IMG" ]; then
+              FRONTEND_IMG_URL="$FRONTEND_IMG"
             else
-              echo "TF_VAR_frontend_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+              FRONTEND_IMG_URL="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest"
             fi
           fi
-          
-          # Set Migrate image - use new build if API changed, otherwise get from existing deployment
-          if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then
-            echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${IMAGE_TAG}" >> $GITHUB_ENV
-          else
-            # Get existing migrate image from Cloud Run job
-            MIG_IMG=$(gcloud run jobs describe finspeed-migrate-staging \
+
+          # If no new API/infra build (which implies migrate build), find latest from Cloud Run Job
+          if [ "${{ needs.changes.outputs.api }}" != "true" ] && [ "${{ needs.changes.outputs.infra }}" != "true" ]; then
+            LATEST_MIGRATE_IMG=$(gcloud run jobs describe finspeed-migrate-staging \
               --region=${{ env.GCP_REGION }} \
               --project=${{ env.GCP_PROJECT_ID }} \
-              --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
-            if [[ -n "${MIG_IMG}" && "${MIG_IMG}" != "null" ]]; then
-              echo "Using existing migrate image: ${MIG_IMG}"
-              echo "TF_VAR_migrate_image=${MIG_IMG}" >> $GITHUB_ENV
-            else
-              echo "No existing migrate job found, using GAR latest image"
-              echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
-            fi
+              --format="value(spec.template.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            if [ -n "$LATEST_MIGRATE_IMG" ]; then MIGRATE_IMG_URL=$LATEST_MIGRATE_IMG; fi
           fi
+
+          echo "Using API Image: $API_IMG_URL"
+          echo "Using Frontend Image: $FRONTEND_IMG_URL"
+          echo "Using Migrate Image: $MIGRATE_IMG_URL"
+
+          echo "TF_VAR_api_image=$API_IMG_URL" >> $GITHUB_ENV
+          echo "TF_VAR_frontend_image=$FRONTEND_IMG_URL" >> $GITHUB_ENV
+          echo "TF_VAR_migrate_image=$MIGRATE_IMG_URL" >> $GITHUB_ENV
+
+      - name: Terraform Apply (Services)
+        run: |
+          terraform apply -lock-timeout=5m -auto-approve -input=false \
+            -target='module.finspeed_infra.google_cloud_run_v2_service.api[0]' \
+            -target='module.finspeed_infra.google_cloud_run_v2_job.migrate[0]'
+        working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply Service Images
         shell: bash
