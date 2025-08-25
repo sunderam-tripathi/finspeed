@@ -537,21 +537,31 @@ jobs:
           set -euo pipefail
           cd infra/terraform/staging
           
+          # Check if already in Terraform state
+          if terraform state list | grep -q 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway\[0\]'; then
+            echo "Cloud Function already in Terraform state; skipping import"
+            exit 0
+          fi
+          
           # Check if the Cloud Function exists in GCP
+          echo "Checking if Cloud Function exists in GCP to import..."
           if gcloud functions describe finspeed-api-gateway-staging \
              --region=${{ env.GCP_REGION }} \
              --project=${{ env.GCP_PROJECT_ID }} >/dev/null 2>&1; then
-            echo "Cloud Function exists in GCP, checking Terraform state..."
-            
-            # Remove from state first if it exists there
-            terraform state rm 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' || echo "Not in state, continuing..."
-            
-            # Now import the actual resource
             echo "Importing existing Cloud Function into Terraform state"
-            terraform import \
-              'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' \
-              "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || \
-              echo "Warning: Failed to import Cloud Function"
+            
+            # Retry import with backoff
+            for attempt in 1 2 3; do
+              if terraform import \
+                'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' \
+                "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging"; then
+                echo "Successfully imported Cloud Function"
+                break
+              else
+                echo "Import attempt $attempt failed; backing off before retry..."
+                sleep $((attempt * 5))
+              fi
+            done
           else
             echo "Cloud Function finspeed-api-gateway-staging not found; will create new"
           fi

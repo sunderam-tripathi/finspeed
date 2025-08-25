@@ -21,7 +21,11 @@ type Claims struct {
 // AuthMiddleware validates JWT tokens
 func AuthMiddleware(config *config.Config, logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		authHeader := c.GetHeader("Authorization")
+		// Prefer app JWT from X-App-Authorization to avoid conflicts with IAP using Authorization
+		authHeader := c.GetHeader("X-App-Authorization")
+		if authHeader == "" {
+			authHeader = c.GetHeader("Authorization")
+		}
 		if authHeader == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header required"})
 			c.Abort()
@@ -87,7 +91,11 @@ func AdminMiddleware() gin.HandlerFunc {
 // OptionalAuthMiddleware validates JWT tokens if present but doesn't require them
 func OptionalAuthMiddleware(config *config.Config, logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		authHeader := c.GetHeader("Authorization")
+		// Prefer app JWT from X-App-Authorization to avoid conflicts with IAP using Authorization
+		authHeader := c.GetHeader("X-App-Authorization")
+		if authHeader == "" {
+			authHeader = c.GetHeader("Authorization")
+		}
 		if authHeader == "" {
 			c.Next()
 			return

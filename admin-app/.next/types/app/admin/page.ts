@@ -1,4 +1,4 @@
-// File: /home/dekisuki/finspeed/admin-app/src/app/admin/page.tsx
+// File: /app/src/app/admin/page.tsx
 import * as entry from '../../../../src/app/admin/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

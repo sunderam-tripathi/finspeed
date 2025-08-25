@@ -8,6 +8,8 @@ import (
 	"math"
 	"io"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/razorpay/razorpay-go"
@@ -228,6 +230,142 @@ func (h *PaymentHandler) RazorpayWebhook(c *gin.Context) {
 		return
 	}
 
-	// Optionally parse event and update DB. For now, acknowledge.
+	// Parse webhook JSON
+	var body map[string]interface{}
+	if err := json.Unmarshal(payload, &body); err != nil {
+		h.logger.Warn("razorpay webhook invalid JSON", zap.Error(err))
+		// Acknowledge to avoid retries but do nothing.
+		c.Status(http.StatusOK)
+		return
+	}
+
+	eventType, _ := body["event"].(string)
+	payloadMap, _ := body["payload"].(map[string]interface{})
+
+	// Extract payment and order entities if present
+	var paymentEntity map[string]interface{}
+	if pm, ok := payloadMap["payment"].(map[string]interface{}); ok {
+		if ent, ok := pm["entity"].(map[string]interface{}); ok {
+			paymentEntity = ent
+		}
+	}
+	var orderEntity map[string]interface{}
+	if od, ok := payloadMap["order"].(map[string]interface{}); ok {
+		if ent, ok := od["entity"].(map[string]interface{}); ok {
+			orderEntity = ent
+		}
+	}
+
+	var providerPaymentID string
+	var rzpOrderID string
+	var amountRupees float64
+	currency := "INR"
+	var localOrderID int64
+
+	if paymentEntity != nil {
+		if v, ok := paymentEntity["id"].(string); ok {
+			providerPaymentID = v
+		}
+		if v, ok := paymentEntity["order_id"].(string); ok {
+			rzpOrderID = v
+		}
+		// amount in paise -> convert to rupees
+		if v, ok := paymentEntity["amount"].(float64); ok {
+			amountRupees = v / 100.0
+		}
+		if v, ok := paymentEntity["currency"].(string); ok && v != "" {
+			currency = v
+		}
+		if notes, ok := paymentEntity["notes"].(map[string]interface{}); ok {
+			if oid, ok := notes["order_id"]; ok {
+				switch t := oid.(type) {
+				case float64:
+					localOrderID = int64(t)
+				case string:
+					if id64, err := strconv.ParseInt(t, 10, 64); err == nil {
+						localOrderID = id64
+					}
+				}
+			}
+		}
+	}
+
+	var orderReceipt string
+	if orderEntity != nil {
+		if v, ok := orderEntity["id"].(string); ok && rzpOrderID == "" {
+			rzpOrderID = v
+		}
+		if v, ok := orderEntity["receipt"].(string); ok {
+			orderReceipt = v
+		}
+	}
+
+	if localOrderID == 0 && orderReceipt != "" && strings.HasPrefix(orderReceipt, "order_") {
+		if id64, err := strconv.ParseInt(strings.TrimPrefix(orderReceipt, "order_"), 10, 64); err == nil {
+			localOrderID = id64
+		}
+	}
+
+	if localOrderID == 0 && providerPaymentID != "" {
+		// Fallback: find existing payment record
+		var existingOrderID int64
+		if err := h.db.QueryRow("SELECT order_id FROM payments WHERE provider_ref = $1", providerPaymentID).Scan(&existingOrderID); err == nil {
+			localOrderID = existingOrderID
+		}
+	}
+
+	// Determine payment status based on event type
+	paymentStatus := ""
+	switch eventType {
+	case "payment.captured", "order.paid":
+		paymentStatus = "succeeded"
+	case "payment.failed", "order.payment_failed":
+		paymentStatus = "failed"
+	}
+
+	// Upsert payments row when we have both payment id and local order id
+	if providerPaymentID != "" && localOrderID != 0 {
+		raw := json.RawMessage(payload)
+		statusForUpsert := paymentStatus
+		if statusForUpsert == "" {
+			// For intermediate or unknown events, keep processing state
+			statusForUpsert = "processing"
+		}
+		if _, err := h.db.Exec(
+			`INSERT INTO payments (order_id, provider, provider_ref, status, amount, currency, raw_webhook_json)
+             VALUES ($1,$2,$3,$4,$5,$6,$7)
+             ON CONFLICT (provider_ref) DO UPDATE SET status = EXCLUDED.status, amount = EXCLUDED.amount, currency = EXCLUDED.currency, raw_webhook_json = EXCLUDED.raw_webhook_json`,
+			localOrderID, "razorpay", providerPaymentID, statusForUpsert, amountRupees, currency, raw,
+		); err != nil {
+			h.logger.Error("failed to upsert payment from webhook", zap.Error(err))
+			// Still ack to prevent retries; reconciliation can happen later
+			c.Status(http.StatusOK)
+			return
+		}
+	}
+
+	// Update order status if resolvable
+	if localOrderID != 0 && paymentStatus != "" {
+		switch paymentStatus {
+		case "succeeded":
+			if providerPaymentID != "" {
+				if _, err := h.db.Exec("UPDATE orders SET status = 'paid', payment_id = $1 WHERE id = $2", providerPaymentID, localOrderID); err != nil {
+					h.logger.Error("failed to update order to paid", zap.Error(err))
+				}
+			} else {
+				if _, err := h.db.Exec("UPDATE orders SET status = 'paid' WHERE id = $1", localOrderID); err != nil {
+					h.logger.Error("failed to update order to paid (no payment id)", zap.Error(err))
+				}
+			}
+		case "failed":
+			// Only set to payment_failed if still pending to avoid overriding paid
+			if _, err := h.db.Exec("UPDATE orders SET status = 'payment_failed' WHERE id = $1 AND status = 'pending'", localOrderID); err != nil {
+				h.logger.Warn("failed to update order to payment_failed (non-blocking)", zap.Error(err))
+			}
+		}
+	} else if localOrderID == 0 {
+		h.logger.Warn("razorpay webhook could not resolve local order_id", zap.String("event", eventType), zap.String("rzp_order_id", rzpOrderID), zap.String("payment_id", providerPaymentID))
+	}
+
 	c.Status(http.StatusOK)
 }

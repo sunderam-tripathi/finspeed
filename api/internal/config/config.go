@@ -20,6 +20,10 @@ type Config struct {
 	RazorpayKeySecret    string
 	RazorpayWebhookSecret string
 	FrontendBaseURL     string
+	// Storage
+	StorageBackend  string // local|gcs
+	GCSBucketName   string
+	GCSBaseURL      string // optional, e.g., https://cdn.example.com
 }
 
 func Load() (*Config, error) {
@@ -40,6 +44,9 @@ func Load() (*Config, error) {
 		RazorpayKeySecret:    getEnvWithDefault("RAZORPAY_KEY_SECRET", ""),
 		RazorpayWebhookSecret: getEnvWithDefault("RAZORPAY_WEBHOOK_SECRET", ""),
 		FrontendBaseURL:     getEnvWithDefault("FRONTEND_BASE_URL", "http://localhost:3000"),
+		StorageBackend:      getEnvWithDefault("STORAGE_BACKEND", "local"),
+		GCSBucketName:       getEnvWithDefault("GCS_BUCKET_NAME", ""),
+		GCSBaseURL:          getEnvWithDefault("GCS_BASE_URL", ""),
 	}
 
 	if err := config.validate(); err != nil {
@@ -55,6 +62,17 @@ func (c *Config) validate() error {
 	}
 	if c.Port == "" {
 		return fmt.Errorf("PORT is required")
+	}
+	// Validate storage backend
+	switch c.StorageBackend {
+	case "local":
+		// ok
+	case "gcs":
+		if c.GCSBucketName == "" {
+			return fmt.Errorf("GCS_BUCKET_NAME is required when STORAGE_BACKEND=gcs")
+		}
+	default:
+		return fmt.Errorf("invalid STORAGE_BACKEND: %s (expected 'local' or 'gcs')", c.StorageBackend)
 	}
 	return nil
 }

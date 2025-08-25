@@ -159,11 +159,20 @@ resource "google_cloud_run_v2_service" "api" {
         value = local.environment
       }
 
-
-
       env {
         name  = "LOG_LEVEL"
         value = var.environment == "production" ? "info" : "debug"
+      }
+
+      # Storage configuration for product images
+      env {
+        name  = "STORAGE_BACKEND"
+        value = "gcs"
+      }
+
+      env {
+        name  = "GCS_BUCKET_NAME"
+        value = google_storage_bucket.product_images.name
       }
 
       # Database URL from Secret Manager

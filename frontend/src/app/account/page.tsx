@@ -31,9 +31,10 @@ export default function AccountPage() {
     try {
       setLoading(true);
       const response = await apiClient.getOrders({ limit: 5 });
-      setOrders(response.orders);
+      setOrders(response.orders || []);
     } catch (error) {
       console.error('Failed to load orders:', error);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -120,7 +121,7 @@ export default function AccountPage() {
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-500">Total Orders</p>
-                    <p className="text-2xl font-semibold text-gray-900">{orders.length}</p>
+                    <p className="text-2xl font-semibold text-gray-900">{orders?.length || 0}</p>
                   </div>
                 </div>
               </div>
@@ -138,7 +139,7 @@ export default function AccountPage() {
                       {new Intl.NumberFormat('en-IN', {
                         style: 'currency',
                         currency: 'INR',
-                      }).format(orders.reduce((sum, order) => sum + order.total, 0))}
+                      }).format(orders?.reduce((sum, order) => sum + order.total, 0) || 0)}
                     </p>
                   </div>
                 </div>
@@ -183,7 +184,7 @@ export default function AccountPage() {
                       </div>
                     ))}
                   </div>
-                ) : orders.length === 0 ? (
+                ) : (orders?.length || 0) === 0 ? (
                   <div className="text-center py-8">
                     <ShoppingBagIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
@@ -197,7 +198,7 @@ export default function AccountPage() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {orders.map((order) => (
+                    {(orders || []).map((order) => (
                       <div key={order.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
                         <div className="flex items-center justify-between">
                           <div>

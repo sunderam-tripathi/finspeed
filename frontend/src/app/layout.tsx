@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Link from "next/link";
 import ThemeProvider from '@/theme/ThemeProvider'
+import FetchInterceptor from '@/components/FetchInterceptor'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -21,7 +22,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const m3Enabled = !(process.env.NEXT_PUBLIC_ENABLE_M3 === '0' || process.env.NEXT_PUBLIC_ENABLE_M3 === 'false');
+  // M3 is enabled by default unless explicitly disabled
+  const m3Enabled = true;
   return (
     <html lang="en">
       <head>
@@ -31,6 +33,7 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} antialiased`} suppressHydrationWarning>
         {m3Enabled ? (
           <ThemeProvider>
+            <FetchInterceptor />
             <Header />
             
             {/* Main Content */}
@@ -81,6 +84,7 @@ export default function RootLayout({
           </ThemeProvider>
         ) : (
           <>
+            <FetchInterceptor />
             <Header />
             <main>
               {children}

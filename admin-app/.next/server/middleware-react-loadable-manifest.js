@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST='{"theme/m3.ts -> @material/material-color-utilities":{"id":5236,"files":["static/chunks/236.ce2f52b87595c15e.js"]}}';
+self.__REACT_LOADABLE_MANIFEST="{\"theme/m3.ts -> @material/material-color-utilities\":{\"id\":\"theme/m3.ts -> @material/material-color-utilities\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_pnpm_material_material-color-utilities_0_3_0_node_modules_mat-6c1984.js\"]}}"

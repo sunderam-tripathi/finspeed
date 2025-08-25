@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useThemeContext } from '@/theme/ThemeProvider';
+import { useTheme } from '@/theme/theme-context';
 import { SwatchIcon } from '@heroicons/react/24/outline';
 
 export default function ThemeControls() {
-  const { mode, toggleMode, seed, setSeed } = useThemeContext();
+  const { mode, toggleMode, seed, setSeed } = useTheme();
   const [open, setOpen] = useState(false);
   const [localSeed, setLocalSeed] = useState(seed);
 

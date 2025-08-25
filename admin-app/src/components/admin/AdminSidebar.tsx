@@ -3,13 +3,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, ShoppingBagIcon, TagIcon, UsersIcon, CogIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, ShoppingBagIcon, TagIcon, UsersIcon, CogIcon, SwatchIcon } from '@heroicons/react/24/outline';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
   { name: 'Products', href: '/products', icon: ShoppingBagIcon },
   { name: 'Categories', href: '/categories', icon: TagIcon },
   { name: 'Users', href: '/users', icon: UsersIcon },
+  { name: 'Theme Demo', href: '/demo', icon: SwatchIcon },
   { name: 'Settings', href: '/settings', icon: CogIcon },
 ];
 
