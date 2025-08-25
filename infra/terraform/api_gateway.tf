@@ -49,7 +49,7 @@ resource "google_cloudfunctions2_function" "api_gateway" {
     min_instance_count               = 0
     available_memory                 = "256M"
     timeout_seconds                  = 60
-    max_instance_request_concurrency = 80
+    max_instance_request_concurrency = 1
     available_cpu                    = "0.167"
 
     environment_variables = {
