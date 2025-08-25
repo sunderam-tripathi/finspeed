@@ -64,6 +64,12 @@ resource "google_cloudfunctions2_function" "api_gateway" {
   }
 
   labels = local.common_labels
+
+  # Ensure IAM bindings for the Cloud Build service account are applied
+  # before attempting to create/build the function to avoid permission errors.
+  depends_on = [
+    google_project_iam_member.cloudbuild_sa_permissions
+  ]
 }
 
 # IAM binding to allow public access to the Cloud Function

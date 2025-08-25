@@ -198,6 +198,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
+        with:
+          terraform_wrapper: false
 
       
       - name: Terraform Init (remote backend)
@@ -368,6 +370,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
+        with:
+          terraform_wrapper: false
 
       - name: Cache Terraform plugins
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4 # v4.0.2
@@ -517,7 +521,7 @@ jobs:
           set -euo pipefail
           cd infra/terraform/staging
           # Only attempt import if resource is in config (count=1) and not already in state
-          if terraform state list | grep -q 'module.finspeed_infra.google_compute_url_map.url_map\[0\]'; then
+          if terraform state show 'module.finspeed_infra.google_compute_url_map.url_map[0]' >/dev/null 2>&1; then
             echo "URL map already in TF state; skipping import"
             exit 0
           fi
@@ -531,21 +535,29 @@ jobs:
             echo "URL map ${URL_MAP_NAME} not found; no import needed"
           fi
 
-      - name: Remove Cloud Function from state if import conflicts exist
+      - name: Skip redundant CF state removal (idempotent import in place)
+        run: echo "No-op: not removing Cloud Function from TF state"
+
+      - name: Pre-apply IAM for Cloud Build (CF builds)
+        run: |
+          terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/cloudfunctions.developer"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/storage.admin"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/artifactregistry.writer"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/cloudbuild.builds.builder"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/source.reader"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/logging.logWriter"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/run.admin"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/iam.serviceAccountUser"]' \
+            -target='module.finspeed_infra.google_project_iam_member.cloudbuild_sa_permissions["roles/storage.objectViewer"]'
+        working-directory: ./infra/terraform/staging
+
+      - name: Wait for IAM propagation (CF builds)
         shell: bash
         run: |
           set -euo pipefail
-          cd infra/terraform/staging
-          
-          # Check if Cloud Function exists in GCP but import might fail
-          if gcloud functions describe finspeed-api-gateway-staging \
-             --region=${{ env.GCP_REGION }} \
-             --project=${{ env.GCP_PROJECT_ID }} >/dev/null 2>&1; then
-            echo "Cloud Function exists in GCP, removing from state to avoid import conflicts"
-            terraform state rm 'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' || echo "Not in state or removal failed, continuing..."
-          else
-            echo "Cloud Function not found in GCP, no state cleanup needed"
-          fi
+          echo "Waiting 60s for IAM role propagation before creating CF"
+          sleep 60
 
       - name: Terraform Apply Infra
         run: terraform apply -lock-timeout=5m -auto-approve -input=false
@@ -686,6 +698,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
+        with:
+          terraform_wrapper: false
 
       - name: Cache Terraform plugins
         uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4 # v4.0.2
@@ -777,17 +791,6 @@ jobs:
               echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
             fi
           fi
-
-      - name: Import existing Cloud Function to Terraform state
-        run: |
-          echo "Attempting to import existing Cloud Function to Terraform state..."
-          cd infra/terraform/staging
-          
-          # Try to import the existing function
-          terraform import \
-            "module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" \
-            "projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging" \
-            || echo "Import failed - function may not exist or already in state"
 
       - name: Terraform Apply Service Images
         shell: bash
