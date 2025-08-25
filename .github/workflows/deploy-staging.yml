@@ -732,25 +732,32 @@ jobs:
             fi
           fi
 
-      - name: Clean up existing API Gateway function if present
-        shell: bash
+      - name: Clean up existing Cloud Function
         run: |
-          set +e  # Don't fail if resource doesn't exist
-          echo "Attempting to delete existing API Gateway function via REST API..."
+          echo "Attempting to delete existing Cloud Function..."
           
-          # Get access token
+          # Method 1: Try gcloud delete first
+          gcloud functions delete finspeed-api-gateway-staging \
+            --region=asia-south2 \
+            --project=finspeed-staging-st \
+            --gen2 \
+            --quiet || echo "gcloud delete failed or function doesn't exist"
+          
+          # Method 2: REST API delete as backup
           ACCESS_TOKEN=$(gcloud auth print-access-token)
-          
-          # Try to delete the function using REST API
           curl -X DELETE \
-            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
             -H "Content-Type: application/json" \
-            "https://cloudfunctions.googleapis.com/v2/projects/${{ env.GCP_PROJECT_ID }}/locations/asia-south2/functions/finspeed-api-gateway-staging" \
-            || echo "Function may not exist or already deleted"
+            "https://cloudfunctions.googleapis.com/v2/projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging" \
+            || echo "REST API delete failed or function doesn't exist"
           
-          # Wait a moment for deletion to propagate
-          sleep 10
-          set -e
+          # Method 3: Force delete with terraform destroy target
+          cd infra/terraform/staging
+          terraform destroy -target="module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" \
+            -auto-approve || echo "Terraform destroy failed or function doesn't exist"
+          
+          # Wait longer for all deletion methods to propagate
+          sleep 30
 
       - name: Terraform Apply Service Images
         shell: bash
