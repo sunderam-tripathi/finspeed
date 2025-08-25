@@ -58,3 +58,9 @@ module "finspeed_infra" {
   iap_allowed_user                 = var.iap_allowed_user
   project_owner_email              = var.project_owner_email
 }
+
+# Import existing Cloud Function if it was created outside Terraform
+import {
+  to = module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]
+  id = "projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging"
+}

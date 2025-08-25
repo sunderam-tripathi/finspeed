@@ -113,9 +113,3 @@ resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   role    = each.value
   member  = "serviceAccount:${data.google_project.current[0].number}@cloudbuild.gserviceaccount.com"
 }
-
-# Import existing Cloud Function if it was created outside Terraform
-import {
-  to = google_cloudfunctions2_function.api_gateway[0]
-  id = "projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging"
-}
