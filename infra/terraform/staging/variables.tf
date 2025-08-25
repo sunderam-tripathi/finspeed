@@ -76,3 +76,6 @@ variable "allow_public_product_images_read" {
   type        = bool
   default     = false
 }
+
+# API Gateway upstream override (passthrough to module)
+variable "api_gateway_upstream_base_url" {}

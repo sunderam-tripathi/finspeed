@@ -53,7 +53,7 @@ resource "google_cloudfunctions2_function" "api_gateway" {
     available_cpu                    = "0.167"
 
     environment_variables = {
-      API_BASE_URL = google_cloud_run_v2_service.api.uri
+      API_BASE_URL = var.api_gateway_upstream_base_url != "" ? var.api_gateway_upstream_base_url : google_cloud_run_v2_service.api.uri
       ENVIRONMENT  = local.environment
     }
 

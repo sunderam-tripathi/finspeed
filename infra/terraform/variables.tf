@@ -296,3 +296,10 @@ variable "allow_public_cloud_run_api" {
   type        = bool
   default     = false
 }
+
+# API Gateway upstream override
+variable "api_gateway_upstream_base_url" {
+  description = "Base URL the API Gateway Cloud Function proxies to (typically the IAP-protected external LB URL). Leave empty to default to the Cloud Run service URI."
+  type        = string
+  default     = ""
+}
