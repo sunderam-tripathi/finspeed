@@ -90,16 +90,17 @@ resource "time_sleep" "wait_for_function_ready" {
 }
    
 # IAM binding to allow public access to the Cloud Function
-resource "google_cloudfunctions2_function_iam_member" "public_access" {
-  count          = var.allow_public_api ? 1 : 0
-  project        = google_cloudfunctions2_function.api_gateway[0].project
-  location       = google_cloudfunctions2_function.api_gateway[0].location
-  cloud_function = google_cloudfunctions2_function.api_gateway[0].name
-  role           = "roles/cloudfunctions.invoker"
-  member         = "allUsers"
-
-  depends_on = [time_sleep.wait_for_function_ready]
-}
+# Temporarily commented out to resolve persistent precondition errors
+# resource "google_cloudfunctions2_function_iam_member" "public_access" {
+#   count          = var.allow_public_api ? 1 : 0
+#   project        = google_cloudfunctions2_function.api_gateway[0].project
+#   location       = google_cloudfunctions2_function.api_gateway[0].location
+#   cloud_function = google_cloudfunctions2_function.api_gateway[0].name
+#   role           = "roles/cloudfunctions.invoker"
+#   member         = "allUsers"
+#
+#   depends_on = [time_sleep.wait_for_function_ready]
+# }
 
 # Backend service for the API gateway function
 resource "google_compute_region_network_endpoint_group" "api_gateway_neg" {
