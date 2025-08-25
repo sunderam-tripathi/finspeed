@@ -103,6 +103,7 @@ resource "google_project_iam_member" "github_actions_permissions" {
     "roles/iap.admin",                       # Manage IAP settings
     "roles/compute.securityAdmin",           # Manage SSL certificates and security policies
     "roles/iam.workloadIdentityPoolAdmin",   # Manage Workload Identity Pools/Providers (needed to update WIF provider)
+    "roles/cloudfunctions.admin",            # Manage Cloud Functions and set IAM policies
     "roles/editor"                           # Broad permissions to ensure IAP brand creation and state access
   ])
 

@@ -80,6 +80,14 @@ resource "google_service_account_iam_member" "build_sa_can_use_run_sa" {
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
 }
+
+# Wait for Cloud Function to be fully ready before setting IAM policies
+resource "time_sleep" "wait_for_function_ready" {
+  count           = var.allow_public_api ? 1 : 0
+  create_duration = "60s"
+
+  depends_on = [google_cloudfunctions2_function.api_gateway]
+}
    
 # IAM binding to allow public access to the Cloud Function
 resource "google_cloudfunctions2_function_iam_member" "public_access" {
@@ -89,6 +97,8 @@ resource "google_cloudfunctions2_function_iam_member" "public_access" {
   cloud_function = google_cloudfunctions2_function.api_gateway[0].name
   role           = "roles/cloudfunctions.invoker"
   member         = "allUsers"
+
+  depends_on = [time_sleep.wait_for_function_ready]
 }
 
 # Backend service for the API gateway function
@@ -119,7 +129,7 @@ resource "google_compute_backend_service" "api_gateway_backend" {
 # Grant Compute Engine default service account permissions for function builds
 resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   for_each = var.allow_public_api ? toset([
-    "roles/cloudfunctions.admin",
+    "roles/cloudfunctions.developer",
     "roles/storage.admin",
     "roles/artifactregistry.writer",
     "roles/cloudbuild.builds.builder",
