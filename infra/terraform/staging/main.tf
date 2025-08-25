@@ -59,8 +59,5 @@ module "finspeed_infra" {
   project_owner_email              = var.project_owner_email
 }
 
-# Import existing Cloud Function if it was created outside Terraform
-import {
-  to = module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]
-  id = "projects/finspeed-staging-st/locations/asia-south2/functions/finspeed-api-gateway-staging"
-}
+# Note: If Cloud Function already exists, delete it manually first:
+# gcloud functions delete finspeed-api-gateway-staging --region=asia-south2 --project=finspeed-staging-st

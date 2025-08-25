@@ -69,6 +69,7 @@ jobs:
               - 'docker/api.Dockerfile'
               - 'docker/api.prod.Dockerfile'
               - 'docker/migrate.Dockerfile'
+              - 'db/migrations/**'
             frontend:
               - 'frontend/**'
               - 'docker/frontend.Dockerfile'
@@ -730,6 +731,20 @@ jobs:
               echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:latest" >> $GITHUB_ENV
             fi
           fi
+
+      - name: Clean up existing API Gateway function if present
+        shell: bash
+        run: |
+          set +e  # Don't fail if function doesn't exist
+          echo "Checking for existing API Gateway function..."
+          gcloud functions describe finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --quiet
+          if [ $? -eq 0 ]; then
+            echo "Deleting existing API Gateway function..."
+            gcloud functions delete finspeed-api-gateway-staging --region=asia-south2 --project="${{ env.GCP_PROJECT_ID }}" --quiet
+          else
+            echo "No existing API Gateway function found."
+          fi
+          set -e
 
       - name: Terraform Apply Service Images
         shell: bash
