@@ -736,13 +736,21 @@ jobs:
         shell: bash
         run: |
           set +e  # Don't fail if resource doesn't exist
-          echo "Attempting to destroy existing API Gateway function via Terraform..."
-          terraform destroy -target="module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]" -auto-approve \
-            -var=api_image="${TF_VAR_api_image}" \
-            -var=frontend_image="${TF_VAR_frontend_image}" \
-            -var=migrate_image="${TF_VAR_migrate_image}" || echo "No existing function to destroy"
+          echo "Attempting to delete existing API Gateway function via REST API..."
+          
+          # Get access token
+          ACCESS_TOKEN=$(gcloud auth print-access-token)
+          
+          # Try to delete the function using REST API
+          curl -X DELETE \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Content-Type: application/json" \
+            "https://cloudfunctions.googleapis.com/v2/projects/${{ env.GCP_PROJECT_ID }}/locations/asia-south2/functions/finspeed-api-gateway-staging" \
+            || echo "Function may not exist or already deleted"
+          
+          # Wait a moment for deletion to propagate
+          sleep 10
           set -e
-        working-directory: ./infra/terraform/staging
 
       - name: Terraform Apply Service Images
         shell: bash
