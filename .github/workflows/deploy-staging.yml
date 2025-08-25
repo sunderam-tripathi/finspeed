@@ -368,6 +368,33 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
+      - name: Configure gcloud (non-interactive)
+        run: |
+          gcloud config set core/disable_prompts true
+          gcloud config set functions/region ${{ env.GCP_REGION }}
+          gcloud config set project ${{ env.GCP_PROJECT_ID }}
+
+      - name: Pre-enable required GCP APIs (idempotent)
+        run: |
+          set -euo pipefail
+          gcloud services enable \
+            cloudfunctions.googleapis.com \
+            cloudbuild.googleapis.com \
+            run.googleapis.com \
+            artifactregistry.googleapis.com \
+            eventarc.googleapis.com \
+            secretmanager.googleapis.com \
+            compute.googleapis.com \
+            iam.googleapis.com \
+            cloudresourcemanager.googleapis.com \
+            sts.googleapis.com \
+            vpcaccess.googleapis.com \
+            storage.googleapis.com \
+            sqladmin.googleapis.com \
+            monitoring.googleapis.com \
+            servicenetworking.googleapis.com \
+            --project="${{ env.GCP_PROJECT_ID }}" || true
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2 # v3.1.1
         with:
@@ -418,11 +445,16 @@ jobs:
             echo "Cloud Function already in Terraform state; skipping import"
           else
             echo "Checking if Cloud Function exists in GCP to import..."
-            if gcloud functions describe finspeed-api-gateway-staging --region="${{ env.GCP_REGION }}" --project="${{ env.GCP_PROJECT_ID }}" --gen2 >/dev/null 2>&1; then
+            if timeout 120s gcloud functions describe finspeed-api-gateway-staging \
+              --region="${{ env.GCP_REGION }}" \
+              --project="${{ env.GCP_PROJECT_ID }}" \
+              --gen2 \
+              --format="value(name)" \
+              --quiet >/dev/null 2>&1; then
               echo "Importing existing Cloud Function into Terraform state"
               terraform import "$RESOURCE" "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || true
             else
-              echo "Cloud Function not found in GCP; skipping import"
+              echo "Cloud Function not found or describe timed out; skipping import"
             fi
           fi
 
@@ -528,6 +560,12 @@ jobs:
         run: |
           echo "No-op: not removing Cloud Function from TF state"
 
+      - name: Pre-apply required APIs (idempotent)
+        run: |
+          terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
+            -target='module.finspeed_infra.google_project_service.required_apis'
+        working-directory: ./infra/terraform/staging
+
       - name: Pre-apply IAM for Cloud Build (CF builds)
         run: |
           terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
@@ -546,8 +584,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo "Waiting 60s for IAM role propagation before creating CF"
-          sleep 60
+          echo "Waiting 120s for IAM role propagation before creating CF"
+          sleep 120
 
       - name: Terraform Apply Infra
         run: terraform apply -lock-timeout=5m -auto-approve -input=false
