@@ -90,9 +90,10 @@ resource "google_iap_web_backend_service_iam_member" "frontend_admin_iap_cicd" {
   member              = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
-# Allow unauthenticated (public) access to Cloud Run services when enabled
+# Allow unauthenticated (public) access to Cloud Run API service when explicitly enabled
+# NOTE: Keep this disabled (default) when using IAP + API Gateway.
 resource "google_cloud_run_v2_service_iam_member" "api_public_invoker" {
-  count    = var.allow_public_api ? 1 : 0
+  count    = var.allow_public_cloud_run_api ? 1 : 0
   project  = google_cloud_run_v2_service.api.project
   location = google_cloud_run_v2_service.api.location
   name     = google_cloud_run_v2_service.api.name

@@ -283,3 +283,16 @@ variable "allow_public_frontend" {
   type        = bool
   default     = false
 }
+
+variable "allow_public_product_images_read" {
+  description = "Allow unauthenticated public read (allUsers) on the product images bucket."
+  type        = bool
+  default     = false
+}
+
+# Explicit toggle to make the Cloud Run API publicly invokable (bypassing IAP). Keep false when using API Gateway + IAP.
+variable "allow_public_cloud_run_api" {
+  description = "Allow unauthenticated public access to the Cloud Run API service directly (NOT via API Gateway)."
+  type        = bool
+  default     = false
+}

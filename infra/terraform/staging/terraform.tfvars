@@ -26,6 +26,10 @@ frontend_min_instances = 0
 frontend_max_instances = 2
 frontend_image         = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:lb-path-routing-fix-1"
 
+# Pin API and migrate images to avoid fallback to hello-app defaults
+api_image     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-api-staging/finspeed-api-staging:173554d2"
+migrate_image = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-migrate-staging/finspeed-migrate-staging:173554d2"
+
 # Domain configuration (optional)
 domain_name     = "staging.finspeed.online" # Set to your staging domain if you have one
 api_domain_name = "api.staging.finspeed.online"
@@ -52,4 +56,7 @@ github_repository   = "sunderam-tripathi/finspeed"   # Replace with your actual 
 project_owner_email = "welcome@sunderamtripathi.com" # Replace with your GCP login email
 
 # Static hosting configuration
-use_static_hosting = false  # Use Cloud Run for frontend in staging
+use_static_hosting = false # Use Cloud Run for frontend in staging
+
+# Enable public API Gateway in staging (Cloud Function + LB), while keeping Cloud Run API private behind IAP
+allow_public_api = true
