@@ -403,6 +403,36 @@ jobs:
         run: terraform init -reconfigure -backend-config="bucket=${{ env.TF_STATE_BUCKET }}"
         working-directory: ./infra/terraform/staging
 
+      - name: Best-effort import existing Cloud Function (avoid 409)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          RESOURCE='module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]'
+          # If already in state, skip
+          if terraform state list 2>/dev/null | grep -q "$RESOURCE"; then
+            echo "Cloud Function already in Terraform state; skipping import"
+          else
+            echo "Checking if Cloud Function exists in GCP to import..."
+            if gcloud functions describe finspeed-api-gateway-staging --region="${{ env.GCP_REGION }}" --project="${{ env.GCP_PROJECT_ID }}" --gen2 >/dev/null 2>&1; then
+              echo "Importing existing Cloud Function into Terraform state"
+              for i in 1 2 3; do
+                set +e
+                terraform import "$RESOURCE" "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging"
+                CODE=$?
+                set -e
+                if [ "$CODE" -eq 0 ]; then
+                  echo "Import succeeded"
+                  break
+                fi
+                echo "Import attempt $i failed; backing off before retry..."
+                sleep $((i*20))
+              done
+            else
+              echo "Cloud Function not found in GCP; skipping import"
+            fi
+          fi
+
       - name: Seed TF_VAR image variables (best-effort)
         shell: bash
         run: |
@@ -499,6 +529,25 @@ jobs:
               "projects/${GCP_PROJECT_ID}/global/urlMaps/${URL_MAP_NAME}" || true
           else
             echo "URL map ${URL_MAP_NAME} not found; no import needed"
+          fi
+
+      - name: Import existing Cloud Function (if any)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd infra/terraform/staging
+          
+          # Check if the Cloud Function exists
+          if gcloud functions describe finspeed-api-gateway-staging \
+             --region=${{ env.GCP_REGION }} \
+             --project=${{ env.GCP_PROJECT_ID }} >/dev/null 2>&1; then
+            echo "Importing existing Cloud Function into Terraform state"
+            terraform import \
+              'module.finspeed_infra.google_cloudfunctions2_function.api_gateway[0]' \
+              "projects/${{ env.GCP_PROJECT_ID }}/locations/${{ env.GCP_REGION }}/functions/finspeed-api-gateway-staging" || \
+              echo "Warning: Failed to import Cloud Function (may not exist or already imported)"
+          else
+            echo "Cloud Function finspeed-api-gateway-staging not found; will create new"
           fi
 
       - name: Terraform Apply Infra
