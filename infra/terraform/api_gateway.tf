@@ -73,12 +73,12 @@ resource "google_cloudfunctions2_function" "api_gateway" {
   ]
 }
 
-# Grant the Cloud Build service account permission to impersonate the Cloud Run service account
+# Grant the Compute Engine default service account permission to impersonate the Cloud Run service account
 resource "google_service_account_iam_member" "build_sa_can_use_run_sa" {
   count              = var.allow_public_api ? 1 : 0
   service_account_id = google_service_account.cloud_run_sa.name
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${data.google_project.current[0].number}@cloudbuild.gserviceaccount.com"
+  member             = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
 }
    
 # IAM binding to allow public access to the Cloud Function
@@ -116,7 +116,7 @@ resource "google_compute_backend_service" "api_gateway_backend" {
   }
 }
 
-# Grant Cloud Build service account permissions for function builds
+# Grant Compute Engine default service account permissions for function builds
 resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   for_each = var.allow_public_api ? toset([
     "roles/cloudfunctions.developer",
@@ -132,5 +132,5 @@ resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   
   project = local.project_id
   role    = each.value
-  member  = "serviceAccount:${data.google_project.current[0].number}@cloudbuild.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
 }
