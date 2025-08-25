@@ -106,7 +106,10 @@ resource "google_project_iam_member" "cloudbuild_sa_permissions" {
   for_each = var.allow_public_api ? toset([
     "roles/cloudfunctions.developer",
     "roles/storage.admin",
-    "roles/artifactregistry.writer"
+    "roles/artifactregistry.writer",
+    "roles/cloudbuild.builds.builder",
+    "roles/source.reader",
+    "roles/logging.logWriter"
   ]) : toset([])
   
   project = local.project_id
