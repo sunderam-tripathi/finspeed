@@ -26,8 +26,14 @@ export default function Header() {
 
   const loadCart = async () => {
     try {
-      const cartData = await apiClient.getCart();
-      setCart(cartData);
+      // Only load cart if user is authenticated
+      if (apiClient.isAuthenticated()) {
+        const cartData = await apiClient.getCart();
+        setCart(cartData);
+      } else {
+        // Set empty cart for unauthenticated users
+        setCart({ items: [], count: 0, subtotal: 0, total: 0 });
+      }
     } catch (error) {
       console.error('Failed to load cart:', error);
       // Set empty cart to prevent UI issues

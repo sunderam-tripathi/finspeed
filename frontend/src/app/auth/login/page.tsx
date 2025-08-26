@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
 import { redirectToAdmin } from '@/lib/admin-redirect';
@@ -12,6 +12,19 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get('redirect');
+  const redirectPath =
+    redirectParam && redirectParam.startsWith('/') && !redirectParam.startsWith('//')
+      ? redirectParam
+      : '/products';
+
+  useEffect(() => {
+    // If already authenticated, skip login screen
+    if (apiClient.isAuthenticated()) {
+      router.replace(redirectPath);
+    }
+  }, [router, redirectPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,13 +35,12 @@ export default function LoginPage() {
       const response = await apiClient.login(email, password);
       console.log('Login successful:', response);
       
-      // Redirect based on user role
+      // Redirect based on user role; open admin in new tab and navigate to target
       if (response.user.role === 'admin') {
-        // Open admin dashboard in new tab and redirect to products
         redirectToAdmin(response.token);
-        router.push('/products');
+        router.push(redirectPath);
       } else {
-        router.push('/products');
+        router.push(redirectPath);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
@@ -49,7 +61,7 @@ export default function LoginPage() {
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Or{' '}
-            <Link href="/auth/register" className="font-medium text-primary-600 hover:text-primary-500">
+            <Link href={`/auth/register${redirectParam ? `?redirect=${encodeURIComponent(redirectParam)}` : ''}`} className="font-medium text-primary-600 hover:text-primary-500">
               create a new account
             </Link>
           </p>
@@ -76,6 +88,7 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
+                  disabled={loading}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
@@ -95,6 +108,7 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  disabled={loading}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
@@ -119,7 +133,7 @@ export default function LoginPage() {
               <p>Test accounts:</p>
               <p className="mt-1">
                 <strong>Admin:</strong> admin@finspeed.online / admin123<br />
-                <strong>Customer:</strong> customer@example.com / customer123
+                <strong>Customer:</strong> customer@finspeed.online / customer123
               </p>
             </div>
           </div>
@@ -128,3 +142,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
