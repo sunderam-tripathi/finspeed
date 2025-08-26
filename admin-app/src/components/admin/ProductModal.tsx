@@ -150,7 +150,7 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
     setUploading(true);
     setError(null);
     try {
-      await apiClient.uploadProductImage(product.id, uploadFile, uploadAlt, uploadPrimary);
+      await apiClient.uploadProductImage(product.id, uploadFile, { alt: uploadAlt, is_primary: uploadPrimary });
       // Refresh images after upload
       const updatedImages = await apiClient.getProductImages(product.id);
       setImages(updatedImages);
