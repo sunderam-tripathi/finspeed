@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
+import { redirectToAdminDomain } from '@/lib/admin-redirect';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,8 +24,8 @@ export default function LoginPage() {
       
       // Redirect based on user role
       if (response.user.role === 'admin') {
-        // Redirect admin users to the dedicated admin app on port 3001
-        window.location.href = 'http://localhost:3001/admin';
+        // Redirect admin users to the dedicated admin domain with seamless authentication
+        redirectToAdminDomain(response.token, '/admin');
       } else {
         router.push('/products');
       }

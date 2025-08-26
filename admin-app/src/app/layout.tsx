@@ -3,6 +3,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import { ThemeProvider } from '../theme/theme-context';
 import ClientBootstrap from '@/components/ClientBootstrap';
+import TokenHandler from '@/components/TokenHandler';
 
 export const metadata: Metadata = {
   title: 'Finspeed Admin - Management Dashboard',
@@ -23,6 +24,8 @@ export default function RootLayout({
         <ThemeProvider>
           {/* Client-only bootstrap for M3 flag and fetch interception */}
           <ClientBootstrap />
+          {/* Handle cross-domain authentication tokens */}
+          <TokenHandler />
           <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-1">
