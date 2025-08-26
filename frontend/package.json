@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "World-class e-commerce platform frontend",
+  "description": "Finspeed Frontend with Material You styling and cross-domain admin authentication",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
