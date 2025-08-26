@@ -265,6 +265,14 @@ resource "google_compute_url_map" "url_map" {
       paths   = ["/api/*", "/api/v1/*"]
       service = google_compute_backend_service.api_backend.id
     }
+
+    dynamic "path_rule" {
+      for_each = var.allow_public_api ? [1] : []
+      content {
+        paths   = ["/api-gateway/*"]
+        service = google_compute_backend_service.api_gateway_backend[0].id
+      }
+    }
   }
 
   lifecycle {

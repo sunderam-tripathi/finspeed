@@ -26,7 +26,9 @@ functions.http('apiGateway', async (req, res) => {
       }
 
       // Forward the request to the private Cloud Run API
-      const targetUrl = `${apiBaseUrl}${req.path}`;
+      // Strip /api-gateway prefix from the path before forwarding
+      const cleanPath = req.path.replace(/^\/api-gateway/, '');
+      const targetUrl = `${apiBaseUrl}${cleanPath}`;
   
       // Normalize auth headers: Cloud Run/IAP expects Authorization; accept Proxy-Authorization from clients
       const incomingAuth = req.headers['authorization']

@@ -17,59 +17,68 @@ data "archive_file" "api_gateway_zip" {
   source_dir  = "${path.module}/../../api-gateway"
 }
 
-# Upload the function source to Cloud Storage
-resource "google_storage_bucket_object" "api_gateway_source" {
-  count  = var.allow_public_api ? 1 : 0
-  name   = "api-gateway-${data.archive_file.api_gateway_zip.output_md5}.zip"
-  bucket = google_storage_bucket.function_source[0].name
-  source = data.archive_file.api_gateway_zip.output_path
-}
+# Cloud Function source upload - no longer needed for Cloud Run
+# resource "google_storage_bucket_object" "api_gateway_source" {
+#   count  = var.allow_public_api ? 1 : 0
+#   name   = "api-gateway-${data.archive_file.api_gateway_zip.output_md5}.zip"
+#   bucket = google_storage_bucket.function_source[0].name
+#   source = data.archive_file.api_gateway_zip.output_path
+# }
 
-# Cloud Function for public API access
-resource "google_cloudfunctions2_function" "api_gateway" {
-  count       = var.allow_public_api ? 1 : 0
-  name        = "finspeed-api-gateway-${local.environment}"
-  location    = local.region
-  project     = local.project_id
-  description = "Public API gateway that proxies to private Cloud Run API"
+# Cloud Run service for API Gateway (replacing Cloud Function due to persistent IAM issues)
+resource "google_cloud_run_v2_service" "api_gateway" {
+  count    = var.allow_public_api ? 1 : 0
+  name     = "finspeed-api-gateway-${local.environment}"
+  location = local.region
+  project  = var.project_id
 
-  build_config {
-    runtime     = "nodejs20"
-    entry_point = "apiGateway"
-    source {
-      storage_source {
-        bucket = var.allow_public_api ? google_storage_bucket.function_source[0].name : null
-        object = var.allow_public_api ? google_storage_bucket_object.api_gateway_source[0].name : null
+  template {
+    containers {
+      image = "gcr.io/${var.project_id}/api-gateway:latest"
+      
+      env {
+        name  = "API_BASE_URL"
+        value = "https://${google_cloud_run_v2_service.api.name}-${data.google_project.current[0].number}.a.run.app"
+      }
+      
+      env {
+        name  = "ENVIRONMENT"
+        value = local.environment
+      }
+      
+      env {
+        name  = "NODE_ENV"
+        value = "production"
+      }
+
+      resources {
+        limits = {
+          cpu    = "1"
+          memory = "512Mi"
+        }
+      }
+
+      ports {
+        container_port = 8080
       }
     }
-  }
 
-  service_config {
-    max_instance_count               = 10
-    min_instance_count               = 0
-    available_memory                 = "256M"
-    timeout_seconds                  = 60
-    max_instance_request_concurrency = 1
-    available_cpu                    = "0.167"
-
-    environment_variables = {
-      API_BASE_URL = var.api_gateway_upstream_base_url != "" ? var.api_gateway_upstream_base_url : google_cloud_run_v2_service.api.uri
-      ENVIRONMENT  = local.environment
+    service_account = google_service_account.cloud_run_sa.email
+    
+    scaling {
+      max_instance_count = 10
+      min_instance_count = 0
     }
-
-    ingress_settings               = "ALLOW_ALL"
-    all_traffic_on_latest_revision = true
-
-    service_account_email = google_service_account.cloud_run_sa.email
   }
 
-  labels = local.common_labels
+  traffic {
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  }
 
-  # Ensure IAM bindings for the Cloud Build service account are applied
-  # before attempting to create/build the function to avoid permission errors.
   depends_on = [
-    google_project_iam_member.cloudbuild_sa_permissions,
-    google_service_account_iam_member.build_sa_can_use_run_sa
+    google_project_service.required_apis,
+    google_service_account.cloud_run_sa
   ]
 }
 
@@ -81,35 +90,30 @@ resource "google_service_account_iam_member" "build_sa_can_use_run_sa" {
   member             = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
 }
 
-# Wait for Cloud Function to be fully ready before setting IAM policies
-resource "time_sleep" "wait_for_function_ready" {
-  count           = var.allow_public_api ? 1 : 0
-  create_duration = "120s"
-
-  depends_on = [google_cloudfunctions2_function.api_gateway]
-}
    
-# IAM binding to allow public access to the Cloud Function
-resource "google_cloudfunctions2_function_iam_member" "public_access" {
-  count          = var.allow_public_api ? 1 : 0
-  project        = google_cloudfunctions2_function.api_gateway[0].project
-  location       = google_cloudfunctions2_function.api_gateway[0].location
-  cloud_function = google_cloudfunctions2_function.api_gateway[0].name
-  role           = "roles/cloudfunctions.invoker"
-  member         = "allUsers"
+# IAM binding to allow public access to the Cloud Run API Gateway
+# Temporarily disabled due to organization policy restrictions
+# Public access will be handled via load balancer instead
+# resource "google_cloud_run_v2_service_iam_member" "api_gateway_public_access" {
+#   count    = var.allow_public_api ? 1 : 0
+#   project  = google_cloud_run_v2_service.api_gateway[0].project
+#   location = google_cloud_run_v2_service.api_gateway[0].location
+#   name     = google_cloud_run_v2_service.api_gateway[0].name
+#   role     = "roles/run.invoker"
+#   member   = "allUsers"
+# }
 
-  depends_on = [time_sleep.wait_for_function_ready]
-}
 
-# Backend service for the API gateway function
+
+# Backend service for the API gateway Cloud Run service
 resource "google_compute_region_network_endpoint_group" "api_gateway_neg" {
   count                 = var.allow_public_api ? 1 : 0
   name                  = "finspeed-api-gateway-neg-${local.environment}"
   network_endpoint_type = "SERVERLESS"
   project               = var.project_id
   region                = local.region
-  cloud_function {
-    function = google_cloudfunctions2_function.api_gateway[0].name
+  cloud_run {
+    service = google_cloud_run_v2_service.api_gateway[0].name
   }
 }
 
