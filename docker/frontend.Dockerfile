@@ -1,6 +1,8 @@
 # --- Base Stage ---
 FROM node:20-alpine AS base
-RUN npm install -g pnpm
+# Install pnpm using corepack (built into Node.js 16+)
+RUN corepack enable
+RUN corepack prepare pnpm@latest --activate
 # Configure npm registry settings
 RUN npm config set registry https://registry.npmjs.org/
 RUN pnpm config set registry https://registry.npmjs.org/
