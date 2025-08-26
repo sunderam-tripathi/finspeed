@@ -1,7 +1,7 @@
 {
   "name": "finspeed-admin",
   "version": "1.0.0",
-  "description": "Finspeed Admin Interface",
+  "description": "Finspeed Admin Dashboard with Material You styling",
   "main": "index.js",
   "scripts": {
     "dev": "next dev -p 3001",
