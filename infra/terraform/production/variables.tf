@@ -51,3 +51,8 @@ variable "migrate_image" {
   type        = string
   default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
 }
+variable "admin_image" {
+  description = "The full Docker image URL for the admin service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
