@@ -29,6 +29,9 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
   const [uploadAlt, setUploadAlt] = useState('');
   const [uploadPrimary, setUploadPrimary] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   // Derive API origin for static assets served from API (e.g., /api/v1/uploads/...)
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
@@ -94,28 +97,70 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    if (!formData.title.trim()) {
+      errors.title = 'Product title is required';
+    }
+    
+    if (!formData.slug.trim()) {
+      errors.slug = 'Product slug is required';
+    } else if (!/^[a-z0-9-]+$/.test(formData.slug)) {
+      errors.slug = 'Slug must contain only lowercase letters, numbers, and hyphens';
+    }
+    
+    if (formData.price <= 0) {
+      errors.price = 'Price must be greater than 0';
+    }
+    
+    if (formData.stock_qty < 0) {
+      errors.stock_qty = 'Stock quantity cannot be negative';
+    }
+    
+    if (!formData.category_id) {
+      errors.category_id = 'Please select a category';
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    setError(null);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      onSave(formData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save product');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleUpload = async () => {
-    if (!product?.id || !uploadFile) return;
+    if (!uploadFile || !product?.id) return;
+    
     setUploading(true);
+    setError(null);
     try {
-      await apiClient.uploadProductImage(product.id, uploadFile, {
-        alt: uploadAlt || undefined,
-        is_primary: uploadPrimary,
-      });
-      // reset inputs and refresh images
+      await apiClient.uploadProductImage(product.id, uploadFile, uploadAlt, uploadPrimary);
+      // Refresh images after upload
+      const updatedImages = await apiClient.getProductImages(product.id);
+      setImages(updatedImages);
+      // Reset form
       setUploadFile(null);
       setUploadAlt('');
       setUploadPrimary(false);
-      const p = await apiClient.getProduct(product.slug);
-      setImages(p.images || []);
-    } catch (e) {
-      // optional: surface a toast
-      console.error(e);
+    } catch (error) {
+      console.error('Upload failed:', error);
+      setError(error instanceof Error ? error.message : 'Failed to upload image');
     } finally {
       setUploading(false);
     }
@@ -149,11 +194,32 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
     <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
       <div className="relative mx-auto p-6 border border-[color:var(--md-sys-color-outline)] w-full max-w-2xl shadow-xl rounded-xl bg-[color:var(--md-sys-color-surface-container-highest)] max-h-[90vh] overflow-y-auto">
         <h3 className="text-xl font-semibold leading-6 text-[color:var(--md-sys-color-on-surface)] mb-6">{product.id ? 'Edit Product' : 'Add Product'}</h3>
+        {error && (
+          <div className="mb-4 p-4 bg-[color:var(--md-sys-color-error-container)] border border-[color:var(--md-sys-color-error)] rounded-lg">
+            <p className="text-sm text-[color:var(--md-sys-color-on-error-container)] font-medium">{error}</p>
+          </div>
+        )}
+        
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-[color:var(--md-sys-color-on-surface)] mb-2">Title</label>
-              <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Product title" className="w-full px-4 py-3 border border-[color:var(--md-sys-color-outline)] rounded-lg bg-[color:var(--md-sys-color-surface-container)] text-[color:var(--md-sys-color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-primary)] placeholder-[color:var(--md-sys-color-on-surface-variant)]" />
+              <label className="block text-sm font-medium text-[color:var(--md-sys-color-on-surface)] mb-2">Product Title</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border rounded-lg bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)] focus:outline-none focus:ring-2 placeholder-[color:var(--md-sys-color-on-surface-variant)] ${
+                  validationErrors.title 
+                    ? 'border-[color:var(--md-sys-color-error)] focus:ring-[color:var(--md-sys-color-error)]' 
+                    : 'border-[color:var(--md-sys-color-outline)] focus:ring-[color:var(--md-sys-color-primary)]'
+                }`}
+                placeholder="Enter product title"
+                required
+              />
+              {validationErrors.title && (
+                <p className="mt-1 text-sm text-[color:var(--md-sys-color-error)]">{validationErrors.title}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-[color:var(--md-sys-color-on-surface)] mb-2">Slug</label>

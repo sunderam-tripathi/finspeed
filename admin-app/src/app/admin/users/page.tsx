@@ -80,7 +80,7 @@ export default function AdminUsersPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+        <h1 className="text-3xl font-bold text-[color:var(--md-sys-color-on-surface)]">Users</h1>
       </div>
 
       <div className="mb-4">
@@ -89,33 +89,51 @@ export default function AdminUsersPage() {
           placeholder="Search users by email..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-3 border border-[color:var(--md-sys-color-outline)] rounded-lg bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-primary)] placeholder-[color:var(--md-sys-color-on-surface-variant)]"
         />
       </div>
 
-      {isLoading && <p>Loading users...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      {isLoading && <p className="text-[color:var(--md-sys-color-on-surface-variant)]">Loading users...</p>}
+      {error && (
+        <div className="mb-4 p-4 bg-[color:var(--md-sys-color-error-container)] border border-[color:var(--md-sys-color-error)] rounded-lg">
+          <p className="text-[color:var(--md-sys-color-on-error-container)] font-medium">Error: {error}</p>
+        </div>
+      )}
 
       {!isLoading && !error && (
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-[color:var(--md-sys-color-surface-container)] shadow-md rounded-xl overflow-hidden border border-[color:var(--md-sys-color-outline-variant)]">
+          <table className="min-w-full divide-y divide-[color:var(--md-sys-color-outline-variant)]">
+            <thead className="bg-[color:var(--md-sys-color-surface-container-highest)]">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                <th scope="col" className="relative px-6 py-3">
-                  <span className="sr-only">Edit</span>
+                <th scope="col" className="px-6 py-4 text-left text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] uppercase tracking-wider">Email</th>
+                <th scope="col" className="px-6 py-4 text-left text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] uppercase tracking-wider">Role</th>
+                <th scope="col" className="relative px-6 py-4">
+                  <span className="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[color:var(--md-sys-color-surface-container)] divide-y divide-[color:var(--md-sys-color-outline-variant)]">
               {users.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button onClick={() => handleEditClick(user)} className="text-indigo-600 hover:text-indigo-900">Edit</button>
-                    <button onClick={() => handleDeleteUser(user.id)} className="text-red-600 hover:text-red-900 ml-4">Delete</button>
+                <tr key={user.id} className="hover:bg-[color:var(--md-sys-color-surface-container-highest)] transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[color:var(--md-sys-color-on-surface-variant)]">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[color:var(--md-sys-color-secondary-container)] text-[color:var(--md-sys-color-on-secondary-container)]">
+                      {user.role}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <button 
+                      onClick={() => handleEditClick(user)} 
+                      className="px-3 py-1.5 text-sm font-medium text-[color:var(--md-sys-color-primary)] hover:bg-[color:var(--md-sys-color-primary-container)] hover:text-[color:var(--md-sys-color-on-primary-container)] rounded-lg transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteUser(user.id)} 
+                      className="px-3 py-1.5 text-sm font-medium text-[color:var(--md-sys-color-error)] hover:bg-[color:var(--md-sys-color-error-container)] hover:text-[color:var(--md-sys-color-on-error-container)] rounded-lg transition-colors"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
