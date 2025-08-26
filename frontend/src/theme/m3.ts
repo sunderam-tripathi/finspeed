@@ -2,14 +2,44 @@
 // Docs: https://github.com/material-foundation/material-color-utilities
 'use client'
 
-export type ThemeMode = 'light' | 'dark'
+export type ThemeMode = 'light' | 'dark' | 'system'
 
 export interface M3ThemeState {
   seed: string
   mode: ThemeMode
+  // Optional custom colors (used by ThemeProvider state)
+  primary?: string
+  secondary?: string
+  accent?: string
 }
 
-export const DEFAULT_SEED = '#6750A4' // fallback brand color; can be changed later
+// Ocean-first color palette inspired by marine life with teal, navy, and coral accents
+export const OCEAN_COLORS = {
+  primary: {
+    light: '#0D9488', // Ocean teal
+    dark: '#5EEAD4',  // Seafoam
+  },
+  secondary: {
+    light: '#1E3A8A', // Deep navy
+    dark: '#60A5FA',  // Sky blue
+  },
+  accent: {
+    coral: {
+      light: '#FF6B6B',
+      dark: '#FCA5A5',
+    },
+    ocean: {
+      light: '#0369A1',
+      dark: '#7DD3FC',
+    },
+    seafoam: {
+      light: '#5EEAD4',
+      dark: '#99F6E4',
+    },
+  },
+} as const
+
+export const DEFAULT_SEED = OCEAN_COLORS.primary.light // fallback brand color; can be changed later
 export const STORAGE_KEYS = {
   seed: 'm3-seed',
   mode: 'm3-mode',
@@ -38,12 +68,14 @@ interface MaterialColorUtilities {
 
 export async function applyM3Theme(seedHex: string, mode: ThemeMode) {
   const root = document.documentElement
+  const isDark = mode === 'dark' || (mode === 'system' && typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches)
   try {
     const mod = (await import('@material/material-color-utilities')) as unknown as MaterialColorUtilities
     const theme = mod.themeFromSourceColor(mod.argbFromHex(seedHex))
-    mod.applyTheme(theme, { target: root, dark: mode === 'dark' })
-    const schemes = theme.schemes as Record<ThemeMode, Map<string, number>>
-    const primaryArgb = schemes[mode].get('primary')
+    mod.applyTheme(theme, { target: root, dark: isDark })
+    const schemes = theme.schemes as Record<'light' | 'dark', Map<string, number>>
+    const primaryArgb = schemes[isDark ? 'dark' : 'light'].get('primary')
     if (typeof primaryArgb === 'number') {
       const primary = mod.hexFromArgb(primaryArgb)
       root.style.setProperty('--brand-color', primary)
@@ -54,11 +86,11 @@ export async function applyM3Theme(seedHex: string, mode: ThemeMode) {
     // Fallback: set a minimal token set so UI is still usable without the lib
     root.style.setProperty('--md-sys-color-primary', seedHex)
     root.style.setProperty('--md-sys-color-on-primary', '#ffffff')
-    const surface = mode === 'dark' ? '#121212' : '#ffffff'
-    const onSurface = mode === 'dark' ? '#e5e5e5' : '#1f1f1f'
+    const surface = isDark ? '#121212' : '#ffffff'
+    const onSurface = isDark ? '#e5e5e5' : '#1f1f1f'
     root.style.setProperty('--md-sys-color-surface', surface)
     root.style.setProperty('--md-sys-color-on-surface', onSurface)
-    root.style.setProperty('--md-sys-color-outline-variant', mode === 'dark' ? '#444' : '#dadada')
+    root.style.setProperty('--md-sys-color-outline-variant', isDark ? '#444' : '#dadada')
     root.style.setProperty('--brand-color', seedHex)
   }
 
