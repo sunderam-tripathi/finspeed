@@ -1,7 +1,15 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ShoppingBagIcon, UserGroupIcon, ChartBarIcon, CogIcon, SwatchIcon } from '@heroicons/react/24/outline';
+import {
+  ShoppingBagIcon,
+  TagIcon,
+  UserGroupIcon,
+  ShoppingCartIcon,
+  ChartBarIcon,
+  CogIcon,
+  SwatchIcon,
+} from '@heroicons/react/24/outline';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -15,8 +23,9 @@ export default function AdminPage() {
 
   const quickActions = [
     { name: 'Add Product', href: '/admin/products/new', icon: ShoppingBagIcon },
-    { name: 'View Orders', href: '/admin/orders', icon: ShoppingBagIcon },
+    { name: 'Add Category', href: '/admin/categories/new', icon: TagIcon },
     { name: 'Manage Users', href: '/admin/users', icon: UserGroupIcon },
+    { name: 'View Orders', href: '/admin/orders', icon: ShoppingCartIcon },
     { name: 'Analytics', href: '/admin/analytics', icon: ChartBarIcon },
     { name: 'Settings', href: '/admin/settings', icon: CogIcon },
   ];
@@ -32,7 +41,7 @@ export default function AdminPage() {
                 Dashboard
               </h1>
               <p className="mt-2 text-[color:var(--md-sys-color-on-surface-variant)]">
-                Welcome back! Here's what's happening with your store.
+                Welcome back! Here&apos;s what&apos;s happening with your store.
               </p>
             </div>
             <div className="mt-4 md:mt-0">
@@ -84,7 +93,7 @@ export default function AdminPage() {
           <h2 className="text-lg font-medium text-[color:var(--md-sys-color-on-surface)] mb-4">
             Quick Actions
           </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
             {quickActions.map((action) => {
               const Icon = action.icon;
               return (
