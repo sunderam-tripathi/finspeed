@@ -1,6 +1,9 @@
 # --- Base Stage ---
 FROM node:20-alpine AS base
 RUN npm install -g pnpm
+# Configure npm registry settings
+RUN npm config set registry https://registry.npmjs.org/
+RUN pnpm config set registry https://registry.npmjs.org/
 
 # --- Dependencies Stage ---
 FROM base AS deps
@@ -10,12 +13,14 @@ WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /app/.pnpm-store
+RUN pnpm config set registry https://registry.npmjs.org/
 
 # Copy package files
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-# Install production dependencies only
-RUN pnpm install --frozen-lockfile --prod --store-dir /app/.pnpm-store
+# Install production dependencies only with retry
+RUN pnpm install --frozen-lockfile --prod --store-dir /app/.pnpm-store --network-timeout 300000 || \
+    (sleep 10 && pnpm install --frozen-lockfile --prod --store-dir /app/.pnpm-store --network-timeout 300000)
 
 # --- Builder Stage ---
 FROM base AS builder
@@ -25,6 +30,7 @@ WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /app/.pnpm-store
+RUN pnpm config set registry https://registry.npmjs.org/
 
 # Accept environment arg for the build
 ARG NEXT_PUBLIC_ENVIRONMENT
@@ -35,8 +41,9 @@ ENV NEXT_PUBLIC_ENABLE_M3=$NEXT_PUBLIC_ENABLE_M3
 # Copy package files
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-# Install all dependencies (including dev dependencies)
-RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store
+# Install all dependencies (including dev dependencies) with retry
+RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000 || \
+    (sleep 10 && pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000)
 
 # Copy source code
 COPY frontend/. .
@@ -82,12 +89,14 @@ WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN pnpm config set store-dir /app/.pnpm-store
+RUN pnpm config set registry https://registry.npmjs.org/
 
 # Copy package files
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-# Install ALL dependencies (including dev dependencies) with explicit store
-RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store
+# Install ALL dependencies (including dev dependencies) with explicit store and retry
+RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000 || \
+    (sleep 10 && pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000)
 
 # Copy source code
 COPY frontend/. .
