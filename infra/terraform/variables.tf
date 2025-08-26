@@ -144,6 +144,37 @@ variable "frontend_max_instances" {
   default     = 5
 }
 
+# Admin app variables
+variable "admin_cpu" {
+  description = "CPU allocation for admin service"
+  type        = string
+  default     = "1"
+}
+
+variable "admin_memory" {
+  description = "Memory allocation for admin service"
+  type        = string
+  default     = "512Mi"
+}
+
+variable "admin_min_instances" {
+  description = "Minimum number of admin instances"
+  type        = number
+  default     = 0
+}
+
+variable "admin_max_instances" {
+  description = "Maximum number of admin service instances"
+  type        = number
+  default     = 3
+}
+
+variable "admin_image" {
+  description = "The full Docker image URL for the admin service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+
 variable "api_domain_name" {
   description = "The custom domain name for the API service (e.g., api.finspeed.online)"
   type        = string

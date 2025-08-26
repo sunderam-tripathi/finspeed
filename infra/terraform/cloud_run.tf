@@ -45,6 +45,18 @@ resource "google_artifact_registry_repository" "migrate" {
   ]
 }
 
+resource "google_artifact_registry_repository" "admin" {
+  project       = local.project_id
+  location      = local.region
+  repository_id = "${local.project_name}-admin-${local.environment}"
+  format        = "DOCKER"
+  description   = "Docker repository for the Admin service"
+
+  depends_on = [
+    google_project_service.artifact_registry_api
+  ]
+}
+
 # Grant write access to the GitHub Actions service account for each repository
 resource "google_artifact_registry_repository_iam_member" "api_repo_writer" {
   project    = google_artifact_registry_repository.api.project
@@ -70,6 +82,14 @@ resource "google_artifact_registry_repository_iam_member" "migrate_repo_writer" 
   member     = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
+resource "google_artifact_registry_repository_iam_member" "admin_repo_writer" {
+  project    = google_artifact_registry_repository.admin.project
+  location   = google_artifact_registry_repository.admin.location
+  repository = google_artifact_registry_repository.admin.name
+  role       = "roles/artifactregistry.writer"
+  member     = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
 # Grant read (pull) access to the Cloud Run runtime service account so it can pull images
 resource "google_artifact_registry_repository_iam_member" "api_repo_reader_cloud_run" {
   project    = google_artifact_registry_repository.api.project
@@ -91,6 +111,14 @@ resource "google_artifact_registry_repository_iam_member" "migrate_repo_reader_c
   project    = google_artifact_registry_repository.migrate.project
   location   = google_artifact_registry_repository.migrate.location
   repository = google_artifact_registry_repository.migrate.name
+  role       = "roles/artifactregistry.reader"
+  member     = "serviceAccount:${google_service_account.cloud_run_sa.email}"
+}
+
+resource "google_artifact_registry_repository_iam_member" "admin_repo_reader_cloud_run" {
+  project    = google_artifact_registry_repository.admin.project
+  location   = google_artifact_registry_repository.admin.location
+  repository = google_artifact_registry_repository.admin.name
   role       = "roles/artifactregistry.reader"
   member     = "serviceAccount:${google_service_account.cloud_run_sa.email}"
 }
@@ -298,6 +326,102 @@ resource "google_cloud_run_v2_service" "frontend" {
         http_get {
           path = "/"
           port = 8080
+        }
+        initial_delay_seconds = 30
+        timeout_seconds       = 5
+        period_seconds        = 30
+        failure_threshold     = 3
+      }
+    }
+  }
+
+  traffic {
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  }
+
+  depends_on = [
+    google_project_service.required_apis,
+    google_cloud_run_v2_service.api
+  ]
+}
+
+# Cloud Run service for the Admin App
+resource "google_cloud_run_v2_service" "admin" {
+  name                = "finspeed-admin-${local.environment}"
+  location            = local.region
+  deletion_protection = var.enable_deletion_protection
+  ingress             = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+
+  labels = local.common_labels
+
+  template {
+    labels = local.common_labels
+
+    service_account = google_service_account.cloud_run_sa.email
+
+    scaling {
+      min_instance_count = var.admin_min_instances
+      max_instance_count = var.admin_max_instances
+    }
+
+    vpc_access {
+      connector = google_vpc_access_connector.connector.id
+      egress    = "ALL_TRAFFIC"
+    }
+
+    containers {
+      image = var.admin_image
+
+      ports {
+        container_port = 3001
+      }
+
+      resources {
+        limits = {
+          cpu    = var.admin_cpu
+          memory = var.admin_memory
+        }
+        cpu_idle = true
+      }
+
+      # Environment variables
+      env {
+        name  = "ENVIRONMENT"
+        value = local.environment
+      }
+
+      env {
+        name  = "API_URL"
+        value = google_cloud_run_v2_service.api.uri
+      }
+
+      env {
+        name  = "NEXT_PUBLIC_API_URL"
+        value = "/api/v1"
+      }
+
+      env {
+        name  = "NEXT_PUBLIC_ENABLE_M3"
+        value = "1"
+      }
+
+      # Health check configuration
+      startup_probe {
+        http_get {
+          path = "/"
+          port = 3001
+        }
+        initial_delay_seconds = 10
+        timeout_seconds       = 5
+        period_seconds        = 10
+        failure_threshold     = 3
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/"
+          port = 3001
         }
         initial_delay_seconds = 30
         timeout_seconds       = 5
