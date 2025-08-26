@@ -2,10 +2,10 @@
 
 import * as React from 'react'
 import { Moon, Sun } from 'lucide-react'
-import { useTheme } from '@/theme/ThemeProvider'
+import { useThemeContext } from '@/theme/ThemeProvider'
 
 export function ThemeToggle() {
-  const { mode, toggleMode } = useTheme()
+  const { mode, toggleMode } = useThemeContext()
   const [mounted, setMounted] = React.useState(false)
 
   // Prevent hydration mismatch
