@@ -44,8 +44,8 @@ ENV NEXT_PUBLIC_ENABLE_M3=$NEXT_PUBLIC_ENABLE_M3
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
 # Install all dependencies (including dev dependencies) with retry
-RUN pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000 || \
-    (sleep 10 && pnpm install --frozen-lockfile --store-dir /app/.pnpm-store --network-timeout 300000)
+RUN pnpm install --store-dir /app/.pnpm-store --config.network-timeout=300000 || \
+    (sleep 10 && pnpm install --store-dir /app/.pnpm-store --config.network-timeout=300000)
 
 # Copy source code
 COPY frontend/. .
