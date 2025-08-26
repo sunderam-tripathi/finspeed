@@ -151,6 +151,17 @@ resource "google_compute_region_network_endpoint_group" "api_neg" {
   }
 }
 
+# Serverless NEG for the Admin Cloud Run service
+resource "google_compute_region_network_endpoint_group" "admin_neg" {
+  name                  = "finspeed-admin-neg-${local.environment}"
+  network_endpoint_type = "SERVERLESS"
+  project               = var.project_id
+  region                = local.region
+  cloud_run {
+    service = google_cloud_run_v2_service.admin.name
+  }
+}
+
 # Backend service for the API
 resource "google_compute_backend_service" "api_backend" {
   iap {
@@ -201,7 +212,26 @@ resource "google_compute_backend_service" "frontend_backend" {
   }
 }
 
-# Backend service for the Admin (legacy)
+# Backend service for the Admin App
+resource "google_compute_backend_service" "admin_backend" {
+  iap {
+    enabled              = var.enable_iap_frontend
+    oauth2_client_id     = google_iap_client.project_client.client_id
+    oauth2_client_secret = google_iap_client.project_client.secret
+  }
+  name                  = "finspeed-admin-backend-${local.environment}"
+  protocol              = "HTTP"
+  port_name             = "http"
+  timeout_sec           = 30
+  load_balancing_scheme = "EXTERNAL_MANAGED"
+  enable_cdn            = false
+
+  backend {
+    group = google_compute_region_network_endpoint_group.admin_neg.id
+  }
+}
+
+# Backend service for the Admin (legacy - kept for compatibility)
 resource "google_compute_backend_service" "frontend_backend_admin" {
   iap {
     enabled              = var.enable_iap_frontend
@@ -253,7 +283,7 @@ resource "google_compute_url_map" "url_map" {
   # Admin subdomain matcher
   path_matcher {
     name            = "admin-matcher"
-    default_service = var.environment == "production" ? google_compute_backend_service.frontend_backend_admin.id : google_compute_backend_service.frontend_backend.id
+    default_service = google_compute_backend_service.admin_backend.id
   }
 
   # Path-based routing on primary domain: send /api/* to API backend

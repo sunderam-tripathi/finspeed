@@ -1,4 +1,4 @@
-# Development build for admin interface
+# Multi-stage build for admin interface
 FROM node:20-alpine AS base
 WORKDIR /app
 
@@ -11,14 +11,55 @@ RUN npm install -g pnpm
 # Create non-root user AFTER installing pnpm
 RUN addgroup -S nodejs -g 1001 && adduser -S nextjs -u 1001 -G nodejs
 
-# Copy only manifests for cacheable installs as root
-COPY package.json pnpm-lock.yaml ./
+# Dependencies stage
+FROM base AS deps
+COPY admin-app/package.json admin-app/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Build stage
+FROM base AS builder
+COPY admin-app ./
+COPY --from=deps /app/node_modules ./node_modules
+
+# Build arguments for environment configuration
+ARG NEXT_PUBLIC_ENVIRONMENT=production
+ARG NEXT_PUBLIC_ENABLE_M3=1
+ARG NEXT_PUBLIC_API_URL=/api/v1
+
+ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
+ENV NEXT_PUBLIC_ENABLE_M3=$NEXT_PUBLIC_ENABLE_M3
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN pnpm build
+
+# Production stage
+FROM base AS prod
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3001
+ENV HOSTNAME=0.0.0.0
+
+# Copy built application
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+USER nextjs
+
+EXPOSE 3001
+
+CMD ["node", "server.js"]
+
+# Development stage (default)
+FROM base AS dev
+COPY admin-app/package.json admin-app/pnpm-lock.yaml ./
 
 # Install deps as root to avoid permission issues
 RUN pnpm install --frozen-lockfile
 
 # Copy source
-COPY . ./
+COPY admin-app ./
 
 # Change ownership of entire app directory to nextjs user
 RUN chown -R nextjs:nodejs /app
