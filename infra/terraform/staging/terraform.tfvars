@@ -24,11 +24,10 @@ frontend_cpu           = "1"
 frontend_memory        = "512Mi"
 frontend_min_instances = 0
 frontend_max_instances = 2
-frontend_image         = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:lb-path-routing-fix-1"
-
-# Pin API and migrate images to avoid fallback to hello-app defaults
-api_image     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-api-staging/finspeed-api-staging:173554d2"
-migrate_image = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-migrate-staging/finspeed-migrate-staging:173554d2"
+frontend_image         = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-frontend-staging/finspeed-frontend-staging:ef24e23"
+admin_image            = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-admin-staging/finspeed-admin-staging:ef24e23"
+api_image     = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-api-staging/finspeed-api-staging:ef24e23"
+migrate_image = "asia-south2-docker.pkg.dev/finspeed-staging-st/finspeed-migrate-staging/finspeed-migrate-staging:ef24e23"
 
 # Domain configuration (optional)
 domain_name     = "staging.finspeed.online" # Set to your staging domain if you have one
