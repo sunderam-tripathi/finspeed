@@ -4,29 +4,42 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
-import { redirectToAdminDomain } from '@/lib/admin-redirect';
+import { openAdminDomainInNewTab } from '@/lib/admin-redirect';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(null);
 
     try {
       const response = await apiClient.login(email, password);
       console.log('Login successful:', response);
       
-      // Redirect based on user role
+      // Handle user role-based flow
       if (response.user.role === 'admin') {
-        // Redirect admin users to the dedicated admin domain with seamless authentication
-        redirectToAdminDomain(response.token, '/admin');
+        // Open admin dashboard in new tab with seamless authentication
+        openAdminDomainInNewTab(response.token, '/admin');
+        
+        // Clear the token from main website to keep it logged out
+        apiClient.clearToken();
+        
+        // Reset form and show success message
+        setEmail('');
+        setPassword('');
+        
+        // Show feedback that admin tab opened
+        setSuccess('Admin dashboard opened in new tab. This page remains logged out.');
       } else {
+        // Regular users stay logged in on the main website
         router.push('/products');
       }
     } catch (err) {
@@ -61,6 +74,11 @@ export default function LoginPage() {
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-md p-4">
                 <div className="text-red-800 text-sm">{error}</div>
+              </div>
+            )}
+            {success && (
+              <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                <div className="text-green-800 text-sm">{success}</div>
               </div>
             )}
 

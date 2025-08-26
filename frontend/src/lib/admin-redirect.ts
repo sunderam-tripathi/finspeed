@@ -30,9 +30,9 @@ export function getCurrentDomain(): string {
 }
 
 /**
- * Redirect admin user to admin domain with token for seamless authentication
+ * Open admin domain in new tab with token for seamless authentication
  */
-export function redirectToAdminDomain(token: string, redirectPath: string = '/admin'): void {
+export function openAdminDomainInNewTab(token: string, redirectPath: string = '/admin'): void {
   const adminDomain = getAdminDomain();
   
   // Create URL with token as query parameter for seamless login
@@ -40,8 +40,8 @@ export function redirectToAdminDomain(token: string, redirectPath: string = '/ad
   adminUrl.searchParams.set('token', token);
   adminUrl.searchParams.set('from', getCurrentDomain());
   
-  // Redirect to admin domain
-  window.location.href = adminUrl.toString();
+  // Open admin domain in new tab
+  window.open(adminUrl.toString(), '_blank');
 }
 
 /**
