@@ -266,6 +266,10 @@ class ApiClient {
     });
   }
 
+  async getProductImages(productId: number): Promise<ProductImage[]> {
+    return this.request<ProductImage[]>(`${ADMIN_PATHS.PRODUCTS}/${productId}/images`);
+  }
+
   async setPrimaryProductImage(productId: number, imageId: number): Promise<{ message: string }> {
     return this.request<{ message: string }>(`${ADMIN_PATHS.PRODUCTS}/${productId}/images/${imageId}/primary`, {
       method: 'PUT',
