@@ -88,7 +88,7 @@ export default function ProductsPage() {
                 >
                   All Products
                 </button>
-                {categories?.map((category) => (
+                {categories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => handleCategoryChange(category.id)}
@@ -130,7 +130,7 @@ export default function ProductsPage() {
                   </div>
                 ))}
               </div>
-            ) : !products || products.length === 0 ? (
+            ) : products.length === 0 ? (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
                   <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
@@ -148,9 +148,9 @@ export default function ProductsPage() {
               <>
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {products?.map((product) => (
+                  {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
-                  )) || []}
+                  ))}
                 </div>
 
                 {/* Pagination */}

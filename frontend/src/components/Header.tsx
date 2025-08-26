@@ -3,59 +3,37 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { UserIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { apiClient } from '@/lib/api';
+import { ShoppingBagIcon, UserIcon, MagnifyingGlassIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { apiClient, Cart } from '@/lib/api';
 import ThemeControls from '@/components/ThemeControls';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cart, setCart] = useState<Cart | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const checkAuth = () => {
-      try {
-        // Check authentication status only
-        setIsAuthenticated(apiClient.isAuthenticated());
-      } catch (error) {
-        console.error('Failed to check authentication status:', error);
-      }
-    };
-
-    // Initial load
-    checkAuth();
-
-    // Listen for storage changes (login/logout events)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'token' || e.key === null) {
-        const newAuthState = apiClient.isAuthenticated();
-        setIsAuthenticated(newAuthState);
-      }
-    };
-
-    // Listen for focus events (when user returns to tab)
-    const handleFocus = () => {
-      checkAuth();
-    };
-
-    // Listen for visibility change (when tab becomes visible)
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        checkAuth();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', handleFocus);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
+    try {
+      // Check authentication status
+      setIsAuthenticated(apiClient.isAuthenticated());
+      
+      // Load cart
+      loadCart();
+    } catch (error) {
+      console.error('Failed to initialize header:', error);
+    }
   }, []);
 
-  // Cart functionality removed from storefront
+  const loadCart = async () => {
+    try {
+      const cartData = await apiClient.getCart();
+      setCart(cartData);
+    } catch (error) {
+      console.error('Failed to load cart:', error);
+      // Set empty cart to prevent UI issues
+      setCart({ items: [], count: 0, subtotal: 0, total: 0 });
+    }
+  };
 
   return (
     <header className="top-app-bar md-surface">
@@ -66,19 +44,12 @@ export default function Header() {
             <Link href="/" className="flex items-center">
               <Image
                 src="/images/brand/logo.svg"
-                alt="Finspeed Logo"
+                alt="Finspeed"
                 width={28}
                 height={28}
                 priority
               />
-              <Image
-                src="/images/brand/finspeed-text.PNG"
-                alt="Finspeed"
-                width={120}
-                height={32}
-                priority
-                className="ml-2 h-8 w-auto dark:brightness-0 dark:invert"
-              />
+              <span className="ml-2 text-2xl font-heading font-black uppercase">Finspeed</span>
             </Link>
           </div>
 
@@ -105,7 +76,15 @@ export default function Header() {
               Categories
             </Link>
             
-            {/* Cart icon removed from storefront */}
+            {/* Cart */}
+            <Link href="/cart" className="relative p-2 text-gray-700 hover:text-gray-900">
+              <ShoppingBagIcon className="h-6 w-6" />
+              {cart && cart.count > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cart.count}
+                </span>
+              )}
+            </Link>
 
             {/* User Menu */}
             {isAuthenticated ? (
@@ -185,6 +164,15 @@ export default function Header() {
             >
               Categories
             </Link>
+            <Link
+              href="/cart"
+              className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <ShoppingBagIcon className="h-5 w-5 mr-2" />
+              Cart {cart && cart.count > 0 && `(${cart.count})`}
+            </Link>
+            
             {isAuthenticated ? (
               <Link
                 href="/account"

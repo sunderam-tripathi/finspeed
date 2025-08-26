@@ -1,6 +1,6 @@
 // API client utilities for Finspeed frontend
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
 
 export interface User {
   id: number;
@@ -52,6 +52,20 @@ export interface ProductsResponse {
   total: number;
   page: number;
   limit: number;
+}
+
+export interface CartItem {
+  product_id: number;
+  qty: number;
+  product: Product;
+  subtotal: number;
+}
+
+export interface Cart {
+  items: CartItem[];
+  subtotal: number;
+  total: number;
+  count: number;
 }
 
 export interface ShippingAddress {
@@ -213,7 +227,38 @@ class ApiClient {
     });
   }
 
-// Order methods
+  // Cart methods
+  async getCart(): Promise<Cart> {
+    return this.request<Cart>('/cart');
+  }
+
+  async addToCart(productId: number, qty: number): Promise<Cart> {
+    return this.request<Cart>('/cart/items', {
+      method: 'POST',
+      body: JSON.stringify({ product_id: productId, qty }),
+    });
+  }
+
+  async updateCartItem(productId: number, qty: number): Promise<Cart> {
+    return this.request<Cart>(`/cart/items/${productId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ qty }),
+    });
+  }
+
+  async removeFromCart(productId: number): Promise<Cart> {
+    return this.request<Cart>(`/cart/items/${productId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async clearCart(): Promise<Cart> {
+    return this.request<Cart>('/cart', {
+      method: 'DELETE',
+    });
+  }
+
+  // Order methods
   async getOrders(params?: { page?: number; limit?: number }): Promise<OrdersResponse> {
     const searchParams = new URLSearchParams();
     if (params?.page) searchParams.set('page', params.page.toString());
@@ -264,13 +309,6 @@ class ApiClient {
     this.token = token;
     if (typeof window !== 'undefined') {
       localStorage.setItem('finspeed_token', token);
-      // Trigger storage event for other components to react
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'token',
-        oldValue: null,
-        newValue: token,
-        storageArea: localStorage
-      }));
     }
   }
 
@@ -278,13 +316,6 @@ class ApiClient {
     this.token = null;
     if (typeof window !== 'undefined') {
       localStorage.removeItem('finspeed_token');
-      // Trigger storage event for other components to react
-      window.dispatchEvent(new StorageEvent('storage', {
-        key: 'token',
-        oldValue: this.token,
-        newValue: null,
-        storageArea: localStorage
-      }));
     }
   }
 

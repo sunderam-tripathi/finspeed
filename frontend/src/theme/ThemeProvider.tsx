@@ -18,8 +18,6 @@ export function useThemeContext() {
   return ctx;
 }
 
-export const useTheme = useThemeContext;
-
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const initial = loadThemeState();
   const [seed, setSeedState] = useState(initial.seed);

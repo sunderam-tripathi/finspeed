@@ -2,168 +2,134 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Use Space Grotesk everywhere (loaded via next/font in layout) */
+/* No external @import needed */
+
 @layer base {
   :root {
-    /* Light Theme */
-    --background: 0 0% 100%;
-    --foreground: 210 20% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    
-    /* Primary Colors - Ocean Teal */
-    --primary: 180 84% 39%;
-    --primary-foreground: 0 0% 100%;
-    --primary-50: 180 52% 96%;
-    --primary-100: 180 47% 91%;
-    --primary-200: 180 45% 84%;
-    --primary-300: 180 45% 71%;
-    --primary-400: 180 42% 57%;
-    --primary-500: 180 84% 39%;
-    --primary-600: 180 84% 31%;
-    --primary-700: 180 84% 26%;
-    --primary-800: 180 84% 22%;
-    --primary-900: 180 84% 17%;
-    
-    /* Secondary Colors - Deep Navy */
-    --secondary: 210 100% 25%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-50: 210 100% 97%;
-    --secondary-100: 210 100% 94%;
-    --secondary-200: 210 100% 89%;
-    --secondary-300: 210 100% 79%;
-    --secondary-400: 210 100% 65%;
-    --secondary-500: 210 100% 25%;
-    --secondary-600: 210 100% 20%;
-    --secondary-700: 210 100% 15%;
-    --secondary-800: 210 100% 10%;
-    --secondary-900: 210 100% 5%;
-    
-    /* Accent Colors - Coral */
-    --accent: 16 100% 71%;
-    --accent-foreground: 0 0% 20%;
-    
-    /* State Colors */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --info: 199 89% 48%;
-    --info-foreground: 0 0% 100%;
-    
-    /* Surface Colors */
-    --muted: 210 20% 96%;
-    --muted-foreground: 210 10% 46%;
-    --border: 210 14% 89%;
-    --input: 210 14% 89%;
-    --ring: 210 20% 60%;
-    --radius: 0.5rem;
-    --surface: 0 0% 98%;
-    --surface-variant: 210 40% 96%;
-    --on-surface: 210 20% 10%;
-    --on-surface-variant: 210 10% 25%;
+    /* Optional: keep a heading var for legacy classes, mapped to Space Grotesk */
+    --font-heading: 'Space Grotesk';
+    /* Material 3 fallback tokens (will be overridden by JS applyTheme) */
+    --md-sys-color-primary: #6750A4;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #1f1f1f;
+    --md-sys-color-secondary-container: #e8def8;
+    --md-sys-color-on-secondary-container: #1d192b;
+    --md-sys-color-surface-container: #f3edf7;
+    --md-sys-color-surface-container-high: #ece6f0;
+    --md-sys-color-outline: #79747e;
+    --md-sys-color-outline-variant: #cac4d0;
+    --md-sys-shape-corner-medium: 16px;
+    --md-sys-shape-corner-large: 28px;
+    --brand-color: #6750A4;
   }
-
-  .dark {
-    --primary: 180 84% 50%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 100% 80%;
-    --secondary-foreground: 210 100% 10%;
-    --accent: 16 100% 75%;
-    --accent-foreground: 0 0% 100%;
-    --background: 210 20% 5%;
-    --foreground: 210 20% 90%;
-    --card: 210 20% 7%;
-    --card-foreground: 210 20% 90%;
-    --popover: 210 20% 7%;
-    --popover-foreground: 210 20% 90%;
-    --muted: 210 15% 15%;
-    --muted-foreground: 210 10% 60%;
-    --border: 210 14% 20%;
-    --input: 210 14% 20%;
-    --ring: 210 20% 40%;
-    --surface: 210 20% 10%;
-    --surface-variant: 210 20% 15%;
-    --on-surface: 210 20% 90%;
-    --on-surface-variant: 210 10% 75%;
+  html {
+    /* Fonts are provided via next/font CSS variables and Tailwind font families */
   }
-
-  * {
-    @apply border-border;
-  }
-
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 1rem;
-    line-height: 1.5;
+    @apply font-sans bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)];
   }
-
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-weight: 700;
+    @apply font-heading font-black;
   }
-
-  button, .btn {
-    font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-weight: 500;
+  .dark {
+    --md-sys-color-surface: #121212;
+    --md-sys-color-on-surface: #e5e5e5;
+    --md-sys-color-secondary-container: #4a4458;
+    --md-sys-color-on-secondary-container: #e8def8;
+    --md-sys-color-surface-container: #1d1b20;
+    --md-sys-color-surface-container-high: #211f26;
+    --md-sys-color-outline: #938f99;
+    --md-sys-color-outline-variant: #444;
   }
 }
 
 @layer components {
-  .container {
-    @apply w-full max-w-7xl mx-auto px-4;
-  }
-  
-  /* Reset any oversized elements */
-  * {
-    box-sizing: border-box;
-  }
-  
-  html {
-    font-size: 16px; /* Ensure base font size is normal */
-  }
-  
-  /* Normalize button and input sizes */
-  button, input, select, textarea {
-    font-size: inherit;
-    line-height: inherit;
-  }
-
-  .card {
-    @apply bg-card text-card-foreground rounded-lg border border-border p-6;
-  }
-
-  .btn {
-    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
-  }
-
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
   }
-
+  
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+    @apply bg-secondary-100 hover:bg-secondary-200 text-secondary-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
   }
-}
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
 
-/* Material 3 primitives */
-.md-surface {
-  background: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
-}
+  /* Material 3 primitives */
+  .md-surface {
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+  }
+  .md-surface-tonal {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+  }
+  .md-outline {
+    border: 1px solid var(--md-sys-color-outline-variant);
+  }
+  .md-elevation-1 { box-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06); }
+  .md-elevation-2 { box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); }
+  .md-elevation-3 { box-shadow: 0 4px 12px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.10); }
 
-.md-surface-tonal {
-  background: var(--md-sys-color-surface-container);
-  color: var(--md-sys-color-on-surface);
-}
+  /* Buttons */
+  .btn-filled {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+    transition: background 150ms ease;
+  }
+  .btn-filled:hover { filter: brightness(0.95); }
 
-.md-outline {
-  border: 1px solid var(--md-sys-color-outline-variant);
+  .btn-tonal {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+  }
+
+  .btn-outlined {
+    background: transparent;
+    color: var(--md-sys-color-primary);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+  }
+
+  /* Text field */
+  .md-textfield {
+    background: var(--md-sys-color-surface-container-high);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    color: var(--md-sys-color-on-surface);
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .md-textfield:focus {
+    border-color: var(--md-sys-color-primary);
+  }
+
+  /* Card */
+  .md-card {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+    border-radius: 16px;
+    padding: 1rem;
+  }
+
+  /* Top app bar */
+  .top-app-bar {
+    background: var(--md-sys-color-surface);
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
 }

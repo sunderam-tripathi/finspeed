@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { apiClient } from '@/lib/api';
+import { redirectToAdmin } from '@/lib/admin-redirect';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -23,8 +24,9 @@ export default function LoginPage() {
       
       // Redirect based on user role
       if (response.user.role === 'admin') {
-        // Redirect admin users to the dedicated admin app on port 3001
-        window.location.href = 'http://localhost:3001/admin';
+        // Open admin dashboard in new tab and redirect to products
+        redirectToAdmin(response.token);
+        router.push('/products');
       } else {
         router.push('/products');
       }
