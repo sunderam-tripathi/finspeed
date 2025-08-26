@@ -83,45 +83,57 @@ export default function AdminCategoriesPage() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-        <button onClick={handleAddCategory} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-[color:var(--md-sys-color-on-surface)]">Categories</h1>
+          <p className="mt-2 text-[color:var(--md-sys-color-on-surface-variant)]">Organize your products with categories</p>
+        </div>
+        <button onClick={handleAddCategory} className="bg-[color:var(--md-sys-color-primary)] text-[color:var(--md-sys-color-on-primary)] px-6 py-3 rounded-lg hover:opacity-90 font-medium shadow-sm">
           Add Category
         </button>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-6">
         <input
           type="text"
           placeholder="Search categories by name or slug..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-3 border border-[color:var(--md-sys-color-outline)] rounded-lg bg-[color:var(--md-sys-color-surface-container)] text-[color:var(--md-sys-color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[color:var(--md-sys-color-primary)] placeholder-[color:var(--md-sys-color-on-surface-variant)]"
         />
       </div>
 
-      {isLoading && <p>Loading categories...</p>}
-      {error && <p className="text-red-500">Error: {error}</p>}
+      {isLoading && (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[color:var(--md-sys-color-primary)]"></div>
+          <span className="ml-3 text-[color:var(--md-sys-color-on-surface-variant)]">Loading categories...</span>
+        </div>
+      )}
+      {error && (
+        <div className="bg-[color:var(--md-sys-color-error-container)] border border-[color:var(--md-sys-color-error)] rounded-lg p-4 mb-6">
+          <p className="text-[color:var(--md-sys-color-on-error-container)]">Error: {error}</p>
+        </div>
+      )}
 
       {!isLoading && !error && (
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-[color:var(--md-sys-color-surface-container-highest)] shadow-sm rounded-xl overflow-hidden border border-[color:var(--md-sys-color-outline-variant)]">
+          <table className="min-w-full divide-y divide-[color:var(--md-sys-color-outline-variant)]">
+            <thead className="bg-[color:var(--md-sys-color-surface-container)]">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slug</th>
-                <th scope="col" className="relative px-6 py-3"><span className="sr-only">Edit</span></th>
+                <th scope="col" className="px-6 py-4 text-left text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] uppercase tracking-wider">Name</th>
+                <th scope="col" className="px-6 py-4 text-left text-sm font-semibold text-[color:var(--md-sys-color-on-surface)] uppercase tracking-wider">Slug</th>
+                <th scope="col" className="relative px-6 py-4"><span className="sr-only">Actions</span></th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[color:var(--md-sys-color-surface-container-highest)] divide-y divide-[color:var(--md-sys-color-outline-variant)]">
               {categories.map((category) => (
-                <tr key={category.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{category.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.slug}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button onClick={() => handleEditCategory(category)} className="text-indigo-600 hover:text-indigo-900">Edit</button>
-                    <button onClick={() => handleDeleteCategory(category.id)} className="text-red-600 hover:text-red-900 ml-4">Delete</button>
+                <tr key={category.id} className="hover:bg-[color:var(--md-sys-color-surface-container)] transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[color:var(--md-sys-color-on-surface)]">{category.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[color:var(--md-sys-color-on-surface-variant)]">{category.slug}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
+                    <button onClick={() => handleEditCategory(category)} className="text-[color:var(--md-sys-color-primary)] hover:underline font-medium">Edit</button>
+                    <button onClick={() => handleDeleteCategory(category.id)} className="text-[color:var(--md-sys-color-error)] hover:underline font-medium">Delete</button>
                   </td>
                 </tr>
               ))}
@@ -131,21 +143,21 @@ export default function AdminCategoriesPage() {
       )}
 
       {!isLoading && !error && totalCategories > limit && (
-        <div className="mt-6 flex justify-center items-center">
+        <div className="mt-8 flex justify-center items-center">
           <button
             onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-[color:var(--md-sys-color-on-surface)] bg-[color:var(--md-sys-color-surface-container)] rounded-lg border border-[color:var(--md-sys-color-outline)] hover:bg-[color:var(--md-sys-color-surface-container-high)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Previous
           </button>
-          <span className="mx-4 text-sm text-gray-600">
+          <span className="mx-6 text-sm text-[color:var(--md-sys-color-on-surface-variant)] font-medium">
             Page {currentPage} of {Math.ceil(totalCategories / limit)}
           </span>
           <button
             onClick={() => setCurrentPage(p => (p * limit < totalCategories ? p + 1 : p))}
             disabled={currentPage * limit >= totalCategories}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-[color:var(--md-sys-color-on-surface)] bg-[color:var(--md-sys-color-surface-container)] rounded-lg border border-[color:var(--md-sys-color-outline)] hover:bg-[color:var(--md-sys-color-surface-container-high)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next
           </button>
