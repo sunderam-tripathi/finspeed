@@ -20,10 +20,10 @@ resource "google_storage_bucket_object" "api_gateway_zip" {
 
 # Cloud Functions 2nd gen (HTTP)
 resource "google_cloudfunctions2_function" "api_gateway" {
-  name     = "finspeed-api-gateway-${local.environment}"
-  project  = local.project_id
-  location = local.region
-  labels   = local.common_labels
+  name        = "finspeed-api-gateway-${local.environment}"
+  project     = local.project_id
+  location    = local.region
+  labels      = local.common_labels
   description = "Finspeed API Gateway proxy (Cloud Functions Gen2)"
 
   build_config {
@@ -39,15 +39,15 @@ resource "google_cloudfunctions2_function" "api_gateway" {
   }
 
   service_config {
-    available_memory   = "512M"
-    timeout_seconds    = 60
-    ingress_settings   = "ALLOW_INTERNAL_AND_GCLB"
+    available_memory      = "512M"
+    timeout_seconds       = 60
+    ingress_settings      = "ALLOW_INTERNAL_AND_GCLB"
     service_account_email = google_service_account.cloud_run_sa.email
 
     environment_variables = {
-      API_BASE_URL          = var.api_gateway_upstream_base_url != "" ? var.api_gateway_upstream_base_url : google_cloud_run_v2_service.api.uri
-      CORS_ALLOWED_ORIGINS  = join(",", var.cors_allowed_origins)
-      NODE_ENV              = var.environment
+      API_BASE_URL         = var.api_gateway_upstream_base_url != "" ? var.api_gateway_upstream_base_url : google_cloud_run_v2_service.api.uri
+      CORS_ALLOWED_ORIGINS = join(",", var.cors_allowed_origins)
+      NODE_ENV             = var.environment
     }
   }
 
@@ -58,20 +58,20 @@ resource "google_cloudfunctions2_function" "api_gateway" {
 
 # Optional public invoker for function (when allow_public_api == true)
 resource "google_cloudfunctions2_function_iam_member" "api_gateway_public_invoker" {
-  count         = var.allow_public_api ? 1 : 0
-  project       = local.project_id
-  location      = local.region
+  count          = var.allow_public_api ? 1 : 0
+  project        = local.project_id
+  location       = local.region
   cloud_function = google_cloudfunctions2_function.api_gateway.name
-  role          = "roles/cloudfunctions.invoker"
-  member        = "allUsers"
+  role           = "roles/cloudfunctions.invoker"
+  member         = "allUsers"
 }
 
 # Serverless NEG targeting the Cloud Function
 resource "google_compute_region_network_endpoint_group" "api_gateway_neg" {
-  name                    = "finspeed-api-gateway-neg-${local.environment}"
-  project                 = local.project_id
-  region                  = local.region
-  network_endpoint_type   = "SERVERLESS"
+  name                  = "finspeed-api-gateway-neg-${local.environment}"
+  project               = local.project_id
+  region                = local.region
+  network_endpoint_type = "SERVERLESS"
 
   cloud_function {
     function = google_cloudfunctions2_function.api_gateway.name

@@ -139,7 +139,8 @@ resource "google_project_iam_member" "cloud_run_sa_permissions" {
     "roles/secretmanager.secretAccessor",
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
-    "roles/cloudtrace.agent"
+    "roles/cloudtrace.agent",
+    "roles/artifactregistry.reader"
   ])
 
   project = local.project_id

@@ -2,7 +2,7 @@
 
 locals {
   # Base pattern, all lowercase
-  product_images_bucket_raw   = lower("finspeed-product-images-${local.environment}-${local.project_id}")
+  product_images_bucket_raw = lower("finspeed-product-images-${local.environment}-${local.project_id}")
   # Truncate to 63 characters max
   product_images_bucket_trunc = substr(local.product_images_bucket_raw, 0, 63)
   # Ensure the name ends with a letter or digit by trimming trailing '-', '.', or '_' if present.
