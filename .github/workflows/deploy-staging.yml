@@ -534,10 +534,6 @@ jobs:
           terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
             -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]' \
             -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/iam.workloadIdentityPoolAdmin"]'
-          
-          # Force replacement of NEG to switch from Cloud Run to Cloud Functions
-          terraform apply -lock-timeout=5m -input=false -auto-approve \
-            -replace='module.finspeed_infra.google_compute_region_network_endpoint_group.api_gateway_neg'
         working-directory: ./infra/terraform/staging
 
       - name: Authenticate to Google Cloud (switch to GH Actions SA)
@@ -549,11 +545,14 @@ jobs:
 
       - name: Wait for IAM propagation (WIF admin)
         if: ${{ steps.bootstrap_present.outputs.ok == 'true' }}
-        shell: bash
+        run: sleep 10
+
+      - name: "Force NEG replacement for API Gateway"
+        if: ${{ steps.bootstrap_present.outputs.ok == 'true' }}
         run: |
-          set -euo pipefail
-          echo "Waiting 60s for IAM role changes to propagate..."
-          sleep 60
+          terraform apply -lock-timeout=5m -input=false -auto-approve \
+            -replace='module.finspeed_infra.google_compute_region_network_endpoint_group.api_gateway_neg'
+        working-directory: ./infra/terraform/staging
 
       - name: Best-effort import existing URL map (avoid name conflict)
         shell: bash
