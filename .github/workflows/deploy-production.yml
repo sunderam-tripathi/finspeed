@@ -17,6 +17,7 @@ env:
   TF_STATE_BUCKET: finspeed-st-tf-state-prod
   API_IMAGE_NAME: finspeed-api-production
   FRONTEND_IMAGE_NAME: finspeed-frontend-production
+  ADMIN_IMAGE_NAME: finspeed-admin-production
   MIGRATE_IMAGE_NAME: finspeed-migrate-production
 
 # Default permissions are read-only, reducing the attack surface.
@@ -36,6 +37,7 @@ jobs:
     outputs:
       api: ${{ steps.filter.outputs.api }}
       frontend: ${{ steps.filter.outputs.frontend }}
+      admin: ${{ steps.filter.outputs.admin }}
       infra: ${{ steps.filter.outputs.infra }}
     steps:
       - name: Checkout code
@@ -55,6 +57,9 @@ jobs:
               - 'frontend/**'
               - 'docker/frontend.Dockerfile'
               - 'docker/frontend.static.Dockerfile'
+            admin:
+              - 'admin-app/**'
+              - 'docker/admin.Dockerfile'
             infra:
               - 'infra/terraform/**'
               - '.github/workflows/deploy-production.yml'
@@ -105,7 +110,7 @@ jobs:
 
   build-and-push:
     name: Build and Push Images
-    if: (github.event_name == 'push' && (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.infra == 'true')) || github.event_name == 'workflow_dispatch'
+    if: (github.event_name == 'push' && (needs.changes.outputs.api == 'true' || needs.changes.outputs.frontend == 'true' || needs.changes.outputs.admin == 'true' || needs.changes.outputs.infra == 'true')) || github.event_name == 'workflow_dispatch'
     needs: [changes, deploy-infra]
     runs-on: ubuntu-latest
     environment: production
@@ -165,6 +170,24 @@ jobs:
           tags: |
             ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
             ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.FRONTEND_IMAGE_NAME }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and Push Admin Image
+        if: needs.changes.outputs.admin == 'true' || needs.changes.outputs.infra == 'true' || github.event_name == 'workflow_dispatch'
+        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0 # v5.3.0
+        with:
+          context: ${{ github.workspace }}
+          file: ./docker/admin.Dockerfile
+          target: prod
+          push: true
+          build-args: |
+            NEXT_PUBLIC_ENVIRONMENT=production
+            NEXT_PUBLIC_ENABLE_M3=1
+            NEXT_PUBLIC_API_URL=https://api.finspeed.online/api/v1
+          tags: |
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ADMIN_IMAGE_NAME }}/${{ env.ADMIN_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
+            ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ADMIN_IMAGE_NAME }}/${{ env.ADMIN_IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -260,6 +283,21 @@ jobs:
             fi
           fi
 
+          # Set Admin image - use new build if admin changed, otherwise get from existing deployment
+          if [[ "${{ needs.changes.outputs.admin }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "TF_VAR_admin_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ADMIN_IMAGE_NAME }}/${{ env.ADMIN_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
+          else
+            ADMIN_IMG=$(gcloud run services describe finspeed-admin-production \
+              --region=${{ env.GCP_REGION }} \
+              --project=${{ env.GCP_PROJECT_ID }} \
+              --format="value(spec.template.spec.containers[0].image)" 2>/dev/null || echo "")
+            if [[ -n "${ADMIN_IMG}" ]]; then
+              echo "TF_VAR_admin_image=${ADMIN_IMG}" >> $GITHUB_ENV
+            else
+              echo "TF_VAR_admin_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ADMIN_IMAGE_NAME }}/${{ env.ADMIN_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+            fi
+          fi
+
           # Set Migrate image - use new build if API changed, otherwise get from existing deployment
           if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" || "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "TF_VAR_migrate_image=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.MIGRATE_IMAGE_NAME }}/${{ env.MIGRATE_IMAGE_NAME }}:${{ needs.build-and-push.outputs.image_tag }}" >> $GITHUB_ENV
@@ -290,10 +328,12 @@ jobs:
           echo "Applying Terraform with:"
           echo "  api_image=${TF_VAR_api_image}"
           echo "  frontend_image=${TF_VAR_frontend_image}"
+          echo "  admin_image=${TF_VAR_admin_image}"
           echo "  migrate_image=${TF_VAR_migrate_image}"
           terraform apply -lock-timeout=5m -input=false -auto-approve \
             -var=api_image="${TF_VAR_api_image}" \
             -var=frontend_image="${TF_VAR_frontend_image}" \
+            -var=admin_image="${TF_VAR_admin_image}" \
             -var=migrate_image="${TF_VAR_migrate_image}"
           # Execute migrations when API or infra changed (new migrate image)
           if [[ "${{ needs.changes.outputs.api }}" == "true" || "${{ needs.changes.outputs.infra }}" == "true" ]]; then

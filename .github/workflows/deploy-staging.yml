@@ -742,7 +742,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_ENVIRONMENT=staging
             NEXT_PUBLIC_ENABLE_M3=1
-            NEXT_PUBLIC_API_URL=/api/v1
+            NEXT_PUBLIC_API_URL=https://api.staging.finspeed.online/api/v1
           push: true
           tags: |
             ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ADMIN_IMAGE_NAME }}/${{ env.ADMIN_IMAGE_NAME }}:${{ steps.image-metadata.outputs.image_tag }}
