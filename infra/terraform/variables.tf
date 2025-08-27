@@ -169,6 +169,12 @@ variable "admin_max_instances" {
   default     = 3
 }
 
+variable "cors_allowed_origins" {
+  description = "List of allowed CORS origins for the API service."
+  type        = list(string)
+  default     = []
+}
+
 variable "admin_image" {
   description = "The full Docker image URL for the admin service."
   type        = string
