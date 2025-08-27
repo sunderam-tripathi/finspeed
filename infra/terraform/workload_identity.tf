@@ -10,14 +10,6 @@ resource "google_project_service" "iam_api" {
   disable_on_destroy         = false
 }
 
-resource "google_project_service" "sts_api" {
-  service = "sts.googleapis.com"
-  project = local.project_id
-
-  disable_dependent_services = false
-  disable_on_destroy         = false
-}
-
 # Create the Workload Identity Pool for GitHub Actions
 resource "google_iam_workload_identity_pool" "github_pool" {
   project                   = local.project_id
@@ -29,6 +21,12 @@ resource "google_iam_workload_identity_pool" "github_pool" {
 # Reference existing Workload Identity Pool (hardcoded to avoid permission issues)
 locals {
   workload_identity_pool_name = google_iam_workload_identity_pool.github_pool.name
+  # Attribute condition varies by environment:
+  # - production: only allow main branch and tags
+  # - staging: allow develop, PR merge refs, and tags
+  wif_attribute_condition = var.environment == "production" ? "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/main' || attribute.ref_type == 'tag')" : "attribute.repository == '${var.github_repository}' && (attribute.ref == 'refs/heads/develop' || attribute.ref.startsWith('refs/pull/') || attribute.ref_type == 'tag')"
+  # Compute the GitHub Actions service account email to avoid hard dependency during targeted applies
+  github_actions_sa_email = "github-actions-${var.environment}@${var.project_id}.iam.gserviceaccount.com"
 }
 
 # Create Workload Identity Provider for GitHub
@@ -50,10 +48,11 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
     "attribute.actor"      = "assertion.actor"
     "attribute.repository" = "assertion.repository"
     "attribute.ref"        = "assertion.ref"
+    "attribute.ref_type"   = "assertion.ref_type"
   }
 
-  # Condition to restrict access to specific repository and branches (temporarily allowing feature branches for testing)
-  attribute_condition = "assertion.repository == '${var.github_repository}' && (assertion.ref == 'refs/heads/main' || assertion.ref == 'refs/heads/develop' || assertion.ref_type == 'tag' || assertion.ref == 'refs/heads/feat/p1-local-dev-setup')"
+  # Condition to restrict access to specific repository and approved refs (develop, PR merges, tags)
+  attribute_condition = local.wif_attribute_condition
 }
 
 # Create service account for GitHub Actions
@@ -87,26 +86,30 @@ resource "google_service_account_iam_binding" "github_actions_token_creator" {
 # Grant necessary permissions to the service account
 resource "google_project_iam_member" "github_actions_permissions" {
   for_each = toset([
-    "roles/run.admin",                    # Deploy Cloud Run services
-    "roles/cloudsql.admin",              # Manage Cloud SQL
-    "roles/secretmanager.admin",         # Manage secrets
-    "roles/monitoring.admin",            # Manage monitoring
-    "roles/compute.networkAdmin",        # Manage VPC and networking
+    "roles/run.admin",            # Deploy Cloud Run services
+    "roles/cloudsql.admin",       # Manage Cloud SQL
+    "roles/secretmanager.admin",  # Manage secrets
+    "roles/monitoring.admin",     # Manage monitoring
+    "roles/compute.networkAdmin", # Manage VPC and networking
     "roles/iam.serviceAccountUser",
     "roles/cloudsql.client",
     "roles/iam.serviceAccountTokenCreator", # Create access tokens for impersonation
-    "roles/storage.admin",               # Access Cloud Storage (for Terraform state)
-    "roles/artifactregistry.admin",      # Push/pull container images
-    "roles/cloudbuild.builds.builder",   # Build containers
+    "roles/storage.admin",                  # Access Cloud Storage (for Terraform state)
+    "roles/artifactregistry.admin",         # Push/pull container images
+    "roles/cloudbuild.builds.builder",      # Build containers
     "roles/iam.serviceAccountAdmin",
-    "roles/iap.admin",                   # Manage IAP settings
-    "roles/compute.securityAdmin",     # Manage SSL certificates and security policies
-    "roles/editor"                     # Broad permissions to ensure IAP brand creation and state access
+    "roles/resourcemanager.projectIamAdmin", # Modify project IAM policy (required to add/remove project IAM members)
+    "roles/serviceusage.serviceUsageAdmin",  # Enable/disable services (Service Usage API)
+    "roles/iap.admin",                       # Manage IAP settings
+    "roles/compute.securityAdmin",           # Manage SSL certificates and security policies
+    "roles/iam.workloadIdentityPoolAdmin",   # Manage Workload Identity Pools/Providers (needed to update WIF provider)
+    "roles/cloudfunctions.admin",            # Manage Cloud Functions and set IAM policies
+    "roles/editor"                           # Broad permissions to ensure IAP brand creation and state access
   ])
 
   project = local.project_id
   role    = each.value
-  member  = "serviceAccount:${google_service_account.github_actions.email}"
+  member  = "serviceAccount:${local.github_actions_sa_email}"
 }
 
 # Output important values for GitHub Actions configuration

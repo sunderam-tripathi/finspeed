@@ -39,43 +39,78 @@ resource "google_cloud_run_v2_service_iam_member" "frontend_iap_invoker" {
 
 # Grant the allowed user access to the API backend via IAP
 resource "google_iap_web_backend_service_iam_member" "api_iap_user" {
-  count                = var.enable_iap_api ? 1 : 0
-  project              = google_compute_backend_service.api_backend.project
-  web_backend_service  = google_compute_backend_service.api_backend.name
-  role                 = "roles/iap.httpsResourceAccessor"
-  member               = var.iap_allowed_user
+  count               = var.enable_iap_api ? 1 : 0
+  project             = google_compute_backend_service.api_backend.project
+  web_backend_service = google_compute_backend_service.api_backend.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = var.iap_allowed_user
 }
 
 # Grant the allowed user access to the frontend backend via IAP
 resource "google_iap_web_backend_service_iam_member" "frontend_iap_user" {
-  count                = var.enable_iap_frontend ? 1 : 0
-  project              = google_compute_backend_service.frontend_backend.project
-  web_backend_service  = google_compute_backend_service.frontend_backend.name
-  role                 = "roles/iap.httpsResourceAccessor"
-  member               = var.iap_allowed_user
+  count               = var.enable_iap_frontend ? 1 : 0
+  project             = google_compute_backend_service.frontend_backend.project
+  web_backend_service = google_compute_backend_service.frontend_backend.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = var.iap_allowed_user
 }
 
 # Grant the CI/CD service account access to the API backend via IAP
 resource "google_iap_web_backend_service_iam_member" "api_iap_cicd" {
-  count                = var.enable_iap_api ? 1 : 0
-  project              = google_compute_backend_service.api_backend.project
-  web_backend_service  = google_compute_backend_service.api_backend.name
-  role                 = "roles/iap.httpsResourceAccessor"
-  member               = "serviceAccount:${google_service_account.github_actions.email}"
+  count               = var.enable_iap_api ? 1 : 0
+  project             = google_compute_backend_service.api_backend.project
+  web_backend_service = google_compute_backend_service.api_backend.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 # Grant the CI/CD service account access to the frontend backend via IAP
 resource "google_iap_web_backend_service_iam_member" "frontend_iap_cicd" {
-  count                = var.enable_iap_frontend ? 1 : 0
-  project              = google_compute_backend_service.frontend_backend.project
-  web_backend_service  = google_compute_backend_service.frontend_backend.name
-  role                 = "roles/iap.httpsResourceAccessor"
-  member               = "serviceAccount:${google_service_account.github_actions.email}"
+  count               = var.enable_iap_frontend ? 1 : 0
+  project             = google_compute_backend_service.frontend_backend.project
+  web_backend_service = google_compute_backend_service.frontend_backend.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
-# Allow unauthenticated (public) access to Cloud Run services when enabled
+# Grant IAP access for the Admin backend (production only)
+resource "google_iap_web_backend_service_iam_member" "frontend_admin_iap_user" {
+  count               = var.enable_iap_frontend && var.environment == "production" ? 1 : 0
+  project             = google_compute_backend_service.frontend_backend_admin.project
+  web_backend_service = google_compute_backend_service.frontend_backend_admin.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = var.iap_allowed_user
+}
+
+resource "google_iap_web_backend_service_iam_member" "frontend_admin_iap_cicd" {
+  count               = var.enable_iap_frontend && var.environment == "production" ? 1 : 0
+  project             = google_compute_backend_service.frontend_backend_admin.project
+  web_backend_service = google_compute_backend_service.frontend_backend_admin.name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+# Grant IAP access for the API Gateway backend
+resource "google_iap_web_backend_service_iam_member" "api_gateway_iap_user" {
+  count               = var.allow_public_api ? 1 : 0
+  project             = google_compute_backend_service.api_gateway_backend[0].project
+  web_backend_service = google_compute_backend_service.api_gateway_backend[0].name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = var.iap_allowed_user
+}
+
+resource "google_iap_web_backend_service_iam_member" "api_gateway_iap_cicd" {
+  count               = var.allow_public_api ? 1 : 0
+  project             = google_compute_backend_service.api_gateway_backend[0].project
+  web_backend_service = google_compute_backend_service.api_gateway_backend[0].name
+  role                = "roles/iap.httpsResourceAccessor"
+  member              = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+# Allow unauthenticated (public) access to Cloud Run API service when explicitly enabled
+# NOTE: Keep this disabled (default) when using IAP + API Gateway.
 resource "google_cloud_run_v2_service_iam_member" "api_public_invoker" {
-  count    = var.allow_public_api ? 1 : 0
+  count    = var.allow_public_cloud_run_api ? 1 : 0
   project  = google_cloud_run_v2_service.api.project
   location = google_cloud_run_v2_service.api.location
   name     = google_cloud_run_v2_service.api.name

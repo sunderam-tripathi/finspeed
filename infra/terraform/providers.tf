@@ -16,6 +16,10 @@ terraform {
       source  = "hashicorp/time"
       version = "~> 0.9.1"
     }
+    archive = {
+      source  = "hashicorp/archive"
+      version = ">= 2.4.0"
+    }
   }
 }
 

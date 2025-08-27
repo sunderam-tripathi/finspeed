@@ -15,6 +15,20 @@ const nextConfig = {
   
   // Environment variables
   
+  // API rewrites for development
+  async rewrites() {
+    if (process.env.NODE_ENV !== 'production') {
+      const target = process.env.API_PROXY_TARGET || 'http://api:8080';
+      return [
+        {
+          source: '/api/v1/:path*',
+          destination: `${target}/api/v1/:path*`,
+        },
+      ];
+    }
+    return [];
+  },
+  
   // Configure headers (only for non-export)
   async headers() {
     if (process.env.NODE_ENV === 'production' && process.env.OUTPUT === 'export') {
@@ -44,6 +58,11 @@ const nextConfig = {
   // Production optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // Disable ESLint during build for faster deployment
+  eslint: {
+    ignoreDuringBuilds: true,
   },
   
   // Webpack configuration

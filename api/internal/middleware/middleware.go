@@ -1,6 +1,9 @@
 package middleware
 
 import (
+	"os"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -22,8 +25,41 @@ func Logger(logger *zap.Logger) gin.HandlerFunc {
 
 // CORS middleware for handling Cross-Origin Resource Sharing
 func CORS() gin.HandlerFunc {
+	// Determine allowed origins. Prefer CORS_ALLOWED_ORIGINS (comma-separated),
+	// else FRONTEND_BASE_URL, else default to http://localhost:3000
+	allowed := os.Getenv("CORS_ALLOWED_ORIGINS")
+	var allowedOrigins []string
+	if strings.TrimSpace(allowed) != "" {
+		for _, o := range strings.Split(allowed, ",") {
+			o = strings.TrimSpace(o)
+			if o != "" {
+				allowedOrigins = append(allowedOrigins, o)
+			}
+		}
+	}
+	if len(allowedOrigins) == 0 {
+		fb := strings.TrimSpace(os.Getenv("FRONTEND_BASE_URL"))
+		if fb == "" {
+			fb = "http://localhost:3000"
+		}
+		allowedOrigins = []string{fb}
+	}
+
 	return func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "*")
+		origin := c.Request.Header.Get("Origin")
+
+		// Reflect the request Origin if allowed to enable credentials
+		if origin != "" {
+			for _, ao := range allowedOrigins {
+				if origin == ao {
+					c.Header("Access-Control-Allow-Origin", origin)
+					c.Header("Vary", "Origin")
+					break
+				}
+			}
+		}
+
+		c.Header("Access-Control-Allow-Credentials", "true")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 

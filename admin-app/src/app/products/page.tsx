@@ -20,7 +20,25 @@ export default function ProductsPage() {
   }, []);
 
   useEffect(() => {
-    loadProducts();
+    const load = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.getProducts({
+          page: currentPage,
+          limit,
+          category_id: selectedCategory ?? undefined,
+        });
+        
+        setProducts(response.products);
+        setTotalPages(Math.ceil(response.total / limit));
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load products');
+      } finally {
+        setLoading(false);
+      }
+    };
+    void load();
   }, [selectedCategory, currentPage]);
 
   const loadCategories = async () => {
@@ -32,24 +50,7 @@ export default function ProductsPage() {
     }
   };
 
-  const loadProducts = async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.getProducts({
-        page: currentPage,
-        limit,
-        category_id: selectedCategory || undefined,
-      });
-      
-      setProducts(response.products);
-      setTotalPages(Math.ceil(response.total / limit));
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load products');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
 
   const handleCategoryChange = (categoryId: number | null) => {
     setSelectedCategory(categoryId);

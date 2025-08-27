@@ -66,7 +66,7 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
       </div>
     );
   }
@@ -90,7 +90,7 @@ export default function CartPage() {
             </div>
             <h3 className="text-xl font-medium text-gray-900 mb-2">Your cart is empty</h3>
             <p className="text-gray-500 mb-6">Start shopping to add items to your cart</p>
-            <Link href="/products" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+            <Link href="/products" className="btn-filled">
               Continue Shopping
             </Link>
           </div>
@@ -99,7 +99,7 @@ export default function CartPage() {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
               {cart.items.map((item: CartItem) => (
-                <div key={item.product_id} className="bg-white rounded-lg shadow-sm p-6">
+                <div key={item.product_id} className="md-card p-6">
                   <div className="flex items-start space-x-4">
                     {/* Product Image */}
                     <div className="flex-shrink-0 w-24 h-24 bg-gray-100 rounded-md overflow-hidden">
@@ -195,7 +195,7 @@ export default function CartPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
+              <div className="md-card p-6 sticky top-8">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
                 
                 <div className="space-y-3">
@@ -242,13 +242,13 @@ export default function CartPage() {
                 <div className="mt-6 space-y-3">
                   <Link
                     href="/checkout"
-                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 text-center block"
+                    className="btn-filled w-full text-center block"
                   >
                     Proceed to Checkout
                   </Link>
                   <Link
                     href="/products"
-                    className="w-full bg-gray-100 text-gray-900 py-3 px-4 rounded-md font-medium hover:bg-gray-200 text-center block"
+                    className="btn-outlined w-full text-center block"
                   >
                     Continue Shopping
                   </Link>

@@ -23,7 +23,7 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('finspeed_token');
     if (token) {
       try {
         const decoded: { user_id: number; email: string; role: string; exp: number } = jwtDecode(token);

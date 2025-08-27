@@ -2,14 +2,8 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import CategoryModal from '@/components/admin/CategoryModal';
-
-// Define the Category type based on your API response
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  description: string | null;
-}
+import { apiClient } from '@/lib/api';
+import type { Category } from '@/lib/api';
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -24,39 +18,14 @@ export default function AdminCategoriesPage() {
 
   const fetchCategories = useCallback(async (page: number, search: string) => {
     setIsLoading(true);
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const params = new URLSearchParams({
-        page: String(page),
-        limit: String(limit),
-      });
-      if (search) {
-        params.append('search', search);
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/categories?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch categories: ${response.statusText}`);
-      }
-
-      const data = await response.json();
+      const data = await apiClient.getCategories({ page, limit, search: search || undefined });
       setCategories(data.categories || []);
       setTotalCategories(data.total || 0);
-      setCurrentPage(data.page || 1);
+      setCurrentPage(data.page ?? page);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch categories');
     } finally {
       setIsLoading(false);
     }
@@ -90,62 +59,26 @@ export default function AdminCategoriesPage() {
       return;
     }
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      return;
-    }
-
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/categories/${categoryId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to delete category');
-      }
-
+      await apiClient.deleteCategory(categoryId);
       await fetchCategories(currentPage, searchTerm);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete category');
     }
   };
 
   const handleSaveCategory = async (categoryToSave: Omit<Category, 'id'> & { id?: number }) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      return;
-    }
-
-    const method = categoryToSave.id ? 'PUT' : 'POST';
-    const url = categoryToSave.id
-      ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/categories/${categoryToSave.id}`
-      : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/categories`;
-
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(categoryToSave.id ? categoryToSave : { name: categoryToSave.name, slug: categoryToSave.slug, description: categoryToSave.description }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to save category');
+      const payload = { name: categoryToSave.name, slug: categoryToSave.slug, description: categoryToSave.description ?? null };
+      if (categoryToSave.id) {
+        await apiClient.updateCategory(categoryToSave.id, payload);
+      } else {
+        await apiClient.createCategory(payload);
       }
-
       handleCloseModal();
       await fetchCategories(currentPage, searchTerm);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save category');
     }
   };
 

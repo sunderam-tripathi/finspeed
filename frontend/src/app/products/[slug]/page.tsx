@@ -14,6 +14,8 @@ export default function ProductDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
 
   useEffect(() => {
     if (slug) {
@@ -31,6 +33,28 @@ export default function ProductDetailPage() {
       setError(err instanceof Error ? err.message : 'Failed to load product');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!product || !apiClient.isAuthenticated()) {
+      // Redirect to login if not authenticated
+      window.location.href = `/auth/login?redirect=/products/${slug}`;
+      return;
+    }
+
+    try {
+      setAddingToCart(true);
+      await apiClient.addToCart(product.id, quantity);
+      setAddToCartSuccess(true);
+      
+      // Reset success message after 3 seconds
+      setTimeout(() => setAddToCartSuccess(false), 3000);
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+      alert('Failed to add item to cart. Please try again.');
+    } finally {
+      setAddingToCart(false);
     }
   };
 
@@ -198,15 +222,39 @@ export default function ProductDetailPage() {
               </div>
 
               <button
+                onClick={handleAddToCart}
                 className={`w-full py-3 px-6 rounded-md font-medium text-lg transition-colors ${
-                  product.stock_qty > 0
+                  product.stock_qty > 0 && !addingToCart
                     ? 'bg-primary-600 text-white hover:bg-primary-700'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
-                disabled={product.stock_qty === 0}
+                disabled={product.stock_qty === 0 || addingToCart}
               >
-                {product.stock_qty > 0 ? 'Add to Cart' : 'Out of Stock'}
+                {addingToCart ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Adding to Cart...
+                  </div>
+                ) : product.stock_qty > 0 ? (
+                  'Add to Cart'
+                ) : (
+                  'Out of Stock'
+                )}
               </button>
+
+              {/* Success Message */}
+              {addToCartSuccess && (
+                <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-green-800 font-medium">
+                      Added to cart successfully!
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Specifications */}

@@ -33,6 +33,7 @@ variable "enable_iap_api" {}
 variable "enable_iap_frontend" {}
 variable "allow_public_api" {}
 variable "allow_public_frontend" {}
+variable "use_static_hosting" {}
 
 // Image variables (injected by CI during deploy). Defaults keep infra apply working.
 variable "api_image" {
@@ -47,6 +48,11 @@ variable "frontend_image" {
 }
 variable "migrate_image" {
   description = "The full Docker image URL for the database migration job."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "admin_image" {
+  description = "The full Docker image URL for the admin service."
   type        = string
   default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
 }

@@ -15,6 +15,7 @@ import (
 	"finspeed/api/internal/database"
 	"finspeed/api/internal/handlers"
 	"finspeed/api/internal/middleware"
+	"finspeed/api/internal/storage"
 )
 
 type Server struct {
@@ -65,10 +66,26 @@ func (s *Server) SetupRoutes() {
 	// Initialize handlers
 	healthHandler := handlers.NewHealthHandler(s.db, s.logger)
 	authHandler := handlers.NewAuthHandler(s.db, s.logger, s.config)
-	productHandler := handlers.NewProductHandler(s.db, s.logger)
+
+	// Initialize storage backend
+	var store storage.Storage
+	if s.config.StorageBackend == "gcs" {
+		st, err := storage.NewGCS(context.Background(), s.config.GCSBucketName, s.config.GCSBaseURL, s.logger)
+		if err != nil {
+			s.logger.Fatal("[STORAGE] Failed to initialize GCS storage", zap.Error(err))
+		}
+		store = st
+		s.logger.Info("[STORAGE] Using GCS storage backend", zap.String("bucket", s.config.GCSBucketName))
+	} else {
+		store = storage.NewLocal("./uploads", "/api/v1/uploads")
+		s.logger.Info("[STORAGE] Using local storage backend", zap.String("root", "./uploads"))
+	}
+
+	productHandler := handlers.NewProductHandler(s.db, s.logger, store)
 	categoryHandler := handlers.NewCategoryHandler(s.db, s.logger)
 	cartHandler := handlers.NewCartHandler(s.db, s.logger)
 	orderHandler := handlers.NewOrderHandler(s.db, s.logger)
+	paymentHandler := handlers.NewPaymentHandler(s.db, s.logger, s.config)
 	s.logger.Info("[ROUTES] All handlers initialized.")
 
 	// Health check routes
@@ -80,6 +97,12 @@ func (s *Server) SetupRoutes() {
 	v1 := s.router.Group("/api/v1")
 	s.logger.Info("[ROUTES] Configured API v1 group.")
 	{
+		// Static files for uploaded content (local dev only)
+		if s.config.StorageBackend == "local" {
+			// Serves files under ./uploads at /api/v1/uploads
+			v1.Static("/uploads", "./uploads")
+		}
+
 		// Auth routes (public)
 		auth := v1.Group("/auth")
 		{
@@ -109,6 +132,9 @@ func (s *Server) SetupRoutes() {
 		}
 		s.logger.Info("[ROUTES] Cart routes configured.")
 
+		        // Public payments webhook (Razorpay)
+        v1.POST("/payments/razorpay/webhook", paymentHandler.RazorpayWebhook)
+
 		// Protected routes (require authentication)
 		protected := v1.Group("/")
 		protected.Use(middleware.AuthMiddleware(s.config, s.logger))
@@ -117,6 +143,10 @@ func (s *Server) SetupRoutes() {
 			protected.GET("/orders", orderHandler.GetOrders)
 			protected.GET("/orders/:id", orderHandler.GetOrder)
 			protected.POST("/orders", orderHandler.CreateOrder)
+
+			            // Payments routes (Razorpay)
+            protected.POST("/payments/razorpay/order", paymentHandler.CreateRazorpayOrder)
+            protected.POST("/payments/razorpay/verify", paymentHandler.VerifyRazorpayPayment)
 		}
 		s.logger.Info("[ROUTES] Protected (order) routes configured.")
 
@@ -127,8 +157,12 @@ func (s *Server) SetupRoutes() {
 		{
 			// Admin product management
 			admin.POST("/products", productHandler.CreateProduct)
-		admin.PUT("/products/:id", productHandler.UpdateProduct)
-		admin.DELETE("/products/:id", productHandler.DeleteProduct)
+			admin.PUT("/products/:id", productHandler.UpdateProduct)
+			admin.DELETE("/products/:id", productHandler.DeleteProduct)
+			// Product image management
+			admin.POST("/products/:id/images", productHandler.UploadProductImage)
+			admin.DELETE("/products/:id/images/:image_id", productHandler.DeleteProductImage)
+			admin.PUT("/products/:id/images/:image_id/primary", productHandler.SetPrimaryProductImage)
 			
 			// Admin category management
 			admin.POST("/categories", categoryHandler.CreateCategory)

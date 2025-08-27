@@ -9,11 +9,11 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
+          50: '#e6f7fb',
+          100: '#d6f1f7',
+          500: '#3FB8D3',
+          600: '#3FB8D3',
+          700: '#2EA7C2',
         },
         secondary: {
           50: '#f8fafc',
@@ -29,7 +29,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['var(--font-body)', '"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-body)', '"Space Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },

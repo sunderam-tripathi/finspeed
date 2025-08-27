@@ -144,6 +144,37 @@ variable "frontend_max_instances" {
   default     = 5
 }
 
+# Admin app variables
+variable "admin_cpu" {
+  description = "CPU allocation for admin service"
+  type        = string
+  default     = "1"
+}
+
+variable "admin_memory" {
+  description = "Memory allocation for admin service"
+  type        = string
+  default     = "512Mi"
+}
+
+variable "admin_min_instances" {
+  description = "Minimum number of admin instances"
+  type        = number
+  default     = 0
+}
+
+variable "admin_max_instances" {
+  description = "Maximum number of admin service instances"
+  type        = number
+  default     = 3
+}
+
+variable "admin_image" {
+  description = "The full Docker image URL for the admin service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+
 variable "api_domain_name" {
   description = "The custom domain name for the API service (e.g., api.finspeed.online)"
   type        = string
@@ -282,4 +313,24 @@ variable "allow_public_frontend" {
   description = "Allow unauthenticated public access to the Frontend via Cloud Run (and load balancer)."
   type        = bool
   default     = false
+}
+
+variable "allow_public_product_images_read" {
+  description = "Allow unauthenticated public read (allUsers) on the product images bucket."
+  type        = bool
+  default     = false
+}
+
+# Explicit toggle to make the Cloud Run API publicly invokable (bypassing IAP). Keep false when using API Gateway + IAP.
+variable "allow_public_cloud_run_api" {
+  description = "Allow unauthenticated public access to the Cloud Run API service directly (NOT via API Gateway)."
+  type        = bool
+  default     = false
+}
+
+# API Gateway upstream override
+variable "api_gateway_upstream_base_url" {
+  description = "Base URL the API Gateway Cloud Function proxies to (typically the IAP-protected external LB URL). Leave empty to default to the Cloud Run service URI."
+  type        = string
+  default     = ""
 }

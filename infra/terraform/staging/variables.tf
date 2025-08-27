@@ -39,10 +39,48 @@ variable "enable_deletion_protection" {}
 # Additional labels
 variable "labels" { type = map(string) }
 
+# Static hosting toggle
+variable "use_static_hosting" {
+  description = "Enable static hosting resources (Cloud Storage + CDN) for this environment"
+  type        = bool
+  default     = false
+}
+
 # Image variables (passed in by CI)
-variable "api_image" {}
-variable "migrate_image" {}
+variable "api_image" {
+  description = "The full Docker image URL for the API service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "frontend_image" {
+  description = "The full Docker image URL for the frontend service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "migrate_image" {
+  description = "The full Docker image URL for the database migration job."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
+variable "admin_image" {
+  description = "The full Docker image URL for the admin service."
+  type        = string
+  default     = "us-docker.pkg.dev/google-samples/containers/gke/hello-app:1.0"
+}
 
 # GitHub Actions / CI/CD configuration
 variable "github_repository" {}
 variable "project_owner_email" {}
+
+# Public access toggles
+variable "allow_public_api" {}
+
+# Public read toggle for product images bucket
+variable "allow_public_product_images_read" {
+  description = "Allow unauthenticated public read (allUsers) on the product images bucket."
+  type        = bool
+  default     = false
+}
+
+# API Gateway upstream override (passthrough to module)
+variable "api_gateway_upstream_base_url" {}

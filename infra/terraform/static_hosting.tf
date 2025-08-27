@@ -1,5 +1,6 @@
 # Cloud Storage bucket for static website hosting
 resource "google_storage_bucket" "static_website" {
+  count                       = var.use_static_hosting ? 1 : 0
   name                        = "finspeed-static-${local.environment}"
   location                    = "US"
   project                     = local.project_id
@@ -30,41 +31,55 @@ resource "google_storage_bucket" "static_website" {
   labels = local.common_labels
 }
 
-# Make the bucket publicly readable
+# Project data (for Cloud CDN fill service account in prod and API Gateway Cloud Build)
+data "google_project" "current" {
+  count      = (var.use_static_hosting && var.environment == "production") || var.allow_public_api ? 1 : 0
+  project_id = local.project_id
+}
+
+# Make the bucket publicly readable (backend bucket fetches anonymously)
 resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.static_website.name
+  count  = var.use_static_hosting ? 1 : 0
+  bucket = google_storage_bucket.static_website[0].name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
 
+# In production, grant Cloud CDN fill service account objectViewer instead of public access
+resource "google_storage_bucket_iam_member" "cdn_fill_viewer" {
+  count  = var.use_static_hosting && var.environment == "production" ? 1 : 0
+  bucket = google_storage_bucket.static_website[0].name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:service-${data.google_project.current[0].number}@cloud-cdn-fill.iam.gserviceaccount.com"
+}
+
+# In production, also grant the Load Balancer's legacy GCS service identity viewer on the bucket
+
+
 # Cloud CDN backend bucket
 resource "google_compute_backend_bucket" "static_backend" {
+  count       = var.use_static_hosting ? 1 : 0
   name        = "finspeed-static-backend-${local.environment}"
-  bucket_name = google_storage_bucket.static_website.name
+  bucket_name = google_storage_bucket.static_website[0].name
   enable_cdn  = true
   project     = local.project_id
 
   cdn_policy {
-    cache_mode                   = "CACHE_ALL_STATIC"
-    default_ttl                  = 3600
-    max_ttl                      = 86400
-    client_ttl                   = 3600
-    negative_caching             = true
-    serve_while_stale            = 86400
-    
-    cache_key_policy {
-      include_host           = true
-      include_protocol       = true
-      include_query_string   = false
-    }
+    cache_mode        = "CACHE_ALL_STATIC"
+    default_ttl       = 3600
+    max_ttl           = 86400
+    client_ttl        = 3600
+    negative_caching  = true
+    serve_while_stale = 86400
   }
 }
 
 # Update URL map to route main domain to static hosting
 resource "google_compute_url_map" "url_map_with_static" {
-  count           = var.domain_name != "" ? 1 : 0
-  name            = "finspeed-lb-url-map-${local.environment}"
-  default_service = google_compute_backend_bucket.static_backend.id
+  count           = var.use_static_hosting && var.domain_name != "" ? 1 : 0
+  provider        = google-beta
+  name            = "finspeed-lb-url-map-with-static-${local.environment}"
+  default_service = google_compute_backend_bucket.static_backend[0].id
 
   # API subdomain routes to Cloud Run API
   host_rule {
@@ -93,29 +108,51 @@ resource "google_compute_url_map" "url_map_with_static" {
   # Admin subdomain matcher
   path_matcher {
     name            = "admin-matcher"
-    default_service = google_compute_backend_service.frontend_backend.id
+    default_service = var.environment == "production" ? google_compute_backend_service.frontend_backend_admin.id : google_compute_backend_service.frontend_backend.id
   }
 
   # Main domain matcher with path-based routing
   path_matcher {
     name            = "main-matcher"
-    default_service = google_compute_backend_bucket.static_backend.id
+    default_service = google_compute_backend_bucket.static_backend[0].id
 
-    # Route API calls to public API gateway
-    path_rule {
-      paths   = ["/api/*", "/api/v1/*"]
-      service = google_compute_backend_service.api_gateway_backend.id
+    # Redirect root to index.html for CDN-backed bucket
+    route_rules {
+      priority = 1
+      match_rules {
+        full_path_match = "/"
+      }
+      url_redirect {
+        path_redirect          = "/index.html"
+        redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+        https_redirect         = true
+        strip_query            = false
+      }
     }
+
+    # Route API calls to API backend (or public gateway when enabled)
+    route_rules {
+      priority = 2
+      match_rules {
+        prefix_match = "/api/"
+      }
+      service = element(concat(google_compute_backend_service.api_gateway_backend[*].id, [google_compute_backend_service.api_backend.id]), 0)
+    }
+  }
+
+  lifecycle {
+    prevent_destroy       = true
+    create_before_destroy = true
   }
 }
 
-# Update SSL certificate to include admin subdomain
+## Deprecated: unified certificate is managed in networking.tf; disable this resource to avoid conflicts
 resource "google_compute_managed_ssl_certificate" "ssl_certificate_with_admin" {
-  count = var.domain_name != "" && var.enable_ssl ? 1 : 0
+  count = 0
   name  = "finspeed-ssl-cert-${local.environment}-${random_id.cert_suffix.hex}"
   managed {
     domains = [
-      var.domain_name, 
+      var.domain_name,
       "api.${var.domain_name}",
       "admin.${var.domain_name}"
     ]
@@ -126,24 +163,23 @@ resource "google_compute_managed_ssl_certificate" "ssl_certificate_with_admin" {
   }
 }
 
-# Update HTTPS proxy to use new URL map and certificate
-resource "google_compute_target_https_proxy" "https_proxy_with_static" {
-  count            = var.domain_name != "" ? 1 : 0
-  name             = "finspeed-https-proxy-${local.environment}"
-  url_map          = google_compute_url_map.url_map_with_static[0].id
-  ssl_certificates = var.enable_ssl ? [google_compute_managed_ssl_certificate.ssl_certificate_with_admin[0].id] : []
-
-  lifecycle {
-    create_before_destroy = true
-  }
+## Static site content objects (managed via Terraform)
+resource "google_storage_bucket_object" "index_html" {
+  count         = var.use_static_hosting ? 1 : 0
+  name          = "index.html"
+  bucket        = google_storage_bucket.static_website[0].name
+  source        = "${path.module}/../../static-site/production/index.html"
+  content_type  = "text/html"
+  cache_control = "public, max-age=300"
 }
 
-# Update forwarding rule to use new proxy
-resource "google_compute_global_forwarding_rule" "forwarding_rule_with_static" {
-  count                 = var.domain_name != "" ? 1 : 0
-  name                  = "finspeed-forwarding-rule-${local.environment}"
-  target                = google_compute_target_https_proxy.https_proxy_with_static[0].id
-  ip_address            = google_compute_global_address.lb_ip.address
-  port_range            = "443"
-  load_balancing_scheme = "EXTERNAL_MANAGED"
+resource "google_storage_bucket_object" "error_404_html" {
+  count         = var.use_static_hosting ? 1 : 0
+  name          = "404.html"
+  bucket        = google_storage_bucket.static_website[0].name
+  source        = "${path.module}/../../static-site/production/404.html"
+  content_type  = "text/html"
+  cache_control = "public, max-age=60"
 }
+
+## HTTPS proxy and forwarding rule are unified in networking.tf

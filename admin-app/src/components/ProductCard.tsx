@@ -100,17 +100,18 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
-          <button 
-            className={`mt-4 w-full py-2 px-4 rounded-md font-medium transition-colors ${
-              product.stock_qty > 0
-                ? 'bg-primary-600 text-white hover:bg-primary-700'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-            disabled={product.stock_qty === 0}
-          >
-            {product.stock_qty > 0 ? 'Add to Cart' : 'Out of Stock'}
-          </button>
+          {/* Admin Actions */}
+          <div className="mt-4 space-y-2">
+            <Link
+              href={`/admin/products/edit/${product.id}`}
+              className="block w-full text-center py-2 px-4 bg-primary-600 text-white rounded-md hover:bg-primary-700 text-sm font-medium"
+            >
+              Edit
+            </Link>
+            <div className="text-xs text-gray-500 text-center">
+              Stock: {product.stock_qty} | SKU: {product.sku || 'N/A'}
+            </div>
+          </div>
         </div>
       </div>
     </Link>

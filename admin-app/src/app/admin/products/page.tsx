@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import ProductModal from '@/components/admin/ProductModal';
+import { apiClient } from '@/lib/api';
 
 // Define the Product type based on your API response
 interface Product {
@@ -27,39 +28,22 @@ export default function AdminProductsPage() {
 
   const fetchProducts = useCallback(async (page: number, search: string) => {
     setIsLoading(true);
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const params = new URLSearchParams({
-        page: String(page),
-        limit: String(limit),
-      });
-      if (search) {
-        params.append('search', search);
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/products?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch products: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      setProducts(data.products || []);
+      const data = await apiClient.getProducts({ page, limit, search: search || undefined });
+      setProducts((data.products || []).map(p => ({
+        id: p.id,
+        title: p.title,
+        slug: p.slug,
+        price: p.price,
+        stock_qty: p.stock_qty,
+        category_id: p.category_id ?? null,
+        sku: p.sku ?? null,
+      })));
       setTotalProducts(data.total || 0);
-      setCurrentPage(data.page || 1);
+      setCurrentPage(data.page ?? page);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch products');
     } finally {
       setIsLoading(false);
     }
@@ -93,72 +77,34 @@ export default function AdminProductsPage() {
       return;
     }
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      return;
-    }
-
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to delete product');
-      }
-
+      await apiClient.deleteProduct(productId);
       await fetchProducts(currentPage, searchTerm);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete product');
     }
   };
 
   const handleSaveProduct = async (productToSave: Omit<Product, 'id'> & { id?: number }) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setError('Authentication token not found.');
-      return;
-    }
-
-    const method = productToSave.id ? 'PUT' : 'POST';
-    const url = productToSave.id
-      ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/products/${productToSave.id}`
-      : `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/admin/products`;
-
-    const body = {
-      ...productToSave,
-      price: Number(productToSave.price),
-      stock_qty: Number(productToSave.stock_qty),
-      category_id: productToSave.category_id ? Number(productToSave.category_id) : null,
-    };
-    if (!body.id) {
-      delete body.id;
-    }
-
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      });
+      const base = {
+        title: productToSave.title,
+        slug: productToSave.slug,
+        price: Number(productToSave.price),
+        stock_qty: Number(productToSave.stock_qty),
+        sku: productToSave.sku && productToSave.sku.trim() !== '' ? productToSave.sku : undefined,
+        category_id: productToSave.category_id ?? undefined,
+      };
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to save product');
+      if (productToSave.id) {
+        await apiClient.updateProduct(productToSave.id, base);
+      } else {
+        await apiClient.createProduct({ ...base, currency: 'INR' });
       }
-
       handleCloseModal();
       await fetchProducts(currentPage, searchTerm);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save product');
     }
   };
 

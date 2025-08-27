@@ -45,28 +45,36 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
+      <section className="relative text-white">
+        <Image
+          src="/images/banners/home-hero.webp"
+          alt="Finspeed premium cycling and accessories"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-700/60 to-primary-700/30" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-6xl mb-6">
               Premium Store
-              <span className="block text-blue-200">for Modern Living</span>
+              <span className="block text-primary-100">for Modern Living</span>
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto mb-8">
+            <p className="text-xl md:text-2xl text-primary-100 max-w-3xl mx-auto mb-8">
               Discover our curated collection of premium products designed for quality, performance, and style.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/products"
-                className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+                className="inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-colors"
               >
                 Shop Now
                 <ArrowRightIcon className="ml-2 h-5 w-5" />
               </Link>
               <Link
                 href="/categories"
-                className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-600 transition-colors"
+                className="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-primary-600 transition-colors"
               >
                 Browse Categories
               </Link>
@@ -80,24 +88,24 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                <TruckIcon className="h-8 w-8 text-blue-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-50 rounded-full mb-4">
+                <TruckIcon className="h-8 w-8 text-primary-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Free Shipping</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Free Shipping</h3>
               <p className="text-gray-600">Free shipping on orders above ₹500. Fast and reliable delivery.</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                 <ShieldCheckIcon className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Quality Guarantee</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Quality Guarantee</h3>
               <p className="text-gray-600">Premium products with warranty and quality assurance.</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
                 <CreditCardIcon className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Secure Payment</h3>
+              <h3 className="text-lg text-gray-900 mb-2">Secure Payment</h3>
               <p className="text-gray-600">Safe and secure payment processing with multiple options.</p>
             </div>
           </div>
@@ -108,7 +116,7 @@ export default function HomePage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+            <h2 className="text-3xl text-gray-900 mb-4">Shop by Category</h2>
             <p className="text-lg text-gray-600">Explore our diverse range of premium products</p>
           </div>
           
@@ -126,13 +134,13 @@ export default function HomePage() {
                   href={`/products?category=${category.id}`}
                   className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  <div className="aspect-square bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-blue-600 group-hover:scale-110 transition-transform">
+                  <div className="aspect-square bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-primary-600 group-hover:scale-110 transition-transform">
                       {category.name.charAt(0)}
                     </span>
                   </div>
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
                       {category.name}
                     </h3>
                   </div>
@@ -147,7 +155,7 @@ export default function HomePage() {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Products</h2>
+            <h2 className="text-3xl text-gray-900 mb-4">Featured Products</h2>
             <p className="text-lg text-gray-600">Handpicked products from our premium collection</p>
           </div>
           
@@ -173,7 +181,7 @@ export default function HomePage() {
           ) : (
             <div className="text-center py-12">
               <ShoppingBagIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No products available</h3>
+              <h3 className="text-lg text-gray-900 mb-2">No products available</h3>
               <p className="text-gray-500">Check back soon for our latest products!</p>
             </div>
           )}
@@ -181,7 +189,7 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Link
               href="/products"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
             >
               View All Products
               <ArrowRightIcon className="ml-2 h-5 w-5" />
@@ -191,13 +199,13 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-blue-600">
+      <section className="py-16 bg-primary-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Shopping?</h2>
-          <p className="text-xl text-blue-100 mb-8">Join thousands of satisfied customers who trust our premium products</p>
+          <h2 className="text-3xl text-white mb-4">Ready to Start Shopping?</h2>
+          <p className="text-xl text-primary-100 mb-8">Join thousands of satisfied customers who trust our premium products</p>
           <Link
             href="/products"
-            className="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+            className="inline-flex items-center px-8 py-4 bg-white text-primary-600 font-semibold rounded-lg hover:bg-primary-50 transition-colors"
           >
             Start Shopping
             <ArrowRightIcon className="ml-2 h-5 w-5" />

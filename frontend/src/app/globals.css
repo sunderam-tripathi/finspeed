@@ -2,11 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Use Space Grotesk everywhere (loaded via next/font in layout) */
+/* No external @import needed */
 
 @layer base {
+  :root {
+    /* Optional: keep a heading var for legacy classes, mapped to Space Grotesk */
+    --font-heading: 'Space Grotesk';
+    /* Material 3 fallback tokens (will be overridden by JS applyTheme) */
+    --md-sys-color-primary: #6750A4;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #1f1f1f;
+    --md-sys-color-secondary-container: #e8def8;
+    --md-sys-color-on-secondary-container: #1d192b;
+    --md-sys-color-surface-container: #f3edf7;
+    --md-sys-color-surface-container-high: #ece6f0;
+    --md-sys-color-outline: #79747e;
+    --md-sys-color-outline-variant: #cac4d0;
+    --md-sys-shape-corner-medium: 16px;
+    --md-sys-shape-corner-large: 28px;
+    --brand-color: #6750A4;
+  }
   html {
-    font-family: 'Inter', sans-serif;
+    /* Fonts are provided via next/font CSS variables and Tailwind font families */
+  }
+  body {
+    @apply font-sans bg-[color:var(--md-sys-color-surface)] text-[color:var(--md-sys-color-on-surface)];
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-black;
+  }
+  .dark {
+    --md-sys-color-surface: #121212;
+    --md-sys-color-on-surface: #e5e5e5;
+    --md-sys-color-secondary-container: #4a4458;
+    --md-sys-color-on-secondary-container: #e8def8;
+    --md-sys-color-surface-container: #1d1b20;
+    --md-sys-color-surface-container-high: #211f26;
+    --md-sys-color-outline: #938f99;
+    --md-sys-color-outline-variant: #444;
   }
 }
 
@@ -21,5 +56,80 @@
   
   .card {
     @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+
+  /* Material 3 primitives */
+  .md-surface {
+    background: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+  }
+  .md-surface-tonal {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+  }
+  .md-outline {
+    border: 1px solid var(--md-sys-color-outline-variant);
+  }
+  .md-elevation-1 { box-shadow: 0 1px 2px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06); }
+  .md-elevation-2 { box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08); }
+  .md-elevation-3 { box-shadow: 0 4px 12px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.10); }
+
+  /* Buttons */
+  .btn-filled {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+    transition: background 150ms ease;
+  }
+  .btn-filled:hover { filter: brightness(0.95); }
+
+  .btn-tonal {
+    background: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+  }
+
+  .btn-outlined {
+    background: transparent;
+    color: var(--md-sys-color-primary);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+  }
+
+  /* Text field */
+  .md-textfield {
+    background: var(--md-sys-color-surface-container-high);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    color: var(--md-sys-color-on-surface);
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .md-textfield:focus {
+    border-color: var(--md-sys-color-primary);
+  }
+
+  /* Card */
+  .md-card {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+    border-radius: 16px;
+    padding: 1rem;
+  }
+
+  /* Top app bar */
+  .top-app-bar {
+    background: var(--md-sys-color-surface);
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
 }

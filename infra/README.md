@@ -174,6 +174,25 @@ terraform apply -var-file="environments/staging.tfvars"
 terraform output
 ```
 
+## Product Images Storage (GCS)
+
+The API stores product images in a dedicated GCS bucket provisioned by Terraform.
+
+- __Bucket definition__: See `infra/terraform/product_images_storage.tf`.
+  - Name pattern: derived from `finspeed-product-images-${local.environment}-${local.project_id}`, forced lowercase and truncated to 63 chars, then trimmed so it starts/ends with a letter or digit.
+  - Uniform bucket-level access: enabled; Versioning: enabled
+  - CORS: allows GET/HEAD/OPTIONS from `https://${var.domain_name}`, `https://www.${var.domain_name}`, `https://admin.${var.domain_name}` (defaults to `*` if no domain set)
+  - Location: `US` (adjust to your preferred region/multi-region)
+- __IAM bindings__:
+  - Public read: `roles/storage.objectViewer` for `allUsers` (so image URLs are publicly accessible)
+  - API write/delete: `roles/storage.objectAdmin` for the Cloud Run service account `google_service_account.cloud_run_sa`
+- __Cloud Run env vars__: Set in `infra/terraform/cloud_run.tf` so the API selects GCS at runtime.
+  - `STORAGE_BACKEND=gcs`
+  - `GCS_BUCKET_NAME=<bucket name>` (from Terraform resource)
+  - Optional: `GCS_BASE_URL` if you front the bucket with a CDN/custom domain
+- __Backend behavior__: `api/internal/storage/gcs.go` sets `Cache-Control: public, max-age=31536000, immutable` on uploads and constructs public URLs.
+- __Outputs__: `product_images_bucket_name` is exposed in Terraform outputs.
+
 ## Post-Deployment
 
 After successful deployment, you'll receive important information including:
