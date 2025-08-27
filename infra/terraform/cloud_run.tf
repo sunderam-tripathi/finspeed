@@ -192,6 +192,11 @@ resource "google_cloud_run_v2_service" "api" {
         value = var.environment == "production" ? "info" : "debug"
       }
 
+      env {
+        name  = "CORS_ALLOWED_ORIGINS"
+        value = join(",", var.cors_allowed_origins)
+      }
+
       # Storage configuration for product images
       env {
         name  = "STORAGE_BACKEND"
@@ -398,7 +403,7 @@ resource "google_cloud_run_v2_service" "admin" {
 
       env {
         name  = "NEXT_PUBLIC_API_URL"
-        value = "/api/v1"
+        value = var.api_domain_name != "" ? "https://${var.api_domain_name}/api/v1" : "/api/v1"
       }
 
       env {
