@@ -533,7 +533,8 @@ jobs:
         run: |
           terraform apply -lock-timeout=5m -input=false -refresh=false -auto-approve \
             -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/resourcemanager.projectIamAdmin"]' \
-            -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/iam.workloadIdentityPoolAdmin"]'
+            -target='module.finspeed_infra.google_project_iam_member.github_actions_permissions["roles/iam.workloadIdentityPoolAdmin"]' \
+            -target='module.finspeed_infra.google_compute_region_network_endpoint_group.api_gateway_neg'
         working-directory: ./infra/terraform/staging
 
       - name: Authenticate to Google Cloud (switch to GH Actions SA)
