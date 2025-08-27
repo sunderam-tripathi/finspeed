@@ -1,150 +1,111 @@
-# Cloud Function for public API gateway
-resource "google_storage_bucket" "function_source" {
-  count                       = var.allow_public_api ? 1 : 0
-  name                        = "finspeed-functions-${local.environment}"
-  location                    = "US"
+# API Gateway Cloud Function (Gen2) + Serverless NEG + Backend Service (IAP)
+
+# Upload function source (api-gateway.zip) to GCS
+resource "google_storage_bucket" "api_gateway_source" {
+  name                        = "finspeed-api-gw-src-${local.project_id}-${local.region}"
   project                     = local.project_id
-  force_destroy               = !var.enable_deletion_protection
+  location                    = "US"
   uniform_bucket_level_access = true
+  force_destroy               = !var.enable_deletion_protection
 
   labels = local.common_labels
 }
 
-# ZIP file for the Cloud Function source
-data "archive_file" "api_gateway_zip" {
-  type        = "zip"
-  output_path = "${path.module}/api-gateway.zip"
-  source_dir  = "${path.module}/../../api-gateway"
+resource "google_storage_bucket_object" "api_gateway_zip" {
+  name         = "api-gateway-${filesha256("${path.module}/api-gateway.zip")}.zip"
+  bucket       = google_storage_bucket.api_gateway_source.name
+  source       = "${path.module}/api-gateway.zip"
+  content_type = "application/zip"
 }
 
-# Cloud Function source upload - no longer needed for Cloud Run
-# resource "google_storage_bucket_object" "api_gateway_source" {
-#   count  = var.allow_public_api ? 1 : 0
-#   name   = "api-gateway-${data.archive_file.api_gateway_zip.output_md5}.zip"
-#   bucket = google_storage_bucket.function_source[0].name
-#   source = data.archive_file.api_gateway_zip.output_path
-# }
-
-# Cloud Run service for API Gateway (replacing Cloud Function due to persistent IAM issues)
-resource "google_cloud_run_v2_service" "api_gateway" {
-  count    = var.allow_public_api ? 1 : 0
+# Cloud Functions 2nd gen (HTTP)
+resource "google_cloudfunctions2_function" "api_gateway" {
   name     = "finspeed-api-gateway-${local.environment}"
+  project  = local.project_id
   location = local.region
-  project  = var.project_id
+  labels   = local.common_labels
+  description = "Finspeed API Gateway proxy (Cloud Functions Gen2)"
 
-  template {
-    containers {
-      image = "gcr.io/${var.project_id}/api-gateway:latest"
-      
-      env {
-        name  = "API_BASE_URL"
-        value = "https://${google_cloud_run_v2_service.api.name}-${data.google_project.current[0].number}.a.run.app"
-      }
-      
-      env {
-        name  = "ENVIRONMENT"
-        value = local.environment
-      }
-      
-      env {
-        name  = "NODE_ENV"
-        value = "production"
-      }
+  build_config {
+    runtime     = "nodejs20"
+    entry_point = "apiGateway"
 
-      resources {
-        limits = {
-          cpu    = "1"
-          memory = "512Mi"
-        }
+    source {
+      storage_source {
+        bucket = google_storage_bucket.api_gateway_source.name
+        object = google_storage_bucket_object.api_gateway_zip.name
       }
-
-      ports {
-        container_port = 8080
-      }
-    }
-
-    service_account = google_service_account.cloud_run_sa.email
-    
-    scaling {
-      max_instance_count = 10
-      min_instance_count = 0
     }
   }
 
-  traffic {
-    percent = 100
-    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  service_config {
+    available_memory   = "512M"
+    timeout_seconds    = 60
+    ingress_settings   = "ALLOW_INTERNAL_AND_GCLB"
+    service_account_email = google_service_account.cloud_run_sa.email
+
+    environment_variables = {
+      API_BASE_URL          = var.api_gateway_upstream_base_url != "" ? var.api_gateway_upstream_base_url : google_cloud_run_v2_service.api.uri
+      CORS_ALLOWED_ORIGINS  = join(",", var.cors_allowed_origins)
+      NODE_ENV              = var.environment
+    }
   }
 
   depends_on = [
-    google_project_service.required_apis,
-    google_service_account.cloud_run_sa
+    google_project_service.required_apis
   ]
 }
 
-# Grant the Compute Engine default service account permission to impersonate the Cloud Run service account
-resource "google_service_account_iam_member" "build_sa_can_use_run_sa" {
-  count              = var.allow_public_api ? 1 : 0
-  service_account_id = google_service_account.cloud_run_sa.name
-  role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
+# Optional public invoker for function (when allow_public_api == true)
+resource "google_cloudfunctions2_function_iam_member" "api_gateway_public_invoker" {
+  count         = var.allow_public_api ? 1 : 0
+  project       = local.project_id
+  location      = local.region
+  cloud_function = google_cloudfunctions2_function.api_gateway.name
+  role          = "roles/cloudfunctions.invoker"
+  member        = "allUsers"
 }
 
-   
-# IAM binding to allow public access to the Cloud Run API Gateway
-# Temporarily disabled due to organization policy restrictions
-# Public access will be handled via load balancer instead
-# resource "google_cloud_run_v2_service_iam_member" "api_gateway_public_access" {
-#   count    = var.allow_public_api ? 1 : 0
-#   project  = google_cloud_run_v2_service.api_gateway[0].project
-#   location = google_cloud_run_v2_service.api_gateway[0].location
-#   name     = google_cloud_run_v2_service.api_gateway[0].name
-#   role     = "roles/run.invoker"
-#   member   = "allUsers"
-# }
-
-
-
-# Backend service for the API gateway Cloud Run service
+# Serverless NEG targeting the Cloud Function
 resource "google_compute_region_network_endpoint_group" "api_gateway_neg" {
-  count                 = var.allow_public_api ? 1 : 0
-  name                  = "finspeed-api-gateway-neg-${local.environment}"
-  network_endpoint_type = "SERVERLESS"
-  project               = var.project_id
-  region                = local.region
-  cloud_run {
-    service = google_cloud_run_v2_service.api_gateway[0].name
+  name                    = "finspeed-api-gateway-neg-${local.environment}"
+  project                 = local.project_id
+  region                  = local.region
+  network_endpoint_type   = "SERVERLESS"
+
+  cloud_function {
+    function = google_cloudfunctions2_function.api_gateway.name
   }
+
+  depends_on = [google_cloudfunctions2_function.api_gateway]
 }
 
+# Backend Service for API Gateway (IAP enabled), created when public API is enabled
 resource "google_compute_backend_service" "api_gateway_backend" {
-  count                 = var.allow_public_api ? 1 : 0
+  count    = var.allow_public_api ? 1 : 0
+  provider = google-beta
+
   name                  = "finspeed-api-gateway-backend-${local.environment}"
-  project               = var.project_id
+  project               = local.project_id
   protocol              = "HTTP"
   load_balancing_scheme = "EXTERNAL_MANAGED"
-  enable_cdn            = false
 
   backend {
-    group = google_compute_region_network_endpoint_group.api_gateway_neg[0].id
+    group = google_compute_region_network_endpoint_group.api_gateway_neg.id
   }
-}
 
-# Grant Compute Engine default service account permissions for function builds
-resource "google_project_iam_member" "cloudbuild_sa_permissions" {
-  for_each = var.allow_public_api ? toset([
-    "roles/cloudfunctions.developer",
-    "roles/storage.admin",
-    "roles/artifactregistry.writer",
-    "roles/cloudbuild.builds.builder",
-    "roles/source.reader",
-    "roles/logging.logWriter",
-    "roles/run.admin",
-    "roles/iam.serviceAccountUser",
-    "roles/storage.objectViewer"
-  ]) : toset([])
-  
-  project = local.project_id
-  role    = each.value
-  member  = "serviceAccount:${data.google_project.current[0].number}-compute@developer.gserviceaccount.com"
+  log_config {
+    enable = true
+  }
+
+  iap {
+    enabled              = true
+    oauth2_client_id     = google_iap_client.project_client.client_id
+    oauth2_client_secret = google_iap_client.project_client.secret
+  }
+
+  depends_on = [
+    google_compute_region_network_endpoint_group.api_gateway_neg,
+    google_iap_client.project_client
+  ]
 }

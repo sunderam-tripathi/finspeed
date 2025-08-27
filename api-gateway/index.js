@@ -1,14 +1,14 @@
 const functions = require('@google-cloud/functions-framework');
 const cors = require('cors');
 
-// Configure CORS
+// Configure CORS from env
+const allowedOrigins = (process.env.CORS_ALLOWED_ORIGINS || 'https://finspeed.online,https://www.finspeed.online,https://staging.finspeed.online,http://localhost:3000')
+  .split(',')
+  .map(s => s.trim())
+  .filter(Boolean);
+
 const corsHandler = cors({
-  origin: [
-    'https://finspeed.online',
-    'https://www.finspeed.online',
-    'https://staging.finspeed.online',
-    'http://localhost:3000'
-  ],
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Proxy-Authorization', 'X-App-Authorization', 'X-Requested-With'],
   credentials: true
