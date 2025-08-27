@@ -82,5 +82,11 @@ variable "allow_public_product_images_read" {
   default     = false
 }
 
+# CORS configuration
+variable "cors_allowed_origins" {
+  type        = list(string)
+  description = "List of allowed CORS origins for the API service"
+}
+
 # API Gateway upstream override (passthrough to module)
 variable "api_gateway_upstream_base_url" {}
