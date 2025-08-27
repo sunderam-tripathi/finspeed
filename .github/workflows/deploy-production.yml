@@ -94,6 +94,8 @@ jobs:
       - name: Terraform Apply Infra
         run: terraform apply -lock-timeout=5m -auto-approve -input=false
         working-directory: ./infra/terraform/production
+        env:
+          TF_VAR_cors_allowed_origins: '["https://finspeed.online","https://admin.finspeed.online"]'
 
       - name: Show Load Balancer IP
         run: |
@@ -323,3 +325,5 @@ jobs:
             echo "Skipping migrations; no API/infra changes detected."
           fi
         working-directory: ./infra/terraform/production
+        env:
+          TF_VAR_cors_allowed_origins: '["https://finspeed.online","https://admin.finspeed.online"]'

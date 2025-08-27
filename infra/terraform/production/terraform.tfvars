@@ -30,6 +30,12 @@ domain_name     = "finspeed.online"
 api_domain_name = "api.finspeed.online"
 enable_ssl      = true
 
+# CORS allowed origins for API
+cors_allowed_origins = [
+  "https://finspeed.online",
+  "https://admin.finspeed.online",
+]
+
 # Monitoring configuration
 notification_email   = "welcome@sunderamtripathi.com" # Updated with your alerts email
 enable_uptime_checks = true
@@ -59,3 +65,4 @@ enable_iap_frontend   = true
 use_static_hosting    = true
 allow_public_api      = false
 allow_public_frontend = false
+

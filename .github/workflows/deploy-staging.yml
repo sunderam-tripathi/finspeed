@@ -175,6 +175,7 @@ jobs:
           terraform apply -lock-timeout=5m -auto-approve -input=false
         env:
           TF_LOG: INFO
+          TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
 
       - name: Clean up stale Terraform lock (best-effort)
         if: steps.fork.outputs.is_fork == 'false' && steps.secrets_present.outputs.ok == 'true' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
@@ -646,6 +647,8 @@ jobs:
       - name: Terraform Apply Infra
         run: terraform apply -lock-timeout=5m -auto-approve -input=false
         working-directory: ./infra/terraform/staging
+        env:
+          TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
 
   build-and-push:
     name: Build and Push Images
@@ -912,6 +915,8 @@ jobs:
             -target='module.finspeed_infra.google_cloud_run_v2_service.admin[0]' \
             -target='module.finspeed_infra.google_cloud_run_v2_job.migrate[0]'
         working-directory: ./infra/terraform/staging
+        env:
+          TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
 
       - name: Terraform Apply Service Images
         shell: bash
@@ -928,6 +933,8 @@ jobs:
             -var=admin_image="${TF_VAR_admin_image}" \
             -var=migrate_image="${TF_VAR_migrate_image}"
         working-directory: ./infra/terraform/staging
+        env:
+          TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
 
       - name: Run database migrations job (with timeout and diagnostics)
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force_migrate == 'true')
