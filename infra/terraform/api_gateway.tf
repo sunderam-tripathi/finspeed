@@ -90,9 +90,10 @@ resource "google_compute_backend_service" "api_gateway_backend" {
   protocol              = "HTTP"
   load_balancing_scheme = "EXTERNAL_MANAGED"
 
-  backend {
-    group = google_compute_region_network_endpoint_group.api_gateway_neg.id
-  }
+  # Temporarily commented out to allow NEG recreation
+  # backend {
+  #   group = google_compute_region_network_endpoint_group.api_gateway_neg.id
+  # }
 
   log_config {
     enable = true
