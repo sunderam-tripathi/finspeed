@@ -356,6 +356,7 @@ jobs:
     needs: changes
     runs-on: ubuntu-latest
     environment: staging
+    timeout-minutes: 60
     concurrency:
       group: deploy-staging
       cancel-in-progress: false
@@ -650,10 +651,25 @@ jobs:
           sleep 120
 
       - name: Terraform Apply Infra
-        run: terraform apply -lock-timeout=5m -auto-approve -input=false
+        timeout-minutes: 45
+        run: |
+          set -euo pipefail
+          terraform apply -no-color -lock-timeout=5m -auto-approve -input=false 2>&1 | tee tf-apply-infra.log
         working-directory: ./infra/terraform/staging
         env:
+          TF_LOG: INFO
+          TF_LOG_PATH: tf-apply-infra-debug.log
           TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
+
+      - name: Upload Terraform apply logs (infra)
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tf-apply-infra-logs
+          path: |
+            infra/terraform/staging/tf-apply-infra.log
+            infra/terraform/staging/tf-apply-infra-debug.log
+          if-no-files-found: ignore
 
   build-and-push:
     name: Build and Push Images
@@ -787,6 +803,7 @@ jobs:
     needs: [build-and-push, changes]
     runs-on: ubuntu-latest
     environment: staging
+    timeout-minutes: 60
     concurrency:
       group: deploy-staging
       cancel-in-progress: false
@@ -914,16 +931,21 @@ jobs:
           echo "TF_VAR_migrate_image=$MIGRATE_IMG_URL" >> $GITHUB_ENV
 
       - name: Terraform Apply (Services)
+        timeout-minutes: 25
         run: |
-          terraform apply -lock-timeout=5m -auto-approve -input=false \
+          set -euo pipefail
+          terraform apply -no-color -lock-timeout=5m -auto-approve -input=false \
             -target='module.finspeed_infra.google_cloud_run_v2_service.api[0]' \
             -target='module.finspeed_infra.google_cloud_run_v2_service.admin[0]' \
-            -target='module.finspeed_infra.google_cloud_run_v2_job.migrate[0]'
+            -target='module.finspeed_infra.google_cloud_run_v2_job.migrate[0]' 2>&1 | tee tf-apply-services-targets.log
         working-directory: ./infra/terraform/staging
         env:
+          TF_LOG: INFO
+          TF_LOG_PATH: tf-apply-services-targets-debug.log
           TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
 
       - name: Terraform Apply Service Images
+        timeout-minutes: 25
         shell: bash
         run: |
           set -euo pipefail
@@ -932,14 +954,28 @@ jobs:
           echo "  frontend_image=${TF_VAR_frontend_image}"
           echo "  admin_image=${TF_VAR_admin_image}"
           echo "  migrate_image=${TF_VAR_migrate_image}"
-          terraform apply -lock-timeout=5m -input=false -auto-approve \
+          terraform apply -no-color -lock-timeout=5m -input=false -auto-approve \
             -var=api_image="${TF_VAR_api_image}" \
             -var=frontend_image="${TF_VAR_frontend_image}" \
             -var=admin_image="${TF_VAR_admin_image}" \
-            -var=migrate_image="${TF_VAR_migrate_image}"
+            -var=migrate_image="${TF_VAR_migrate_image}" 2>&1 | tee tf-apply-services-images.log
         working-directory: ./infra/terraform/staging
         env:
+          TF_LOG: INFO
+          TF_LOG_PATH: tf-apply-services-images-debug.log
           TF_VAR_cors_allowed_origins: '["https://staging.finspeed.online","https://admin.staging.finspeed.online"]'
+
+      - name: Upload Terraform apply logs (services)
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tf-apply-services-logs
+          path: |
+            infra/terraform/staging/tf-apply-services-targets.log
+            infra/terraform/staging/tf-apply-services-targets-debug.log
+            infra/terraform/staging/tf-apply-services-images.log
+            infra/terraform/staging/tf-apply-services-images-debug.log
+          if-no-files-found: ignore
 
       - name: Run database migrations job (with timeout and diagnostics)
         if: needs.changes.outputs.api == 'true' || needs.changes.outputs.infra == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force_migrate == 'true')
