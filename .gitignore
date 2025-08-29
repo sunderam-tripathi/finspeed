@@ -30,6 +30,9 @@ secrets/
 *.tfplan
 *.tfstate
 *.tfstate.backup
+infra/terraform/api-gateway.build.zip
+# Ignore ad-hoc Terraform plan files without extension (e.g., tfplan-stageA)
+infra/terraform/staging/tfplan-*
 
 # Windsurf
 .windsurf/
