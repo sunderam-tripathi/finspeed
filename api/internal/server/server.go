@@ -97,6 +97,11 @@ func (s *Server) SetupRoutes() {
 	v1 := s.router.Group("/api/v1")
 	s.logger.Info("[ROUTES] Configured API v1 group.")
 	{
+		// Health check routes under API v1 (for LB/Gateway path-based routing)
+		v1.GET("/healthz", healthHandler.HealthCheck)
+		v1.GET("/readyz", healthHandler.ReadinessCheck)
+		s.logger.Info("[ROUTES] API v1 health routes configured.")
+
 		// Static files for uploaded content (local dev only)
 		if s.config.StorageBackend == "local" {
 			// Serves files under ./uploads at /api/v1/uploads
