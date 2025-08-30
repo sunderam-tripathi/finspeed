@@ -99,7 +99,7 @@ resource "google_compute_backend_service" "api_gateway_backend" {
   }
 
   iap {
-    enabled              = true
+    enabled              = var.enable_iap_api_gateway
     oauth2_client_id     = google_iap_client.project_client.client_id
     oauth2_client_secret = google_iap_client.project_client.secret
   }
@@ -108,4 +108,33 @@ resource "google_compute_backend_service" "api_gateway_backend" {
     google_compute_region_network_endpoint_group.api_gateway_neg,
     google_iap_client.project_client
   ]
+}
+
+# Project data for IAM bindings (LB service agent email)
+data "google_project" "current_for_gateway" {
+  project_id = local.project_id
+}
+
+# Allow IAP service identity to invoke the underlying Cloud Run service for the Gen2 function when IAP on gateway is enabled
+resource "google_cloud_run_v2_service_iam_member" "api_gateway_iap_invoker" {
+  count    = var.allow_public_api && var.enable_iap_api_gateway ? 1 : 0
+  project  = local.project_id
+  location = local.region
+  name     = google_cloudfunctions2_function.api_gateway.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${google_project_service_identity.iap_service_account.email}"
+
+  depends_on = [google_cloudfunctions2_function.api_gateway]
+}
+
+# Allow the Load Balancer service agent to invoke the underlying Cloud Run service (Stage B)
+resource "google_cloud_run_v2_service_iam_member" "api_gateway_lb_invoker" {
+  count    = var.allow_public_api && var.bind_lb_sa_invoker ? 1 : 0
+  project  = local.project_id
+  location = local.region
+  name     = google_cloudfunctions2_function.api_gateway.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:service-${data.google_project.current_for_gateway.number}@gcp-sa-loadbalancing.iam.gserviceaccount.com"
+
+  depends_on = [google_cloudfunctions2_function.api_gateway]
 }

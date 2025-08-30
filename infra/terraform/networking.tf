@@ -284,6 +284,23 @@ resource "google_compute_url_map" "url_map" {
   path_matcher {
     name            = "admin-matcher"
     default_service = google_compute_backend_service.admin_backend.id
+
+    # Route API paths from the admin host to either the API Gateway (public API) or API backend (private)
+    dynamic "path_rule" {
+      for_each = var.allow_public_api ? [1] : []
+      content {
+        paths   = ["/api/*", "/api/v1/*"]
+        service = google_compute_backend_service.api_gateway_backend[0].id
+      }
+    }
+
+    dynamic "path_rule" {
+      for_each = var.allow_public_api ? [] : [1]
+      content {
+        paths   = ["/api/*", "/api/v1/*"]
+        service = google_compute_backend_service.api_backend.id
+      }
+    }
   }
 
   # Path-based routing on primary domain: send /api/* to API backend
@@ -291,9 +308,21 @@ resource "google_compute_url_map" "url_map" {
     name            = "frontend-matcher"
     default_service = google_compute_backend_service.frontend_backend.id
 
-    path_rule {
-      paths   = ["/api/*", "/api/v1/*"]
-      service = google_compute_backend_service.api_backend.id
+    # Route API paths from the main host to either the API Gateway (public API) or API backend (private)
+    dynamic "path_rule" {
+      for_each = var.allow_public_api ? [1] : []
+      content {
+        paths   = ["/api/*", "/api/v1/*"]
+        service = google_compute_backend_service.api_gateway_backend[0].id
+      }
+    }
+
+    dynamic "path_rule" {
+      for_each = var.allow_public_api ? [] : [1]
+      content {
+        paths   = ["/api/*", "/api/v1/*"]
+        service = google_compute_backend_service.api_backend.id
+      }
     }
 
     dynamic "path_rule" {

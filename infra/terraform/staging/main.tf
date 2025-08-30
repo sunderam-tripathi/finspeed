@@ -59,6 +59,8 @@ module "finspeed_infra" {
   project_owner_email              = var.project_owner_email
   api_gateway_upstream_base_url    = var.api_gateway_upstream_base_url
   cors_allowed_origins             = var.cors_allowed_origins
+  enable_iap_api_gateway           = var.enable_iap_api_gateway
+  bind_lb_sa_invoker               = var.bind_lb_sa_invoker
 }
 
 # Note: If Cloud Function already exists, delete it manually first:

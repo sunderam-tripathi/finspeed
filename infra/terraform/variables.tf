@@ -308,6 +308,19 @@ variable "enable_iap_frontend" {
   default     = true
 }
 
+# Feature flag: Enable IAP on API Gateway backend and bind LB SA in a later stage
+variable "enable_iap_api_gateway" {
+  description = "Enable IAP on the API Gateway backend service (Cloud Functions Gen2 via Serverless NEG)."
+  type        = bool
+  default     = true
+}
+
+variable "bind_lb_sa_invoker" {
+  description = "When true, bind the Load Balancer service agent (service-PROJECT_NUMBER@gcp-sa-loadbalancing.iam.gserviceaccount.com) as roles/run.invoker on the API Gateway's underlying Cloud Run service. Use false for Stage A to avoid principal-not-found."
+  type        = bool
+  default     = false
+}
+
 # Public access flags for Cloud Run ingress and IAM
 variable "allow_public_api" {
   description = "Allow unauthenticated public access to the API via Cloud Run (and load balancer)."

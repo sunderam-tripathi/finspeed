@@ -75,6 +75,17 @@ variable "project_owner_email" {}
 # Public access toggles
 variable "allow_public_api" {}
 
+# IAP and LB Service Agent toggles for API Gateway (Stage A/B rollout)
+variable "enable_iap_api_gateway" {
+  description = "Enable IAP protection on the API Gateway backend service."
+  type        = bool
+}
+
+variable "bind_lb_sa_invoker" {
+  description = "Bind the Load Balancer service agent as roles/run.invoker to the API Gateway function's underlying service (Stage B)."
+  type        = bool
+}
+
 # Public read toggle for product images bucket
 variable "allow_public_product_images_read" {
   description = "Allow unauthenticated public read (allUsers) on the product images bucket."

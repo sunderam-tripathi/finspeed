@@ -17,6 +17,21 @@ resource "google_iap_client" "project_client" {
   brand        = google_iap_brand.project_brand.name
 }
 
+# Allow IAP CORS preflight (OPTIONS) passthrough at compute scope
+data "google_project" "current_iap" {
+  project_id = local.project_id
+}
+
+resource "google_iap_settings" "compute_cors" {
+  name = "projects/${data.google_project.current_iap.number}/iap_web/compute"
+
+  access_settings {
+    cors_settings {
+      allow_http_options = true
+    }
+  }
+}
+
 # Grant the IAP service account permission to invoke the API service
 resource "google_cloud_run_v2_service_iam_member" "api_iap_invoker" {
   count    = var.enable_iap_api ? 1 : 0
@@ -92,7 +107,7 @@ resource "google_iap_web_backend_service_iam_member" "frontend_admin_iap_cicd" {
 
 # Grant IAP access for the API Gateway backend
 resource "google_iap_web_backend_service_iam_member" "api_gateway_iap_user" {
-  count               = var.allow_public_api ? 1 : 0
+  count               = var.allow_public_api && var.enable_iap_api_gateway ? 1 : 0
   project             = google_compute_backend_service.api_gateway_backend[0].project
   web_backend_service = google_compute_backend_service.api_gateway_backend[0].name
   role                = "roles/iap.httpsResourceAccessor"
@@ -100,7 +115,7 @@ resource "google_iap_web_backend_service_iam_member" "api_gateway_iap_user" {
 }
 
 resource "google_iap_web_backend_service_iam_member" "api_gateway_iap_cicd" {
-  count               = var.allow_public_api ? 1 : 0
+  count               = var.allow_public_api && var.enable_iap_api_gateway ? 1 : 0
   project             = google_compute_backend_service.api_gateway_backend[0].project
   web_backend_service = google_compute_backend_service.api_gateway_backend[0].name
   role                = "roles/iap.httpsResourceAccessor"

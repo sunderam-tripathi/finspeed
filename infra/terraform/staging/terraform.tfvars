@@ -60,5 +60,18 @@ use_static_hosting = false # Use Cloud Run for frontend in staging
 # Enable public API Gateway in staging (Cloud Function + LB), while keeping Cloud Run API private behind IAP
 allow_public_api = true
 
+# Stage A: Enable IAP on API Gateway backend; do not bind LB service agent yet
+enable_iap_api_gateway = true
+bind_lb_sa_invoker     = false
+
 # API Gateway upstream base URL (point to internal Cloud Run service to avoid IAP audience mismatch)
 api_gateway_upstream_base_url = "https://finspeed-api-staging-487758456202.asia-south2.run.app"
+
+# CORS allowed origins for API and API Gateway
+cors_allowed_origins = [
+  "https://staging.finspeed.online",
+  "https://admin.staging.finspeed.online",
+  "https://finspeed.online",
+  "https://www.finspeed.online",
+  "http://localhost:3000"
+]
