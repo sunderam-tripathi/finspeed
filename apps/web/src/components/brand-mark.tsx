@@ -20,7 +20,7 @@ export function BrandMark({
 }: BrandMarkProps) {
   const mark = tone === 'dark' ? markDark : markLight;
   const wordmark = tone === 'dark' ? wordmarkDark : wordmarkLight;
-  const container = ['inline-flex items-center gap-2', className].filter(Boolean).join(' ');
+  const container = ['inline-flex items-center gap-1', className].filter(Boolean).join(' ');
   return (
     <span className={container} aria-label={label} role="img">
       <Image src={mark} alt="" aria-hidden width={28} height={28} className="h-7 w-7" priority={priority} />
