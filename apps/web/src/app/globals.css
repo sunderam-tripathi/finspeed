@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: radial-gradient(circle at top, #f8f5ff, #eef2ff 30%, #dbeafe 60%, #e0f2fe 100%);
+  --surface: rgba(255, 255, 255, 0.85);
+  --hero-surface: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.9), rgba(99, 102, 241, 0.65), rgba(15, 23, 42, 0.9));
+  --foreground: #0f172a;
+  --foreground-muted: #52607c;
+  --primary: #4f46e5;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --background: radial-gradient(circle at top, #030712, #05070d 45%, #0f172a 80%);
+  --surface: rgba(15, 23, 42, 0.9);
+  --hero-surface: radial-gradient(circle at 15% 20%, rgba(15, 118, 110, 0.6), rgba(79, 70, 229, 0.75), rgba(5, 7, 13, 0.95));
+  --foreground: #f8fafc;
+  --foreground-muted: #cbd5f5;
+  --primary: #a5b4fc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+a {
+  text-decoration: none;
+}
+
+.aurora-gradient {
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.35), transparent 55%),
+    radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.25), transparent 50%),
+    radial-gradient(circle at 40% 70%, rgba(16, 185, 129, 0.25), transparent 60%);
+  animation: aurora-shift 18s ease-in-out infinite alternate;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+  filter: blur(40px);
+  animation: hero-glimmer 12s ease-in-out infinite;
+}
+
+.card-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.2), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-gradient::after {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+article:hover .card-gradient {
+  opacity: 1;
+}
+
+.cta-rays {
+  position: absolute;
+  inset: -50% -10%;
+  background: conic-gradient(from 90deg, rgba(255, 255, 255, 0.25), transparent 40%, rgba(255, 255, 255, 0.35));
+  opacity: 0.5;
+  animation: rotate-rays 20s linear infinite;
+}
+
+@keyframes aurora-shift {
+  0% {
+    transform: translate3d(-10%, -5%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, 15%, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-5%, 5%, 0) scale(1.02);
+  }
+}
+
+@keyframes hero-glimmer {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes rotate-rays {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
