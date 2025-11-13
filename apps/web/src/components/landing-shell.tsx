@@ -101,14 +101,16 @@ function Hero({ locale }: { locale: LocaleKey }) {
   const copy = HOME_COPY[locale].hero;
   const stats = [
     { label: 'Studios', value: '120+', detail: 'Partner labs online' },
-    { label: 'Telemetry', value: '18M', detail: 'Data points per month' },
-    { label: 'Service SLA', value: '6h', detail: 'Metro response' }
+    { label: 'Telemetry', value: '18M', detail: 'Data points / month' },
+    { label: 'SLA', value: '6h', detail: 'Metro response' }
+  ];
+  const streams = [
+    { label: 'Range planning', level: 82 },
+    { label: 'Service load', level: 68 },
+    { label: 'Firmware health', level: 94 }
   ];
   return (
-    <section
-      className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[var(--hero-surface)] p-10 text-white shadow-[0_30px_120px_-50px_rgba(79,70,229,0.9)]"
-      aria-labelledby="hero-title"
-    >
+    <section className="relative overflow-hidden rounded-[2.5rem] border border-[var(--panel-border)] bg-[var(--hero-surface)] p-10 text-white shadow-[0_30px_120px_-50px_rgba(79,70,229,0.9)]" aria-labelledby="hero-title">
       <div className="hero-glow" />
       <div className="relative grid gap-12 md:grid-cols-[3fr_2fr]">
         <div>
@@ -116,11 +118,7 @@ function Hero({ locale }: { locale: LocaleKey }) {
             <span className="rounded-full border border-white/20 px-3 py-1">Finspeed</span>
             <span className="rounded-full border border-white/20 px-3 py-1">SCN-001 ready</span>
           </div>
-          <h1
-            id="hero-title"
-            data-testid="hero-heading"
-            className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl"
-          >
+          <h1 id="hero-title" data-testid="hero-heading" className="mt-6 text-5xl font-semibold leading-tight tracking-[0.05em] sm:text-6xl">
             {copy.headline}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-indigo-100">{copy.subheadline}</p>
@@ -132,12 +130,9 @@ function Hero({ locale }: { locale: LocaleKey }) {
               Explore catalog
             </a>
           </div>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
             {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm uppercase tracking-[0.3em]"
-              >
+              <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm uppercase tracking-[0.3em]">
                 <p className="text-indigo-200">{stat.label}</p>
                 <p className="mt-2 text-3xl font-semibold">{stat.value}</p>
                 <p className="text-xs text-white/70 normal-case tracking-normal">{stat.detail}</p>
@@ -145,27 +140,28 @@ function Hero({ locale }: { locale: LocaleKey }) {
             ))}
           </div>
         </div>
-        <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
+          <div className="scan-lines" />
           <p className="text-sm font-semibold uppercase tracking-[0.4em] text-indigo-100">Live Telemetry</p>
-          <div className="grid gap-4">
-            {['Range planning', 'Service load', 'Firmware health'].map((scope, idx) => {
-              const levels = [82, 65, 93];
-              const level = levels[idx];
-              return (
-              <div key={scope} className="rounded-2xl border border-white/15 bg-black/30 p-4">
+          <div className="mt-5 space-y-4">
+            {streams.map((stream) => (
+              <div key={stream.label}>
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-indigo-200">
-                  <span>{scope}</span>
+                  <span>{stream.label}</span>
                   <span className="text-[var(--accent)]">Active</span>
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-white">
-                  <span className="text-2xl font-semibold">{level}%</span>
-                  <div className="h-1 flex-1 rounded-full bg-white/20">
-                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-sky-400" style={{ width: `${level}%` }} />
+                <div className="mt-3 flex items-center gap-3 text-white">
+                  <span className="text-2xl font-semibold">{stream.level}%</span>
+                  <div className="h-1 flex-1 rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)]" style={{ width: `${stream.level}%` }} />
                   </div>
                 </div>
               </div>
-              );
-            })}
+            ))}
+          </div>
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs uppercase tracking-[0.4em] text-indigo-200">
+            <p>Next sync</p>
+            <p className="mt-2 text-2xl font-semibold text-white">03:24 UTC</p>
           </div>
         </div>
       </div>
