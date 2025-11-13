@@ -149,8 +149,10 @@ article:hover .card-gradient {
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #050816;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  box-shadow: 0 15px 35px rgba(91, 91, 242, 0.35);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.8), #f7f7ff 50%) padding-box,
+    linear-gradient(135deg, var(--primary), var(--accent)) border-box;
+  border: 1px solid transparent;
+  box-shadow: 0 20px 45px rgba(99, 102, 241, 0.45);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
