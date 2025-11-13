@@ -212,7 +212,8 @@ function DealerCTA({ ctaLabel }: { ctaLabel: string }) {
           <a href="/dealers" className="btn-primary bg-white text-slate-900">
             {ctaLabel}
           </a>
-          <a href="/support" className="btn-ghost text-white border-white/40">
+          <a href="/support" className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
+            <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
             Contact support
           </a>
         </div>
