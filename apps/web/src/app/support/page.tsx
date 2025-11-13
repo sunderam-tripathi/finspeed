@@ -14,8 +14,11 @@ export default function SupportPage() {
   const copy = SUPPORT_COPY[locale];
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <div className="mx-auto w-full max-w-4xl space-y-10 px-6 py-12">
-        <header className="space-y-4">
+      <div className="pointer-events-none fixed inset-0 opacity-60 blur-3xl">
+        <div className="aurora-gradient" />
+      </div>
+      <div className="relative mx-auto w-full max-w-4xl space-y-10 px-6 py-12">
+        <header className="space-y-4 rounded-[2rem] border border-white/15 bg-[var(--surface)]/85 p-6 shadow-xl shadow-black/10 backdrop-blur">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <BrandMark className="rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" />
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[var(--surface)]/80 p-1 text-xs font-semibold">
@@ -39,11 +42,7 @@ export default function SupportPage() {
 
         <section className="grid gap-4 md:grid-cols-3">
           {copy.contacts.map((channel) => (
-            <a
-              key={channel.label}
-              href={channel.href}
-              className="rounded-3xl border border-white/15 bg-[var(--surface)]/70 p-4 text-center"
-            >
+            <a key={channel.label} href={channel.href} className="rounded-3xl border border-white/15 bg-[var(--surface)]/70 p-4 text-center shadow">
               <p className="text-xs uppercase tracking-[0.3em] text-[var(--primary)]">{channel.label}</p>
               <p className="mt-2 text-lg font-semibold">{channel.detail}</p>
             </a>

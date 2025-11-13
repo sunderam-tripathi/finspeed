@@ -14,8 +14,11 @@ export default function TestimonialsPage() {
   const copy = TESTIMONIALS[locale];
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <div className="mx-auto w-full max-w-4xl space-y-10 px-6 py-12">
-        <header className="space-y-4">
+      <div className="pointer-events-none fixed inset-0 opacity-60 blur-3xl">
+        <div className="aurora-gradient" />
+      </div>
+      <div className="relative mx-auto w-full max-w-4xl space-y-10 px-6 py-12">
+        <header className="space-y-4 rounded-[2rem] border border-white/15 bg-[var(--surface)]/85 p-6 shadow-xl shadow-black/10 backdrop-blur">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <BrandMark className="rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" />
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[var(--surface)]/80 p-1 text-xs font-semibold">
@@ -51,13 +54,10 @@ export default function TestimonialsPage() {
           <h2 className="text-2xl font-semibold text-[var(--primary)]">{copy.cta.heading}</h2>
           <p className="mt-3 text-sm text-[var(--foreground-muted)]">{copy.cta.subheading}</p>
           <div className="mt-4 flex justify-center gap-3">
-            <a
-              href="https://instagram.com/finspeed"
-              className="rounded-full border border-[var(--primary)] px-4 py-2 text-sm font-semibold text-[var(--primary)]"
-            >
+            <a href="https://instagram.com/finspeed" className="neon-button neon-button--ghost">
               Instagram
             </a>
-            <a href="mailto:community@finspeed.example" className="rounded-full bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-white">
+            <a href="mailto:community@finspeed.example" className="neon-button">
               Email community team
             </a>
           </div>

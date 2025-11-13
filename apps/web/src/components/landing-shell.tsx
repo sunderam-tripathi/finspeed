@@ -31,6 +31,7 @@ export function LandingShell() {
       <div className="pointer-events-none fixed inset-0 opacity-70 blur-3xl">
         <div className="aurora-gradient" />
       </div>
+      <div className="grid-overlay" />
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-8">
         <Header
           locale={locale}
@@ -64,13 +65,12 @@ function Header({
   onThemeToggle: () => void;
 }) {
   return (
-    <header className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[var(--surface)]/70 p-6 shadow-xl shadow-black/10 backdrop-blur-xl">
+    <header className="flex flex-col gap-4 rounded-[2.5rem] border border-white/10 bg-[var(--surface)]/70 p-6 shadow-xl shadow-black/10 backdrop-blur-xl">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <BrandMark
             tone={theme === 'dark' ? 'dark' : 'light'}
             className="rounded-full border border-white/10 bg-[var(--surface)]/70 px-3 py-1"
-            textClassName="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]"
             priority
           />
           <span className="text-sm text-[var(--foreground-muted)]">Turning pedals into power</span>
@@ -100,9 +100,9 @@ function Header({
 function Hero({ locale }: { locale: LocaleKey }) {
   const copy = HOME_COPY[locale].hero;
   const stats = [
-    { label: 'Studios', value: '120+', detail: 'Certified partners' },
-    { label: 'Service SLA', value: '6 hr', detail: 'Metro response' },
-    { label: 'Warranty', value: '2 yrs', detail: 'Frame coverage' }
+    { label: 'Studios', value: '120+', detail: 'Partner labs online' },
+    { label: 'Telemetry', value: '18M', detail: 'Data points per month' },
+    { label: 'Service SLA', value: '6h', detail: 'Metro response' }
   ];
   return (
     <section
@@ -112,7 +112,10 @@ function Hero({ locale }: { locale: LocaleKey }) {
       <div className="hero-glow" />
       <div className="relative grid gap-12 md:grid-cols-[3fr_2fr]">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-indigo-200">Finspeed</p>
+          <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.5em] text-indigo-200">
+            <span className="rounded-full border border-white/20 px-3 py-1">Finspeed</span>
+            <span className="rounded-full border border-white/20 px-3 py-1">SCN-001 ready</span>
+          </div>
           <h1
             id="hero-title"
             data-testid="hero-heading"
@@ -122,34 +125,47 @@ function Hero({ locale }: { locale: LocaleKey }) {
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-indigo-100">{copy.subheadline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="/dealers"
-              data-testid="dealer-cta"
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-            >
-              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 transition group-hover:scale-125" />
-              {copy.cta}
+            <a href="/dealers" data-testid="dealer-cta" className="neon-button">
+              Connect to dealers
             </a>
-            <a
-              href="/catalog"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/5"
-            >
-              Explore Catalog
+            <a href="/catalog" className="neon-button neon-button--ghost">
+              Explore catalog
             </a>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm uppercase tracking-[0.3em]"
+              >
+                <p className="text-indigo-200">{stat.label}</p>
+                <p className="mt-2 text-3xl font-semibold">{stat.value}</p>
+                <p className="text-xs text-white/70 normal-case tracking-normal">{stat.detail}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-          <p className="text-sm font-semibold uppercase tracking-[0.4em] text-indigo-100">Insights</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.4em] text-indigo-100">Live Telemetry</p>
           <div className="grid gap-4">
-            {stats.map((stat) => (
-              <div key={stat.label} className="flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3 text-white">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-indigo-200">{stat.label}</p>
-                  <p className="text-sm text-indigo-100">{stat.detail}</p>
+            {['Range planning', 'Service load', 'Firmware health'].map((scope, idx) => {
+              const levels = [82, 65, 93];
+              const level = levels[idx];
+              return (
+              <div key={scope} className="rounded-2xl border border-white/15 bg-black/30 p-4">
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-indigo-200">
+                  <span>{scope}</span>
+                  <span className="text-[var(--accent)]">Active</span>
                 </div>
-                <span className="text-3xl font-semibold">{stat.value}</span>
+                <div className="mt-3 flex items-center gap-2 text-white">
+                  <span className="text-2xl font-semibold">{level}%</span>
+                  <div className="h-1 flex-1 rounded-full bg-white/20">
+                    <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-sky-400" style={{ width: `${level}%` }} />
+                  </div>
+                </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -188,18 +204,23 @@ function ProductFamilies() {
 
 function DealerCTA({ ctaLabel }: { ctaLabel: string }) {
   return (
-    <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 p-8 text-center text-white shadow-xl shadow-fuchsia-500/30">
+    <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 p-8 text-white shadow-xl shadow-fuchsia-500/30">
       <div className="cta-rays" />
-      <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/70">Dealer access</p>
-      <h2 className="mt-3 text-3xl font-semibold tracking-tight">Ride-ready within one click</h2>
-      <p className="mt-3 text-base text-white/80">Certified partner studios across India offer demo rides, fittings, and service.</p>
-      <a
-        href="/dealers"
-        className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
-      >
-        <span className="h-2 w-2 animate-pulse rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500" />
-        {ctaLabel}
-      </a>
+      <div className="grid gap-6 md:grid-cols-[2fr,1fr] md:items-center">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/70">Dealer access</p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight">Ride-ready within one click</h2>
+          <p className="mt-3 text-base text-white/80">Certified partner studios across India offer demo rides, fittings, and service.</p>
+        </div>
+        <div className="flex flex-col gap-3 text-sm">
+          <a href="/dealers" className="neon-button bg-white text-slate-900">
+            {ctaLabel}
+          </a>
+          <a href="/support" className="neon-button neon-button--ghost text-white">
+            Contact support
+          </a>
+        </div>
+      </div>
     </section>
   );
 }
@@ -207,10 +228,7 @@ function DealerCTA({ ctaLabel }: { ctaLabel: string }) {
 function SupportFooter({ locale }: { locale: LocaleKey }) {
   const copy = HOME_COPY[locale];
   return (
-    <footer
-      data-testid="support-footer"
-      className="mt-auto rounded-[2.5rem] border border-white/10 bg-[var(--surface)]/80 p-6 shadow-inner shadow-black/10"
-    >
+    <footer data-testid="support-footer" className="mt-auto rounded-[2.5rem] border border-white/10 bg-[var(--surface)]/80 p-6 shadow-inner shadow-black/10">
       <p className="text-base font-semibold text-[var(--primary)]">{copy.supportTitle}</p>
       <div className="mt-4 flex flex-wrap gap-4 text-sm">
         {SUPPORT_CHANNELS.map((channel) => (

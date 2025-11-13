@@ -104,10 +104,15 @@ export default function DealersPage() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <main className="mx-auto w-full max-w-5xl px-6 py-10" role="main">
-        <header className="space-y-2">
-          <BrandMark className="inline-flex rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" textClassName="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]" />
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]">Dealer locator</p>
+      <div className="pointer-events-none fixed inset-0 opacity-60 blur-3xl">
+        <div className="aurora-gradient" />
+      </div>
+      <main className="relative mx-auto w-full max-w-5xl px-6 py-10" role="main">
+        <header className="space-y-2 rounded-[2rem] border border-white/10 bg-[var(--surface)]/85 p-6 shadow-xl shadow-black/10 backdrop-blur">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <BrandMark className="inline-flex rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" priority />
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]">Dealer locator</span>
+          </div>
           <h1 className="text-4xl font-semibold tracking-tight">Ride-ready support across India</h1>
           <p className="text-[var(--foreground-muted)]">
             Search by postal code to find partner studios within {DEFAULT_RADIUS_KM} km. Data derived from the SCN-004 handoff bundle.
