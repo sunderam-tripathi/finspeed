@@ -2,28 +2,28 @@
 
 :root {
   color-scheme: light;
-  --background: radial-gradient(circle at 20% -10%, rgba(255, 255, 255, 0.8), rgba(237, 245, 255, 0.9) 30%, #dbeafe 70%, #d6e4ff 100%);
-  --surface: rgba(255, 255, 255, 0.78);
-  --hero-surface: radial-gradient(circle at 15% 15%, rgba(79, 70, 229, 0.9), rgba(14, 165, 233, 0.6), rgba(15, 23, 42, 0.92));
-  --foreground: #050816;
-  --foreground-muted: #5a6685;
-  --primary: #6366f1;
-  --accent: #22d3ee;
-  --glow: rgba(99, 102, 241, 0.4);
-  --grid-line: rgba(99, 102, 241, 0.08);
+  --background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 45%, #dbeafe 100%);
+  --surface: rgba(255, 255, 255, 0.9);
+  --hero-surface: radial-gradient(circle at 20% 20%, rgba(67, 56, 202, 0.95), rgba(37, 99, 235, 0.75), rgba(15, 23, 42, 0.95));
+  --foreground: #060b1b;
+  --foreground-muted: #5c6a8c;
+  --primary: #4338ca;
+  --accent: #14b8a6;
+  --glow: rgba(100, 116, 255, 0.35);
+  --grid-line: rgba(67, 56, 202, 0.08);
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --background: radial-gradient(circle at 15% -15%, rgba(14, 116, 144, 0.25), rgba(3, 7, 18, 0.95));
-  --surface: rgba(10, 12, 24, 0.9);
-  --hero-surface: radial-gradient(circle at 25% 25%, rgba(15, 118, 110, 0.6), rgba(79, 70, 229, 0.65), rgba(2, 6, 23, 0.95));
+  --background: linear-gradient(160deg, #030712 0%, #0f172a 60%, #111827 100%);
+  --surface: rgba(8, 11, 26, 0.92);
+  --hero-surface: radial-gradient(circle at 25% 25%, rgba(79, 70, 229, 0.8), rgba(14, 116, 144, 0.6), rgba(3, 7, 18, 0.95));
   --foreground: #f8fafc;
-  --foreground-muted: #a3b1da;
+  --foreground-muted: #b5c3ef;
   --primary: #a5b4fc;
-  --accent: #22d3ee;
-  --glow: rgba(165, 180, 252, 0.4);
-  --grid-line: rgba(165, 180, 252, 0.1);
+  --accent: #5eead4;
+  --glow: rgba(165, 180, 252, 0.35);
+  --grid-line: rgba(165, 180, 252, 0.08);
 }
 
 @theme inline {
@@ -100,7 +100,7 @@ article:hover .card-gradient {
   pointer-events: none;
 }
 
-.neon-button {
+.btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -109,24 +109,24 @@ article:hover .card-gradient {
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #050816;
-  background: linear-gradient(135deg, var(--accent), #f472b6);
-  box-shadow: 0 15px 35px rgba(34, 211, 238, 0.35);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 15px 35px rgba(67, 56, 202, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.neon-button:hover {
+.btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 25px 40px rgba(34, 211, 238, 0.4);
+  box-shadow: 0 25px 40px rgba(67, 56, 202, 0.4);
 }
 
-.neon-button--ghost {
+.btn-ghost {
   background: transparent;
   color: var(--foreground);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: none;
 }
 
-.neon-button--ghost:hover {
+.btn-ghost:hover {
   border-color: rgba(255, 255, 255, 0.4);
   background: rgba(255, 255, 255, 0.05);
 }
@@ -137,8 +137,8 @@ article:hover .card-gradient {
   .cta-rays {
     animation: none;
   }
-  .neon-button,
-  .neon-button--ghost {
+  .btn-primary,
+  .btn-ghost {
     transition: none;
   }
 }

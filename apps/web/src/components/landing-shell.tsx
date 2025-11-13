@@ -125,10 +125,10 @@ function Hero({ locale }: { locale: LocaleKey }) {
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-indigo-100">{copy.subheadline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="/dealers" data-testid="dealer-cta" className="neon-button">
+            <a href="/dealers" data-testid="dealer-cta" className="btn-primary">
               Connect to dealers
             </a>
-            <a href="/catalog" className="neon-button neon-button--ghost">
+            <a href="/catalog" className="btn-ghost">
               Explore catalog
             </a>
           </div>
@@ -204,7 +204,7 @@ function ProductFamilies() {
 
 function DealerCTA({ ctaLabel }: { ctaLabel: string }) {
   return (
-    <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 p-8 text-white shadow-xl shadow-fuchsia-500/30">
+    <section className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] p-8 text-white shadow-xl shadow-indigo-500/30">
       <div className="cta-rays" />
       <div className="grid gap-6 md:grid-cols-[2fr,1fr] md:items-center">
         <div>
@@ -213,10 +213,10 @@ function DealerCTA({ ctaLabel }: { ctaLabel: string }) {
           <p className="mt-3 text-base text-white/80">Certified partner studios across India offer demo rides, fittings, and service.</p>
         </div>
         <div className="flex flex-col gap-3 text-sm">
-          <a href="/dealers" className="neon-button bg-white text-slate-900">
+          <a href="/dealers" className="btn-primary bg-white text-slate-900">
             {ctaLabel}
           </a>
-          <a href="/support" className="neon-button neon-button--ghost text-white">
+          <a href="/support" className="btn-ghost text-white border-white/40">
             Contact support
           </a>
         </div>

@@ -4,7 +4,7 @@ link: </_next/static/media/797e433ab948586e-s.p.dbea232f.woff2>; rel=preload; as
 Cache-Control: no-store, must-revalidate
 X-Powered-By: Next.js
 Content-Type: text/html; charset=utf-8
-Date: Thu, 13 Nov 2025 18:29:27 GMT
+Date: Thu, 13 Nov 2025 18:42:26 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 
