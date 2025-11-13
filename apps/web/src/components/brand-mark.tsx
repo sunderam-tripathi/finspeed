@@ -16,17 +16,15 @@ export function BrandMark({
   tone = 'light',
   label = 'Finspeed',
   className = '',
-  textClassName = 'text-sm font-semibold tracking-tight text-[var(--foreground)]',
   priority
 }: BrandMarkProps) {
   const mark = tone === 'dark' ? markDark : markLight;
   const wordmark = tone === 'dark' ? wordmarkDark : wordmarkLight;
-  const container = ['inline-flex items-center gap-3', className].filter(Boolean).join(' ');
+  const container = ['inline-flex items-center gap-2', className].filter(Boolean).join(' ');
   return (
     <span className={container} aria-label={label} role="img">
-      <Image src={mark} alt="" aria-hidden width={32} height={32} className="h-8 w-8" priority={priority} />
-      <Image src={wordmark} alt="" aria-hidden width={140} height={36} className="h-6 w-auto" priority={priority} />
-      <span className={textClassName}>{label}</span>
+      <Image src={mark} alt="" aria-hidden width={28} height={28} className="h-7 w-7" priority={priority} />
+      <Image src={wordmark} alt="" aria-hidden width={130} height={32} className="h-5 w-auto" priority={priority} />
     </span>
   );
 }
