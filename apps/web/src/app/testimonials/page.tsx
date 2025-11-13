@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TESTIMONIALS } from '@/data/testimonials';
+import { BrandMark } from '@/components/brand-mark';
 
 const locales = [
   { key: 'en' as const, label: 'English' },
@@ -15,8 +16,8 @@ export default function TestimonialsPage() {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <div className="mx-auto w-full max-w-4xl space-y-10 px-6 py-12">
         <header className="space-y-4">
-          <div className="flex justify-between">
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]">Testimonials</span>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <BrandMark className="rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" />
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[var(--surface)]/80 p-1 text-xs font-semibold">
               {locales.map(({ key, label }) => (
                 <button

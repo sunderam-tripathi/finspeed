@@ -1,10 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import wordmarkLight from '@/assets/brand/finspeed-wordmark-light.svg';
-import wordmarkDark from '@/assets/brand/finspeed-wordmark-dark.svg';
 import { HOME_COPY, LocaleKey, NAV_LINKS, PRODUCT_FAMILIES, SUPPORT_CHANNELS } from '@/data/content';
+import { BrandMark } from '@/components/brand-mark';
 
 type Theme = 'light' | 'dark';
 
@@ -69,14 +67,12 @@ function Header({
     <header className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[var(--surface)]/70 p-6 shadow-xl shadow-black/10 backdrop-blur-xl">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[var(--surface)]/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]">
-            <Image
-              src={theme === 'dark' ? wordmarkDark : wordmarkLight}
-              alt="Finspeed"
-              className="h-6 w-auto"
-              priority
-            />
-          </span>
+          <BrandMark
+            tone={theme === 'dark' ? 'dark' : 'light'}
+            className="rounded-full border border-white/10 bg-[var(--surface)]/70 px-3 py-1"
+            textClassName="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]"
+            priority
+          />
           <span className="text-sm text-[var(--foreground-muted)]">Turning pedals into power</span>
         </div>
         <div className="flex items-center gap-3">

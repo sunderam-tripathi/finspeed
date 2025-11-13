@@ -7,6 +7,7 @@ import { logAnalyticsEvent, setConsent } from '@/lib/analytics';
 import { useConsent } from '@/lib/consent';
 import { DealerMap } from '@/components/dealer-map';
 import { DEALER_GEOJSON } from '@/data/dealer-geojson';
+import { BrandMark } from '@/components/brand-mark';
 
 type DealerFeature = (typeof DEALER_GEOJSON)['features'][number];
 
@@ -105,6 +106,7 @@ export default function DealersPage() {
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       <main className="mx-auto w-full max-w-5xl px-6 py-10" role="main">
         <header className="space-y-2">
+          <BrandMark className="inline-flex rounded-full border border-white/15 bg-[var(--surface)]/80 px-3 py-1" textClassName="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]" />
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--primary)]">Dealer locator</p>
           <h1 className="text-4xl font-semibold tracking-tight">Ride-ready support across India</h1>
           <p className="text-[var(--foreground-muted)]">
