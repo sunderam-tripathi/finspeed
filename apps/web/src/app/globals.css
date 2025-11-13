@@ -95,31 +95,6 @@ article:hover .card-gradient {
   animation: rotate-rays 20s linear infinite;
 }
 
-.hero-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.35;
-}
-
-.hero-lines::before,
-.hero-lines::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-}
-
-.hero-lines::before {
-  left: 25%;
-}
-
-.hero-lines::after {
-  left: 55%;
-}
-
 .futuristic-title {
   font-size: clamp(2.5rem, 4vw, 4.75rem);
   font-weight: 600;

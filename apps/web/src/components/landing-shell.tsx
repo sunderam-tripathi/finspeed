@@ -111,7 +111,6 @@ function Hero({ locale }: { locale: LocaleKey }) {
   return (
     <section className="relative overflow-hidden rounded-[2.5rem] border border-[var(--panel-border)] bg-[var(--hero-surface)] p-10 text-white shadow-[0_30px_120px_-50px_rgba(79,70,229,0.9)]" aria-labelledby="hero-title">
       <div className="hero-glow" />
-      <div className="hero-lines" />
       <div className="relative grid gap-12 lg:grid-cols-[3fr,2fr]">
         <div className="space-y-8">
           <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.5em] text-indigo-200">
