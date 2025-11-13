@@ -1,0 +1,3 @@
+- Internal update template
+- External update template
+- Status page snippet

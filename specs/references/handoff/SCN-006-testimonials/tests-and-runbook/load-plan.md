@@ -1,0 +1,4 @@
+- **Profile**: 40 concurrent sessions engaging with carousel across home + catalog pages for 20 minutes using Playwright loops.
+- **Budgets**: Frame budget ≥ 30fps on mobile, CPU main-thread blocks < 100ms per interaction, additional JS ≤ 20KB.
+- **Monitoring**: Track GA4 slide impressions (≥ 2 slides per session), monitor console for focus warnings, ensure autoplay queue memory stable.
+- **Fallback**: If FPS drops, disable autoplay for all users and reduce simultaneous renders to single slide layout.

@@ -1,0 +1,11 @@
+openapi: 3.0.1
+info:
+  title: Slice HTTP API
+  version: v1
+paths:
+  /resource:
+    get:
+      summary: Retrieve resource
+      responses:
+        '200':
+          description: OK

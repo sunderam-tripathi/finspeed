@@ -1,0 +1,10 @@
+%% context.mmd
+flowchart LR
+  visitor[Prospective rider] -->|Reads| brandPage[Brand story page `/brand-story`]
+  brandPage -->|Served via| cdn[Static CDN]
+  brandPage -->|Loads content| brandJSON[BRAND-001 JSON]
+  brandPage -->|Loads images| assetCDN[Asset bucket]
+  brandPage -->|Emits scroll + CTA events| ga4[Google Analytics 4]
+  brandPage -->|Links| dealers[/dealers], support[/support]
+  marketing[Marketing devs] -->|Maintain MDX + metrics JSON| repo[Git content repo]
+  repo -->|Static build| brandJSON

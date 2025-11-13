@@ -1,0 +1,13 @@
+sequenceDiagram
+  participant V as Visitor
+  participant C as Carousel
+  participant A as AnalyticsEmitter
+  participant GA as GA4
+
+  V->>C: Toggle autoplay ON
+  C->>C: Verify `prefers-reduced-motion` (allow)
+  C->>A: emit testimonial_autoplay_toggled {enabled:true}
+  A-->>GA: POST measurement payload
+  C->>C: Start slide timer (8s)
+  C-->>V: Advance to next testimonial after timer
+  C->>A: emit testimonial_slide_view {testimonial_id:"mtb-anita", position:2, autoplay:true}

@@ -1,0 +1,4 @@
+[
+  {"sha": "pass-1", "message": "docs(repo): enforce CI lint REPO-002"},
+  {"sha": "pass-2", "message": "chore(ci): add job FIN-100"}
+]

@@ -1,0 +1,16 @@
+%% component.mmd
+flowchart TB
+  layout[AppLayout shell]
+  layout --> nav[NavigationPresenter (`IC-8`)]
+  layout --> hero[Hero module]
+  layout --> dealerCTA[Dealer CTA strip]
+  layout --> footer[Footer links]
+  layout --> localeMgr[LocaleManager (`IC-6`)]
+  layout --> themeToggle[ThemeToggle control]
+  localeMgr --> localeStore[LocaleStore (cookie + Accept-Language)]
+  localeMgr --> translations[Locale JSON loader]
+  nav --> navConfig[nav.config.ts (frozen sitemap)]
+  nav --> analyticsEmitter[AnalyticsEmitter (`site.interaction.analytics.v1`)]
+  dealerCTA --> analyticsEmitter
+  themeToggle --> analyticsEmitter
+  hero --> heroContent[hero.json content]

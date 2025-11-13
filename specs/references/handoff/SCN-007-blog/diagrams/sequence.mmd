@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant V as Visitor
+  participant L as BlogListing
+  participant A as BlogArticle
+  participant E as AnalyticsEmitter
+  participant GA as GA4
+  participant F as Formspree
+
+  V->>L: Click tag "Tech"
+  L->>E: emit blog_tag_filter {tag:"Tech", result_count:4}
+  E-->>GA: POST measurement payload
+  V->>L: Click article card "Solar Charging for E-bikes"
+  L->>A: Navigate to article page
+  A->>E: emit blog_article_read {slug:"solar-charging", read_percent:25}
+  V->>A: Scroll to subscription banner
+  A->>F: POST hashed email via IC-7
+  A->>E: emit blog_subscription_banner {action:"submit", consent_granted:true}
+  F-->>A: 200 OK

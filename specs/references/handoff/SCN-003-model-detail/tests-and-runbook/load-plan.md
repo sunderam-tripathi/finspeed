@@ -1,0 +1,4 @@
+- **Profile**: 50 concurrent model detail sessions (Storm 29 + Road Racer) over 10 min ramp, 30 min soak using k6 hitting exported static pages via CDN.
+- **Budgets**: LCP ≤ 2.5s (mobile emulation), TTFB ≤ 0.5s from CDN, hero media fetched ≤ 300KB per locale, Next.js bundle ≤ 160KB gzip.
+- **Monitoring**: Capture JSON-LD validation errors, GA4 event throughput (≥ 95% success), and CloudFront cache hit ratio ≥ 95%.
+- **Fallback**: If load exceeds budgets, reduce hero media size or disable autoplay gallery via feature flag and redeploy.

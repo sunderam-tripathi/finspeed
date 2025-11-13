@@ -1,0 +1,3 @@
+- Timeout injection
+- Dependency loss
+- Backpressure scenarios

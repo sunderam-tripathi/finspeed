@@ -1,0 +1,4 @@
+- Producer: <team/service>
+- Consumer: <team/service>
+- Permissions: <read/write scope>
+- Justification: <reason>

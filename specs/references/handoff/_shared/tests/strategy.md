@@ -1,0 +1,2 @@
+- Unit -> Integration -> Contract -> E2E -> Performance -> Chaos
+- Document scope, tooling, and automation owners for each layer.

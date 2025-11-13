@@ -1,0 +1,3 @@
+- Use this space to capture discovery prompts and follow-up questions.
+- Tag each question with the stakeholder or system it targets.
+- Track which questions remain unanswered after interviews.

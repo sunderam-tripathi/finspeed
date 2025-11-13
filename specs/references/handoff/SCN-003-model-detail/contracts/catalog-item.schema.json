@@ -1,0 +1,45 @@
+{
+  "$id": "https://finspeed.online/data/catalog-item.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "catalog-item",
+  "type": "object",
+  "required": [
+    "product",
+    "variant",
+    "category",
+    "frame",
+    "price_inr",
+    "warranty",
+    "service_plan",
+    "finance"
+  ],
+  "properties": {
+    "product": { "type": "string", "minLength": 1 },
+    "variant": { "type": "string", "minLength": 1 },
+    "category": {
+      "type": "string",
+      "enum": ["ATB", "MTB", "Road Racer"]
+    },
+    "frame": { "type": "string" },
+    "fork": { "type": ["string", "null"] },
+    "brakes": { "type": ["string", "null"] },
+    "wheels": { "type": ["string", "null"] },
+    "tyres": { "type": ["string", "null"] },
+    "gears": { "type": ["string", "null"] },
+    "notes": { "type": ["string", "null"] },
+    "price_inr": { "type": "integer", "minimum": 0 },
+    "warranty": {
+      "type": "string",
+      "pattern": "2-year frame warranty"
+    },
+    "service_plan": {
+      "type": "string",
+      "pattern": "2 complimentary services within first 6 months"
+    },
+    "finance": {
+      "type": "string",
+      "pattern": "EMI facility available on major credit cards"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,119 @@
+{
+  "$id": "https://finspeed.online/events/site.interaction.analytics.v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "site.interaction.analytics.v1",
+  "type": "object",
+  "required": ["event_name", "event_time", "locale", "payload"],
+  "properties": {
+    "event_name": {
+      "type": "string",
+      "enum": [
+        "dealer_directions_click",
+        "support_whatsapp_click",
+        "support_email_click",
+        "blog_subscription_submit",
+        "language_change",
+        "primary_nav_click",
+        "theme_toggle",
+        "catalog_filter_applied",
+        "catalog_compare_opened",
+        "catalog_compare_removed",
+        "model_dealer_cta_click",
+        "model_gallery_interaction",
+        "model_specs_copy",
+        "model_jsonld_validation_error",
+        "dealer_search_submitted",
+        "dealer_contact_action",
+        "dealer_no_results",
+        "brand_timeline_scroll_depth",
+        "brand_metric_hover",
+        "brand_cta_click",
+        "testimonial_slide_view",
+        "testimonial_autoplay_toggled",
+        "testimonial_category_filter",
+        "blog_tag_filter",
+        "blog_article_read",
+        "blog_subscription_banner",
+        "support_channel_click",
+        "support_faq_search",
+        "support_incident_banner_view"
+      ]
+    },
+    "event_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "locale": {
+      "type": "string",
+      "enum": ["en", "hi"]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dealer_id": { "type": ["string", "null"] },
+        "model_slug": { "type": ["string", "null"] },
+        "subscription_email_hash": { "type": ["string", "null"], "description": "Optional SHA-256 hash before sending to GA" },
+        "from_locale": { "type": ["string", "null"], "enum": ["en", "hi"] },
+        "to_locale": { "type": ["string", "null"], "enum": ["en", "hi"] },
+        "cta_id": { "type": ["string", "null"], "description": "Slug for CTA clicked (e.g., dealers, support_email, compare)" },
+        "position": { "type": ["string", "null"], "enum": ["top_nav", "drawer", "footer", "hero", "filter_panel", "catalog_card"] },
+        "theme": { "type": ["string", "null"], "enum": ["light", "dark"] },
+        "consent_granted": { "type": ["boolean", "null"] },
+        "filter_id": { "type": ["string", "null"], "description": "Facet key for catalog filter (e.g., frame, brakes)" },
+        "filter_value": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": { "type": "string" },
+          "description": "Selected values for the facet"
+        },
+        "results_count": { "type": ["integer", "null"], "minimum": 0 },
+        "comparison_models": {
+          "type": ["array", "null"],
+          "items": { "type": "string" },
+          "description": "Ordered list of model slugs currently in comparison"
+        },
+        "removed_model": { "type": ["string", "null"], "description": "Model slug removed from comparison" },
+        "postal_code_prefix": {
+          "type": ["string", "null"],
+          "description": "First 3-4 characters of postal code for aggregation"
+        },
+        "radius_km": { "type": ["number", "null"], "minimum": 0 },
+        "filters": {
+          "type": ["array", "null"],
+          "items": { "type": "string" },
+          "description": "Applied filters or tags"
+        },
+        "channel": { "type": ["string", "null"], "description": "Support or contact channel identifier" },
+        "asset_type": {
+          "type": ["string", "null"],
+          "enum": ["image", "video", "360", "gallery"],
+          "description": "Media type interacted with"
+        },
+        "frame_index": { "type": ["integer", "null"], "minimum": 0 },
+        "section": { "type": ["string", "null"], "description": "Page section or spec group" },
+        "error_code": { "type": ["string", "null"], "description": "Client-side error code or key" },
+        "percent": {
+          "type": ["integer", "null"],
+          "enum": [25, 50, 75, 100],
+          "description": "Progress bucket for scroll/read metrics"
+        },
+        "metric_id": { "type": ["string", "null"], "description": "Identifier for brand metric tile" },
+        "target": { "type": ["string", "null"], "description": "CTA destination (e.g., dealers, support)" },
+        "testimonial_id": { "type": ["string", "null"], "description": "Identifier for testimonial content" },
+        "autoplay": { "type": ["boolean", "null"] },
+        "enabled": { "type": ["boolean", "null"], "description": "Toggle state" },
+        "category": { "type": ["string", "null"], "description": "Content category/tag" },
+        "tag": { "type": ["string", "null"], "description": "Blog tag selected" },
+        "read_percent": {
+          "type": ["integer", "null"],
+          "enum": [25, 50, 75, 100],
+          "description": "Read completion bucket"
+        },
+        "banner_id": { "type": ["string", "null"], "description": "Identifier for support incident banner" }
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "domain": "repo",
+  "objectives": [
+    "Enforce commit hygiene and guard behavior via hooks",
+    "Ensure commits reference active slice IDs"
+  ],
+  "scope": {
+    "in": [".githooks/**", "tools/spec/**", "specs/contracts/repo/**", "specs/notes/plans/repo/**", "specs/proofs/repo/**", "AGENTS/**", "specs/project-progress/**"],
+    "out": ["apps/**", "pkg/**"]
+  },
+  "acceptance_criteria": [
+    "Commit messages include active slice ID when ACTIVE",
+    "commit-msg hook rejects non-conforming messages",
+    "Proof includes pass/fail logs"
+  ],
+  "slices": [
+    {
+      "id": "REPO-001",
+      "title": "Commit message enforcement",
+      "done_definition": [
+        "commit-msg hook added and integrated",
+        "Verifier checks active slice ID",
+        "Proof demonstrates acceptance and rejection"
+      ],
+      "allow": [
+        ".githooks/**",
+        "tools/spec/verify-commit-msg.mjs",
+        "specs/contracts/repo/**",
+        "specs/notes/plans/repo/REPO-001.md",
+        "specs/proofs/repo/REPO-001/**",
+        "AGENTS/**",
+        "specs/project-progress/**"
+      ]
+    },
+    {
+      "id": "REPO-002",
+      "title": "CI commit message lint",
+      "done_definition": [
+        "CI job checks commit messages across push/PR range",
+        "Verifier script supports git ranges and message fixtures",
+        "Proof captures pass/fail logs"
+      ],
+      "allow": [
+        ".github/workflows/**",
+        "tools/spec/lib/**",
+        "tools/spec/verify-commit-msg.mjs",
+        "tools/spec/verify-commit-range.mjs",
+        "specs/contracts/repo/**",
+        "specs/notes/plans/repo/REPO-002.md",
+        "specs/proofs/repo/REPO-002/**",
+        "AGENTS/**",
+        "specs/project-progress/**"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+- **Profile**: 80 concurrent visitors paginating the blog and reading articles for 30 minutes using k6 + Playwright (desktop/mobile split).
+- **Budgets**: Listing LCP ≤ 2.8s mobile, article hydration under 1s, incremental static regeneration < 60s for new content.
+- **Monitoring**: Track GA4 read depth (≥ 40% hit 50% completion), monitor Formspree success rate, watch for route change regressions.
+- **Fallback**: If ISR misses, trigger manual `npm run revalidate` or temporarily serve static export without search; disable subscription banner if Formspree errors exceed 5%.

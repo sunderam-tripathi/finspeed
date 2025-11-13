@@ -1,0 +1,72 @@
+{
+  "domain": "docs",
+  "objectives": [
+    "Provide documentation scaffolding and workflow guides"
+  ],
+  "scope": {
+    "in": ["AGENTS/**", "specs/**", ".github/**", "tools/**"],
+    "out": ["apps/**", "pkg/**"]
+  },
+  "acceptance_criteria": [
+    "Charter modules present",
+    "Guard scripts enforce allow-list",
+    "CI workflow runs guard checks",
+    "Reference library indexed for handoff packs"
+  ],
+  "slices": [
+    {
+      "id": "DOCS-001",
+      "title": "Bootstrap workflow skeleton",
+      "done_definition": [
+        "Charter and runbooks added",
+        "Guard scripts and hooks available",
+        "CI guard workflow green"
+      ],
+      "allow": [
+        "AGENTS/**",
+        "specs/**",
+        ".github/**",
+        "tools/**",
+        "Makefile",
+        ".gitignore",
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "DOCS-002",
+      "title": "Reference library index",
+      "done_definition": [
+        "Top-level references README documents categories",
+        "Handoff packs enumerated with key metadata",
+        "Category stub checklist created",
+        "Proof includes artefact inventory"
+      ],
+      "allow": [
+        "AGENTS/**",
+        "specs/references/**",
+        "specs/notes/plans/docs/DOCS-002.md",
+        "specs/proofs/docs/DOCS-002/**",
+        "specs/project-progress/**"
+      ]
+    },
+    {
+      "id": "DOCS-003",
+      "title": "Reference integrity automation",
+      "done_definition": [
+        "Validator script ensures every SCN pack is indexed",
+        "CI guard runs validator",
+        "Proof captures pass/fail samples"
+      ],
+      "allow": [
+        "specs/references/**",
+        "tools/spec/validate-references.mjs",
+        "specs/notes/plans/docs/DOCS-003.md",
+        "specs/proofs/docs/DOCS-003/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        ".github/workflows/**"
+      ]
+    }
+  ]
+}

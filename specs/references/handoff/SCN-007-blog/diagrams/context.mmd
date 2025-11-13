@@ -1,0 +1,11 @@
+%% context.mmd
+flowchart LR
+  reader[Visitor] -->|Browses| blogListing[Blog listing `/blog`]
+  reader -->|Reads| blogArticle[Blog article `/blog/{slug}`]
+  blogListing -->|Loads content| blogIndex[BLOG-001 index JSON]
+  blogArticle -->|Loads content| blogArticleJSON[Article JSON]
+  blogArticle -->|Emits events| ga4[Google Analytics 4]
+  blogListing -->|Submits form| formspree[Formspree]
+  blogArticle -->|Links to| catalog[/catalog]
+  editors[Marketing devs] -->|Commit MDX| repo[Git content repo]
+  repo -->|Build| blogIndex

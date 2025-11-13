@@ -1,0 +1,17 @@
+sequenceDiagram
+  participant Visitor as Visitor browser
+  participant LocaleManager as LocaleManager (IC-6)
+  participant Router as Next.js Router
+  participant Consent as ConsentStore
+  participant Analytics as GA4
+
+  Visitor->>LocaleManager: Select "हिन्दी"
+  LocaleManager->>Consent: Check consent granted?
+  alt consent granted
+    LocaleManager->>LocaleManager: Persist cookie locale=hi (180d)
+  else no consent
+    LocaleManager->>LocaleManager: Skip cookie write
+  end
+  LocaleManager->>Router: Navigate to /hi
+  Router-->>Visitor: Render localized content (fallback to en if missing keys)
+  LocaleManager->>Analytics: Emit site.interaction.analytics.v1(language_change)

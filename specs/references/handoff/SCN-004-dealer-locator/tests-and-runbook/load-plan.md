@@ -1,0 +1,4 @@
+- **Profile**: Simulate 75 concurrent visitors performing search + filter flows over 15 min ramp, 45 min soak using Playwright/k6 hybrid against deployed CDN.
+- **Budgets**: Search response < 500ms p95, map tile load success ≥ 99%, GA4 event drop rate < 5%, memory footprint stable (< 120MB) in Lighthouse traces.
+- **Monitoring**: Track GA4 funnel for search → directions clicks, monitor Formspree quota usage, watch Leaflet error logs; capture map tile failures in Sentry.
+- **Fallback**: If OSM tiles degrade, switch to text-only list (feature flag `dealerLocator.mapEnabled=false`) and post status message; escalate to support ops within 15 minutes.

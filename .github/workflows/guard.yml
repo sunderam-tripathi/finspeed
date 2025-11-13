@@ -1,0 +1,46 @@
+name: Guard & CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        run: npm install
+      - name: Check active slice
+        run: node tools/spec/check-active-slice.mjs || true
+      - name: Verify scope guard
+        env:
+          VERIFY_MODE: ci
+        run: node tools/spec/verify-active-slice.mjs
+      - name: Commit message lint
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          BASE="$BASE_SHA"
+          if [ -z "$BASE" ]; then
+            BASE=$(git rev-list --max-parents=0 HEAD | head -n 1)
+          fi
+          node tools/spec/verify-commit-range.mjs --base "$BASE" --head "$GITHUB_SHA"
+      - name: Install Playwright browsers
+        working-directory: apps/web
+        run: npx playwright install --with-deps chromium
+      - name: Run web contract tests
+        run: npm run test -w web
+      - name: Validate references
+        run: npm run spec:validate-references
+      - name: Generate progress & index
+        run: |
+          node tools/spec/progress.mjs || true
+          node tools/spec/slice-index.mjs || true

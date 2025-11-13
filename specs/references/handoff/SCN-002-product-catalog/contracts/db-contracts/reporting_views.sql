@@ -1,0 +1,1 @@
+-- Define reporting views for the slice.

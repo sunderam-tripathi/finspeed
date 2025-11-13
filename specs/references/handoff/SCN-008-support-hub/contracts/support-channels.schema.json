@@ -1,0 +1,32 @@
+{
+  "$id": "https://finspeed.online/data/support-channels.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CONTACT-001 support channels",
+  "type": "object",
+  "required": ["domain", "support_email", "whatsapp_link", "support_hours", "response_sla", "owner"],
+  "additionalProperties": false,
+  "properties": {
+    "domain": { "type": "string", "format": "hostname" },
+    "support_email": { "type": "string", "format": "email" },
+    "whatsapp_link": { "type": "string", "pattern": "^https://wa\.me/[0-9]+$" },
+    "support_hours": { "type": "string" },
+    "response_sla": { "type": "string", "pattern": "^PT[0-9]+H$" },
+    "owner": { "type": "string" },
+    "phone": { "type": ["string", "null"] },
+    "channels": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "description", "sla"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "sla": { "type": "string" },
+          "endpoint": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

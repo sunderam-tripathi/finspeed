@@ -1,0 +1,6 @@
+service: Formspree
+endpoint: https://formspree.io/f/finspeed-newsletter
+storage: Formspree secure store (export via CSV)
+owner: Finspeed Developers
+cost: Free tier (up to 50 submissions/month)
+notes: Upgrade plan when exceeding quota; ensure privacy notice references Formspree processing

@@ -1,0 +1,12 @@
+%% context.mmd
+flowchart LR
+  visitor[Visitor] -->|Opens| supportHub[Support hub `/support`]
+  supportHub -->|Reads| supportConfig[CONTACT-001 config]
+  supportHub -->|Loads| faqContent[FAQ-001 JSON]
+  supportHub -->|Emits events| ga4[Google Analytics 4]
+  supportHub -->|Deep links| whatsapp[WhatsApp], email[Mail client], phone[Dialer]
+  supportHub -->|Fetches status| statusJSON[status/support.json]
+  ops[Support ops] -->|Update| statusJSON
+  marketing[Marketing devs] -->|Maintain contact + FAQ data| repo[Git content repo]
+  repo -->|Build| supportConfig
+  repo -->|Build| faqContent

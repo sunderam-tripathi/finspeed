@@ -1,0 +1,31 @@
+{
+  "name": "finspeed-lean-workflow",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "spec:check-active": "node tools/spec/check-active-slice.mjs",
+    "spec:set-active": "node tools/spec/set-active-slice.mjs",
+    "spec:verify": "node tools/spec/verify-active-slice.mjs",
+    "spec:agents-load": "node tools/spec/agents-load.mjs",
+    "spec:plan-generate": "node tools/spec/plan/generate-plan.mjs",
+    "spec:plan-lint": "node tools/spec/plan/lint-plan.mjs",
+    "spec:progress": "node tools/spec/progress.mjs",
+    "spec:slice-index": "node tools/spec/slice-index.mjs",
+    "spec:validate-references": "node tools/spec/validate-references.mjs",
+    "dev:parity": "node tools/dev/parity-stack.mjs ensure",
+    "dev:managed": "node tools/dev/run-managed.mjs",
+    "dev:sudo-request": "node tools/dev/sudo-request.mjs",
+    "setup:githooks": "git config core.hooksPath .githooks",
+    "deploy": "echo \"Deploy placeholder\""
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.8.0"
+  },
+  "dependencies": {
+    "minimatch": "^10.1.1"
+  }
+}

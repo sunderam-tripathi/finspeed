@@ -1,0 +1,415 @@
+{
+  "domain": "web",
+  "objectives": [
+    "Deliver the Finspeed marketing experience described in SCN handoff packs",
+    "Encode locale-aware, accessible UI shells that align with brand guardrails"
+  ],
+  "scope": {
+    "in": [
+      "apps/web/**",
+      "specs/contracts/web/**",
+      "specs/notes/plans/web/**",
+      "specs/proofs/web/**",
+      "specs/references/**",
+      "AGENTS/**",
+      "specs/project-progress/**",
+      "tools/**"
+    ],
+    "out": [
+      "apps/api/**",
+      "infra/**"
+    ]
+  },
+  "acceptance_criteria": [
+    "Site shell reads from reference content",
+    "Internationalization + theming controls match brand contract",
+    "Proof demonstrates parity (local) plus guard compliance"
+  ],
+  "slices": [
+    {
+      "id": "WEB-001",
+      "title": "Site shell (SCN-001)",
+      "done_definition": [
+        "Next.js app scaffolded under apps/web",
+        "Hero + navigation implements SCN-001 copy with EN/HI toggle",
+        "Theme toggle respects system preference",
+        "CTA routes to dealer locator placeholder",
+        "Lint passes"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/references/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-001.md",
+        "specs/proofs/web/WEB-001/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile"
+      ]
+    },
+    {
+      "id": "WEB-002",
+      "title": "Contract tests (SCN-001)",
+      "done_definition": [
+        "Playwright configured for apps/web",
+        "Contract tests assert hero, language toggle, nav CTA per IC-6/IC-8",
+        "CI job executes tests",
+        "Proof captures test logs"
+      ],
+      "allow": [
+        "apps/web/tests/**",
+        "apps/web/playwright.config.ts",
+        "apps/web/package.json",
+        "apps/web/tsconfig.json",
+        "apps/web/src/**",
+        "specs/notes/plans/web/WEB-002.md",
+        "specs/proofs/web/WEB-002/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        ".github/workflows/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-003",
+      "title": "Dealer locator shell (SCN-004)",
+      "done_definition": [
+        "Dedicated /dealers route renders search form + results",
+        "Postal validation + 20km default radius implemented",
+        "Dealer list seeded from SCN-004 reference data",
+        "Outage/empty states show support contact",
+        "Proof documents behaviour"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-003.md",
+        "specs/proofs/web/WEB-003/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "WEB-004",
+      "title": "Dealer locator contract tests",
+      "done_definition": [
+        "Playwright suite covers postal validation, outage banner, dealer cards",
+        "Schema validation ensures dealer data matches reference",
+        "CI executes new tests",
+        "Proof includes logs"
+      ],
+      "allow": [
+        "apps/web/tests/**",
+        "apps/web/playwright.config.ts",
+        "apps/web/src/**",
+        "specs/notes/plans/web/WEB-004.md",
+        "specs/proofs/web/WEB-004/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".github/workflows/**"
+      ]
+    },
+    {
+      "id": "WEB-005",
+      "title": "Dealer locator analytics",
+      "done_definition": [
+        "Consent-aware analytics dispatcher for dealer events",
+        "DataLayer/console fallback implemented",
+        "Playwright asserts GA payload structure",
+        "Proof captures logs"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-005.md",
+        "specs/proofs/web/WEB-005/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "specs/references/**",
+        ".github/workflows/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-006",
+      "title": "Dealer locator map",
+      "done_definition": [
+        "/dealers displays interactive map placeholder honoring IC-12 layout",
+        "Service radius visualization and dealer focus implemented",
+        "Outage + fallback logic controls map state",
+        "Proof captures UI screenshots/logs"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/public/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-006.md",
+        "specs/proofs/web/WEB-006/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-007",
+      "title": "Consent + GA4 integration",
+      "done_definition": [
+        "Consent banner or stub toggles analytics logging",
+        "GA4 dispatcher posts to mock endpoint/dataLayer",
+        "Tests verify consent gating",
+        "Proof documents flows"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-007.md",
+        "specs/proofs/web/WEB-007/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "specs/references/**",
+        ".github/workflows/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-008",
+      "title": "Brand story page (SCN-005)",
+      "done_definition": [
+        "Create /brand-story route with hero timeline and mission copy",
+        "Bilingual support (EN/HI) referencing SCN-005 hero copy",
+        "Reinforce brand promises/testimonials",
+        "Proof includes screenshots/logs"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-008.md",
+        "specs/proofs/web/WEB-008/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-009",
+      "title": "Testimonials page (SCN-006)",
+      "done_definition": [
+        "Create /testimonials route with bilingual quotes",
+        "Highlight rider stories + CTA",
+        "Proof references SCN-006 pack"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-009.md",
+        "specs/proofs/web/WEB-009/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-010",
+      "title": "Blog landing (SCN-007)",
+      "done_definition": [
+        "Create /blog route listing bilingual posts",
+        "CTA highlights editorial calendar",
+        "Proof cites SCN-007 pack"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-010.md",
+        "specs/proofs/web/WEB-010/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-011",
+      "title": "Support hub (SCN-008)",
+      "done_definition": [
+        "Create /support route with contact matrix",
+        "Bilingual copy for chat/email/FAQ links",
+        "Proof cites SCN-008 pack"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-011.md",
+        "specs/proofs/web/WEB-011/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-012",
+      "title": "Dealer locator live map",
+      "done_definition": [
+        "Map pulls geoJSON from reference data",
+        "Pins highlight selection + radius",
+        "Proof includes screenshots/logs"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-012.md",
+        "specs/proofs/web/WEB-012/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-013",
+      "title": "Dealer locator analytics enrichment",
+      "done_definition": [
+        "Map interactions emit GA events with coords",
+        "Playwright verifies payload structure",
+        "Proof updated"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-013.md",
+        "specs/proofs/web/WEB-013/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-014",
+      "title": "Dealer locator outage automation",
+      "done_definition": [
+        "Outage banner logs GA events",
+        "Playwright verifies outage analytics",
+        "Proof updated"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-014.md",
+        "specs/proofs/web/WEB-014/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-015",
+      "title": "Dealer locator data API",
+      "done_definition": [
+        "Load dealer data from remote API stub",
+        "Fallback when API unavailable",
+        "Proof updated"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-015.md",
+        "specs/proofs/web/WEB-015/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-016",
+      "title": "Dealer locator deploy automation",
+      "done_definition": [
+        "Add deployment script/CI target",
+        "Proof documents deployment run",
+        "Telemetry updated"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/notes/plans/web/WEB-016.md",
+        "specs/proofs/web/WEB-016/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".github/**"
+      ]
+    },
+    {
+      "id": "WEB-017",
+      "title": "Dealer locator accessibility sweep",
+      "done_definition": [
+        "Run axe accessibility checks",
+        "Fix ARIA issues on /dealers",
+        "Proof updated"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/tests/**",
+        "specs/notes/plans/web/WEB-017.md",
+      "specs/proofs/web/WEB-017/**",
+      "AGENTS/**",
+      "AGENTS.md",
+      "specs/project-progress/**",
+      "tools/**",
+      "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    }
+  ]
+}

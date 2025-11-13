@@ -1,0 +1,44 @@
+{
+  "locale": "en",
+  "last_updated": "2025-11-04",
+  "testimonials": [
+    {
+      "id": "mtb-ananya",
+      "quote": "The Blue Shark changed my weekend climbs—stable geometry plus the factory services keep it silent even after muddy descents.",
+      "name": "Ananya S.",
+      "location": "Pune",
+      "category": "MTB",
+      "rating": 4.8,
+      "years_riding": 5,
+      "media": {
+        "type": "image",
+        "src": "assets/images/portfolio/MTB/BlueShark/BlueShark_angle1.png",
+        "alt": "Ananya with her Blue Shark MTB"
+      }
+    },
+    {
+      "id": "road-rahul",
+      "quote": "Lightning Marlin aero tubing plus the EMI option let me upgrade without delaying race prep—support swapped my cassette overnight.",
+      "name": "Rahul Mehta",
+      "location": "Bengaluru",
+      "category": "Road",
+      "rating": 4.9,
+      "years_riding": 8,
+      "media": {
+        "type": "image",
+        "src": "assets/images/portfolio/Road/LightningMarlin/LightningMarlin_angle2.png",
+        "alt": "Rahul's Lightning Marlin before a criterium"
+      }
+    },
+    {
+      "id": "partner-kavita",
+      "quote": "Finspeed dealer onboarding finished in a week—catalog data syncs nightly so my staff always quote accurate pricing and warranty terms.",
+      "name": "Kavita — Wheelworks South",
+      "location": "Hyderabad",
+      "category": "Partner",
+      "rating": 4.7,
+      "years_riding": null,
+      "media": null
+    }
+  ]
+}

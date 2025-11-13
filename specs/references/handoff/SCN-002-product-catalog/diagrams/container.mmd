@@ -1,0 +1,14 @@
+%% container.mmd
+flowchart TD
+  visitorBrowser[Browser (visitor)] --> cdn[Edge CDN cache]
+  cdn --> nextApp[Next.js static bundle]
+  nextApp -->|Imports| localeJSON[Locale JSON assets (`public/locales/{lang}`)]
+  nextApp -->|Bundles| uiComponents[Shell components (nav, hero, toggles)]
+  nextApp -->|Loads| catalogJSON[Catalog JSON (`CATALOG-001`)]
+  nextApp -->|Reads config| config[(Env config: consent, Formspree key)]
+  nextApp -->|Sends events (post-consent)| ga4API[GA4 Measurement API]
+  nextApp -->|Posts submissions| formspreeAPI[Formspree endpoint]
+  nextApp -->|Loads tiles| osmTiles[OpenStreetMap tile CDN]
+  maintBranch[Marketing devs] -->|Commit content| contentRepo[(Git content repo)]
+  nextApp <-. build pipeline .-> contentRepo
+  build pipeline --> catalogJSON

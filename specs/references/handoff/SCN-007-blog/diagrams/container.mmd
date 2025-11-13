@@ -1,0 +1,21 @@
+%% container.mmd
+flowchart TD
+  browser[Visitor browser] --> blogRoute[List route `/blog`]
+  browser --> articleRoute[Article route `/blog/[slug]`]
+  blogRoute --> blogPage[BlogListing (`IC-15`)]
+  articleRoute --> articlePage[BlogArticle (`IC-15`)]
+  blogPage --> tagFilters[TagFilter module]
+  blogPage --> articleCards[ArticleCards]
+  blogPage --> pagination[InfiniteScroll]
+  blogPage --> subscriptionBanner[SubscriptionBanner (`IC-7`)]
+  articlePage --> heroMedia[HeroMedia]
+  articlePage --> toc[TableOfContents]
+  articlePage --> readingProgress[ReadingProgress]
+  articlePage --> relatedPosts[RelatedPosts]
+  articlePage --> analyticsHook[AnalyticsEmitter]
+  blogPage --> blogIndex[BLOG-001 index JSON]
+  articlePage --> articleData[Article JSON]
+  subscriptionBanner --> formspreeClient[Formspree client]
+  analyticsHook --> ga4[GA4 Measurement API]
+  blogIndex <-. build pipeline .-> blogMDX[`content/blog/{slug}/{locale}.mdx`]
+  articleData <-. build pipeline .-> blogMDX

@@ -1,0 +1,78 @@
+{
+  "$id": "https://finspeed.online/data/brand-story.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BRAND-001 brand story content",
+  "type": "object",
+  "required": ["locale", "hero", "timeline", "metrics"],
+  "additionalProperties": false,
+  "properties": {
+    "locale": {
+      "type": "string",
+      "enum": ["en", "hi"]
+    },
+    "hero": {
+      "type": "object",
+      "required": ["headline", "subheadline", "media"],
+      "additionalProperties": false,
+      "properties": {
+        "headline": { "type": "string", "minLength": 10 },
+        "subheadline": { "type": "string", "minLength": 10 },
+        "media": {
+          "type": "object",
+          "required": ["type", "src"],
+          "properties": {
+            "type": { "type": "string", "enum": ["image", "video", "illustration"] },
+            "src": { "type": "string" },
+            "alt": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["year", "title", "description"],
+        "properties": {
+          "year": { "type": "string", "pattern": "^[0-9]{4}$" },
+          "title": { "type": "string", "minLength": 5 },
+          "description": { "type": "string", "minLength": 20 },
+          "media": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "value", "unit"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "value": { "type": "integer", "minimum": 0 },
+          "unit": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "community_spotlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "excerpt", "link"],
+        "properties": {
+          "title": { "type": "string" },
+          "excerpt": { "type": "string" },
+          "link": { "type": "string" },
+          "image": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

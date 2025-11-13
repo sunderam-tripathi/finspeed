@@ -1,0 +1,22 @@
+%% component.mmd
+flowchart TB
+  modelDetail[ModelDetailPage (`IC-11`)]
+  modelDetail --> heroBlock[Hero block (title, tagline, CTA)]
+  modelDetail --> gallery[MediaGallery]
+  modelDetail --> specTabs[SpecTabs]
+  modelDetail --> sizingGuide[SizingGuide]
+  modelDetail --> warrantyPanel[Warranty & service highlights]
+  modelDetail --> ctaPanel[DealerCTA panel]
+  modelDetail --> seoBlock[JSON-LD + meta tags]
+  gallery --> mediaLoader[Lazy media loader]
+  specTabs --> specTable[SpecTable renderer]
+  specTabs --> techHighlights[TechHighlights list]
+  ctaPanel --> dealerLinkBuilder[Dealer deep link builder]
+  seoBlock --> jsonldValidator[Schema validator]
+  modelDetail --> analyticsEmitter[AnalyticsEmitter (`site.interaction.analytics.v1`)]
+  analyticsEmitter --> eventQueue[Consent-aware event queue]
+  mediaLoader --> catalogAssets[Asset manifest]
+  specTable --> catalogData[`CATALOG-001` record]
+  sizingGuide --> catalogData
+  warrantyPanel --> catalogData
+  dealerLinkBuilder --> localeRouter[Locale aware router]

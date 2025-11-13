@@ -1,0 +1,9 @@
+%% context.mmd
+flowchart LR
+  visitor[Public visitor] -->|Browses content| site[Finspeed marketing site (Next.js static)]
+  site -->|Serves localized pages| visitor
+  site --> repo[Content repo (Git-managed markdown + locale JSON)]
+  maint[Marketing devs] -->|Commit copy & navigation| repo
+  site -->|Consent-gated events| ga4[Google Analytics 4]
+  site -->|Submit support & hero forms| formspree[Formspree]
+  site -->|Fetch map tiles| osm[OpenStreetMap tiles]

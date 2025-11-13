@@ -1,0 +1,13 @@
+%% container.mmd
+flowchart TD
+  browser[Visitor browser] --> sharedPage[Page (home/catalog/brand)]
+  sharedPage --> testimonialsModule[TestimonialCarousel (`IC-14`)]
+  testimonialsModule --> carouselView[Carousel view]
+  testimonialsModule --> autoplayToggle[Autoplay toggle]
+  testimonialsModule --> filterMenu[Category filter]
+  testimonialsModule --> analyticsHook[Analytics emitter]
+  testimonialsModule --> consentManager[Consent manager]
+  testimonialsModule --> testimonialData[TESTIMONIAL-001 JSON]
+  testimonialsModule --> mediaLoader[Media loader]
+  analyticsHook --> ga4[GA4 Measurement API]
+  testimonialData <-. build pipeline .-> testimonialJSON[`content/testimonials/{locale}.json`]

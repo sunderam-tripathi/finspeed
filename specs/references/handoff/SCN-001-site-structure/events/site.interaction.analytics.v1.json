@@ -1,0 +1,44 @@
+{
+  "$id": "https://finspeed.online/events/site.interaction.analytics.v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "site.interaction.analytics.v1",
+  "type": "object",
+  "required": ["event_name", "event_time", "locale", "payload"],
+  "properties": {
+    "event_name": {
+      "type": "string",
+      "enum": [
+        "dealer_directions_click",
+        "support_whatsapp_click",
+        "support_email_click",
+        "blog_subscription_submit",
+        "language_change",
+        "primary_nav_click",
+        "theme_toggle"
+      ]
+    },
+    "event_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "locale": {
+      "type": "string",
+      "enum": ["en", "hi"]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dealer_id": { "type": ["string", "null"] },
+        "model_slug": { "type": ["string", "null"] },
+        "subscription_email_hash": { "type": ["string", "null"], "description": "Optional SHA-256 hash before sending to GA" },
+        "from_locale": { "type": ["string", "null"], "enum": ["en", "hi"] },
+        "to_locale": { "type": ["string", "null"], "enum": ["en", "hi"] },
+        "cta_id": { "type": ["string", "null"], "description": "Slug for CTA clicked (e.g., dealers, support_email)" },
+        "position": { "type": ["string", "null"], "enum": ["top_nav", "drawer", "footer", "hero"] },
+        "theme": { "type": ["string", "null"], "enum": ["light", "dark"] },
+        "consent_granted": { "type": ["boolean", "null"] }
+      }
+    }
+  }
+}

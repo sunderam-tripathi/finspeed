@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant V as Visitor
+  participant S as SearchPanel
+  participant L as LocatorState
+  participant M as MapPane
+  participant GA as GA4
+
+  V->>S: Enter postal code 201306 & radius 20km
+  S->>L: dispatch search {postal_code_prefix, radius_km, filters}
+  L->>L: Filter dealers from `DEALER-001`
+  L-->>S: Update results list
+  L-->>M: Update map pins & focus
+  S->>GA: emit dealer_search_submitted
+  V->>S: Click directions on dealer FS-001
+  S->>GA: emit dealer_directions_click {dealer_id: FS-001}
+  S->>V: Open Google Maps deep link with dealer address

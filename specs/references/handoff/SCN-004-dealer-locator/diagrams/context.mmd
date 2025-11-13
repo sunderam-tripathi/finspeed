@@ -1,0 +1,12 @@
+%% context.mmd
+flowchart LR
+  rider[Visitor] -->|Searches| locator[Dealer locator `/dealers`]
+  locator -->|Fetches tiles| osm[OpenStreetMap tile CDN]
+  locator -->|Loads dealer data| dealerJSON[Dealer GeoJSON (`DEALER-001`)]
+  locator -->|Emits consented events| ga4[Google Analytics 4]
+  locator -->|Launches| whatsapp[WhatsApp deep link]
+  locator -->|Launches| maps[Google/Apple Maps]
+  marketing[Marketing devs] -->|Maintain dealer CSV| repo[Git content repo]
+  repo -->|Static build| dealerJSON
+  supportOps[Support ops] -->|Update outage banners| statusJSON[status/support.json]
+  locator -->|Shows outage banner| statusJSON

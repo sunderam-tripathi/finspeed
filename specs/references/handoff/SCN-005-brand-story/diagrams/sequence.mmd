@@ -1,0 +1,16 @@
+sequenceDiagram
+  participant V as Visitor
+  participant P as BrandStoryPage
+  participant C as CounterHook
+  participant A as AnalyticsEmitter
+  participant GA as GA4
+
+  V->>P: Scroll to impact metrics section
+  P->>C: notify visible=true
+  C->>C: Start counter animation (respect reduced motion)
+  C-->>P: Render animated values
+  P->>A: emit brand_timeline_scroll_depth {percent:75}
+  A-->>GA: POST measurement payload
+  V->>P: Click "Find a dealer" CTA
+  P->>A: emit brand_cta_click {target:"dealers"}
+  P-->>V: Navigate to `/dealers`

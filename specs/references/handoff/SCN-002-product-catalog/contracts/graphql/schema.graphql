@@ -1,0 +1,8 @@
+type Query {
+  resource(id: ID!): Resource
+}
+
+type Resource {
+  id: ID!
+  status: String!
+}

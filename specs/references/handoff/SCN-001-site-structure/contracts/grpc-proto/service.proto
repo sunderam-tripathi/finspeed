@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package slice;
+
+service SliceService {
+  rpc DoWork (WorkRequest) returns (WorkResponse);
+}
+
+message WorkRequest {
+  string id = 1;
+}
+
+message WorkResponse {
+  string status = 1;
+}

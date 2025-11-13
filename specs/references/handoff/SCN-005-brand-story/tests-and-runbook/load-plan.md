@@ -1,0 +1,4 @@
+- **Profile**: 60 concurrent sessions scrolling through brand story for 20 minutes using WebPageTest + k6 to mimic long-form consumption.
+- **Budgets**: LCP ≤ 2.5s on mid-tier Android, CLS < 0.1 despite counter animations, total image payload ≤ 1.5MB per locale.
+- **Monitoring**: Track GA4 events per 1k sessions for scroll depth (≥ 70% reach timeline), monitor console for animation warnings, validate CDN cache hit ≥ 95% for media assets.
+- **Fallback**: If counters impact performance, disable animation via feature flag and fall back to static values while investigating.

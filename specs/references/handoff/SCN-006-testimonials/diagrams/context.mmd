@@ -1,0 +1,10 @@
+%% context.mmd
+flowchart LR
+  visitor[Site visitor] -->|Reads| testimonials[Testimonial carousel]
+  testimonials -->|Served from| cdn[Static CDN]
+  testimonials -->|Loads dataset| testimonialJSON[TESTIMONIAL-001 JSON]
+  testimonials -->|Emits events| ga4[Google Analytics 4]
+  testimonials -->|Links| blog[/blog], catalog[/catalog]
+  marketing[Marketing devs] -->|Maintain testimonial JSON| repo[Git content repo]
+  repo -->|Build| testimonialJSON
+  riders[Riders] -->|Provide consented quotes| marketing

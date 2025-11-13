@@ -1,0 +1,42 @@
+{
+  "$id": "https://finspeed.online/data/testimonial.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TESTIMONIAL-001 testimonials dataset",
+  "type": "object",
+  "required": ["locale", "testimonials"],
+  "additionalProperties": false,
+  "properties": {
+    "locale": {
+      "type": "string",
+      "enum": ["en", "hi"]
+    },
+    "testimonials": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "quote", "name", "location", "category"],
+        "properties": {
+          "id": { "type": "string" },
+          "quote": { "type": "string", "minLength": 20 },
+          "name": { "type": "string" },
+          "location": { "type": "string" },
+          "category": { "type": "string", "enum": ["MTB", "ATB", "Road", "Kids", "Partner"] },
+          "rating": { "type": ["number", "null"], "minimum": 0, "maximum": 5 },
+          "years_riding": { "type": ["integer", "null"], "minimum": 0 },
+          "media": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "type": { "type": "string", "enum": ["image", "video"] },
+              "src": { "type": "string" },
+              "alt": { "type": "string" }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "last_updated": { "type": "string", "format": "date" }
+  }
+}

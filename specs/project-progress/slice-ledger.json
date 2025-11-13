@@ -1,0 +1,156 @@
+{
+  "steps": [
+    {
+      "name": "Step 1 — Bootstrap",
+      "slices": [
+        {
+          "id": "DOCS-001",
+          "domain": "docs",
+          "title": "Bootstrap workflow skeleton",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "name": "Step 2 — Repo Hygiene",
+      "slices": [
+        {
+          "id": "REPO-001",
+          "domain": "repo",
+          "title": "Commit message enforcement",
+          "status": "done"
+        },
+        {
+          "id": "REPO-002",
+          "domain": "repo",
+          "title": "CI commit message lint",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "name": "Step 3 — Knowledge Base",
+      "slices": [
+        {
+          "id": "DOCS-002",
+          "domain": "docs",
+          "title": "Reference library index",
+          "status": "done"
+        },
+        {
+          "id": "DOCS-003",
+          "domain": "docs",
+          "title": "Reference integrity automation",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "name": "Step 4 — Web Shell",
+      "slices": [
+        {
+          "id": "WEB-001",
+          "domain": "web",
+          "title": "Site shell (SCN-001)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-002",
+          "domain": "web",
+          "title": "Contract tests (SCN-001)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-003",
+          "domain": "web",
+          "title": "Dealer locator shell (SCN-004)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-004",
+          "domain": "web",
+          "title": "Dealer locator contract tests",
+          "status": "done"
+        },
+        {
+          "id": "WEB-005",
+          "domain": "web",
+          "title": "Dealer locator analytics",
+          "status": "done"
+        },
+        {
+          "id": "WEB-006",
+          "domain": "web",
+          "title": "Dealer locator map",
+          "status": "done"
+        },
+        {
+          "id": "WEB-007",
+          "domain": "web",
+          "title": "Consent + GA4 integration",
+          "status": "done"
+        },
+        {
+          "id": "WEB-008",
+          "domain": "web",
+          "title": "Brand story page (SCN-005)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-009",
+          "domain": "web",
+          "title": "Testimonials page (SCN-006)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-010",
+          "domain": "web",
+          "title": "Blog landing (SCN-007)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-011",
+          "domain": "web",
+          "title": "Support hub (SCN-008)",
+          "status": "done"
+        },
+        {
+          "id": "WEB-012",
+          "domain": "web",
+          "title": "Dealer locator live map",
+          "status": "done"
+        },
+        {
+          "id": "WEB-013",
+          "domain": "web",
+          "title": "Dealer locator analytics enrichment",
+          "status": "done"
+        },
+        {
+          "id": "WEB-014",
+          "domain": "web",
+          "title": "Dealer locator outage automation",
+          "status": "done"
+        },
+        {
+          "id": "WEB-015",
+          "domain": "web",
+          "title": "Dealer locator data API",
+          "status": "done"
+        },
+        {
+          "id": "WEB-016",
+          "domain": "web",
+          "title": "Dealer locator deploy automation",
+          "status": "done"
+        },
+        {
+          "id": "WEB-017",
+          "domain": "web",
+          "title": "Dealer locator accessibility sweep",
+          "status": "in_progress"
+        }
+      ]
+    }
+  ]
+}

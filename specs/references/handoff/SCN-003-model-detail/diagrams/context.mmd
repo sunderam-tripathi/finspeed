@@ -1,0 +1,10 @@
+%% context.mmd
+flowchart LR
+  rider[Prospective rider] -->|Browses| modelPage[Model detail page `/models/{slug}`]
+  modelPage -->|Served via| cdn[Static CDN (Vercel/Netlify)]
+  modelPage -->|Reads localized data| catalogJSON[Catalog JSON (`CATALOG-001`)]
+  modelPage -->|Deep links dealer| dealerLocator[/dealers?model={slug}/]
+  modelPage -->|Emits consented events| ga4[Google Analytics 4]
+  contentTeam[Marketing devs] -->|Curate catalog CSV & media| repo[Git content repo]
+  repo -->|Static build| cdn
+  supportOps[Support ops] -->|Review warranty & service copy| repo

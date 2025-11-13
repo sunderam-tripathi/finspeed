@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export VERIFY_MODE=pre-push
+node tools/spec/verify-active-slice.mjs

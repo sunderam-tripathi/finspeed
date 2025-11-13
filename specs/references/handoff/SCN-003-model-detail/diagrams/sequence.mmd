@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant V as Visitor
+  participant P as ModelDetailPage (`IC-11`)
+  participant A as AnalyticsEmitter
+  participant GA as GA4
+  participant R as NextRouter
+  participant D as DealerLocator page
+
+  V->>P: Click "Find a dealer"
+  P->>P: Confirm CTA enabled & build query with model slug
+  alt Consent granted
+    P->>A: emit model_dealer_cta_click {model_slug, locale}
+    A-->>GA: POST measurement payload
+  else Consent denied
+    P->>A: skip emit; log consent=false
+  end
+  P->>R: router.push(`/dealers?model={slug}`)
+  R->>D: Render dealer locator with pre-selected model context

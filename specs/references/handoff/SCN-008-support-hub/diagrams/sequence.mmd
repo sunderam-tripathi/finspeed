@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant V as Visitor
+  participant H as SupportHub
+  participant S as StatusFeed
+  participant A as AnalyticsEmitter
+  participant GA as GA4
+  participant F as Formspree
+
+  V->>H: Load /support
+  H->>S: Fetch status/support.json
+  S-->>H: {banner_id:"incident-2024-11-01", message:"WhatsApp unavailable"}
+  H->>A: emit support_incident_banner_view {banner_id:"incident-2024-11-01"}
+  A-->>GA: POST measurement payload
+  V->>H: Click WhatsApp CTA
+  H->>A: emit support_channel_click {channel_id:"whatsapp"}
+  H-->>V: Open https://wa.me/... deep link
+  V->>H: Submit contact form
+  H->>F: POST hashed email + message (IC-7)

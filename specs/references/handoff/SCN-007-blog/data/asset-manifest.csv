@@ -1,0 +1,36 @@
+Path,Asset Category,Intended Use,Notes
+assets/images/brand/logo.svg,Brand,Primary logo (light background),Provide vector to maintain fidelity across hero and nav
+assets/images/brand/logo-dark.svg,Brand,Primary logo (dark background),Use on light imagery or white header
+assets/images/brand/logo-512.png,Brand,Favicon / app icon,Ensure favicon package downscales from this master
+assets/images/brand/logo-clean.png,Brand,High-res logo (light background),Use for print-quality exports
+assets/images/brand/logo-dark.png,Brand,High-res logo (dark background),Use for light backgrounds when raster needed
+assets/images/brand/finspeed-text.svg,Brand,Wordmark standalone (light background),Pairs with icon when space constrained
+assets/images/brand/finspeed-text-dark.svg,Brand,Wordmark standalone (dark background),Use on light backgrounds
+assets/images/brand/finspeed-text.png,Brand,Wordmark raster (light background),Fallback when SVG unsupported
+assets/images/brand/finspeed-text-dark.png,Brand,Wordmark raster (dark background),Fallback when SVG unsupported
+assets/images/portfolio/ATB/category-picture-ATB.png,Portfolio,ATB category hero,Use on ATB hub
+assets/images/portfolio/ATB/GreatWhite/GreatWhite_angle1.png,Portfolio,Great White Shark primary angle,Maps to Great White Shark spec sheet
+assets/images/portfolio/ATB/GreatWhite/GreatWhite_angle2.png,Portfolio,Great White Shark secondary angle,Alternate view
+assets/images/portfolio/ATB/GreatWhite/GreatWhite_angle3.png,Portfolio,Great White Shark detail angle,Detail view
+assets/images/portfolio/ATB/Hammerhead/Hammerhead_angle1.png,Portfolio,Hammerhead ATB primary angle,Need spec mapping
+assets/images/portfolio/ATB/Hammerhead/Hammerhead_angle2.png,Portfolio,Hammerhead ATB secondary angle,
+assets/images/portfolio/ATB/Hammerhead/Hammerhead_angle3.png,Portfolio,Hammerhead ATB detail angle,
+assets/images/portfolio/MTB/mtb-bike-category.png,Portfolio,MTB category hero,Use on MTB hub
+assets/images/portfolio/MTB/BlueShark/BlueShark_angle1.png,Portfolio,Blue Shark primary angle,Maps to Shark (Blue)
+assets/images/portfolio/MTB/BlueShark/BlueShark_angle2.png,Portfolio,Blue Shark secondary angle,
+assets/images/portfolio/MTB/BlueShark/BlueShark_angle3.png,Portfolio,Blue Shark detail angle,
+assets/images/portfolio/MTB/LemonShark/LemonShark_angle1.png,Portfolio,Shark Mustard primary angle,Maps to Shark (Mustard)
+assets/images/portfolio/MTB/LemonShark/LemonShark_angle2.png,Portfolio,Shark Mustard secondary angle,
+assets/images/portfolio/MTB/LemonShark/LemonShark_angle3.png,Portfolio,Shark Mustard detail angle,
+assets/images/portfolio/MTB/MakoShark/MakoShark_angle1.png,Portfolio,Shark Mustard Green primary angle,
+assets/images/portfolio/MTB/MakoShark/MakoShark_angle2.png,Portfolio,Shark Mustard Green secondary angle,
+assets/images/portfolio/MTB/MakoShark/MakoShark_angle3.png,Portfolio,Shark Mustard Green detail angle,
+assets/images/portfolio/MTB/TigerShark/TigerShark_angle1.png,Portfolio,Shark Sea Green primary angle,
+assets/images/portfolio/MTB/TigerShark/TigerShark_angle2.png,Portfolio,Shark Sea Green secondary angle,
+assets/images/portfolio/MTB/TigerShark/TigerShark_angle3.png,Portfolio,Shark Sea Green detail angle,
+assets/images/portfolio/Road/road-racer-bikes.png,Portfolio,Road category hero,Use on Road hub
+assets/images/portfolio/Road/LightningMarlin/LightningMarlin_angle1.png,Portfolio,Marlin Red primary angle,
+assets/images/portfolio/Road/LightningMarlin/LightningMarlin_angle2.png,Portfolio,Marlin Red secondary angle,
+assets/images/portfolio/Road/LightningMarlin/LightningMarlin_angle3.png,Portfolio,Marlin Red detail angle,
+assets/images/portfolio/Road/SunsetMarlin/SunsetMarlin_angle1.png,Portfolio,Marlin Yellow primary angle,
+assets/images/portfolio/Road/SunsetMarlin/SunsetMarlin_angle2.png,Portfolio,Marlin Yellow secondary angle,

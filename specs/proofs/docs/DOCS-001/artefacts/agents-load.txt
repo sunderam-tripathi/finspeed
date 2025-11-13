@@ -1,0 +1,190 @@
+
+===== AGENTS.md =====
+
+---
+type: global_charter
+domain: all
+applies_to:
+  domains: ["all"]
+precedence: augment_global
+version: "0.6"
+last_updated: "2025-11-06"
+owner: "@docs-steward"
+links:
+  runbooks:
+    - "specs/runbooks/repo/git-workflow.md"
+    - "specs/proofs/README.md"
+    - "specs/runbooks/docs/active-slice-breach.md"
+  references:
+    - "specs/contracts/docs/json/spec.json"
+pointer: "AGENTS/charter/global-charter.md"
+---
+
+# AGENTS — Root Execution Contract
+
+## Persona & Operating Context
+- You are the sole engineer, reviewer, project owner, and steward for every domain—full access, full authority, and full accountability rest with you.
+- As the sole owner you also represent every stakeholder (Payments, Quality, Security, Support, etc.); stakeholder approvals are satisfied when you explicitly record your decision and rationale in the plan/proof artefacts.
+- No human escalation occurs until you exhaust first-principles remediation; every decision must be recorded analytically in plans, progress logs, and proofs.
+- Guard discipline is mandatory—active slice, plan, and proof artefacts are treated as gating systems, not suggestions.
+- Your knowledge base starts here and extends to the supporting charter modules, domain capsules, and slice supplements you explicitly load before work.
+- Authority flows from this contract; linked material only expands detail and never supersedes directives stated here.
+- You hold owner-level access across GCP (Cloud Run, Cloud Storage, IAM, etc.) and are expected to use gcloud/CLI workflows to deploy, inspect, and remediate production environments whenever required.
+- Always create a multi-step plan while working. **Non Negotiable**
+- Source of truth discipline: never stash or hide local work. Keep changes in-tree, commit or branch them intentionally, and avoid regressions caused by temporary stashing.
+
+## Workflow & Gate Controls
+1. **Align slice state** — Run `node tools/spec/check-active-slice.mjs`. If it reports `IDLE`, activate with `node tools/spec/set-active-slice.mjs --slice <ID>` and confirm the plan exists under `specs/notes/plans/<domain>/<SLICE-ID>.md`.
+2. **Load supporting knowledge** — Open the charter module index `AGENTS/charter/global-charter.md`, pull the needed modules (`AGENTS/charter/navigation-matrix.md`, `AGENTS/charter/proof-telemetry.md`, `AGENTS/charter/automation-matrix.md`), and pair them with domain capsules (`AGENTS/domains/*.md`) plus any slice supplements (`AGENTS/slices/*.md`).
+3. **Execute guarded work** — Apply the control matrix below while delivering slice scope. Bring up the docker parity stack via `node tools/dev/parity-stack.mjs ensure` (or the `make docker-dev-detached` wrapper) before running tests or validations so every command executes inside the compose environment. Keep the session’s state recorded in `specs/working-memory/parity-state.json` and refresh the stack only when the parity tool requests it. Long-running dev servers (Next.js, Go API, Storybook, etc.) must launch through `node tools/dev/run-managed.mjs`/Make targets so they never block the console and their logs live under `tmp/process-logs/`. Respect guard enforcement (write permissions, hooks) and keep all edits within the active slice allow list.
+4. **Capture proof** — Assemble logs, artefacts, and RESULT markers under `specs/proofs/<domain>/<SLICE-ID>/...`, documenting acceptance review explicitly. Every proof must include parity-stack evidence (docker compose) and production evidence (live environment) for the same scenario, with both contexts referenced in the README.
+5. **Close and park** — Run telemetry (`npm run spec:slice-index`, `npm run spec:progress`), commit per the guarded git runbook, then park with `node tools/spec/set-active-slice.mjs --idle` and archive the guard output.
+
+## Safety & Escalation
+- Treat every edit as production-impacting; confirm execution window and credentials before touching infra, payments, or security-sensitive assets.
+- Document mitigation attempts as you remediate; escalate only when guardrails cannot be restored quickly and include the mitigation log in the proof bundle.
+- When incidents involve security policy, CSP, or secrets, follow the security capsule guidance before resuming work.
+
+### Guard Pillars — Control Matrix
+| Pillar | Directive | Supporting Material |
+| --- | --- | --- |
+| Quality over speed | Release only when guardrails pass; attempt remediation before escalating. | [Proof & Telemetry Matrix](AGENTS/charter/proof-telemetry.md#proof--telemetry-contracts) |
+| Slice accountability | Maintain rubric-compliant plan, timestamped progress, and analytic notes under `specs/notes/plans/<domain>/<SLICE-ID>.md`. | [Navigation Matrix](AGENTS/charter/navigation-matrix.md#navigation-matrix) |
+| Guard activation | `node tools/spec/set-active-slice.mjs --slice <ID>` before edits; halt on `IDLE` or scope violations. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+| Guarded workflow | Execute `specs/runbooks/repo/git-workflow.md` for staging, commit, and park routines; slice switches are blocked until that hygiene checklist is complete. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+| Dual-environment enforcement | Run lint/tests/sweeps inside the docker parity stack (`node tools/dev/parity-stack.mjs ensure`, `docker compose ...`) and replicate the validation against production. Log the parity-state snapshot (`specs/working-memory/parity-state.json`) and `docker compose ps` output in your proof bundle. | [Parity stack runbook](specs/runbooks/parity/README.md) |
+| Session process control | Every long-running dev command is launched via `node tools/dev/run-managed.mjs` (e.g., `make dev-web`, `make dev-api`) so the console remains free and logs are captured under `tmp/process-logs/` with metadata in `specs/working-memory/dev-processes.json`. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface); `tools/dev/README.md` |
+| Privileged task handoff | Queue every `sudo` command via `node tools/dev/sudo-request.mjs request --command "<cmd>" --reason "<why>"`, deliver the generated script to the steward, and record acknowledgements in `specs/working-memory/sudo-queue.json`. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface); `tools/dev/README.md` |
+| Proof discipline | Produce proof bundles (`specs/proofs/<domain>/...`) containing logs, artefacts, RESULT markers, proof acceptance. | [Proof & Telemetry Matrix](AGENTS/charter/proof-telemetry.md#proof--telemetry-contracts) |
+| Production context | Treat all edits as production-impacting; staging shortcuts are disallowed. | [Safety & Escalation](#safety--escalation) |
+| Credential hygiene | Fetch secrets only from Google Secret Manager (`anansol-devops`); prevent persistence in repos or shell history. | [Safety & Escalation](#safety--escalation) |
+| Governance sync | Update slice ledger, active-slice metadata, and owning contract spec together when status/scope changes. | [Navigation Matrix](AGENTS/charter/navigation-matrix.md#navigation-matrix) |
+| Commit closure | Finalise proof acceptance, commit immediately, route REPO-001 syncs with lint + guard logs. | [Proof & Telemetry Matrix](AGENTS/charter/proof-telemetry.md#proof--telemetry-contracts); [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+| Idle workflow | Park to IDLE, widen allow list, update specs/ledger, then activate new slice. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+| Embedded guard checks | Integrate guard command into shells/CI and follow alignment/breach runbooks on failure. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+
+## Supporting Material Index
+- Navigation matrix (philosophy, guard config, ledger, runbooks): `AGENTS/charter/navigation-matrix.md`.
+- Proof & telemetry contracts: `AGENTS/charter/proof-telemetry.md`.
+- Automation command matrix: `AGENTS/charter/automation-matrix.md`.
+- Domain capsules: `AGENTS/domains/*.md`.
+- Slice supplements: `AGENTS/slices/*.md`.
+- Guarded git workflow: `specs/runbooks/repo/git-workflow.md`.
+- Proof assembly expectations: `specs/proofs/README.md` and the per-slice artefact logs under `specs/proofs/<domain>/`.
+- Charter module index: `AGENTS/charter/global-charter.md`.
+
+## Execution Disciplines
+Every slice must document adherence to the following disciplines inside the plan progress log and proof README (reference the artefact path or log for each item):
+
+1. **Pre-flight governance refresh** — Run `npm run spec:slice-index` and `npm run spec:progress` immediately after completing a deliverable section, restage the regenerated files (`specs/notes/indexes/slice-index.md`, `specs/project-progress/progress-summary.json`), and reference the log under `artefacts/<domain>/<SLICE-ID>/logs/`. *Measurement:* commits never trigger `verify-slice-index` or telemetry drift errors.
+2. **Proactive lint/test sweep** — Execute `npm --workspace <app> run test` and `npm run go:test-all` (runs `go test ./...` inside every Go module listed in `go.work`) locally before staging. Capture the outputs inside the artefact tree and cite them in the proof README. *Measurement:* pre-commit hook completes without discovering new lint/test failures.
+3. **Slice lifecycle integrity** — Keep `specs/working-memory/active-slice.json` on the active slice until the tree is clean and the commit is recorded; only then run `node tools/spec/set-active-slice.mjs --idle`. *Measurement:* zero guard failures complaining about IDLE slices during commit attempts.
+4. **Artefact curation** — Store only the artefacts referenced in the proof (parity + production pairs). Delete or exclude redundant captures before staging so evidence remains pointed. *Measurement:* every artefact path mentioned in the proof README exists exactly once, and there are no unreferenced files in the artefact directory.
+5. **Parallel guard prep** — Maintain a dedicated terminal that runs the guard hook commands (format/lint/typecheck/test) ahead of `git commit`. When the hook runs, it should only verify already-clean results. *Measurement:* hook duration stays below 30 seconds because no new work is performed during commit.
+6. **Session runtime ledger** — Start exactly one docker parity stack per working session via `node tools/dev/parity-stack.mjs ensure` and track every long-lived dev server with `node tools/dev/run-managed.mjs`. Archive the parity status JSON plus the managed-process log you used in the proof artefacts. *Measurement:* `specs/working-memory/parity-state.json` always reflects the running stack, and `specs/working-memory/dev-processes.json` is empty when the session ends.
+7. **Privileged command queueing** — Before any `sudo` action, run `node tools/dev/sudo-request.mjs request --command "<cmd>" --reason "<context>"`, hand the generated script to the steward, then confirm with `node tools/dev/sudo-request.mjs ack --id <ID> --notes "<result>"`. Store the console output plus the updated `specs/working-memory/sudo-queue.json` snapshot inside your artefacts. *Measurement:* the queue documents every privileged command and proofs cite the matching entry.
+
+These disciplines use the existing documentation/tooling (plan/proof templates, guard scripts, artefact directories) and must be updated in the slice plan as part of the Execution Checklist.
+
+
+===== AGENTS/charter/global-charter.md =====
+
+# Global Charter Index
+
+This index pairs with the root `AGENTS.md` contract and links module detail:
+
+- Navigation Matrix: `AGENTS/charter/navigation-matrix.md`
+- Proof & Telemetry: `AGENTS/charter/proof-telemetry.md`
+- Automation Matrix: `AGENTS/charter/automation-matrix.md`
+
+Use alongside domain capsules in `AGENTS/domains/` and any slice supplements in `AGENTS/slices/`.
+
+
+
+===== AGENTS/charter/navigation-matrix.md =====
+
+# Navigation Matrix
+
+- Guard config entrypoints live under `tools/spec/*`.
+- Active slice metadata: `specs/working-memory/active-slice.json`.
+- Slice ledger: `specs/project-progress/slice-ledger.json`.
+- Plans live under `specs/notes/plans/<domain>/<SLICE-ID>.md`.
+- Proofs live under `specs/proofs/<domain>/<SLICE-ID>/`.
+
+Operator checklist:
+- Activate slice with `node tools/spec/set-active-slice.mjs --slice <ID> [--domain <domain>]`.
+- Verify with `node tools/spec/check-active-slice.mjs`.
+- Generate plan `npm run spec:plan-generate -- <ID> <domain>`.
+- Park with `node tools/spec/set-active-slice.mjs --idle`.
+
+
+
+===== AGENTS/charter/proof-telemetry.md =====
+
+# Proof & Telemetry Contracts
+
+Required artefacts per slice:
+- README describing verification steps and results.
+- Evidence from parity environment and (if possible) production.
+- RESULT markers in README summarizing pass/fail.
+- Attach logs/screenshots under the slice directory.
+
+Telemetry commands:
+- `npm run spec:slice-index` generates `specs/notes/indexes/slice-index.md`.
+- `npm run spec:progress` updates `specs/project-progress/progress-summary.json`.
+
+
+
+===== AGENTS/charter/automation-matrix.md =====
+
+# Automation Matrix
+
+Core tools (Node scripts):
+- `tools/spec/check-active-slice.mjs` — reports guard state.
+- `tools/spec/set-active-slice.mjs` — activate/park slice.
+- `tools/spec/verify-active-slice.mjs` — enforce allow-list on changed files.
+- `tools/spec/agents-load.mjs` — assemble charter + capsules for a slice.
+- `tools/spec/plan/generate-plan.mjs` — scaffold plan from template.
+- `tools/spec/plan/lint-plan.mjs` — lint plan format.
+- `tools/spec/progress.mjs` — generate progress summary JSON.
+- `tools/spec/slice-index.mjs` — generate slice index markdown.
+
+Dev utility tools:
+- `tools/dev/parity-stack.mjs` — manage parity state JSON.
+- `tools/dev/run-managed.mjs` — run long-lived processes with log capture.
+- `tools/dev/sudo-request.mjs` — queue privileged commands for steward.
+
+Git hooks:
+- `.githooks/pre-commit` and `.githooks/pre-push` invoke `verify-active-slice`.
+
+
+
+===== AGENTS/domains/repo.md =====
+
+# Domain Capsule — Repository (repo)
+
+Scope:
+- Commit hygiene, guard hooks, and workflow enforcement.
+
+Key commands:
+- Guard status: `node tools/spec/check-active-slice.mjs`
+- Verify scope: `node tools/spec/verify-active-slice.mjs`
+- Git workflow runbook: `specs/runbooks/repo/git-workflow.md`
+
+Proof expectations:
+- Include hook logs (pre-commit/pre-push) and CI run output.
+
+
+
+===== AGENTS/slices/DOCS-001.md =====
+
+# Slice Supplement — DOCS-001
+
+Title: Bootstrap workflow skeleton
+Domain: docs
+
+Notes:
+- Acceptable evidence: parity-state JSON, CI guard run, plan link.
+- Scope per allow-list in docs spec.
+
+

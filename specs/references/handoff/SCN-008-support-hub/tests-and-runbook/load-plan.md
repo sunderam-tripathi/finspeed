@@ -1,0 +1,4 @@
+- **Profile**: 40 concurrent visitors interacting with support hub for 15 minutes (mix of FAQ searches, channel clicks, form submissions).
+- **Budgets**: Channel tiles render in < 1s, FAQ search results update < 200ms, incident banner poll every 5 min max, GA4 event success ≥ 95%.
+- **Monitoring**: Track Formspree success rate, GA4 support events, and uptime of status feed; ensure no PII beyond hashed emails enters logs.
+- **Fallback**: If Formspree unavailable, auto-hide form and promote email CTA; if status feed unreachable, suppress banner and log `support-status-miss`.

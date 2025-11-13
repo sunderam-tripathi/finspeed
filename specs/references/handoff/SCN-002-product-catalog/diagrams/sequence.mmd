@@ -1,0 +1,19 @@
+sequenceDiagram
+  participant Visitor as Visitor browser
+  participant FilterPanel as FilterPanel (IC-9)
+  participant CatalogState as CatalogState
+  participant CatalogGrid as CatalogGrid (IC-9)
+  participant Comparison as ComparisonDrawer (IC-10)
+  participant Analytics as GA4
+
+  Visitor->>FilterPanel: Select "frame: High tensile steel"
+  FilterPanel->>CatalogState: Update query params + memoized filters
+  CatalogState->>CatalogGrid: Provide filtered models
+  CatalogGrid-->>Visitor: Render updated cards with badges
+  FilterPanel->>Analytics: Emit catalog_filter_applied(filter_id, values, results_count)
+  Visitor->>CatalogGrid: Click "Compare" on model A
+  CatalogGrid->>Comparison: Add model A
+  Comparison->>Analytics: Emit catalog_compare_opened with [modelA]
+  Visitor->>CatalogGrid: Click "Compare" on model B
+  CatalogGrid->>Comparison: Add model B
+  Comparison->>Analytics: Emit catalog_compare_opened with [modelA, modelB]

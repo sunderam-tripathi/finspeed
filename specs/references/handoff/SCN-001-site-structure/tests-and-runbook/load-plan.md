@@ -1,0 +1,10 @@
+- **Scope.** Home page (REQ-001) under throttled 4G, 90th percentile traffic window.
+- **Budgets.**
+  - Largest Contentful Paint ≤ 2.5s (mobile, 4x CPU slow-down).
+  - Total Blocking Time ≤ 200ms.
+  - Cumulative Layout Shift < 0.1.
+  - Time To Interactive ≤ 3.5s.
+- **Load profile.** 20 virtual users ramped over 5 minutes, sustain for 15 minutes with cache cold start first run.
+- **Tooling.** Lighthouse CI (GitHub Action) plus scripted WebPageTest runs triggered from CI.
+- **Observability.** Capture Web Vitals via GA4 debug mode; export results to `artifacts/perf/home-<date>.json`.
+- **Acceptance.** Fail build if any metric exceeds budget twice consecutively; remediation tracked in backlog.

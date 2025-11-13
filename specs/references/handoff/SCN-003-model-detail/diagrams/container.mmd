@@ -1,0 +1,17 @@
+%% container.mmd
+flowchart TD
+  browser[Visitor browser] --> modelRoute[Next.js route `/models/[slug]`]
+  modelRoute --> modelDetailComp[ModelDetail component (`IC-11`)]
+  modelRoute --> jsonldBuilder[JSON-LD builder]
+  modelRoute --> analyticsHook[Analytics hook]
+  modelRoute --> errorBoundary[Error boundary / fallback]
+  modelDetailComp --> heroModule[Hero + gallery]
+  modelDetailComp --> specTabs[Specs/Sizing tabs]
+  modelDetailComp --> ctaPanel[Dealer CTA panel]
+  modelDetailComp --> relatedContent[Related content strip]
+  jsonldBuilder --> catalogJSON[(`CATALOG-001` record)]
+  modelDetailComp --> catalogJSON
+  analyticsHook --> ga4[GA4 Measurement API]
+  catalogJSON <-. build pipeline .-> catalogCSV[`product-catalog.csv`]
+  build pipeline --> localeJSON[Locale strings `model-detail.json`]
+  modelRoute --> localeJSON
