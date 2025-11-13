@@ -112,17 +112,19 @@ function Hero({ locale }: { locale: LocaleKey }) {
   return (
     <section className="relative overflow-hidden rounded-[2.5rem] border border-[var(--panel-border)] bg-[var(--hero-surface)] p-10 text-white shadow-[0_30px_120px_-50px_rgba(79,70,229,0.9)]" aria-labelledby="hero-title">
       <div className="hero-glow" />
-      <div className="relative grid gap-12 md:grid-cols-[3fr_2fr]">
-        <div>
+      <div className="hero-lines" />
+      <div className="relative grid gap-12 lg:grid-cols-[3fr,2fr]">
+        <div className="space-y-8">
           <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.5em] text-indigo-200">
             <span className="rounded-full border border-white/20 px-3 py-1">Finspeed</span>
-            <span className="rounded-full border border-white/20 px-3 py-1">SCN-001 ready</span>
+            <span className="rounded-full border border-white/20 px-3 py-1">SCN-001</span>
           </div>
-          <h1 id="hero-title" data-testid="hero-heading" className="mt-6 text-5xl font-semibold leading-tight tracking-[0.05em] sm:text-6xl">
-            {copy.headline}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-indigo-100">{copy.subheadline}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="futuristic-title" id="hero-title" data-testid="hero-heading">
+            <span>{copy.headline}</span>
+            <span className="highlight">VELOCITY</span>
+          </div>
+          <p className="max-w-2xl text-lg text-indigo-100">{copy.subheadline}</p>
+          <div className="flex flex-wrap gap-3">
             <a href="/dealers" data-testid="dealer-cta" className="btn-primary">
               Connect to dealers
             </a>
@@ -130,7 +132,7 @@ function Hero({ locale }: { locale: LocaleKey }) {
               Explore catalog
             </a>
           </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 md:grid-cols-3">
             {stats.map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-center text-sm uppercase tracking-[0.3em]">
                 <p className="text-indigo-200">{stat.label}</p>
@@ -140,21 +142,21 @@ function Hero({ locale }: { locale: LocaleKey }) {
             ))}
           </div>
         </div>
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
+        <div className="hero-hologram p-6">
           <div className="scan-lines" />
-          <p className="text-sm font-semibold uppercase tracking-[0.4em] text-indigo-100">Live Telemetry</p>
-          <div className="mt-5 space-y-4">
+          <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-indigo-200">
+            <span>Telemetry Stream</span>
+            <span className="text-[var(--accent)]">Live</span>
+          </div>
+          <div className="mt-6 space-y-4">
             {streams.map((stream) => (
               <div key={stream.label}>
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.4em] text-indigo-200">
+                <div className="flex items-center justify-between text-[0.65rem] uppercase tracking-[0.35em] text-indigo-100">
                   <span>{stream.label}</span>
-                  <span className="text-[var(--accent)]">Active</span>
+                  <span>{stream.level}%</span>
                 </div>
-                <div className="mt-3 flex items-center gap-3 text-white">
-                  <span className="text-2xl font-semibold">{stream.level}%</span>
-                  <div className="h-1 flex-1 rounded-full bg-white/10">
-                    <div className="h-full rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)]" style={{ width: `${stream.level}%` }} />
-                  </div>
+                <div className="mt-3 h-1 rounded-full bg-white/10">
+                  <div className="h-full rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)]" style={{ width: `${stream.level}%` }} />
                 </div>
               </div>
             ))}
