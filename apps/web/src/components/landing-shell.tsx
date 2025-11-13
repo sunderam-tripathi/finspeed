@@ -31,7 +31,6 @@ export function LandingShell() {
       <div className="pointer-events-none fixed inset-0 opacity-70 blur-3xl">
         <div className="aurora-gradient" />
       </div>
-      <div className="grid-overlay" />
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-8">
         <Header
           locale={locale}

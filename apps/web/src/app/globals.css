@@ -95,15 +95,6 @@ article:hover .card-gradient {
   animation: rotate-rays 20s linear infinite;
 }
 
-.grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(transparent 94%, var(--grid-line) 95%), linear-gradient(90deg, transparent 94%, var(--grid-line) 95%);
-  background-size: 120px 120px;
-  opacity: 0.6;
-  pointer-events: none;
-}
-
 .hero-lines {
   position: absolute;
   inset: 0;
