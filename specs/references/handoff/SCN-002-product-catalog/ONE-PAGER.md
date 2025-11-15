@@ -10,8 +10,8 @@ Prospects quickly explore Finspeed’s bicycle lineup, apply meaningful filters,
 ## Interfaces (this slice only)
 | ID   | Type | Purpose | Contract path | Version | Example |
 |------|------|---------|---------------|---------|---------|
-| IC-9 | ui   | Catalog listing & filter UI | contracts/IC-9-catalog-grid.md | v1.0 | Filter to `fork=Front suspension` → cards update + analytics event |
-| IC-10 | ui  | Comparison drawer | contracts/IC-10-comparison-drawer.md | v1.0 | Add 3 models → drawer highlights differences, limit reached notice |
+| IC-9 | interface | Catalog listing & filter contract | contracts/IC-9-catalog-grid.md | v1.0 | Filter to `fork=Front suspension` → cards update + analytics event |
+| IC-10 | interface | Comparison drawer | contracts/IC-10-comparison-drawer.md | v1.0 | Add 3 models → drawer highlights differences, limit reached notice |
 
 ## Acceptance checks
 ```gherkin

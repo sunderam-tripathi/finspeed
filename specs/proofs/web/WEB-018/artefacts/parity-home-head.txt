@@ -1,10 +1,15 @@
 HTTP/1.1 200 OK
 Vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
-link: </_next/static/media/797e433ab948586e-s.p.dbea232f.woff2>; rel=preload; as="font"; crossorigin=""; type="font/woff2", </_next/static/media/caa3a2e1cccd8315-s.p.853070df.woff2>; rel=preload; as="font"; crossorigin=""; type="font/woff2", </_next/static/media/finspeed-mark-light.711f4457.svg>; rel=preload; as="image", </_next/static/media/finspeed-wordmark-light.8deadb9b.svg>; rel=preload; as="image"
-Cache-Control: no-store, must-revalidate
+x-nextjs-cache: HIT
+x-nextjs-prerender: 1
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
 X-Powered-By: Next.js
+Cache-Control: s-maxage=31536000
+ETag: "fvdw7ul1w9o8q"
 Content-Type: text/html; charset=utf-8
-Date: Thu, 13 Nov 2025 19:27:49 GMT
+Content-Length: 31526
+Date: Sat, 15 Nov 2025 18:26:06 GMT
 Connection: keep-alive
 Keep-Alive: timeout=5
 

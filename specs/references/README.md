@@ -5,8 +5,9 @@ This library mirrors the Finspeed handoff package. Each category collects canoni
 ## Directory map
 | Path | Purpose |
 | --- | --- |
-| `handoff/` | Frozen scenario packs (SCN-001 … SCN-008) with requirements, UI contracts, data sets, and runbooks per slice. |
-| `_shared/` | Assets, contracts, and runbooks reused across scenarios (brand style guide, analytics events, deployment specs). |
+| `handoff/` | Frozen scenario packs (SCN-001 … SCN-008) with requirements, interface contracts, data sets, and runbooks per slice. |
+| `_shared/` | Assets, contracts, and runbooks reused across scenarios (analytics events, deployment specs, shared runbooks). |
+| `handoff/ui-ux-aesthetics.md` | Enterprise UI/UX aesthetic + flow spec applied across every slice. |
 | `README.md` | (this file) quick overview and linkage guidance. |
 
 See `handoff/README.md` for per-scenario metadata (slice IDs, owners, documents). When adding a new reference category, follow `CATEGORY-STUB.md` to keep documentation consistent.

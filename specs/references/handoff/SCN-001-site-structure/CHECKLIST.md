@@ -15,7 +15,7 @@
 
 ### Assets & Content
 - [x] Asset inventory recorded in README with bundle checksums for `_shared/assets/`, `data/`, and `content/design/`.
-- [x] Copy & design references captured (`30-design/blueprints/hero-copy.md`, `30-design/blueprints/brand-style-guide.md`, `assets/images/brand/*`).
+- [x] Copy references captured (`30-design/blueprints/hero-copy.md`, `assets/images/brand/*`) and UI/UX aligned with `../ui-ux-aesthetics.md`.
 - [x] Localisation assets linked (`assets/locales/en/home.json`, `assets/locales/hi/home.json`) with structure documented in `20-requirements/data/i18n-structure.md`.
 - [x] Legal/footer and support contact content validated (`20-requirements/data/privacy-policy.md`, `20-requirements/data/terms-of-use.md`, `20-requirements/data/contact-points.yaml`).
 

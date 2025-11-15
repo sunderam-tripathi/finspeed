@@ -3,7 +3,8 @@ type EventName =
   | 'dealer_directions_click'
   | 'dealer_contact_action'
   | 'dealer_map_pin_select'
-  | 'dealer_locator_outage';
+  | 'dealer_locator_outage'
+  | 'support_channel_click';
 
 type AnalyticsPayload = {
   dealer?: string;
@@ -12,6 +13,8 @@ type AnalyticsPayload = {
   radius_km?: number;
   filter?: string;
   channel?: string;
+  channel_id?: string;
+  locale?: string;
   consentGranted?: boolean;
   latitude?: number;
   longitude?: number;

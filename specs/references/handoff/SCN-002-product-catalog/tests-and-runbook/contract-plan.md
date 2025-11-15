@@ -1,7 +1,7 @@
 # Contract Test Plan — design-0.1-REQ-002
 
-## UI interfaces
-- **IC-9 Catalog listing & filter UI**
+## Interface contracts
+- **IC-9 Catalog listing & filter contract**
   - Visual regression (desktop + mobile) to capture value badges and empty state.
   - Accessibility checks ensuring filter focus management and screen-reader friendly messaging.
   - Unit test verifying query string state sync and `catalog_filter_applied` payload map.

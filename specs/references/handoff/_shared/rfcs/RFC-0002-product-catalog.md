@@ -32,13 +32,14 @@ Deliver a static Next.js catalog experience that lets visitors browse eight Fins
   - Category routes: `/catalog` (default), `/catalog/atb`, `/catalog/mtb`, `/catalog/road-racer`.
   - Filter state managed via URL query params (e.g., `?frame=carbon`) to support shareable links.
   - Comparison drawer persists selections in memory; limited to 3 models to protect layout.
+- **Visual system.** Cards, filters, buttons, and grid behavior follow the shared UI spec at `../ui-ux-aesthetics.md` so catalog matches the rest of the site.
 - **Data model.**
   - `CATALOG-001` schema normalized to `catalog-item.schema.json` specifying fields (model, variant, category, specs, warranty, finance).
   - Build step validates CSV against schema; failure blocks deployment.
   - Filter facets derived from schema enumerations (frame, suspension, brakes, wheels, tyres, gears).
 - **Interfaces.**
-  - `IC-9` Catalog listing & filter UI (Frozen v1.0) defines card layout, badges, filter controls, empty state messaging, and accessibility treatment.
-  - `IC-10` Comparison drawer UI (Frozen v1.0) covers selection limits, table layout, CTA placement, and analytics instrumentation.
+- `IC-9` Catalog listing & filter contract (Frozen v1.0) defines card layout, badges, filter controls, empty state messaging, and accessibility treatment.
+- `IC-10` Comparison drawer contract (Frozen v1.0) covers selection limits, table layout, CTA placement, and analytics instrumentation.
 - **Events & analytics.**
   - Extend `site.interaction.analytics.v1` with events: `catalog_filter_applied`, `catalog_compare_opened`, `catalog_compare_removed`.
   - Payload includes `filter_id`, `filter_value`, `comparison_models` array, and theme/locale context.

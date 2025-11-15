@@ -55,7 +55,7 @@ export function DealerMap({
             type="button"
             className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2 py-1 text-xs font-semibold shadow transition ${
               isActive
-                ? 'border-white bg-[var(--primary)] text-white'
+                ? 'border-white bg-[var(--fs-primary)] text-white'
                 : 'border-white/40 bg-white/80 text-slate-900'
             }`}
             style={{ left: `${pin.x}%`, top: `${pin.y}%` }}

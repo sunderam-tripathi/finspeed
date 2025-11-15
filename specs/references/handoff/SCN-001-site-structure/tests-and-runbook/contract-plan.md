@@ -1,6 +1,6 @@
 # Contract Test Plan — design-0.1-REQ-001
 
-## UI interfaces
+## Interface contracts
 - **IC-6 Language toggle**
   - Storybook visual regression + axe audit for English ↔ Hindi.
   - Unit test asserting consent gate prevents cookie write when denied.

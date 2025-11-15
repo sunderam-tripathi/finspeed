@@ -5,6 +5,7 @@ handoff
 
 specs/references/handoff:
 README.md
+ui-ux-aesthetics.md
 SCN-001-site-structure
 SCN-002-product-catalog
 SCN-003-model-detail
@@ -36,7 +37,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-001-site-structure/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -144,7 +144,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-002-product-catalog/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -253,7 +252,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-003-model-detail/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -330,7 +328,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-004-dealer-locator/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -407,7 +404,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-005-brand-story/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -484,7 +480,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-006-testimonials/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -561,7 +556,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-007-blog/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 
@@ -639,7 +633,6 @@ blueprints
 journeys
 
 specs/references/handoff/SCN-008-support-hub/content/design/blueprints:
-brand-style-guide.md
 hero-copy.md
 llm-search-strategy.md
 

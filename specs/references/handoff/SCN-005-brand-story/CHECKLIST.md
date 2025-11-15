@@ -16,7 +16,7 @@
 ### Assets & Content
 - [x] Asset inventory recorded in README with bundle checksums for `_shared/assets/`, `data/`, and `content/design/`.
 - [x] Narrative copy & metrics documented in `20-requirements/functional/REQ-005-brand-story.md` and blueprint notes.
-- [x] Visual direction captured in `30-design/blueprints/brand-style-guide.md`; asset manifest references timeline imagery.
+- [x] Visual direction sourced from `../ui-ux-aesthetics.md` while asset manifest references timeline imagery from `content/design/blueprints/hero-copy.md`.
 - [x] Content source of truth documented in RFC as Git-based MDX (`content/brand-story/{locale}.mdx`) with schema validation instructions.
 
 ### Operations & Access

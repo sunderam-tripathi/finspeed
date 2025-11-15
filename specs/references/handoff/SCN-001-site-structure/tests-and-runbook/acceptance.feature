@@ -36,5 +36,5 @@ Feature: Site shell experience (REQ-001)
   Scenario: Missing translation falls back to English with warning
     Given I simulate a missing Hindi translation key for "hero.subtitle"
     When I switch the language toggle to "Hindi"
-    Then the UI renders the English subtitle
+    Then the page renders the English subtitle
     And the console logs a warning containing "i18n-miss" and the key name

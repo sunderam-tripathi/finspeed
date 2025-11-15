@@ -47,7 +47,7 @@ support_incident_banner_view
 | `asset_type` | enum `image`\|`video`\|`360`\|`gallery` | Media type interacted with. |
 | `frame_index` | integer ≥ 0 | Gallery frame index. |
 | `section` | string | Page section (`specs`, `timeline`, `faq`, ...). |
-| `error_code` | string | JSON-LD validation or UI error key. |
+| `error_code` | string | JSON-LD validation or surface error key. |
 | `percent` / `read_percent` | enum 25\|50\|75\|100 | Scroll/read completion buckets. |
 | `metric_id` | string | Brand metric tile id. |
 | `target` | string | CTA destination (e.g., `dealers`, `support`). |

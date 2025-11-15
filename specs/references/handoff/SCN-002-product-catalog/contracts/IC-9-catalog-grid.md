@@ -1,7 +1,7 @@
 ---
 id: IC-9
-title: Catalog listing & filter UI
-type: ui
+title: Catalog listing & filter interface
+type: interface
 version: v1.0
 status: Frozen
 owner: Frontend Team

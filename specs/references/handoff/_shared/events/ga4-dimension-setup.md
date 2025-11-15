@@ -11,7 +11,7 @@ Support frozen event contract `site.interaction.analytics.v1` by provisioning cu
 | Dimension Name | Scope | Event Parameter | Description |
 |----------------|-------|-----------------|-------------|
 | CTA ID | Event | `cta_id` | Slug of CTA clicked (`dealers`, `compare`, `support_whatsapp`, etc.). |
-| Navigation Position | Event | `position` | UI location emitting event (`top_nav`, `drawer`, `footer`, `hero`, `filter_panel`, `catalog_card`). |
+| Navigation Position | Event | `position` | Surface location emitting event (`top_nav`, `drawer`, `footer`, `hero`, `filter_panel`, `catalog_card`). |
 | Theme | Event | `theme` | Theme in effect when interaction occurred (`light`, `dark`). |
 | Consent Granted | Event | `consent_granted` | Boolean flag (`true`/`false`) indicating analytics consent at event time. |
 | Filter ID | Event | `filter_id` | Catalog facet key applied (e.g., `frame`, `brakes`). |

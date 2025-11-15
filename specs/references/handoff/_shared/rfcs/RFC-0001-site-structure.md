@@ -13,7 +13,7 @@ links:
   runbooks: [RUN-001]
 ---
 ## Summary
-Publish a bilingual, high-performance marketing site that highlights Finspeed’s product families, keeps dealer access prominent, and respects consent-aware analytics. We will ship a static Next.js build backed by Git-managed content, a frozen navigation contract, and a locale toggle component so implementers can deliver predictable UX while meeting NFR budgets and accessibility targets.
+Publish a bilingual, high-performance marketing site that highlights Finspeed’s product families, keeps dealer access prominent, and respects consent-aware analytics. We will ship a static Next.js build backed by Git-managed content, a frozen navigation contract, and a locale toggle component so implementers can deliver predictable behaviour while meeting NFR budgets and accessibility targets.
 
 ## Context
 - **Business drivers.** Prospects must quickly understand Finspeed’s offerings, find their nearest dealer, and contact support. Marketing wants English/Hindi parity and future content agility without paying for a CMS today.
@@ -28,13 +28,14 @@ Publish a bilingual, high-performance marketing site that highlights Finspeed’
 - **Architecture.**
   - `app/` routes static-exported; hero, navigation, dealer CTA, and footer orchestrated in shared layout.
   - Middleware inspects `Accept-Language` and persisted cookie to determine locale; falls back to English when keys missing while logging warnings.
-  - Client bundles hydrate lightweight UI atoms (nav, language toggle, theme toggle). Third-party scripts (`gtag.js`, Formspree) loaded asynchronously after consent.
+  - Client bundles hydrate lightweight navigation atoms (nav, language toggle, theme toggle). Third-party scripts (`gtag.js`, Formspree) loaded asynchronously after consent.
 - **C4 updates.**
   - Context diagram captures visitors, marketing admins, GA4, Formspree, and OpenStreetMap tile service.
   - Container diagram differentiates Edge CDN, Next.js static assets, analytics, and configuration repository.
   - Component diagram freezes contracts for navigation presenter, locale manager, hero module, and dealer CTA.
+- **Visual system.** Apply the shared palette, typography, and flow guidance from `../ui-ux-aesthetics.md` so the shell stays consistent with downstream slices.
 - **Interfaces.**
-  - `IC-6` Language Toggle UI (status: Frozen, v1.0) defines states, ARIA behaviour, persistence rules, and analytics naming.
+  - `IC-6` Language Toggle (status: Frozen, v1.0) defines states, ARIA behaviour, persistence rules, and analytics naming.
   - `IC-8` Primary Navigation (status: Frozen, v1.0) enumerates top-level links, responsive behaviour, and dealer CTA placement.
   - Dealer CTA deep-links to `/dealers`; permanent redirect maintained from `/find-dealer` per DR-007.
 - **Data model.** Locale JSON namespaces (`public/locales/{lang}/home.json`) act as immutable assets per build. No runtime PII storage beyond optional locale cookie (non-PII).
@@ -57,7 +58,7 @@ Publish a bilingual, high-performance marketing site that highlights Finspeed’
 
 ## Testability
 - Acceptance scenarios encoded in `../_shared/tests/e2e/acceptance.feature` (navigation, hero, language/theme toggles, dealer link).
-- Contract coverage: UI snapshot/axe audits for `IC-6` and `IC-8`; locale fallbacks verified via unit tests.
+- Contract coverage: Snapshot/axe audits for `IC-6` and `IC-8`; locale fallbacks verified via unit tests.
 - Performance suite: `../_shared/tests/performance/load-plan.md` updated to include home-page Lighthouse budgets.
 
 ## Build-Ready Checklist

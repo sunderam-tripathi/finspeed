@@ -7,10 +7,10 @@ last_reviewed: 2025-11-04
 ---
 
 ## Summary
-Stand up a bilingual, low-cost marketing site for Finspeed using Next.js static export, Git-based content, and lightweight third-party services (GA4, Formspree, Leaflet/OSM).
+Stand up a bilingual, low-cost marketing site for Finspeed using Next.js static export, Git-based content, and lightweight third-party services (GA4, Formspree, Leaflet/OSM), guided by the shared aesthetic system documented in `../ui-ux-aesthetics.md`.
 
 ## Goals
-- Showcase product catalog, dealer locator, blog, and brand story with professional, marine-inspired UI.
+- Showcase product catalog, dealer locator, blog, and brand story with the shared marketing shell.
 - Ensure content parity across English and Hindi with simple developer-maintained workflow.
 - Track key engagements (directions, support, subscriptions) without adding paid tooling.
 
@@ -19,7 +19,6 @@ Stand up a bilingual, low-cost marketing site for Finspeed using Next.js static 
 - **i18n**: JSON locale files under `public/locales/{lang}` with header toggle component (IC-6).
 - **Data sources**: Markdown/CSV in repo for catalog, dealers, blog; GA4 + Formspree for analytics/subscriptions.
 - **Maps**: Leaflet + OpenStreetMap tiles (DR-003) to avoid licensing fees.
-- **Styling**: Space Grotesk / Orbitron, marine gradient theme, light/dark support.
 
 ## Page modules & interfaces
 | Requirement | Interface IDs | Notes |
@@ -61,7 +60,7 @@ All content transformations run in the static build pipeline with schema validat
 - **Analytics consent**: Cookie banner gating + event schema `site.interaction.analytics.v1` ensure compliance (NFR-001).
 
 ## Open questions
-- _None — palette frozen (2025-11-04) and Git/Markdown workflow confirmed as long-term publishing model._
+- _None — Git/Markdown workflow confirmed as long-term publishing model._
 
 ## Next steps
 - Implement Next.js repo scaffolding with locale structure.

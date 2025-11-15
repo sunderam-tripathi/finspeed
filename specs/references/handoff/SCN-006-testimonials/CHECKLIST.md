@@ -17,7 +17,7 @@
 - [x] Asset inventory recorded in README with bundle checksums for `_shared/assets/`, `data/`, and `content/design/`.
 - [x] Testimonials copy + consent status tracked in `20-requirements/functional/REQ-006-testimonials.md`.
 - [x] Content source documented to live under `content/testimonials/{locale}.json` aligned to schema; asset manifest includes portrait imagery references.
-- [x] Brand voice + accessibility tone confirmed in `30-design/blueprints/brand-style-guide.md`.
+- [x] Brand voice + accessibility tone confirmed in `content/design/blueprints/hero-copy.md`; pair carousel visuals with `../ui-ux-aesthetics.md`.
 
 ### Operations & Access
 - [x] Runbook documents autoplay toggle, fallback behaviour, and incident handling.
