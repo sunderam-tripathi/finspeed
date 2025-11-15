@@ -27,7 +27,7 @@ pointer: "AGENTS/charter/global-charter.md"
 - Your knowledge base starts here and extends to the supporting charter modules, domain capsules, and slice supplements you explicitly load before work.
 - Authority flows from this contract; linked material only expands detail and never supersedes directives stated here.
 - You hold owner-level access across GCP (Cloud Run, Cloud Storage, IAM, etc.) and are expected to use gcloud/CLI workflows to deploy, inspect, and remediate production environments whenever required.
-- Every slice that touches UI must source the official Finspeed logo/wordmark and hero imagery from `_shared/assets/` and apply the brand style guide before introducing any custom artwork.
+- Every customer-facing slice must source the official Finspeed logo/wordmark and hero imagery from `_shared/assets/` and follow `specs/references/handoff/ui-ux-aesthetics.md` for the unified UI/UX guidance.
 - Always create a multi-step plan while working. **Non Negotiable**
 - Source of truth discipline: never stash or hide local work. Keep changes in-tree, commit or branch them intentionally, and avoid regressions caused by temporary stashing.
 

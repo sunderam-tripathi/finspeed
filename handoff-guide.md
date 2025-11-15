@@ -14,7 +14,7 @@
 2. Read `ONE-PAGER.md` for purpose, scope, acceptance, rollout/rollback, and links.
 3. Confirm `TAG.txt` matches the version you were assigned to ship.
 4. Skim `README.md` for the asset inventory and “Client Q&A”. Anything missing is explicitly waived or listed with an owner and ETA.
-5. Review frozen contracts in `contracts/` (HTTP/gRPC/GraphQL, DB, events, UI). These are the source of truth for the build.
+5. Review frozen contracts in `contracts/` (HTTP/gRPC/GraphQL, DB, events, client interfaces). These are the source of truth for the build.
 6. Check data/content in `data/` and any design exports or diagrams in `diagrams/`.
 7. Open `tests-and-runbook/acceptance.feature` and `contract-plan.md` to understand verification expectations.
 8. If you deploy or operate, read `tests-and-runbook/runbook.md` and any `_shared/runbooks/*` it references.
@@ -33,7 +33,7 @@
   - Client Q&A: answers and decisions extracted from discovery to avoid context gaps.
 - `contracts/`
   - Frozen interface and data/event contracts. Treat these as non‑negotiable unless you raise a change request.
-  - Typical files: OpenAPI/GraphQL specs, protobufs/IDL, JSON Schemas, SQL view contracts, and UI state contracts.
+  - Typical files: OpenAPI/GraphQL specs, protobufs/IDL, JSON Schemas, SQL view contracts, and state contracts for client interactions.
   - Validate your implementation against these specs and examples; version numbers matter.
 - `data/` and/or `content/`
   - Seed content, CSV/JSON exports, locale packs, copy decks, policy/legal text, and configuration needed for realistic build/test.
@@ -49,7 +49,9 @@
   - `load-plan.md`: performance targets and how they will be measured.
   - `runbook.md`: how to run, deploy, roll back, monitor, and transfer access/credentials securely.
 - `_shared/`
-  - Project‑level assets shared by all slices (e.g., brand assets, shared contracts, RFCS, infra docs, runbooks). Reference only within the pack.
+  - Project-level assets shared by all slices (e.g., brand assets, shared contracts, RFCS, infra docs, runbooks). Reference only within the pack.
+- `ui-ux-aesthetics.md`
+  - Global UI/UX aesthetic system and flow guidance that applies across every slice; cite this alongside slice-specific artefacts when building layouts.
 
 ## MECE Assurance (Client Requirements)
 - Definition

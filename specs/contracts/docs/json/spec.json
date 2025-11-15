@@ -67,6 +67,23 @@
         "specs/project-progress/**",
         ".github/workflows/**"
       ]
+    },
+    {
+      "id": "DOCS-004",
+      "title": "UI/UX spec references",
+      "done_definition": [
+        "Guard contracts reference the new ui-ux aesthetic spec",
+        "Handoff guide updated with revised contract terminology"
+      ],
+      "allow": [
+        "AGENTS/**",
+        "AGENTS.md",
+        "handoff-guide.md",
+        "specs/contracts/docs/json/spec.json",
+        "specs/project-progress/**",
+        "specs/notes/plans/docs/DOCS-004.md",
+        "specs/proofs/docs/DOCS-004/**"
+      ]
     }
   ]
 }

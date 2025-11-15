@@ -42,6 +42,12 @@
           "domain": "docs",
           "title": "Reference integrity automation",
           "status": "done"
+        },
+        {
+          "id": "DOCS-004",
+          "domain": "docs",
+          "title": "UI/UX spec references",
+          "status": "done"
         }
       ]
     },
