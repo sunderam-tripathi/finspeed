@@ -4,7 +4,7 @@ import './globals.css';
 import { ConsentBanner } from '@/components/consent-banner';
 import dynamic from 'next/dynamic';
 
-const ThemeProvider = dynamic(() => import('@/components/theme-provider').then((mod) => mod.ThemeProvider), { ssr: false });
+const ThemeProvider = dynamic(() => import('@/components/theme-provider').then((mod) => mod.ThemeProvider), { ssr: false, loading: () => <div /> });
 
 const inter = Inter({
   variable: '--font-inter',
