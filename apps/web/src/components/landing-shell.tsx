@@ -2,9 +2,12 @@
 
 import { ChangeEvent, FormEvent, startTransition, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { BrandMark } from '@/components/brand-mark';
 import { LocaleSwitch } from '@/components/locale-switch';
 import { HOME_COPY, type HomeCopy, LocaleKey, NAV_LINKS, SUPPORT_CHANNELS } from '@/data/content';
+
+const ThemeToggle = dynamic(() => import('@/components/theme-toggle').then((mod) => mod.ThemeToggle), { ssr: false });
 
 const HERO_STATS = [
   { label: 'Studios', value: '120+', detail: 'Certified partner hubs' },
@@ -35,7 +38,7 @@ export function LandingShell() {
   }, [locale]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--fs-bg-dark)] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-[var(--fs-bg-dark)] text-[var(--fs-text-primary)]">
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <div className="brand-texture" />
       </div>
@@ -98,6 +101,7 @@ function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange:
         </nav>
         <div className="flex items-center justify-end gap-3">
           <LocaleSwitch value={locale} onChange={onLocaleChange} />
+          <ThemeToggle />
           {whatsapp ? (
             <a
               href={whatsapp.href}

@@ -42,7 +42,7 @@ export default function SupportPage() {
   }, [copy.channels, outage]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--fs-bg-dark)] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-[var(--fs-bg-dark)] text-[var(--fs-text-primary)]">
       <div className="pointer-events-none absolute inset-0 opacity-60">
         <div className="brand-texture" />
       </div>
