@@ -77,13 +77,13 @@ function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange:
   const whatsapp = SUPPORT_CHANNELS.find((channel) => channel.label.toLowerCase().includes('whatsapp'));
 
   return (
-    <header className="glass-panel sticky top-4 z-30 px-5 py-4 text-white">
+    <header className="glass-panel sticky top-4 z-30 px-5 py-4 text-[var(--fs-text-primary)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-3">
           <BrandMark tone="light" priority className="rounded-full border border-white/15 bg-white/5 px-3 py-1" />
-          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-white/70">Turning Pedals into Power</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[var(--fs-text-muted)]">Turning Pedals into Power</span>
         </div>
-        <nav aria-label="Primary navigation" className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-white/70">
+        <nav aria-label="Primary navigation" className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-[var(--fs-text-muted)]">
           {NAV_LINKS.map((link) => {
             const isActive = pathname ? pathname === link.href || pathname.startsWith(`${link.href}/`) : false;
             return (
@@ -92,7 +92,7 @@ function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange:
                 href={link.href}
                 data-active={isActive}
                 aria-current={isActive ? 'page' : undefined}
-                className="focus-ring-target rounded-full px-4 py-2 text-white/70 transition hover:text-white data-[active=true]:bg-[var(--fs-nav-active)] data-[active=true]:text-white"
+                className="focus-ring-target rounded-full px-4 py-2 text-[var(--fs-text-muted)] transition hover:text-[var(--fs-text-primary)] data-[active=true]:bg-[var(--fs-nav-active)] data-[active=true]:text-[var(--fs-text-primary)]"
               >
                 {link.label}
               </a>
@@ -102,15 +102,15 @@ function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange:
         <div className="flex items-center justify-end gap-3">
           <LocaleSwitch value={locale} onChange={onLocaleChange} />
           <ThemeToggle />
-          {whatsapp ? (
-            <a
-              href={whatsapp.href}
-              className="focus-ring-target inline-flex items-center gap-2 rounded-full bg-[var(--fs-primary)] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-[var(--fs-primary-dark)/40] transition hover:bg-[var(--fs-primary-dark)]"
-            >
-              <span>WhatsApp</span>
-              <span aria-hidden>↗</span>
-            </a>
-          ) : null}
+            {whatsapp ? (
+              <a
+                href={whatsapp.href}
+                className="focus-ring-target inline-flex items-center gap-2 rounded-full bg-[var(--fs-primary)] px-4 py-2 text-sm font-semibold text-[var(--fs-ink)] shadow-lg shadow-[var(--fs-primary-dark)/40] transition hover:bg-[var(--fs-primary-dark)] hover:text-white"
+              >
+                <span>WhatsApp</span>
+                <span aria-hidden>↗</span>
+              </a>
+            ) : null}
         </div>
       </div>
     </header>
@@ -119,7 +119,7 @@ function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange:
 
 function Hero({ copy }: { copy: HomeCopy['hero'] }) {
   return (
-    <section className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-br from-[var(--fs-bg-dark)] via-[#051122] to-[#02030a] p-8 text-white shadow-[0_45px_120px_rgba(4,9,20,0.75)]" aria-labelledby="hero-title">
+    <section className="relative overflow-hidden rounded-[32px] border border-[var(--fs-card-border)] bg-gradient-to-br from-[var(--fs-bg-dark)] via-[#051122] to-[#02030a] p-8 text-[var(--fs-text-primary)] shadow-[0_45px_120px_rgba(4,9,20,0.55)]" aria-labelledby="hero-title">
       <div className="hero-overlay" />
       <div className="relative grid gap-10 lg:grid-cols-[3fr,2fr]">
         <div className="space-y-6">
@@ -130,7 +130,7 @@ function Hero({ copy }: { copy: HomeCopy['hero'] }) {
             </h1>
             <p className="text-2xl text-[#8CE9FF] sm:text-3xl">{copy.subheadline}</p>
           </div>
-          <p className="max-w-2xl text-base text-white/80">{copy.body}</p>
+          <p className="max-w-2xl text-base text-[var(--fs-text-muted)]">{copy.body}</p>
           <div className="flex flex-wrap gap-3">
             <a
               href="/catalog"
@@ -142,24 +142,24 @@ function Hero({ copy }: { copy: HomeCopy['hero'] }) {
             <a
               href="/dealers"
               data-testid="dealer-cta"
-              className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full border border-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-primary)] transition hover:bg-[rgba(64,176,208,0.08)] hover:text-white"
+              className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full border border-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-primary)] transition hover:bg-[rgba(64,176,208,0.08)] hover:text-[var(--fs-text-primary)]"
             >
               {copy.secondaryCta}
             </a>
           </div>
         </div>
-        <div className="space-y-5 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-          {HERO_STATS.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm uppercase tracking-[0.25em] text-white/70"
-            >
-              <span>{stat.label}</span>
-              <span className="text-3xl font-semibold tracking-tight text-white">{stat.value}</span>
-              <p className="text-xs normal-case tracking-normal text-white/70">{stat.detail}</p>
+            <div className="space-y-5 rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-6 backdrop-blur">
+              {HERO_STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex flex-col gap-2 rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-4 py-3 text-sm uppercase tracking-[0.25em] text-[var(--fs-text-muted)]"
+                >
+                  <span>{stat.label}</span>
+                  <span className="text-3xl font-semibold tracking-tight text-[var(--fs-text-primary)]">{stat.value}</span>
+                  <p className="text-xs normal-case tracking-normal text-[var(--fs-text-muted)]">{stat.detail}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -170,20 +170,20 @@ function Highlights({ copy }: { copy: HomeCopy['highlights'] }) {
     <section aria-labelledby="highlights">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="highlights" className="text-3xl font-semibold text-white">
+        <h2 id="highlights" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
           {copy.subtitle}
         </h2>
       </header>
       <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {copy.cards.map((card) => (
-          <article key={card.title} className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#071425] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.35)] transition hover:-translate-y-1">
+          <article key={card.title} className="relative overflow-hidden rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_25px_60px_rgba(0,0,0,0.25)] transition hover:-translate-y-1">
             <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100" />
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
-              <span className="rounded-full border border-white/20 px-3 py-1">{card.badge}</span>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">
+              <span className="rounded-full border border-[var(--fs-border)] px-3 py-1">{card.badge}</span>
               {copy.title}
             </div>
-            <h3 className="mt-4 text-2xl font-semibold text-white">{card.title}</h3>
-            <p className="mt-3 text-sm text-white/70">{card.blurb}</p>
+            <h3 className="mt-4 text-2xl font-semibold text-[var(--fs-text-primary)]">{card.title}</h3>
+            <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{card.blurb}</p>
           </article>
         ))}
       </div>
@@ -194,21 +194,21 @@ function Highlights({ copy }: { copy: HomeCopy['highlights'] }) {
 function Engineering({ copy }: { copy: HomeCopy['engineering'] }) {
   return (
     <section className="grid gap-8 lg:grid-cols-[1.2fr_1fr]" aria-label={copy.title}>
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-inner shadow-black/20">
+      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 shadow-inner shadow-black/10">
         <header className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#7DDB6A]">{copy.title}</p>
           <h2 className="text-3xl font-semibold text-white">{copy.subtitle}</h2>
         </header>
-        <ul className="mt-5 space-y-4 text-sm text-white/80">
+        <ul className="mt-5 space-y-4 text-sm text-[var(--fs-text-muted)]">
           {copy.items.map((item) => (
-            <li key={item.title} className="rounded-2xl border border-white/10 bg-black/10 p-4">
-              <p className="text-base font-semibold text-white">{item.title}</p>
-              <p className="mt-2 text-sm text-white/70">{item.detail}</p>
+            <li key={item.title} className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-4">
+              <p className="text-base font-semibold text-[var(--fs-text-primary)]">{item.title}</p>
+              <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{item.detail}</p>
             </li>
           ))}
         </ul>
       </div>
-      <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-[#071728] to-[#02070f] p-6 text-white">
+      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-gradient-to-b from-[var(--fs-card)] to-[color-mix(in_srgb,var(--fs-card) 80%,#001423)] p-6 text-[var(--fs-text-primary)]">
         <p className="text-sm uppercase tracking-[0.35em] text-[#7DDB6A]">Lab highlights</p>
         <div className="mt-6 space-y-5">
           <StatItem label="Frame fatigue cycles" value="150k+" detail="Validated per quarter" />
@@ -222,10 +222,10 @@ function Engineering({ copy }: { copy: HomeCopy['engineering'] }) {
 
 function StatItem({ label, value, detail }: { label: string; value: string; detail: string }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm uppercase tracking-[0.3em] text-white/70">
+    <div className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-4 py-3 text-sm uppercase tracking-[0.3em] text-[var(--fs-text-muted)]">
       <p>{label}</p>
-      <p className="mt-2 text-3xl font-semibold text-white">{value}</p>
-      <p className="text-xs normal-case tracking-normal text-white/70">{detail}</p>
+      <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{value}</p>
+      <p className="text-xs normal-case tracking-normal text-[var(--fs-text-muted)]">{detail}</p>
     </div>
   );
 }
@@ -235,17 +235,17 @@ function Pricing({ copy }: { copy: HomeCopy['pricing'] }) {
     <section aria-labelledby="pricing">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="pricing" className="text-3xl font-semibold text-white">
+        <h2 id="pricing" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
           {copy.subtitle}
         </h2>
       </header>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
         {copy.tiers.map((tier) => (
-          <article key={tier.name} className="flex flex-col rounded-3xl border border-white/10 bg-[#050d18] p-6 text-white shadow-[0_30px_65px_rgba(2,3,10,0.55)]">
-            <p className="text-sm uppercase tracking-[0.35em] text-white/60">{tier.name}</p>
-            <p className="mt-2 text-3xl font-semibold text-white">{tier.price}</p>
-            <p className="mt-1 text-sm text-white/70">{tier.description}</p>
-            <ul className="mt-4 space-y-2 text-sm text-white/80">
+          <article key={tier.name} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_30px_65px_rgba(2,3,10,0.35)]">
+            <p className="text-sm uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">{tier.name}</p>
+            <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{tier.price}</p>
+            <p className="mt-1 text-sm text-[var(--fs-text-muted)]">{tier.description}</p>
+            <ul className="mt-4 space-y-2 text-sm text-[var(--fs-text-muted)]">
               {tier.features.map((feature) => (
                 <li key={feature} className="flex items-start gap-2">
                   <span className="mt-1 h-2 w-2 rounded-full bg-[var(--fs-eco)]" aria-hidden />

@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Hind, Inter } from 'next/font/google';
 import './globals.css';
 import { ConsentBanner } from '@/components/consent-banner';
-import dynamic from 'next/dynamic';
-
-const ThemeProvider = dynamic(() => import('@/components/theme-provider').then((mod) => mod.ThemeProvider), { ssr: false, loading: () => <div /> });
+import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({
   variable: '--font-inter',

@@ -11,10 +11,12 @@
   --fs-card: #071425;
   --fs-text-primary: #f5f7fb;
   --fs-text-muted: rgba(230, 235, 248, 0.75);
+  --fs-text-soft: rgba(230, 235, 248, 0.6);
   --fs-eco: #7ddb6a;
   --fs-warning: #f97316;
   --fs-border: #1f2a3f;
   --fs-muted-text: #6b7280;
+  --fs-card-border: rgba(255, 255, 255, 0.12);
   --fs-glass-dark-bg: rgba(2, 3, 10, 0.72);
   --fs-glass-light-bg: rgba(255, 255, 255, 0.72);
   --fs-glass-dark-border: rgba(255, 255, 255, 0.14);
@@ -38,8 +40,10 @@
   --fs-card: #ffffff;
   --fs-text-primary: #0f172a;
   --fs-text-muted: rgba(15, 23, 42, 0.65);
+  --fs-text-soft: rgba(15, 23, 42, 0.55);
   --fs-border: #d5deee;
   --fs-muted-text: #475569;
+  --fs-card-border: rgba(15, 23, 42, 0.08);
   --fs-glass-dark-bg: rgba(255, 255, 255, 0.9);
   --fs-glass-dark-border: rgba(15, 23, 42, 0.08);
   --fs-glow-aqua: rgba(64, 176, 208, 0.18);
