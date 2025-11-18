@@ -16,10 +16,11 @@
 - Lint: `npm --workspace apps/web run lint` → PASS.
 - Playwright/axe: `WEB_E2E_PORT=3431 npm --workspace apps/web run test -- --timeout=80000 --workers=1` → PASS (SCN-001/004/005/006/007/008 + outage analytics + axe).
 - Parity screenshots captured: `artefacts/parity-home.png`, `artefacts/parity-dealers.png`, `artefacts/parity-blog.png`, `artefacts/parity-support.png` (docker web @127.0.0.1:3430).
+- Production screenshots captured from `https://finspeed.online`: `artefacts/production-home.png`, `artefacts/production-dealers.png`, `artefacts/production-blog.png`, `artefacts/production-support.png`.
 
 ## Result
 - RESULT: PASS
 - Notes:
   - Light/dark tokens now drive all marketing surfaces with hydrated theme toggle + locale switch in the shared header.
   - Landmark/hydration issues resolved (single banner, `html` suppression), axe clean on dealer locator.
-  - Production screenshots not captured in this session (no production endpoint provided). 
+  - Parity + production artefacts paired for visual proof. 
