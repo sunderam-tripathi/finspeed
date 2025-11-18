@@ -1,10 +1,9 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState, startTransition } from 'react';
-import { BrandMark } from '@/components/brand-mark';
-import { LocaleSwitch } from '@/components/locale-switch';
 import { SUPPORT_COPY, type SupportCopy, LocaleKey } from '@/data/support';
 import { logAnalyticsEvent } from '@/lib/analytics';
+import { SiteHeader } from '@/components/site-header';
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -47,7 +46,8 @@ export default function SupportPage() {
         <div className="brand-texture" />
       </div>
       <div className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-10 px-5 py-8 sm:px-6 lg:px-10">
-        <Header locale={locale} onLocaleChange={setLocale} copy={copy.hero} />
+        <SiteHeader locale={locale} onLocaleChange={setLocale} />
+        <Header copy={copy.hero} />
         <main className="flex flex-1 flex-col gap-12 pb-12">
           <ChannelStatus copy={copy.status} outage={outage} onToggleOutage={() => setOutage((prev) => !prev)} />
           <ChannelGrid channels={channels} locale={locale} />
@@ -60,21 +60,22 @@ export default function SupportPage() {
   );
 }
 
-function Header({ locale, onLocaleChange, copy }: { locale: LocaleKey; onLocaleChange: (locale: LocaleKey) => void; copy: SupportCopy['hero'] }) {
+function Header({ copy }: { copy: SupportCopy['hero'] }) {
   return (
-    <header className="glass-panel px-6 py-8">
+    <section
+      className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-6 py-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]"
+      aria-labelledby="support-hero"
+    >
       <div className="flex flex-col gap-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <BrandMark tone="light" className="rounded-full border border-white/15 bg-white/5 px-3 py-1" priority />
-          <LocaleSwitch value={locale} onChange={onLocaleChange} ariaLabel={locale === 'hi' ? 'भाषा चुनें' : 'Select language'} />
-        </div>
-        <div className="space-y-3 text-white">
+        <div className="space-y-3 text-[var(--fs-text-primary)]">
           <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-primary)]">{copy.kicker}</p>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{copy.title}</h1>
-          <p className="text-base text-white/75">{copy.subtitle}</p>
+          <h1 id="support-hero" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            {copy.title}
+          </h1>
+          <p className="text-base text-[var(--fs-text-muted)]">{copy.subtitle}</p>
         </div>
       </div>
-    </header>
+    </section>
   );
 }
 
@@ -88,13 +89,17 @@ function ChannelStatus({
   onToggleOutage: () => void;
 }) {
   return (
-    <section className="rounded-[30px] border border-white/10 bg-white/5 p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
+    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/70">{copy.title}</p>
-          <p className="mt-2 text-lg text-white">{outage ? copy.outage : copy.online}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-text-soft)]">{copy.title}</p>
+          <p className="mt-2 text-lg text-[var(--fs-text-primary)]">{outage ? copy.outage : copy.online}</p>
         </div>
-        <button type="button" onClick={onToggleOutage} className="focus-ring-target rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-white/80 transition hover:border-white/40">
+        <button
+          type="button"
+          onClick={onToggleOutage}
+          className="focus-ring-target rounded-full border border-[var(--fs-border)] px-4 py-2 text-xs font-semibold text-[var(--fs-text-muted)] transition hover:border-[var(--fs-primary)] hover:text-[var(--fs-text-primary)]"
+        >
           {outage ? 'Disable outage simulation' : 'Simulate WhatsApp outage'}
         </button>
       </div>
@@ -117,7 +122,7 @@ function ChannelGrid({
           href={channel.disabled ? undefined : channel.href}
           aria-disabled={channel.disabled || undefined}
           tabIndex={channel.disabled ? -1 : undefined}
-          className={`focus-ring-target rounded-3xl border border-white/10 bg-[#050c16] p-5 text-white shadow-[0_25px_60px_rgba(0,0,0,0.6)] transition ${
+          className={`focus-ring-target rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-5 text-[var(--fs-text-primary)] transition ${
             channel.disabled ? 'pointer-events-none opacity-60' : 'hover:border-[var(--fs-primary)]'
           }`}
           onClick={() => {
@@ -126,10 +131,10 @@ function ChannelGrid({
           }}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{channel.label}</p>
-          <p className="mt-2 text-2xl font-semibold">{channel.detail}</p>
-          <p className="mt-2 text-sm text-white/70">{channel.description}</p>
+          <p className="mt-2 text-2xl font-semibold text-[var(--fs-text-primary)]">{channel.detail}</p>
+          <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{channel.description}</p>
           {channel.disabled ? (
-            <p className="mt-2 text-xs text-[#F97316]">{locale === 'hi' ? 'अस्थायी रूप से बंद' : 'Temporarily unavailable'}</p>
+            <p className="mt-2 text-xs text-[var(--fs-warning)]">{locale === 'hi' ? 'अस्थायी रूप से बंद' : 'Temporarily unavailable'}</p>
           ) : null}
         </a>
       ))}
@@ -196,10 +201,10 @@ function SupportForm({ locale, copy }: { locale: LocaleKey; copy: SupportCopy['f
   };
 
   return (
-    <section className="rounded-[30px] border border-white/10 bg-gradient-to-br from-[#071425] to-[#02070f] p-6 text-white shadow-[0_35px_90px_rgba(0,0,0,0.65)]" aria-labelledby="support-form">
+    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]" aria-labelledby="support-form">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="support-form" className="text-3xl font-semibold">
+        <h2 id="support-form" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
           {copy.subtitle}
         </h2>
       </header>
@@ -210,7 +215,7 @@ function SupportForm({ locale, copy }: { locale: LocaleKey; copy: SupportCopy['f
           onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
           placeholder={copy.namePlaceholder}
           aria-invalid={status === 'error' && !name}
-          className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/60 focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
+          className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-4 py-3 text-sm text-[var(--fs-text-primary)] placeholder:text-[var(--fs-text-soft)] focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
           required
         />
         <input
@@ -220,7 +225,7 @@ function SupportForm({ locale, copy }: { locale: LocaleKey; copy: SupportCopy['f
           placeholder={copy.emailPlaceholder}
           aria-invalid={status === 'error'}
           aria-describedby={feedback ? feedbackId : undefined}
-          className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/60 focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
+          className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-4 py-3 text-sm text-[var(--fs-text-primary)] placeholder:text-[var(--fs-text-soft)] focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
           required
         />
         <textarea
@@ -228,22 +233,22 @@ function SupportForm({ locale, copy }: { locale: LocaleKey; copy: SupportCopy['f
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => setMessage(event.target.value)}
           placeholder={copy.messagePlaceholder}
           rows={4}
-          className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder:text-white/60 focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
+          className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-4 py-3 text-sm text-[var(--fs-text-primary)] placeholder:text-[var(--fs-text-soft)] focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
           required
         />
         <button
           type="submit"
           disabled={status === 'submitting'}
-          className="focus-ring-target inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-surface-muted)] disabled:cursor-not-allowed disabled:opacity-70"
+          className="focus-ring-target inline-flex items-center justify-center rounded-2xl bg-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-primary-dark)] disabled:cursor-not-allowed disabled:opacity-70"
         >
           {status === 'submitting' ? (locale === 'hi' ? 'भेजा जा रहा है…' : 'Sending…') : copy.button}
         </button>
       </form>
-      <p className="mt-3 text-xs text-white/70">{copy.privacy}</p>
+      <p className="mt-3 text-xs text-[var(--fs-text-muted)]">{copy.privacy}</p>
       {feedback ? (
         <p
           id={feedbackId}
-          className={`mt-2 text-sm ${status === 'success' ? 'text-[#7DDB6A]' : 'text-[#F97316]'}`}
+          className={`mt-2 text-sm ${status === 'success' ? 'text-[var(--fs-eco)]' : 'text-[var(--fs-warning)]'}`}
           role={status === 'error' ? 'alert' : 'status'}
         >
           {feedback}
@@ -255,15 +260,15 @@ function SupportForm({ locale, copy }: { locale: LocaleKey; copy: SupportCopy['f
 
 function FaqSection({ faq, locale }: { faq: SupportCopy['faq']; locale: LocaleKey }) {
   return (
-    <section className="rounded-[30px] border border-white/10 bg-white/5 p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.5)]" aria-labelledby="faq-heading">
-      <h2 id="faq-heading" className="text-2xl font-semibold">
+    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" className="text-2xl font-semibold text-[var(--fs-text-primary)]">
         {locale === 'hi' ? 'सामान्य प्रश्न' : 'FAQs'}
       </h2>
       <div className="mt-4 space-y-4">
         {faq.map((item) => (
-          <details key={item.question} className="rounded-2xl border border-white/15 bg-black/20 p-4">
-            <summary className="cursor-pointer text-sm font-semibold text-white">{item.question}</summary>
-            <p className="mt-2 text-sm text-white/70">{item.answer}</p>
+          <details key={item.question} className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-4">
+            <summary className="cursor-pointer text-sm font-semibold text-[var(--fs-text-primary)]">{item.question}</summary>
+            <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{item.answer}</p>
           </details>
         ))}
       </div>
@@ -273,7 +278,7 @@ function FaqSection({ faq, locale }: { faq: SupportCopy['faq']; locale: LocaleKe
 
 function OutageBanner({ message }: { message: string }) {
   return (
-    <div className="rounded-[30px] border border-yellow-400/40 bg-yellow-400/10 p-4 text-sm text-yellow-200" role="status" aria-live="assertive">
+    <div className="rounded-[30px] border border-[color:rgba(249,115,22,0.3)] bg-[color:rgba(249,115,22,0.12)] p-4 text-sm text-[var(--fs-warning)] shadow-[var(--fs-card-shadow-soft)]" role="status" aria-live="assertive">
       {message}
     </div>
   );

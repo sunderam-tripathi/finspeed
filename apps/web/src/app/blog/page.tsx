@@ -1,9 +1,8 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState, startTransition } from 'react';
-import { BrandMark } from '@/components/brand-mark';
-import { LocaleSwitch } from '@/components/locale-switch';
 import { BLOG_DATA, type BlogCategoryKey, type BlogCopy, LocaleKey } from '@/data/blog';
+import { SiteHeader } from '@/components/site-header';
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -41,7 +40,7 @@ export default function BlogPage() {
         <div className="brand-texture" />
       </div>
       <div className="relative mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-10 px-5 py-8 sm:px-6 lg:px-10">
-        <Header
+        <SiteHeader
           locale={locale}
           onLocaleChange={(next) => {
             if (next === locale) return;
@@ -49,8 +48,8 @@ export default function BlogPage() {
             setLocale(next);
             setTimeout(() => setTransitioning(false), 220);
           }}
-          copy={data.hero}
         />
+        <Header copy={data.hero} />
         <main className={`flex flex-col gap-12 pb-12 transition-opacity duration-200 ${transitioning ? 'opacity-0' : 'opacity-100'}`}>
           <CategoryNav categories={data.categories} active={category} onChange={setCategory} />
           <FeaturedArticle post={data.featured} />
@@ -65,22 +64,23 @@ export default function BlogPage() {
   );
 }
 
-function Header({ locale, onLocaleChange, copy }: { locale: LocaleKey; onLocaleChange: (locale: LocaleKey) => void; copy: BlogCopy['hero'] }) {
+function Header({ copy }: { copy: BlogCopy['hero'] }) {
   return (
-    <header className="glass-panel px-6 py-8 text-[var(--fs-text-primary)]">
+    <section
+      className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-6 py-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]"
+      aria-labelledby="blog-hero"
+    >
       <div className="flex flex-col gap-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <BrandMark tone="light" className="rounded-full border border-[var(--fs-border)] bg-[var(--fs-surface-muted)] px-3 py-1" priority />
-          <LocaleSwitch value={locale} onChange={onLocaleChange} ariaLabel={locale === 'hi' ? 'भाषा चुनें' : 'Select language'} />
-        </div>
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-primary)]">{copy.kicker}</p>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{copy.title}</h1>
+          <h1 id="blog-hero" className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            {copy.title}
+          </h1>
           <p className="text-xl text-[var(--fs-text-muted)]">{copy.subtitle}</p>
           <p className="text-base text-[var(--fs-text-muted)]">{copy.body}</p>
         </div>
       </div>
-    </header>
+    </section>
   );
 }
 
@@ -101,7 +101,7 @@ function CategoryNav({
           type="button"
           onClick={() => onChange(category.key as BlogCategoryKey | 'all')}
           aria-pressed={active === category.key}
-          className={`focus-ring-target rounded-full border px-5 py-2 text-sm font-semibold transition ${
+          className={`focus-ring-target rounded-full border px-4 py-1.5 text-xs sm:text-sm font-semibold transition ${
             active === category.key
               ? 'border-[var(--fs-primary)] bg-[var(--fs-primary)] text-[var(--fs-ink)]'
               : 'border-[var(--fs-border)] text-[var(--fs-text-muted)] hover:border-[var(--fs-primary)] hover:text-[var(--fs-text-primary)]'
@@ -116,8 +116,8 @@ function CategoryNav({
 
 function FeaturedArticle({ post }: { post: BlogCopy['featured'] }) {
   return (
-    <article className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
-      <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#7DDB6A]">{post.highlight}</p>
+    <article className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]">
+      <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-eco)]">{post.highlight}</p>
       <div className="mt-4 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-[var(--fs-text-muted)]">
         <span>{post.categoryLabel}</span>
         <span aria-hidden>•</span>
@@ -151,7 +151,7 @@ function BlogGrid({ posts }: { posts: BlogCopy['posts'] }) {
       <h3 className="text-2xl font-semibold text-[var(--fs-text-primary)]">Latest posts</h3>
       <div className="grid gap-5 md:grid-cols-2">
         {posts.map((post) => (
-          <article key={post.slug} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-5 text-[var(--fs-text-primary)] shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+          <article key={post.slug} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-5 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow-soft)]">
             <div className="text-xs uppercase tracking-[0.3em] text-[var(--fs-text-muted)]">{post.categoryLabel}</div>
             <h4 className="mt-3 text-xl font-semibold">{post.title}</h4>
             <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{post.summary}</p>
@@ -229,7 +229,7 @@ function SubscriptionBanner({ locale, copy }: { locale: LocaleKey; copy: BlogCop
   };
 
   return (
-    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_30px_80px_rgba(0,0,0,0.25)]">
+    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[var(--fs-primary)]">{copy.title}</p>
         <p className="text-lg text-[var(--fs-text-muted)]">{copy.body}</p>

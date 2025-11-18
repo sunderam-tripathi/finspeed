@@ -26,7 +26,7 @@ export function DealerMap({
   return (
     <div
       data-testid="dealer-map"
-      className="relative h-72 w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900"
+      className="relative h-72 w-full overflow-hidden rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-card)]"
       aria-label="Dealer locations map"
     >
       <svg className="absolute inset-0" viewBox="0 0 100 100" role="presentation">
@@ -53,10 +53,10 @@ export function DealerMap({
           <button
             key={`${pin.name}-${pin.postal}`}
             type="button"
-            className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2 py-1 text-xs font-semibold shadow transition ${
+            className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2 py-1 text-xs font-semibold transition ${
               isActive
-                ? 'border-white bg-[var(--fs-primary)] text-white'
-                : 'border-white/40 bg-white/80 text-slate-900'
+                ? 'border-[var(--fs-primary)] bg-[var(--fs-primary)] text-[var(--fs-ink)]'
+                : 'border-[var(--fs-card-border)] bg-[var(--fs-surface)] text-[var(--fs-text-primary)]'
             }`}
             style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
             aria-pressed={isActive}

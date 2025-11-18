@@ -9,11 +9,14 @@ const selectors = {
   outageToggle: 'button:has-text("Simulate outage")',
   outageBanner: 'text=Locator temporarily unavailable',
   map: '[data-testid="dealer-map"]',
-  supportLink: 'a:has-text("WhatsApp")'
+  supportLink: 'a:has-text("WhatsApp:")'
 };
 
 test.describe('SCN-004 dealer locator contract', () => {
   test('valid postal shows dealer results and filter chips update list', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('finspeed-dealer-locale', 'en');
+    });
     await page.goto(path);
     await expect(page.locator('h2', { hasText: 'Results near' })).toBeVisible();
     const initialCount = await page.locator('[data-testid="dealer-card"]').count();
@@ -23,6 +26,9 @@ test.describe('SCN-004 dealer locator contract', () => {
   });
 
   test('invalid postal triggers inline error', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('finspeed-dealer-locale', 'en');
+    });
     await page.goto(path);
     await page.fill(selectors.postalInput, '123');
     await page.click(selectors.searchButton);
@@ -30,6 +36,9 @@ test.describe('SCN-004 dealer locator contract', () => {
   });
 
   test('outage banner hides results and promotes support channels', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('finspeed-dealer-locale', 'en');
+    });
     await page.goto(path);
     await page.click(selectors.outageToggle);
     await expect(page.locator(selectors.outageBanner)).toBeVisible();
@@ -39,6 +48,9 @@ test.describe('SCN-004 dealer locator contract', () => {
   });
 
   test('analytics stubs push GA payloads with consent flag', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('finspeed-dealer-locale', 'en');
+    });
     await page.goto(path);
     const bannerAccept = page.getByRole('button', { name: 'Accept' });
     if (await bannerAccept.isVisible()) {

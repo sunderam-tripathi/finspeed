@@ -865,3 +865,315 @@ Bilingual is not a translation add-on, it’s a first-class feature.
 ---
 
 This is the core aesthetic and UX blueprint. A designer can translate this into Figma screens, and a developer can map it directly into components and pages with a clear idea of how Finspeed should look and feel: fast, engineered, approachable, and ready in both English and Hindi.
+
+Let’s flip the switch to **Finspeed: Light Mode** – same personality, different lighting.
+
+I’ll focus only on what changes from the previous spec so your dev can implement this as an alternate theme.
+
+---
+
+## 1. Light Theme Concept
+
+Dark theme mood was: **night ride in the city**.
+Light theme mood is: **early-morning ride in clear air**.
+
+Principles stay the same:
+
+* Engineering → clean, grid-based, no noise.
+* Accessibility → high contrast, clear hierarchy.
+* Sustainability → airy whites, aqua accents, subtle greens.
+
+Overall ratio:
+
+* ~80% white / very light grey
+* ~15% soft neutrals
+* ~5% aqua + green accents
+
+---
+
+## 2. Light Theme Color System
+
+Use a theme switcher approach:
+
+```css
+:root[data-theme='light'] { /* values below */ }
+:root[data-theme='dark']  { /* previous values */ }
+```
+
+### 2.1 Core tokens (light)
+
+```css
+:root[data-theme='light'] {
+  --fs-bg-page: #F9FAFB;       /* overall page background */
+  --fs-hero-bg: #F3FAFD;       /* light hero section */
+  --fs-surface: #FFFFFF;       /* cards, nav bar, panels */
+  --fs-surface-muted: #F3F4F6; /* alternate section bg */
+
+  --fs-primary: #2FA7CC;       /* slightly softer aqua for light bg */
+  --fs-primary-strong: #107091;/* deeper aqua for text/borders */
+  --fs-ink: #111827;           /* main text */
+  --fs-muted-text: #6B7280;    /* secondary text */
+
+  --fs-eco: #4CC768;           /* more saturated eco green */
+  --fs-warning: #F97316;
+  --fs-border: #E5E7EB;
+  --fs-shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.08);
+  --fs-shadow-strong: 0 16px 40px rgba(15, 23, 42, 0.15);
+}
+```
+
+You can keep the earlier dark values under `data-theme="dark"`.
+
+### 2.2 Gradients (light)
+
+* **Hero gradient (light):**
+
+```css
+background: radial-gradient(circle at top left, #E0F7FF 0%, #F9FAFB 55%, #FFFFFF 100%);
+```
+
+* **Primary CTA gradient:**
+
+```css
+background-image: linear-gradient(135deg, #2FA7CC 0%, #107091 100%);
+```
+
+* **Eco/Sustainability banner:**
+
+```css
+background-image: linear-gradient(135deg, #E7FBE9 0%, #F9FFFB 100%);
+```
+
+---
+
+## 3. Component Adaptations for Light Theme
+
+### 3.1 Header
+
+* Background: solid `--fs-surface` from the start (no transparent header).
+* Bottom border: `1px solid rgba(15,23,42,0.06)` instead of drop shadow.
+* Logo: use the **dark-text on light** version you provided.
+* Navigation links:
+
+  * Default: `color: --fs-muted-text;`
+  * Hover/active: `color: --fs-primary-strong; border-bottom: 2px solid --fs-primary;`
+
+On scroll, header stays the same; just add a subtle shadow:
+
+```css
+box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+```
+
+### 3.2 Hero Section (Home)
+
+* Background: `--fs-hero-bg` gradient (very light aqua to white).
+* Left column text remains dark (`--fs-ink`).
+* Right column:
+
+  * Bike image on a pale aqua circle (token: `#D6F2FA`) echoing the logo’s ring.
+  * No hard black; keep everything in cool greys and aquas.
+
+Primary CTA:
+
+* Filled pill with gradient CTA background.
+* Text always white.
+* On hover: slight darkening towards `--fs-primary-strong`, increased shadow.
+
+Secondary CTA:
+
+```css
+background-color: transparent;
+border: 1.5px solid rgba(47,167,204,0.6);
+color: var(--fs-primary-strong);
+background-color: rgba(47,167,204,0.04) on hover;
+```
+
+### 3.3 Sections & Surfaces
+
+* Alternate sections:
+
+  * Section 1 (Hero) – `--fs-hero-bg`
+  * Section 2 (Product highlights) – `--fs-bg-page`
+  * Section 3 (Engineering) – `--fs-surface`
+  * Section 4 (Accessibility/pricing) – `--fs-surface-muted`
+  * Section 5 (Eco banner) – eco gradient
+  * etc.
+
+This keeps the long scroll visually segmented without heaviness.
+
+* Dividers between sections: use either 48px of whitespace or a very soft border (`1px solid rgba(15,23,42,0.04)`).
+
+### 3.4 Cards (products, blog, dealers)
+
+Same structure as previous spec; only styling adjusts:
+
+```css
+background-color: var(--fs-surface);
+border-radius: 16px;
+border: 1px solid var(--fs-border);
+box-shadow: var(--fs-shadow-soft);
+```
+
+**Hover state (desktop):**
+
+* `transform: translateY(-4px);`
+* `box-shadow: var(--fs-shadow-strong);`
+* `border-color: rgba(47,167,204,0.5);`
+
+Text colors:
+
+* Titles: `--fs-ink`
+* Meta info (category, date): `--fs-muted-text`
+
+### 3.5 Dealer Locator (light)
+
+* Page background: `--fs-bg-page`.
+* Map panel: soft rounded container with a thin border.
+
+```css
+border-radius: 20px;
+border: 1px solid rgba(148, 163, 184, 0.3);
+overflow: hidden;
+background-color: #E5F4FA; /* underlay behind map tiles */
+```
+
+* Dealer list: each card as above; highlight active card with left accent bar:
+
+```css
+border-left: 3px solid var(--fs-primary);
+background-color: rgba(47,167,204,0.04);
+```
+
+* Pins on light map:
+
+  * Default pin: white fill, `--fs-primary` outline.
+  * Active pin: filled `--fs-primary`, white bicycle icon inside.
+
+### 3.6 Footer (light theme decision)
+
+Two options; I’d recommend **keeping footer dark**, even in light theme, for strong visual anchor:
+
+* Background: `#02030A` (from dark theme).
+* Text: `#E5E7EB` / `#9CA3AF`.
+* Links: white → aqua on hover.
+
+This also keeps your dark version’s palette alive somewhere.
+
+If you prefer entirely light:
+
+* Use `--fs-bg-page` with a slight top border, and invert colors (links in `--fs-primary-strong`).
+
+---
+
+## 4. Typography in Light Theme
+
+Typography tokens remain identical; just ensure:
+
+* Default body text: `color: var(--fs-ink);`
+* Secondary text: `color: var(--fs-muted-text);`
+* Links: `color: var(--fs-primary-strong);` with underline on hover.
+
+Headings can optionally get a slight color variation:
+
+```css
+h1, h2, h3, h4 {
+  color: #020617; /* slightly deeper than body */
+}
+```
+
+---
+
+## 5. Light Theme Motion & Feedback
+
+Same durations and easing as before; just tweak how feedback looks on light backgrounds:
+
+* **Focus states** (for a11y):
+
+  * Add an outline ring around focused elements:
+
+```css
+outline: 2px solid rgba(47,167,204,0.7);
+outline-offset: 3px;
+```
+
+* **Language toggle:**
+
+  * Track background: `#E5F2F7`.
+  * Pill (active): `--fs-primary`.
+  * Label colors: inactive `--fs-muted-text`, active white.
+
+* **Scrolling animation:**
+
+  * Section titles fade up from 10px with small opacity animation; keep shadows subtle to avoid “dirty” white.
+
+---
+
+## 6. Light Theme Home Layout Snapshot (for dev)
+
+Rough structure in HTML-ish form so implementation is straightforward:
+
+```html
+<body data-theme="light">
+  <header class="fs-header fs-header--light">...</header>
+
+  <main>
+    <section class="fs-hero fs-hero--light">...</section>
+
+    <section class="fs-section fs-section--bg-page"> <!-- product highlights --> </section>
+
+    <section class="fs-section fs-section--surface"> <!-- engineering/performance --> </section>
+
+    <section class="fs-section fs-section--muted"> <!-- accessibility/pricing --> </section>
+
+    <section class="fs-section fs-section--eco"> <!-- sustainability banner --> </section>
+
+    <!-- etc... -->
+  </main>
+
+  <footer class="fs-footer fs-footer--dark">...</footer>
+</body>
+```
+
+Then in CSS:
+
+```css
+.fs-hero--light {
+  background: var(--fs-hero-bg);
+}
+
+.fs-section--bg-page {
+  background-color: var(--fs-bg-page);
+}
+
+.fs-section--surface {
+  background-color: var(--fs-surface);
+}
+
+.fs-section--muted {
+  background-color: var(--fs-surface-muted);
+}
+
+.fs-section--eco {
+  background-image: linear-gradient(135deg, #E7FBE9 0%, #F9FFFB 100%);
+}
+```
+
+---
+
+## 7. Theme Switching Logic (optional but recommended)
+
+If you want both light and dark:
+
+* Add a theme toggle (icon: sun/moon) in the header, opposite the language toggle.
+* Persist choice in `localStorage`.
+* On load:
+
+  * If user has OS preference (`prefers-color-scheme`), use that as default.
+  * Then override with saved preference if present.
+
+No UX copy changes needed; just swap `data-theme` and rely on the tokens above.
+
+---
+
+This gives you a **1:1 light counterpart** to the earlier dark aesthetic: same engineering-driven structure, now in daylight colors. Developers can treat this as a second token set and wire it up via `data-theme='light'` without rewriting any layout logic.
+

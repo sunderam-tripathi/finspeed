@@ -14,7 +14,8 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-      className="focus-ring-target inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white transition hover:border-white/40 data-[theme=light]:border-[color:rgba(15,23,42,0.15)] data-[theme=light]:text-[color:var(--fs-ink)]"
+      aria-pressed={theme === 'light'}
+      className="focus-ring-target inline-flex items-center gap-2 rounded-full border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-3 py-1 text-xs font-semibold text-[var(--fs-text-primary)] transition hover:border-[var(--fs-primary)]"
       data-theme={theme}
     >
       <span aria-hidden>{ICONS[theme === 'dark' ? 'dark' : 'light']}</span>

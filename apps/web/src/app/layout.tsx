@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Hind, Inter } from 'next/font/google';
 import './globals.css';
 import { ConsentBanner } from '@/components/consent-banner';
@@ -28,8 +29,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning data-theme="dark" style={{ colorScheme: 'dark' }}>
       <body className={`${inter.variable} ${hind.variable} antialiased`}>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
+            (function() {
+              try {
+                var stored = window.localStorage.getItem('finspeed-theme');
+                var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                var theme = (stored === 'light' || stored === 'dark') ? stored : system;
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.style.colorScheme = theme;
+              } catch (e) {
+                document.documentElement.dataset.theme = 'dark';
+                document.documentElement.style.colorScheme = 'dark';
+              }
+            })();
+          `}
+        </Script>
         <ThemeProvider>
           {children}
           <ConsentBanner />

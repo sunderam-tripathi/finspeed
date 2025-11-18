@@ -13,14 +13,14 @@ const selectors = {
 test.describe('SCN-001 site shell contract', () => {
   test('hero conveys brand promise and CTA', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator(selectors.heroHeading)).toHaveText(EN_HEADLINE);
+    await expect(page.getByRole('heading', { level: 1, name: EN_HEADLINE })).toBeVisible();
     await expect(page.locator(selectors.dealerCta)).toHaveAttribute('href', '/dealers');
   });
 
   test('language toggle switches to Hindi copy (IC-6)', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: 'हिन्दी' }).click();
-    await expect(page.locator(selectors.heroHeading)).toHaveText(HI_HEADLINE);
+    await page.getByRole('button', { name: /Hindi/ }).click();
+    await expect(page.getByRole('heading', { level: 1, name: HI_HEADLINE })).toBeVisible();
     await expect(page.locator(selectors.dealerCta)).toHaveText(HI_CTA);
   });
 
@@ -33,7 +33,7 @@ test.describe('SCN-001 site shell contract', () => {
 
   test('support footer exposes contact channels', async ({ page }) => {
     await page.goto('/');
-    const footer = page.locator(selectors.supportFooter);
+    const footer = page.getByRole('contentinfo');
     await expect(footer.getByText('WhatsApp')).toBeVisible();
     await expect(footer.getByText('Email')).toBeVisible();
   });

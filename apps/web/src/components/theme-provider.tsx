@@ -16,13 +16,21 @@ const STORAGE_KEY = 'finspeed-theme';
 
 function getPreferredTheme(): Theme {
   if (typeof window === 'undefined') return 'dark';
+  const fromDom = document.documentElement.dataset.theme;
+  if (fromDom === 'light' || fromDom === 'dark') return fromDom;
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === 'light' || stored === 'dark') return stored;
   return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => (typeof window === 'undefined' ? 'dark' : getPreferredTheme()));
+  const [theme, setThemeState] = useState<Theme>('dark');
+
+  useEffect(() => {
+    const next = getPreferredTheme();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setThemeState(next);
+  }, []);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;

@@ -1,13 +1,8 @@
 'use client';
 
 import { ChangeEvent, FormEvent, startTransition, useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import { BrandMark } from '@/components/brand-mark';
-import { LocaleSwitch } from '@/components/locale-switch';
-import { HOME_COPY, type HomeCopy, LocaleKey, NAV_LINKS, SUPPORT_CHANNELS } from '@/data/content';
-
-const ThemeToggle = dynamic(() => import('@/components/theme-toggle').then((mod) => mod.ThemeToggle), { ssr: false });
+import { HOME_COPY, type HomeCopy, LocaleKey, SUPPORT_CHANNELS } from '@/data/content';
+import { SiteHeader } from '@/components/site-header';
 
 const HERO_STATS = [
   { label: 'Studios', value: '120+', detail: 'Certified partner hubs' },
@@ -43,7 +38,7 @@ export function LandingShell() {
         <div className="brand-texture" />
       </div>
       <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-8 sm:px-6 lg:px-10">
-        <Header
+        <SiteHeader
           locale={locale}
           onLocaleChange={(next) => {
             if (next === locale) return;
@@ -72,69 +67,23 @@ export function LandingShell() {
   );
 }
 
-function Header({ locale, onLocaleChange }: { locale: LocaleKey; onLocaleChange: (locale: LocaleKey) => void }) {
-  const pathname = usePathname();
-  const whatsapp = SUPPORT_CHANNELS.find((channel) => channel.label.toLowerCase().includes('whatsapp'));
-
-  return (
-    <header className="glass-panel sticky top-4 z-30 px-5 py-4 text-[var(--fs-text-primary)]">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex items-center gap-3">
-          <BrandMark tone="light" priority className="rounded-full border border-white/15 bg-white/5 px-3 py-1" />
-          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[var(--fs-text-muted)]">Turning Pedals into Power</span>
-        </div>
-        <nav aria-label="Primary navigation" className="flex flex-wrap items-center justify-center gap-3 text-sm font-medium text-[var(--fs-text-muted)]">
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname ? pathname === link.href || pathname.startsWith(`${link.href}/`) : false;
-            return (
-              <a
-                key={link.href}
-                href={link.href}
-                data-active={isActive}
-                aria-current={isActive ? 'page' : undefined}
-                className="focus-ring-target rounded-full px-4 py-2 text-[var(--fs-text-muted)] transition hover:text-[var(--fs-text-primary)] data-[active=true]:bg-[var(--fs-nav-active)] data-[active=true]:text-[var(--fs-text-primary)]"
-              >
-                {link.label}
-              </a>
-            );
-          })}
-        </nav>
-        <div className="flex items-center justify-end gap-3">
-          <LocaleSwitch value={locale} onChange={onLocaleChange} />
-          <ThemeToggle />
-            {whatsapp ? (
-              <a
-                href={whatsapp.href}
-                className="focus-ring-target inline-flex items-center gap-2 rounded-full bg-[var(--fs-primary)] px-4 py-2 text-sm font-semibold text-[var(--fs-ink)] shadow-lg shadow-[var(--fs-primary-dark)/40] transition hover:bg-[var(--fs-primary-dark)] hover:text-white"
-              >
-                <span>WhatsApp</span>
-                <span aria-hidden>↗</span>
-              </a>
-            ) : null}
-        </div>
-      </div>
-    </header>
-  );
-}
-
 function Hero({ copy }: { copy: HomeCopy['hero'] }) {
   return (
-    <section className="relative overflow-hidden rounded-[32px] border border-[var(--fs-card-border)] bg-gradient-to-br from-[var(--fs-bg-dark)] via-[#051122] to-[#02030a] p-8 text-[var(--fs-text-primary)] shadow-[0_45px_120px_rgba(4,9,20,0.55)]" aria-labelledby="hero-title">
-      <div className="hero-overlay" />
+    <section className="relative overflow-hidden rounded-[32px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]" aria-labelledby="hero-title">
       <div className="relative grid gap-10 lg:grid-cols-[3fr,2fr]">
         <div className="space-y-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#7DDB6A]">{copy.kicker}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-eco)]">{copy.kicker}</p>
           <div className="space-y-3">
             <h1 id="hero-title" data-testid="hero-heading" className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
               {copy.headline}
             </h1>
-            <p className="text-2xl text-[#8CE9FF] sm:text-3xl">{copy.subheadline}</p>
+            <p className="text-2xl text-[var(--fs-primary)] sm:text-3xl">{copy.subheadline}</p>
           </div>
           <p className="max-w-2xl text-base text-[var(--fs-text-muted)]">{copy.body}</p>
           <div className="flex flex-wrap gap-3">
             <a
               href="/catalog"
-              className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full bg-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[#05161c] shadow-[0_18px_45px_rgba(64,176,208,0.35)] transition hover:bg-[var(--fs-primary-dark)] hover:text-white"
+              className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full bg-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-primary-dark)] hover:text-white"
               data-testid="hero-primary-cta"
             >
               {copy.primaryCta}
@@ -176,7 +125,7 @@ function Highlights({ copy }: { copy: HomeCopy['highlights'] }) {
       </header>
       <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {copy.cards.map((card) => (
-          <article key={card.title} className="relative overflow-hidden rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_25px_60px_rgba(0,0,0,0.25)] transition hover:-translate-y-1">
+          <article key={card.title} className="relative overflow-hidden rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] transition hover:-translate-y-1">
             <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100" />
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">
               <span className="rounded-full border border-[var(--fs-border)] px-3 py-1">{card.badge}</span>
@@ -194,10 +143,10 @@ function Highlights({ copy }: { copy: HomeCopy['highlights'] }) {
 function Engineering({ copy }: { copy: HomeCopy['engineering'] }) {
   return (
     <section className="grid gap-8 lg:grid-cols-[1.2fr_1fr]" aria-label={copy.title}>
-      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 shadow-inner shadow-black/10">
+      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6">
         <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#7DDB6A]">{copy.title}</p>
-          <h2 className="text-3xl font-semibold text-white">{copy.subtitle}</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-eco)]">{copy.title}</p>
+          <h2 className="text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.subtitle}</h2>
         </header>
         <ul className="mt-5 space-y-4 text-sm text-[var(--fs-text-muted)]">
           {copy.items.map((item) => (
@@ -208,8 +157,8 @@ function Engineering({ copy }: { copy: HomeCopy['engineering'] }) {
           ))}
         </ul>
       </div>
-      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-gradient-to-b from-[var(--fs-card)] to-[color-mix(in_srgb,var(--fs-card) 80%,#001423)] p-6 text-[var(--fs-text-primary)]">
-        <p className="text-sm uppercase tracking-[0.35em] text-[#7DDB6A]">Lab highlights</p>
+      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]">
+        <p className="text-sm uppercase tracking-[0.35em] text-[var(--fs-eco)]">Lab highlights</p>
         <div className="mt-6 space-y-5">
           <StatItem label="Frame fatigue cycles" value="150k+" detail="Validated per quarter" />
           <StatItem label="Dealer service playbooks" value="48" detail="Localized SOPs" />
@@ -241,7 +190,7 @@ function Pricing({ copy }: { copy: HomeCopy['pricing'] }) {
       </header>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
         {copy.tiers.map((tier) => (
-          <article key={tier.name} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[0_30px_65px_rgba(2,3,10,0.35)]">
+          <article key={tier.name} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]">
             <p className="text-sm uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">{tier.name}</p>
             <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{tier.price}</p>
             <p className="mt-1 text-sm text-[var(--fs-text-muted)]">{tier.description}</p>
@@ -262,26 +211,23 @@ function Pricing({ copy }: { copy: HomeCopy['pricing'] }) {
 
 function Sustainability({ copy }: { copy: HomeCopy['sustainability'] }) {
   return (
-    <section className="relative overflow-hidden rounded-[30px] border border-white/10 bg-gradient-to-r from-[#0a2c3e] via-[#06202f] to-[#03121d] p-8 text-white">
-      <div className="absolute inset-0 opacity-30 blur-3xl">
-        <div className="brand-texture" />
-      </div>
+    <section className="relative overflow-hidden rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]">
       <div className="relative grid gap-6 md:grid-cols-[2fr,1fr] md:items-center">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#7DDB6A]">{copy.title}</p>
-          <h2 className="mt-3 text-3xl font-semibold">{copy.body}</h2>
-          <p className="mt-3 text-sm text-white/80">{copy.footnote}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-eco)]">{copy.title}</p>
+          <h2 className="mt-3 text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.body}</h2>
+          <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{copy.footnote}</p>
           <a
             href="/blog/sustainability"
-            className="focus-ring-target mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--fs-primary)] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[rgba(64,176,208,0.12)]"
+            className="focus-ring-target mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--fs-primary)] px-5 py-2 text-sm font-semibold text-[var(--fs-text-primary)] transition hover:bg-[rgba(64,176,208,0.12)]"
           >
             {copy.cta}
             <span aria-hidden>↗</span>
           </a>
         </div>
-        <div className="rounded-2xl border border-white/20 bg-white/10 p-5 text-center">
-          <p className="text-xs uppercase tracking-[0.45em] text-white/70">Impact</p>
-          <p className="mt-2 text-3xl font-semibold text-white">{copy.stat}</p>
+        <div className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-5 text-center shadow-[var(--fs-card-shadow-soft)]">
+          <p className="text-xs uppercase tracking-[0.45em] text-[var(--fs-text-soft)]">Impact</p>
+          <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.stat}</p>
         </div>
       </div>
     </section>
@@ -304,13 +250,13 @@ function DealerFinder({ copy, locale }: { copy: HomeCopy['dealer']; locale: Loca
   };
 
   return (
-    <section className="rounded-[30px] border border-white/10 bg-white/5 p-6 text-white shadow-[0_30px_75px_rgba(0,0,0,0.4)]">
+    <section className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 className="text-3xl font-semibold">{copy.subtitle}</h2>
+        <h2 className="text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.subtitle}</h2>
       </header>
       <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-3 md:flex-row" noValidate>
-        <label className="flex flex-1 flex-col text-sm font-semibold text-white">
+        <label className="flex flex-1 flex-col text-sm font-semibold text-[var(--fs-text-primary)]">
           <span>{locale === 'hi' ? 'पिनकोड' : 'Postal code'}</span>
           <input
             type="text"
@@ -321,22 +267,22 @@ function DealerFinder({ copy, locale }: { copy: HomeCopy['dealer']; locale: Loca
             maxLength={6}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? errorId : undefined}
-            className="mt-2 w-full rounded-2xl border border-white/20 bg-black/20 px-4 py-3 text-base text-white placeholder:text-white/50 focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
+            className="mt-2 w-full rounded-2xl border border-[var(--fs-border)] bg-[var(--fs-surface)] px-4 py-3 text-base text-[var(--fs-text-primary)] placeholder:text-[var(--fs-text-soft)] focus-visible:border-[var(--fs-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--fs-primary)]"
           />
         </label>
         <button
           type="submit"
-          className="focus-ring-target inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-surface-muted)]"
+          className="focus-ring-target inline-flex items-center justify-center rounded-2xl bg-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-primary-dark)]"
         >
           {copy.button}
         </button>
       </form>
       {error ? (
-        <p id={errorId} className="mt-2 text-sm text-[#F97316]" aria-live="assertive">
+        <p id={errorId} className="mt-2 text-sm text-[var(--fs-warning)]" aria-live="assertive">
           {error}
         </p>
       ) : null}
-      <p className="mt-3 text-sm text-white/70">{copy.helper}</p>
+      <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{copy.helper}</p>
     </section>
   );
 }
@@ -346,16 +292,16 @@ function BlogTeaser({ copy }: { copy: HomeCopy['blog'] }) {
     <section aria-labelledby="blog-teaser">
       <header className="space-y-2">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="blog-teaser" className="text-3xl font-semibold text-white">
+        <h2 id="blog-teaser" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
           {copy.subtitle}
         </h2>
       </header>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
         {copy.posts.map((post) => (
-          <article key={post.title} className="flex flex-col rounded-3xl border border-white/10 bg-[#050b16] p-5 text-white shadow-[0_25px_65px_rgba(0,0,0,0.5)]">
-            <span className="text-xs font-semibold uppercase tracking-[0.45em] text-white/60">{post.tag}</span>
-            <h3 className="mt-3 text-xl font-semibold">{post.title}</h3>
-            <p className="mt-2 text-sm text-white/70">{post.summary}</p>
+          <article key={post.title} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-5 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow-soft)]">
+            <span className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-text-soft)]">{post.tag}</span>
+            <h3 className="mt-3 text-xl font-semibold text-[var(--fs-text-primary)]">{post.title}</h3>
+            <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{post.summary}</p>
             <a
               href={post.href}
               className="focus-ring-target mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[var(--fs-primary)] transition hover:text-[var(--fs-primary-dark)]"
@@ -372,21 +318,21 @@ function BlogTeaser({ copy }: { copy: HomeCopy['blog'] }) {
 
 function BrandStoryTeaser({ copy }: { copy: HomeCopy['brand'] }) {
   return (
-    <section className="grid gap-6 rounded-[30px] border border-white/10 bg-gradient-to-r from-[#071425] to-[#03070f] p-6 text-white md:grid-cols-[2fr,1fr]">
+    <section className="grid gap-6 rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow-soft)] md:grid-cols-[2fr,1fr]">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <p className="mt-4 text-lg text-white/80">{copy.body}</p>
+        <p className="mt-4 text-lg text-[var(--fs-text-muted)]">{copy.body}</p>
         <a
           href="/brand-story"
-          className="focus-ring-target mt-4 inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:border-white"
+          className="focus-ring-target mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--fs-border)] px-5 py-2 text-sm font-semibold text-[var(--fs-text-primary)] transition hover:border-[var(--fs-primary)]"
         >
           {copy.cta}
           <span aria-hidden>↗</span>
         </a>
       </div>
-      <div className="rounded-2xl border border-white/20 bg-white/5 p-5">
-        <p className="text-sm uppercase tracking-[0.45em] text-white/60">Traceability</p>
-        <ul className="mt-3 space-y-2 text-sm text-white/80">
+      <div className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-5 shadow-[var(--fs-card-shadow-soft)]">
+        <p className="text-sm uppercase tracking-[0.45em] text-[var(--fs-text-soft)]">Traceability</p>
+        <ul className="mt-3 space-y-2 text-sm text-[var(--fs-text-muted)]">
           <li>RFC-001 · Site architecture</li>
           <li>REQ-005 · Brand story</li>
           <li>TAG · design-0.1-REQ-005</li>
@@ -398,21 +344,24 @@ function BrandStoryTeaser({ copy }: { copy: HomeCopy['brand'] }) {
 
 function SupportFooter({ supportTitle }: { supportTitle: string }) {
   return (
-    <footer data-testid="support-footer" className="mt-auto rounded-[30px] border border-white/10 bg-[#050c16] p-6 text-white">
-      <p className="text-lg font-semibold">{supportTitle}</p>
+    <footer
+      data-testid="support-footer"
+      className="mt-auto rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow-soft)]"
+    >
+      <p className="text-lg font-semibold text-[var(--fs-text-primary)]">{supportTitle}</p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {SUPPORT_CHANNELS.map((channel) => (
           <a
             key={channel.label}
             href={channel.href}
-            className="focus-ring-target inline-flex items-center justify-between rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
+            className="focus-ring-target inline-flex items-center justify-between rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-4 py-3 text-sm font-semibold text-[var(--fs-text-primary)] transition hover:border-[var(--fs-primary)]"
           >
             <span>{channel.label}</span>
-            <span className="text-white/70">{channel.detail}</span>
+            <span className="text-[var(--fs-text-muted)]">{channel.detail}</span>
           </a>
         ))}
       </div>
-      <p className="mt-4 text-xs text-white/60">© {new Date().getFullYear()} Finspeed. All rights reserved.</p>
+      <p className="mt-4 text-xs text-[var(--fs-text-soft)]">© {new Date().getFullYear()} Finspeed. All rights reserved.</p>
     </footer>
   );
 }
@@ -423,7 +372,7 @@ function WhatsappFab() {
   return (
     <a
       href={whatsapp.href}
-      className="focus-ring-target fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#25D366] to-[var(--fs-primary)] text-white shadow-[0_25px_50px_rgba(37,211,102,0.45)]"
+      className="focus-ring-target fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--fs-primary)] text-[var(--fs-ink)]"
       aria-label="Chat on WhatsApp"
       rel="noopener noreferrer"
       target="_blank"
