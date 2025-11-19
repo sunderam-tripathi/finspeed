@@ -1,14 +1,10 @@
 'use client';
 
 import { ChangeEvent, FormEvent, startTransition, useEffect, useState } from 'react';
-import { HOME_COPY, type HomeCopy, LocaleKey, SUPPORT_CHANNELS } from '@/data/content';
+import { HOME_COPY, type HomeCopy, LocaleKey } from '@/data/content';
 import { SiteHeader } from '@/components/site-header';
 
-const HERO_STATS = [
-  { label: 'Studios', value: '120+', detail: 'Certified partner hubs' },
-  { label: 'Telemetry', value: '18M', detail: 'Data points / month' },
-  { label: 'Response SLA', value: '6h', detail: 'Metro support window' }
-];
+const HERO_STATS: Array<{ label: string; value: string; detail: string }> = [];
 
 export function LandingShell() {
   const [locale, setLocale] = useState<LocaleKey>('en');
@@ -35,7 +31,7 @@ export function LandingShell() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[var(--fs-bg-dark)] text-[var(--fs-text-primary)]">
       <div className="pointer-events-none absolute inset-0 opacity-70">
-        <div className="brand-texture" />
+      <div className="brand-texture" />
       </div>
       <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-8 sm:px-6 lg:px-10">
         <SiteHeader
@@ -49,17 +45,8 @@ export function LandingShell() {
         />
         <main className={`mt-10 flex flex-1 flex-col gap-16 pb-16 transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
           <Hero copy={copy.hero} />
-          <Highlights copy={copy.highlights} />
-          <Engineering copy={copy.engineering} />
-          <Pricing copy={copy.pricing} />
-          <Sustainability copy={copy.sustainability} />
-          <DealerFinder copy={copy.dealer} locale={locale} />
-          <BlogTeaser copy={copy.blog} />
-          <BrandStoryTeaser copy={copy.brand} />
         </main>
-        <SupportFooter supportTitle={copy.supportTitle} />
       </div>
-      <WhatsappFab />
       <div className="sr-only" aria-live="polite">
         Language changed to {copy.languageLabel}
       </div>
@@ -114,126 +101,8 @@ function Hero({ copy }: { copy: HomeCopy['hero'] }) {
   );
 }
 
-function Highlights({ copy }: { copy: HomeCopy['highlights'] }) {
-  return (
-    <section aria-labelledby="highlights">
-      <header className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="highlights" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
-          {copy.subtitle}
-        </h2>
-      </header>
-      <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {copy.cards.map((card) => (
-          <article key={card.title} className="relative overflow-hidden rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)] transition hover:-translate-y-1">
-            <div className="absolute inset-0 opacity-0 transition group-hover:opacity-100" />
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">
-              <span className="rounded-full border border-[var(--fs-border)] px-3 py-1">{card.badge}</span>
-              {copy.title}
-            </div>
-            <h3 className="mt-4 text-2xl font-semibold text-[var(--fs-text-primary)]">{card.title}</h3>
-            <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{card.blurb}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Engineering({ copy }: { copy: HomeCopy['engineering'] }) {
-  return (
-    <section className="grid gap-8 lg:grid-cols-[1.2fr_1fr]" aria-label={copy.title}>
-      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6">
-        <header className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-eco)]">{copy.title}</p>
-          <h2 className="text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.subtitle}</h2>
-        </header>
-        <ul className="mt-5 space-y-4 text-sm text-[var(--fs-text-muted)]">
-          {copy.items.map((item) => (
-            <li key={item.title} className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-4">
-              <p className="text-base font-semibold text-[var(--fs-text-primary)]">{item.title}</p>
-              <p className="mt-2 text-sm text-[var(--fs-text-muted)]">{item.detail}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]">
-        <p className="text-sm uppercase tracking-[0.35em] text-[var(--fs-eco)]">Lab highlights</p>
-        <div className="mt-6 space-y-5">
-          <StatItem label="Frame fatigue cycles" value="150k+" detail="Validated per quarter" />
-          <StatItem label="Dealer service playbooks" value="48" detail="Localized SOPs" />
-          <StatItem label="RideLink installs" value="8,200" detail="urban electric fleet" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatItem({ label, value, detail }: { label: string; value: string; detail: string }) {
-  return (
-    <div className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-4 py-3 text-sm uppercase tracking-[0.3em] text-[var(--fs-text-muted)]">
-      <p>{label}</p>
-      <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{value}</p>
-      <p className="text-xs normal-case tracking-normal text-[var(--fs-text-muted)]">{detail}</p>
-    </div>
-  );
-}
-
-function Pricing({ copy }: { copy: HomeCopy['pricing'] }) {
-  return (
-    <section aria-labelledby="pricing">
-      <header className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-primary)]">{copy.title}</p>
-        <h2 id="pricing" className="text-3xl font-semibold text-[var(--fs-text-primary)]">
-          {copy.subtitle}
-        </h2>
-      </header>
-      <div className="mt-6 grid gap-6 md:grid-cols-3">
-        {copy.tiers.map((tier) => (
-          <article key={tier.name} className="flex flex-col rounded-3xl border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-6 text-[var(--fs-text-primary)]">
-            <p className="text-sm uppercase tracking-[0.35em] text-[var(--fs-text-muted)]">{tier.name}</p>
-            <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{tier.price}</p>
-            <p className="mt-1 text-sm text-[var(--fs-text-muted)]">{tier.description}</p>
-            <ul className="mt-4 space-y-2 text-sm text-[var(--fs-text-muted)]">
-              {tier.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-[var(--fs-eco)]" aria-hidden />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Sustainability({ copy }: { copy: HomeCopy['sustainability'] }) {
-  return (
-    <section className="relative overflow-hidden rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] p-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]">
-      <div className="relative grid gap-6 md:grid-cols-[2fr,1fr] md:items-center">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[var(--fs-eco)]">{copy.title}</p>
-          <h2 className="mt-3 text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.body}</h2>
-          <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{copy.footnote}</p>
-          <a
-            href="/blog/sustainability"
-            className="focus-ring-target mt-4 inline-flex items-center gap-2 rounded-full border border-[var(--fs-primary)] px-5 py-2 text-sm font-semibold text-[var(--fs-text-primary)] transition hover:bg-[rgba(64,176,208,0.12)]"
-          >
-            {copy.cta}
-            <span aria-hidden>↗</span>
-          </a>
-        </div>
-        <div className="rounded-2xl border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-5 text-center shadow-[var(--fs-card-shadow-soft)]">
-          <p className="text-xs uppercase tracking-[0.45em] text-[var(--fs-text-soft)]">Impact</p>
-          <p className="mt-2 text-3xl font-semibold text-[var(--fs-text-primary)]">{copy.stat}</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
+// DealerFinder, BlogTeaser, BrandStoryTeaser, SupportFooter, and WhatsappFab
+// are retained for future SCN-backed content but are currently unused.
 function DealerFinder({ copy, locale }: { copy: HomeCopy['dealer']; locale: LocaleKey }) {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
@@ -368,7 +237,7 @@ function SupportFooter({ supportTitle }: { supportTitle: string }) {
 
 function WhatsappFab() {
   const whatsapp = SUPPORT_CHANNELS.find((channel) => channel.label.toLowerCase().includes('whatsapp'));
-  if (!whatsapp) return null;
+  if (!whatsapp || !whatsapp.href) return null;
   return (
     <a
       href={whatsapp.href}
