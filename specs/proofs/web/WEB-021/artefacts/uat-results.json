@@ -1,0 +1,90 @@
+{
+  "runAt": "2025-11-19T18:47:05.281Z",
+  "notes": "Headed Playwright UAT against production (catalog & content)",
+  "results": [
+    {
+      "name": "catalog-desktop",
+      "url": "https://www.finspeed.online/catalog",
+      "status": "fail",
+      "details": [],
+      "screenshot": null,
+      "ux_score": 5,
+      "aesthetics_score": 5,
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: /Bicycles/i }).first() to be visible\u001b[22m\n"
+    },
+    {
+      "name": "brand-story-desktop",
+      "url": "https://www.finspeed.online/brand-story",
+      "status": "pass",
+      "details": [
+        "Brand story hero and narrative visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-brand-story-desktop.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "testimonials-desktop",
+      "url": "https://www.finspeed.online/testimonials",
+      "status": "pass",
+      "details": [
+        "Testimonials heading and stories visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-testimonials-desktop.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "blog-desktop",
+      "url": "https://www.finspeed.online/blog",
+      "status": "fail",
+      "details": [],
+      "screenshot": null,
+      "ux_score": 5,
+      "aesthetics_score": 5,
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('article').first() to be visible\u001b[22m\n"
+    },
+    {
+      "name": "catalog-mobile",
+      "url": "https://www.finspeed.online/catalog",
+      "status": "fail",
+      "details": [],
+      "screenshot": null,
+      "ux_score": 5,
+      "aesthetics_score": 5,
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: /Bicycles/i }).first() to be visible\u001b[22m\n"
+    },
+    {
+      "name": "brand-story-mobile",
+      "url": "https://www.finspeed.online/brand-story",
+      "status": "pass",
+      "details": [
+        "Brand story hero and narrative visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-brand-story-mobile.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "testimonials-mobile",
+      "url": "https://www.finspeed.online/testimonials",
+      "status": "pass",
+      "details": [
+        "Testimonials heading and stories visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-testimonials-mobile.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "blog-mobile",
+      "url": "https://www.finspeed.online/blog",
+      "status": "fail",
+      "details": [],
+      "screenshot": null,
+      "ux_score": 5,
+      "aesthetics_score": 5,
+      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('article').first() to be visible\u001b[22m\n"
+    }
+  ]
+}
