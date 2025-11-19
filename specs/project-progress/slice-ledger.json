@@ -155,6 +155,30 @@
           "domain": "web",
           "title": "Dealer locator accessibility sweep",
           "status": "done"
+        },
+        {
+          "id": "WEB-018",
+          "domain": "web",
+          "title": "Landing shell aesthetic overhaul",
+          "status": "done"
+        },
+        {
+          "id": "WEB-019",
+          "domain": "web",
+          "title": "Sitewide light theme",
+          "status": "done"
+        },
+        {
+          "id": "WEB-020",
+          "domain": "web",
+          "title": "Production UAT — core journeys",
+          "status": "planned"
+        },
+        {
+          "id": "WEB-021",
+          "domain": "web",
+          "title": "Production UAT — catalog & content",
+          "status": "planned"
         }
       ]
     }

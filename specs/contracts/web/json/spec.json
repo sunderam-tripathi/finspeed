@@ -401,12 +401,100 @@
         "apps/web/src/**",
         "apps/web/tests/**",
         "specs/notes/plans/web/WEB-017.md",
-      "specs/proofs/web/WEB-017/**",
-      "AGENTS/**",
-      "AGENTS.md",
-      "specs/project-progress/**",
-      "tools/**",
-      "package.json",
+        "specs/proofs/web/WEB-017/**",
+        "AGENTS/**",
+        "AGENTS.md",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-018",
+      "title": "Landing shell aesthetic overhaul",
+      "done_definition": [
+        "Landing hero and navigation updated to new aesthetic spec",
+        "Brand lockup applied consistently across key pages",
+        "Proof captures before/after screenshots and motion/contrast checks"
+      ],
+      "allow": [
+        "apps/web/src/**",
+        "apps/web/public/**",
+        "specs/references/**",
+        "specs/notes/plans/web/WEB-018.md",
+        "specs/proofs/web/WEB-018/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-019",
+      "title": "Sitewide light theme",
+      "done_definition": [
+        "Light theme tokens added with WCAG-compliant contrast",
+        "Theme toggle persists preference and respects system defaults",
+        "Proof includes dark vs light parity screenshots and test logs"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/notes/plans/web/WEB-019.md",
+        "specs/proofs/web/WEB-019/**",
+        "AGENTS/**",
+        "specs/project-progress/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-020",
+      "title": "Production UAT — core journeys",
+      "done_definition": [
+        "Production UAT for home, dealer locator, and support hub completed against SCN-001/004/008",
+        "Headed Playwright + manual runs captured as artefacts",
+        "Proof README records RESULT and follow-up issues"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-020.md",
+        "specs/proofs/web/WEB-020/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc"
+      ]
+    },
+    {
+      "id": "WEB-021",
+      "title": "Production UAT — catalog & content",
+      "done_definition": [
+        "Production UAT for catalog, model detail, brand story, testimonials, and blog completed against SCN-002/003/005/006/007",
+        "Accessibility/performance spot checks recorded",
+        "Proof README records RESULT and follow-up issues"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-021.md",
+        "specs/proofs/web/WEB-021/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
         "package-lock.json",
         ".nvmrc"
       ]

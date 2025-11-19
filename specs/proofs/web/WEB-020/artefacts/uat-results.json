@@ -1,0 +1,72 @@
+{
+  "runAt": "2025-11-19T18:11:34.490Z",
+  "notes": "Headed Playwright UAT against production",
+  "results": [
+    {
+      "name": "home-desktop",
+      "url": "https://www.finspeed.online/",
+      "status": "pass",
+      "details": [
+        "Hero tagline + Dealers navigation visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-home-desktop.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "dealers-desktop",
+      "url": "https://www.finspeed.online/dealers",
+      "status": "pass",
+      "details": [
+        "Dealer search results render for postal 201306."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-dealers-desktop.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "support-desktop",
+      "url": "https://www.finspeed.online/support",
+      "status": "pass",
+      "details": [
+        "Support outage toggle works and shows outage copy."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-support-desktop.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "home-mobile",
+      "url": "https://www.finspeed.online/",
+      "status": "pass",
+      "details": [
+        "Hero tagline + Dealers navigation visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-home-mobile.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "dealers-mobile",
+      "url": "https://www.finspeed.online/dealers",
+      "status": "pass",
+      "details": [
+        "Dealer search results render for postal 201306."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-dealers-mobile.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    },
+    {
+      "name": "support-mobile",
+      "url": "https://www.finspeed.online/support",
+      "status": "pass",
+      "details": [
+        "Support outage toggle works and shows outage copy."
+      ],
+      "screenshot": "specs/proofs/web/WEB-020/artefacts/uat-support-mobile.png",
+      "ux_score": 5,
+      "aesthetics_score": 5
+    }
+  ]
+}
