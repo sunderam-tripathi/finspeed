@@ -11,5 +11,6 @@ Verification:
 - Production evidence: current HEAD response from `https://finspeed-lean.vercel.app/` captured in `artefacts/production-home-head.txt` (still `DEPLOYMENT_NOT_FOUND` pending initial Vercel project wiring + secrets) plus live domain checks at `artefacts/production-finspeed-head.txt` showing `https://finspeed.online` redirecting to `https://www.finspeed.online` which returns HTTP 200 from Vercel.
 - DNS verification: DoH outputs for both hosts stored in `artefacts/cloudflare-dns.json` (RESULT: apex resolves to `216.198.79.1`, `www` resolves to the Vercel CNAME).
 - Telemetry discipline: `npm run spec:slice-index` and `npm run spec:progress` outputs logged at `artefacts/slice-index.log` and `artefacts/progress.log`.
+- Dashboard evidence: Vercel Domains screenshot saved as `artefacts/vercel-domains.png` showing both `finspeed.online` and `www.finspeed.online` in “Valid Configuration”.
 
 RESULT: PASS (deploy workflow complete; Cloudflare DNS now aligned with Vercel, external deployment still pending secret configuration + Vercel refresh).
