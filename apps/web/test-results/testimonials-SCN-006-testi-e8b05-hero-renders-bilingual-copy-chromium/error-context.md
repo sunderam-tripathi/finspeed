@@ -1,0 +1,43 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - img "Finspeed" [ref=e6]:
+          - img [ref=e7]
+          - img [ref=e8]
+        - generic [ref=e9]:
+          - button "English" [ref=e10]
+          - button "हिन्दी" [ref=e11]
+      - heading "Stories from the saddle" [level=1] [ref=e12]
+      - paragraph [ref=e13]: Riders across India trust Finspeed frames to carry them through Himalayan ascents, crit podiums, and sunrise commutes.
+    - generic [ref=e14]:
+      - article [ref=e15]:
+        - paragraph [ref=e16]: “Switching to the Catalyst cut 18 seconds from my 10km lap. The stiffness is real, but the comfort surprised me more.”
+        - paragraph [ref=e17]: Ravi Srinivasan
+        - paragraph [ref=e18]: Crit racer — Chennai
+      - article [ref=e19]:
+        - paragraph [ref=e20]: “Clients notice how little fatigue they feel on long climbs. The geo and suspension tuning feel purpose-built for the Himalayas.”
+        - paragraph [ref=e21]: Sahana Bhandari
+        - paragraph [ref=e22]: Adventure guide — Manali
+      - article [ref=e23]:
+        - paragraph [ref=e24]: “Even in monsoons, the regenerative braking and sealed drivetrain keep my ride predictable. Maintenance dropped in half.”
+        - paragraph [ref=e25]: Arjun Mukherjee
+        - paragraph [ref=e26]: Daily commuter — Kolkata
+    - generic [ref=e27]:
+      - 'heading "Share your ride with #FinspeedStories" [level=2] [ref=e28]'
+      - paragraph [ref=e29]: Tag us on Instagram or write to the community team to get featured in the next story drop.
+      - generic [ref=e30]:
+        - link "Instagram" [ref=e31] [cursor=pointer]:
+          - /url: https://instagram.com/finspeed
+        - link "Email community team" [ref=e32] [cursor=pointer]:
+          - /url: mailto:community@finspeed.example
+  - region "Analytics consent notice" [ref=e33]:
+    - generic [ref=e34]:
+      - paragraph [ref=e35]: We use consent-aware analytics to improve dealer availability. Accept to send anonymized events or decline to skip tracking.
+      - group [ref=e36]:
+        - button "Decline" [ref=e37]
+        - button "Accept" [ref=e38]
+```

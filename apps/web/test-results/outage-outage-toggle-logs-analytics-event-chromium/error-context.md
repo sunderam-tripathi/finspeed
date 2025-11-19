@@ -1,0 +1,79 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img "Finspeed" [ref=e7]:
+            - img [ref=e8]
+            - img [ref=e9]
+          - group "Select language" [ref=e10]:
+            - button "ENEnglish / अंग्रेज़ी" [pressed] [ref=e11]
+            - button "हिंHindi / हिंदी" [ref=e12]
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: Find a dealer near you
+          - heading "Enter your pincode to see demo-ready studios, WhatsApp lines, and service slots." [level=1] [ref=e15]
+          - paragraph [ref=e16]: Prefer WhatsApp? Use the floating button and we’ll route you.
+    - main [ref=e17]:
+      - region "Find dealers" [ref=e18]:
+        - heading "Find dealers" [level=2] [ref=e19]
+        - generic [ref=e20]:
+          - generic [ref=e21]:
+            - text: Pincode
+            - textbox "Pincode" [ref=e22]:
+              - /placeholder: Enter 6-digit pincode
+              - text: "201306"
+          - generic [ref=e23]:
+            - text: Radius (km)
+            - textbox "Radius (km)" [ref=e24]: "20"
+          - button "Search" [ref=e25]
+        - generic [ref=e26]:
+          - text: "Service filters:"
+          - button "All" [pressed] [ref=e27]
+          - button "Sales" [ref=e28]
+          - button "Service" [ref=e29]
+          - button "Test rides" [ref=e30]
+          - button "Bike fit" [ref=e31]
+          - button "Simulate outage" [active] [ref=e32]
+      - region "Map view" [ref=e33]:
+        - heading "Map view" [level=2] [ref=e35]
+        - generic "Dealer locations map" [ref=e37]:
+          - button "Finspeed Dealer" [pressed] [ref=e39]
+          - button "Finspeed Dealer" [pressed] [ref=e40]
+          - button "Finspeed Studio" [ref=e41]
+      - region "Results near 201306" [ref=e42]:
+        - generic [ref=e43]:
+          - heading "Results near 201306" [level=2] [ref=e44]
+          - generic [ref=e45]: 2 dealer(s)
+        - generic [ref=e46]:
+          - 'button "Finspeed Dealer - Sarin Farm Greater Noida Shop No. 20, Left Side, Sarin Farm Colony, UPSIDC Site A, Surajpur, Greater Noida Greater Noida, Uttar Pradesh · 201306 SalesTest ridesService Directions WhatsApp Email: sarin.farm@finspeed.example" [pressed] [ref=e47]':
+            - generic [ref=e48]:
+              - heading "Finspeed Dealer - Sarin Farm" [level=3] [ref=e49]
+              - text: Greater Noida
+            - paragraph [ref=e50]: Shop No. 20, Left Side, Sarin Farm Colony, UPSIDC Site A, Surajpur, Greater Noida
+            - paragraph [ref=e51]: Greater Noida, Uttar Pradesh · 201306
+            - generic [ref=e52]: SalesTest ridesService
+            - generic [ref=e53]:
+              - button "Directions" [ref=e54]
+              - button "WhatsApp" [ref=e55]
+            - paragraph [ref=e56]: "Email: sarin.farm@finspeed.example"
+          - 'button "Finspeed Dealer - Krystal Height Greater Noida LG Shop 8, Krystal Height Market, behind ACE CITY, Sector 1, Noida Extension, Bisrakh Jalalpur Greater Noida, Uttar Pradesh · 201306 SalesService Directions WhatsApp Email: krystal.height@finspeed.example" [ref=e57]':
+            - generic [ref=e58]:
+              - heading "Finspeed Dealer - Krystal Height" [level=3] [ref=e59]
+              - text: Greater Noida
+            - paragraph [ref=e60]: LG Shop 8, Krystal Height Market, behind ACE CITY, Sector 1, Noida Extension, Bisrakh Jalalpur
+            - paragraph [ref=e61]: Greater Noida, Uttar Pradesh · 201306
+            - generic [ref=e62]: SalesService
+            - generic [ref=e63]:
+              - button "Directions" [ref=e64]
+              - button "WhatsApp" [ref=e65]
+            - paragraph [ref=e66]: "Email: krystal.height@finspeed.example"
+  - region "Analytics consent notice" [ref=e67]:
+    - generic [ref=e68]:
+      - paragraph [ref=e69]: We use consent-aware analytics to improve dealer availability. Accept to send anonymized events or decline to skip tracking.
+      - group [ref=e70]:
+        - button "Decline" [ref=e71]
+        - button "Accept" [ref=e72]
+```

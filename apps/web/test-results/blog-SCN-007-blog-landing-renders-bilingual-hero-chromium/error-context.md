@@ -1,0 +1,81 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - generic [ref=e6]:
+            - img "Finspeed" [ref=e7]:
+              - img [ref=e8]
+              - img [ref=e9]
+            - group "Select language" [ref=e10]:
+              - button "ENEnglish / अंग्रेज़ी" [pressed] [ref=e11]
+              - button "हिंHindi / हिंदी" [ref=e12]
+          - generic [ref=e13]:
+            - paragraph [ref=e14]: FINSPEED JOURNAL
+            - heading "Stories engineered for riders" [level=1] [ref=e15]
+            - paragraph [ref=e16]: Deep dives covering product, telemetry, and sustainability across the Finspeed ecosystem.
+            - paragraph [ref=e17]: Every post cross-links to catalog, dealer support, and sustainability data so you can move from inspiration to a demo ride quickly.
+      - main [ref=e18]:
+        - navigation "Blog categories" [ref=e19]:
+          - button "All" [pressed] [ref=e20]
+          - button "Tips" [ref=e21]
+          - button "Stories" [ref=e22]
+          - button "Tech" [ref=e23]
+          - button "Sustainability" [ref=e24]
+        - article [ref=e25]:
+          - paragraph [ref=e26]: Featured post
+          - generic [ref=e27]: Tips•6 min read•Nov 8, 2025
+          - heading "Daily commute cycling safety checklist" [level=2] [ref=e28]
+          - paragraph [ref=e29]: Helmet fit, reflective layers, and the calmest 6 AM routes through NCR as tested by our rider success team.
+          - link "Continue reading" [ref=e30] [cursor=pointer]:
+            - /url: /blog/daily-commute-cycling-safety
+            - text: Continue reading↗
+        - region "Latest posts" [ref=e31]:
+          - heading "Latest posts" [level=3] [ref=e32]
+          - generic [ref=e33]:
+            - article [ref=e34]:
+              - generic [ref=e35]: Stories
+              - heading "Weekend trail escapes near Pune" [level=4] [ref=e36]
+              - paragraph [ref=e37]: Routes, hydration checkpoints, and the dealer-supported pit stops that keep riders cared for.
+              - generic [ref=e38]: 5 min read•Oct 28, 2025
+              - link "Read story" [ref=e39] [cursor=pointer]:
+                - /url: /blog/weekend-trail-escapes
+                - text: Read story↗
+            - article [ref=e40]:
+              - generic [ref=e41]: Tech
+              - heading "Inside the Catalyst aero lab" [level=4] [ref=e42]
+              - paragraph [ref=e43]: How composites engineers shaved watts by reshaping seat-stay layups with telemetry feedback loops.
+              - generic [ref=e44]: 6 min read•Oct 18, 2025
+              - link "Read story" [ref=e45] [cursor=pointer]:
+                - /url: /blog/catalyst-aero-lab
+                - text: Read story↗
+            - article [ref=e46]:
+              - generic [ref=e47]: Sustainability
+              - heading "Battery circularity update" [level=4] [ref=e48]
+              - paragraph [ref=e49]: What we learned after recycling the first 1,200 commuter packs across Pune and Bengaluru.
+              - generic [ref=e50]: 4 min read•Oct 12, 2025
+              - link "Read story" [ref=e51] [cursor=pointer]:
+                - /url: /blog/battery-circularity-update
+                - text: Read story↗
+        - generic [ref=e52]:
+          - generic [ref=e53]:
+            - paragraph [ref=e54]: Subscribe to the Journal
+            - paragraph [ref=e55]: Monthly email with engineering notes, sustainability data, and rider journeys. No spam, unsubscribe anytime.
+          - generic [ref=e56]:
+            - textbox "you@example.com" [ref=e57]
+            - button "Notify me" [ref=e58]
+          - paragraph [ref=e59]: By subscribing you agree to receive product and blog updates. We hash your email before analytics logging.
+          - paragraph [ref=e60]:
+            - link "View privacy policy" [ref=e61] [cursor=pointer]:
+              - /url: /privacy
+    - generic [ref=e62]: Locale changed to en
+  - region "Analytics consent notice" [ref=e63]:
+    - generic [ref=e64]:
+      - paragraph [ref=e65]: We use consent-aware analytics to improve dealer availability. Accept to send anonymized events or decline to skip tracking.
+      - group [ref=e66]:
+        - button "Decline" [ref=e67]
+        - button "Accept" [ref=e68]
+```

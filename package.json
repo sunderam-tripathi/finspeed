@@ -17,7 +17,7 @@
     "dev:managed": "node tools/dev/run-managed.mjs",
     "dev:sudo-request": "node tools/dev/sudo-request.mjs",
     "setup:githooks": "git config core.hooksPath .githooks",
-    "deploy": "echo 'Deploy placeholder'"
+    "deploy": "npm run build -w web"
   },
   "engines": {
     "node": ">=22.0.0",

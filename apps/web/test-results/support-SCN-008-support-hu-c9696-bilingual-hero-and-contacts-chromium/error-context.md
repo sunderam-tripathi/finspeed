@@ -1,0 +1,66 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img "Finspeed" [ref=e7]:
+            - img [ref=e8]
+            - img [ref=e9]
+          - group "Select language" [ref=e10]:
+            - button "ENEnglish / अंग्रेज़ी" [pressed] [ref=e11]
+            - button "हिंHindi / हिंदी" [ref=e12]
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: SUPPORT HUB
+          - heading "Help for every ride" [level=1] [ref=e15]
+          - paragraph [ref=e16]: Sales, service, diagnostics, and RiderLink telemetry. Choose the channel that matches your need.
+    - main [ref=e17]:
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - paragraph [ref=e21]: Channel status
+          - paragraph [ref=e22]: All channels online
+        - button "Simulate WhatsApp outage" [ref=e23]
+      - generic [ref=e24]:
+        - link "WhatsApp +91 98 765 43210 6h SLA · 9am–9pm IST" [ref=e25] [cursor=pointer]:
+          - /url: https://wa.me/919876543210
+          - paragraph [ref=e26]: WhatsApp
+          - paragraph [ref=e27]: +91 98 765 43210
+          - paragraph [ref=e28]: 6h SLA · 9am–9pm IST
+        - link "Email support@finspeed.example Next-business-day response" [ref=e29] [cursor=pointer]:
+          - /url: mailto:support@finspeed.example
+          - paragraph [ref=e30]: Email
+          - paragraph [ref=e31]: support@finspeed.example
+          - paragraph [ref=e32]: Next-business-day response
+        - link "Call 1800-123-FSPD Weekdays 9am–7pm IST" [ref=e33] [cursor=pointer]:
+          - /url: tel:1800123
+          - paragraph [ref=e34]: Call
+          - paragraph [ref=e35]: 1800-123-FSPD
+          - paragraph [ref=e36]: Weekdays 9am–7pm IST
+      - region "Provide as much detail as possible so we can route it to the right engineer." [ref=e37]:
+        - generic [ref=e38]:
+          - paragraph [ref=e39]: Open a support request
+          - heading "Provide as much detail as possible so we can route it to the right engineer." [level=2] [ref=e40]
+        - generic [ref=e41]:
+          - textbox "Full name" [ref=e42]
+          - textbox "you@example.com" [ref=e43]
+          - textbox "Describe the issue, include bike serial or RiderLink ID if available." [ref=e44]
+          - button "Submit request" [ref=e45]
+        - paragraph [ref=e46]: By submitting you agree to our privacy policy; we hash your email before analytics.
+      - region "FAQs" [ref=e47]:
+        - heading "FAQs" [level=2] [ref=e48]
+        - generic [ref=e49]:
+          - group [ref=e50]:
+            - generic "Where can I book service?" [ref=e51]
+          - group [ref=e52]:
+            - generic "How do crash replacements work?" [ref=e53]
+          - group [ref=e54]:
+            - generic "Can I escalate telemetry issues?" [ref=e55]
+  - region "Analytics consent notice" [ref=e56]:
+    - generic [ref=e57]:
+      - paragraph [ref=e58]: We use consent-aware analytics to improve dealer availability. Accept to send anonymized events or decline to skip tracking.
+      - group [ref=e59]:
+        - button "Decline" [ref=e60]
+        - button "Accept" [ref=e61]
+```
