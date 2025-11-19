@@ -31,26 +31,20 @@ export const SUPPORT_COPY: Record<LocaleKey, SupportCopy> = {
     hero: {
       kicker: 'SUPPORT HUB',
       title: 'Support hub',
-      subtitle: 'Sales, service, diagnostics, and RiderLink telemetry. Choose the channel that matches your need.'
+      subtitle: 'Visitors can contact Finspeed support quickly for sales, service, and diagnostics.'
     },
     channels: [
       {
         label: 'WhatsApp',
-        detail: '+91 98 765 43210',
-        href: 'https://wa.me/919876543210',
-        description: '6h SLA · 9am–9pm IST'
+        detail: '+91 96506 08982',
+        href: 'https://wa.me/919650608982',
+        description: '6h SLA · 09:00–21:00 IST'
       },
       {
         label: 'Email',
-        detail: 'support@finspeed.example',
-        href: 'mailto:support@finspeed.example',
-        description: 'Next-business-day response'
-      },
-      {
-        label: 'Call',
-        detail: '1800-123-FSPD',
-        href: 'tel:1800123',
-        description: 'Weekdays 9am–7pm IST'
+        detail: 'support@finspeed.online',
+        href: 'mailto:support@finspeed.online',
+        description: 'Replies within 6 hours during support hours'
       }
     ],
     status: {
@@ -79,26 +73,20 @@ export const SUPPORT_COPY: Record<LocaleKey, SupportCopy> = {
     hero: {
       kicker: 'सपोर्ट हब',
       title: 'सपोर्ट हब',
-      subtitle: 'बिक्री, सेवा, डायग्नोस्टिक्स और RiderLink टेलीमेट्री — अपनी ज़रूरत के अनुसार चैनल चुनें।'
+      subtitle: 'बिक्री और सेवा से जुड़े अनुरोधों के लिए Finspeed सपोर्ट से जल्दी संपर्क करें।'
     },
     channels: [
       {
         label: 'WhatsApp',
-        detail: '+91 98 765 43210',
-        href: 'https://wa.me/919876543210',
-        description: '6 घंटे SLA · सुबह 9 से रात 9'
+        detail: '+91 96506 08982',
+        href: 'https://wa.me/919650608982',
+        description: '6 घंटे SLA · सुबह 9 से रात 9 (IST)'
       },
       {
         label: 'ईमेल',
-        detail: 'support@finspeed.example',
-        href: 'mailto:support@finspeed.example',
-        description: 'अगले कार्य दिवस तक प्रतिक्रिया'
-      },
-      {
-        label: 'कॉल',
-        detail: '1800-123-FSPD',
-        href: 'tel:1800123',
-        description: 'सोम–शुक्र 9am–7pm'
+        detail: 'support@finspeed.online',
+        href: 'mailto:support@finspeed.online',
+        description: 'प्रकाशित सपोर्ट समय में 6 घंटे के भीतर उत्तर'
       }
     ],
     status: {
