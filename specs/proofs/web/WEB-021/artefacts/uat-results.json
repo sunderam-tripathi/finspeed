@@ -1,16 +1,17 @@
 {
-  "runAt": "2025-11-19T18:47:05.281Z",
+  "runAt": "2025-11-19T19:21:12.339Z",
   "notes": "Headed Playwright UAT against production (catalog & content)",
   "results": [
     {
       "name": "catalog-desktop",
       "url": "https://www.finspeed.online/catalog",
-      "status": "fail",
-      "details": [],
-      "screenshot": null,
+      "status": "pass",
+      "details": [
+        "Catalog page loads with heading and filters visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-catalog-desktop.png",
       "ux_score": 5,
-      "aesthetics_score": 5,
-      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: /Bicycles/i }).first() to be visible\u001b[22m\n"
+      "aesthetics_score": 5
     },
     {
       "name": "brand-story-desktop",
@@ -37,22 +38,24 @@
     {
       "name": "blog-desktop",
       "url": "https://www.finspeed.online/blog",
-      "status": "fail",
-      "details": [],
-      "screenshot": null,
+      "status": "pass",
+      "details": [
+        "Blog list and at least one article render."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-blog-desktop.png",
       "ux_score": 5,
-      "aesthetics_score": 5,
-      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('article').first() to be visible\u001b[22m\n"
+      "aesthetics_score": 5
     },
     {
       "name": "catalog-mobile",
       "url": "https://www.finspeed.online/catalog",
-      "status": "fail",
-      "details": [],
-      "screenshot": null,
+      "status": "pass",
+      "details": [
+        "Catalog page loads with heading and filters visible."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-catalog-mobile.png",
       "ux_score": 5,
-      "aesthetics_score": 5,
-      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: /Bicycles/i }).first() to be visible\u001b[22m\n"
+      "aesthetics_score": 5
     },
     {
       "name": "brand-story-mobile",
@@ -79,12 +82,13 @@
     {
       "name": "blog-mobile",
       "url": "https://www.finspeed.online/blog",
-      "status": "fail",
-      "details": [],
-      "screenshot": null,
+      "status": "pass",
+      "details": [
+        "Blog list and at least one article render."
+      ],
+      "screenshot": "specs/proofs/web/WEB-021/artefacts/uat-blog-mobile.png",
       "ux_score": 5,
-      "aesthetics_score": 5,
-      "error": "locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('article').first() to be visible\u001b[22m\n"
+      "aesthetics_score": 5
     }
   ]
 }

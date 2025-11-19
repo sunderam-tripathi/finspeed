@@ -14,56 +14,64 @@ type CatalogCategory = {
 
 const CATALOG_COPY: Record<LocaleKey, { title: string; intro: string; categories: CatalogCategory[] }> = {
   en: {
-    title: 'Bicycles catalog',
-    intro: 'Explore our core families — pick a discipline to see where each platform shines before you book a test ride or visit a studio.',
+    title: 'Finspeed product catalog',
+    intro:
+      'Browse the launch catalog by discipline. ATB, MTB, and Road Racer families mirror the eight baseline bikes defined in the SCN-002 product catalog — with factory-direct pricing, warranty, and service promises repeated on every card.',
     categories: [
       {
-        id: 'mtb',
-        label: 'MTB',
-        subtitle: 'Trail & off-road',
-        description: 'Hardtail and full-suspension platforms tuned for Indian trails, weekend singletrack, and uplift days.',
-        badge: '4 models'
+        id: 'atb',
+        label: 'ATB',
+        subtitle: 'All Terrain Bikes · 2 models',
+        description:
+          'Shark (Grey) and Great White Shark (Standard) with high tensile steel frames and double-walled rims for everyday urban and campus rides.',
+        badge: '2 models · factory-direct ₹5,500–₹5,800'
       },
       {
         id: 'road',
         label: 'Road Racer',
-        subtitle: 'Speed & endurance',
-        description: 'Aero and endurance frames engineered for long-haul efforts, crits, and fast group rides.',
-        badge: '2 models'
+        subtitle: 'Speed & endurance · 2 models',
+        description:
+          'Marlin (Yellow, Red) with 700C wheels and sleek tyres for smooth, fast commutes and weekend road rides.',
+        badge: '2 models · factory-direct ₹9,000–₹10,000'
       },
       {
-        id: 'city',
-        label: 'City & commute',
-        subtitle: 'Everyday reliability',
-        description: 'Robust commuters and hybrid frames with mounts for racks, fenders, and dynamo lighting.',
-        badge: '2 models'
+        id: 'mtb',
+        label: 'MTB',
+        subtitle: 'Trail-ready hardtails · 4 models',
+        description:
+          'Shark (Mustard, Mustard Green, Blue, Sea Green) with front suspension, disc brakes, and broad tyres tuned for Indian trails and mixed terrain.',
+        badge: '4 models · factory-direct ₹7,200–₹9,600'
       }
     ]
   },
   hi: {
-    title: 'साइकिल कैटलॉग',
-    intro: 'अपनी राइडिंग शैली के अनुसार परिवार चुनें — ट्रेल, रोड या डेली कम्यूट — और टेस्ट राइड या स्टूडियो विज़िट प्लान करें।',
+    title: 'Finspeed प्रोडक्ट कैटलॉग',
+    intro:
+      'लॉन्च कैटलॉग को डिसिप्लिन के अनुसार ब्राउज़ करें — ATB, MTB और रोड रेसर परिवार। कीमत, वारंटी और सर्विस वादे SCN-002 कैटलॉग के अनुरूप रखे गए हैं।',
     categories: [
       {
-        id: 'mtb',
-        label: 'एमटीबी',
-        subtitle: 'ट्रेल और ऑफ-रोड',
-        description: 'भारतीय ट्रेल्स और वीकेंड सिंगलट्रैक के लिए ट्यून किए गए हार्डटेल और फुल सस्पेंशन प्लेटफॉर्म।',
-        badge: '4 मॉडल'
+        id: 'atb',
+        label: 'ATB',
+        subtitle: 'ऑल टेरेन बाइक · 2 मॉडल',
+        description:
+          'Shark (Grey) और Great White Shark (Standard) — हाई टेंसाइल स्टील फ्रेम और डबल वॉल रिम के साथ रोज़मर्रा की राइड के लिए।',
+        badge: '2 मॉडल · फैक्टरी प्राइस ₹5,500–₹5,800'
       },
       {
         id: 'road',
         label: 'रोड रेसर',
-        subtitle: 'स्पीड और एंड्यूरेंस',
-        description: 'लॉन्ग राइड्स, क्रिट्स और तेज़ ग्रुप राइड्स के लिए एयरो और एंड्यूरेंस फ्रेम।',
-        badge: '2 मॉडल'
+        subtitle: 'स्पीड और एंड्यूरेंस · 2 मॉडल',
+        description:
+          'Marlin (Yellow, Red) — 700C व्हील और स्लिक टायर्स के साथ तेज़ कम्यूट और वीकेंड रोड राइड्स के लिए।',
+        badge: '2 मॉडल · फैक्टरी प्राइस ₹9,000–₹10,000'
       },
       {
-        id: 'city',
-        label: 'सिटी और कम्यूट',
-        subtitle: 'रोज़मर्रा की भरोसेमंद राइड',
-        description: 'मजबूत कम्यूटर्स और हाइब्रिड फ्रेम जिनमें रैक, फेंडर और डायनेमो लाइटिंग के लिए माउंट हैं।',
-        badge: '2 मॉडल'
+        id: 'mtb',
+        label: 'एमटीबी',
+        subtitle: 'ट्रेल-रेडी हार्डटेल · 4 मॉडल',
+        description:
+          'Shark (Mustard, Mustard Green, Blue, Sea Green) — फ्रंट सस्पेंशन, डिस्क ब्रेक और चौड़े टायर्स के साथ भारतीय ट्रेल और मिक्स्ड टेरेन के लिए।',
+        badge: '4 मॉडल · फैक्टरी प्राइस ₹7,200–₹9,600'
       }
     ]
   }
@@ -137,4 +145,3 @@ export default function CatalogPage() {
     </div>
   );
 }
-

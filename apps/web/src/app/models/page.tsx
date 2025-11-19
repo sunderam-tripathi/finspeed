@@ -27,8 +27,8 @@ export default function ModelsPage() {
               </h1>
               <p className="text-base text-[var(--fs-text-muted)]">
                 {locale === 'hi'
-                  ? 'लॉन्च कैटलॉग में आठ मॉडल शामिल हैं — कम्यूटर से लेकर ट्रेल-रेडी एमटीबी और रोड रेसर तक। विस्तृत स्पेक शीट्स मॉडल पेज पर आएंगी; फिलहाल आप डीलर के साथ सही फ्रेम चुन सकते हैं।'
-                  : 'Our launch catalog spans eight models, from city commuters to trail-ready MTBs and road racers. Full spec sheets will ship on dedicated model pages; for now, dealers can help you pick the right frame.'}
+                  ? 'लॉन्च कैटलॉग में आठ मॉडल शामिल हैं — दो ATB, चार MTB और दो रोड रेसर — जैसा कि प्रोडक्ट कैटलॉग CSV में फ्रीज़ किया गया है। विस्तृत मॉडल पेज बाद में आएंगे; अभी के लिए आप कैटलॉग अवलोकन और डीलर के साथ सही प्लेटफॉर्म चुन सकते हैं।'
+                  : 'The launch catalog includes eight bikes — two ATB builds, four MTBs, and two Road Racers — exactly as defined in the product-catalog.csv handoff. Detailed model pages will follow; today you can use the catalog overview and your dealer to choose the right platform.'}
               </p>
             </div>
           </section>
@@ -39,8 +39,8 @@ export default function ModelsPage() {
             <ul className="mt-2 space-y-3 text-sm text-[var(--fs-text-muted)]">
               <li>
                 {locale === 'hi'
-                  ? 'ब्रांड स्टोरी पढ़ें और देखें कि Finspeed किन राइडर्स के लिए इंजीनियर किया गया है।'
-                  : 'Read the brand story to understand who Finspeed builds for and how each platform evolved.'}
+                  ? 'ब्रांड स्टोरी पढ़ें और देखें कि Finspeed किन राइडर्स के लिए इंजीनियर किया गया है — यह SCN-005 के मुताबिक पूरी कहानी को जोड़ता है।'
+                  : 'Read the brand story to understand who Finspeed builds for and how each platform fits into the wider narrative documented in SCN-005.'}
               </li>
               <li>
                 {locale === 'hi'
