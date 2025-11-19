@@ -7,6 +7,7 @@ status: Ready
 ## Overview
 - Framework: Next.js (app router) with static export (`next export`) to keep runtime dependency-free.
 - Hosting: Vercel production project (`finspeed-marketing`) with matching staging preview; Netlify retained only as contingency.
+- DNS: Cloudflare zone per `_shared/runbooks/cloudflare-dns-vercel.md` (orange-cloud disabled so Vercel handles TLS/CDN).
 - Repository: `github.com/finspeed/site` (private) mirrored from this requirements repo’s handoff tag `design-0.1-*`.
 - Branch strategy: `main` → production, `preview/*` feature branches → Vercel previews. Merge to `main` gated by Build-Ready assets in this repo.
 

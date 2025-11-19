@@ -1,0 +1,28 @@
+Wed Nov 19 16:47:08 UTC 2025 curl -I https://finspeed.online
+HTTP/2 307 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Wed, 19 Nov 2025 16:47:11 GMT
+location: https://www.finspeed.online/
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: bom1::fvxmv-1763570831153-a10776c606c7
+
+
+Wed Nov 19 16:47:08 UTC 2025 curl -I https://www.finspeed.online
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 3664
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-type: text/html; charset=utf-8
+date: Wed, 19 Nov 2025 16:47:11 GMT
+etag: "28aef1aba51666da6b0ef3f9510439ed"
+last-modified: Wed, 19 Nov 2025 15:46:06 GMT
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-cache: HIT
+x-vercel-id: bom1::gm6dc-1763570831517-9ae239783d10
+content-length: 36593
+

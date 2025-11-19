@@ -1,0 +1,5 @@
+{
+  "collected_at": "2025-11-19T16:30:47Z",
+  "apex": {"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"finspeed.online","type":1}],"Answer":[{"name":"finspeed.online","type":1,"TTL":300,"data":"216.198.79.1"}]},
+  "www": {"Status":0,"TC":false,"RD":true,"RA":true,"AD":false,"CD":false,"Question":[{"name":"www.finspeed.online","type":5}],"Answer":[{"name":"www.finspeed.online","type":5,"TTL":300,"data":"8b60012c838a69e7.vercel-dns-017.com."}]}
+}
