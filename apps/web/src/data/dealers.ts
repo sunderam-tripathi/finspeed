@@ -24,8 +24,8 @@ export const DEALERS: Dealer[] = [
     postalCode: '201306',
     services: ['Sales', 'Test rides', 'Service'],
     contact: {
-      whatsapp: '+91 98 765 43210',
-      email: 'sarin.farm@finspeed.example'
+      whatsapp: '',
+      email: ''
     },
     coordinates: {
       lat: 28.528,
@@ -40,8 +40,8 @@ export const DEALERS: Dealer[] = [
     postalCode: '201306',
     services: ['Sales', 'Service'],
     contact: {
-      whatsapp: '+91 98 111 22222',
-      email: 'krystal.height@finspeed.example'
+      whatsapp: '',
+      email: ''
     },
     coordinates: {
       lat: 28.601,
@@ -56,8 +56,8 @@ export const DEALERS: Dealer[] = [
     postalCode: '411045',
     services: ['Sales', 'Service', 'Bike fit'],
     contact: {
-      whatsapp: '+91 98 333 44444',
-      email: 'pune.studio@finspeed.example'
+      whatsapp: '',
+      email: ''
     },
     coordinates: {
       lat: 18.559,

@@ -45,18 +45,7 @@ export default function TestimonialsPage() {
           <h2 className="text-2xl font-semibold text-[var(--fs-primary)]">{copy.cta.heading}</h2>
           <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{copy.cta.subheading}</p>
           <div className="mt-4 flex justify-center gap-3">
-            <a
-              href="https://instagram.com/finspeed"
-              className="focus-ring-target rounded-full border border-[var(--fs-primary)] px-5 py-2 text-sm font-semibold text-[var(--fs-primary)] transition hover:bg-[var(--fs-primary)] hover:text-[var(--fs-ink)]"
-            >
-              Instagram
-            </a>
-            <a
-              href="mailto:community@finspeed.example"
-              className="focus-ring-target rounded-full bg-[var(--fs-primary)] px-5 py-2 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-primary-dark)]"
-            >
-              Email community team
-            </a>
+            <span className="text-xs text-[var(--fs-text-soft)]">[CTA to be defined from SCN-006 handoff]</span>
           </div>
         </section>
       </div>
