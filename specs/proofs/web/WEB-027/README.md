@@ -5,7 +5,7 @@
 The homepage now opens with one continuous, high-resolution rider-at-summit photograph instead of an enlarged product cutout. The product price and technical specification rail have been removed from the permanent brand hero. The headline, primary CTA, and terrain destinations remain responsive live UI.
 
 RESULT (local): PASS
-RESULT (production): PENDING
+RESULT (production): PASS
 
 ## Source and generated assets
 
@@ -49,16 +49,20 @@ The focused comparison confirms natural integration, usable bicycle detail, cons
 - Playwright: `logs/playwright.log` — 18 passed, including accessibility audit
 - Parity state: `logs/parity-state.json` — governed state `running`
 - Docker status attempt: `logs/docker-compose-ps.txt` — host CLI unavailable; limitation recorded rather than hidden
+- Production verification: `logs/production-verification.txt` — Amplify job 400 and public assets/routes pass
 
 ## Production release
 
-- Git implementation commit: pending
+- Git implementation commit: `2bd41e9ddfb0c9415fec06e5c65030f8703d2a91`
 - Pushed branch: `origin/main`
 - Amplify application: `d2h8tz7elv2xy8`
 - Amplify branch: `main` (`PRODUCTION`)
 - Region: `ap-south-1`
-- Release job: pending
+- Release job: `400`
+- Job result: `BUILD`, `DEPLOY`, and `VERIFY` all `SUCCEED`
 - Public URL: `https://www.finspeed.online/`
+
+The public page loaded `quiet-summit-hero.webp` at 2880 × 1801 for desktop and `quiet-summit-hero-mobile.webp` at 1440 × 1920 for mobile. Production geometry matched local evidence: desktop terrain begins at y=834.49 and mobile terrain begins at y=834.8 with no horizontal overflow. The public CTA and Mountain route returned the expected catalog states, and the production console remained clean.
 
 ## Acceptance review
 
@@ -71,5 +75,5 @@ The focused comparison confirms natural integration, usable bicycle detail, cons
 - [x] Browser console clean
 - [x] Lint, build, accessibility, and 18-test browser suite pass
 - [x] Same-viewport design QA passes
-- [ ] Amplify production deployment verified
-- [ ] Slice parked to `IDLE` with no managed dev server left running
+- [x] Amplify production deployment verified
+- [x] Slice parked to `IDLE` with no managed dev server left running

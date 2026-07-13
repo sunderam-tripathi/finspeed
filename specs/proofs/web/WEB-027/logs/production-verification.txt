@@ -1,0 +1,25 @@
+WEB-027 production verification
+
+Git implementation commit: 2bd41e9ddfb0c9415fec06e5c65030f8703d2a91
+Amplify application: d2h8tz7elv2xy8
+Branch: main (PRODUCTION)
+Region: ap-south-1
+Release job: 400
+Job status: SUCCEED
+BUILD: SUCCEED
+DEPLOY: SUCCEED
+VERIFY: SUCCEED
+
+HTTP verification:
+- https://www.finspeed.online/ -> 200
+- https://www.finspeed.online/assets/campaign/quiet-summit-hero.webp -> 200, image/webp, 374568 bytes
+- https://www.finspeed.online/assets/campaign/quiet-summit-hero-mobile.webp -> 200, image/webp, 280358 bytes
+
+In-app browser verification:
+- Desktop asset: quiet-summit-hero.webp, natural size 2880 x 1801
+- Desktop layout: 82.49px header; 752px hero; terrain starts at y=834.49; no horizontal overflow
+- Mobile asset: quiet-summit-hero-mobile.webp, natural size 1440 x 1920
+- Mobile layout: 114.8px header; 720px hero; terrain starts at y=834.8; no horizontal overflow
+- Find your ride -> /shop with heading Shop all cycles
+- Mountain terrain -> /shop?category=mountain with Mountain pressed
+- Console warnings/errors: none
