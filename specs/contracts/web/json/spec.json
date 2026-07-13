@@ -642,6 +642,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-027",
+      "title": "Brand-led rider-at-summit homepage hero",
+      "done_definition": [
+        "The homepage hero matches the user-selected rider-at-summit composition and presents Finspeed as a brand rather than a single Mako Shark product offer",
+        "Desktop and mobile hero photographs are sharp, naturally integrated, free of baked UI, and avoid oversized cutout, pixelation, halo, and ground-contact artefacts",
+        "The headline, supporting copy, primary CTA, and Mountain, City, and Hybrid destinations are live responsive controls with no homepage SKU price or specification rail",
+        "Desktop and mobile design QA, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
+        "The existing Amplify main application deploys the verified redesign to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-027.md",
+        "specs/proofs/web/WEB-027/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

@@ -48,7 +48,7 @@ body,
 
 /* WEB-023 — selected dark mountain-performance homepage */
 .store-header--dark {
-  height: 96px !important;
+  height: clamp(80px, 5.2vw, 88px) !important;
   padding-inline: clamp(32px, 3vw, 56px) !important;
 }
 
@@ -94,7 +94,7 @@ body,
 .store-trail-hero {
   position: relative;
   isolation: isolate;
-  height: clamp(580px, calc(100svh - 232px), 744px);
+  height: clamp(600px, calc(100svh - 240px), 760px);
   overflow: hidden;
   background: #020508;
 }
@@ -110,28 +110,32 @@ body,
 .store-trail-background {
   z-index: -3;
   overflow: hidden;
+  background: #020508;
 }
 
 .store-trail-background img {
+  position: absolute;
+  top: 50%;
+  right: 0;
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 52%;
+  width: auto;
+  max-width: none;
+  height: 120%;
+  transform: translateY(-50%);
 }
 
 .store-trail-shade {
   z-index: -2;
   background:
-    linear-gradient(90deg, rgba(2, 5, 8, 0.34) 0%, rgba(2, 5, 8, 0.16) 38%, transparent 61%, rgba(2, 5, 8, 0.08) 100%),
-    linear-gradient(0deg, rgba(2, 5, 8, 0.2) 0%, transparent 30%);
+    linear-gradient(90deg, #020508 0%, rgba(2, 5, 8, 0.94) 18%, rgba(2, 5, 8, 0.72) 36%, rgba(2, 5, 8, 0.18) 58%, transparent 74%),
+    linear-gradient(0deg, rgba(2, 5, 8, 0.3) 0%, transparent 32%);
 }
 
 .store-trail-layout {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(470px, 0.9fr) minmax(0, 1.35fr) 148px;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
   padding: 0 clamp(28px, 5vw, 80px);
@@ -139,10 +143,9 @@ body,
 
 .store-trail-copy {
   z-index: 4;
-  align-self: center;
   max-width: 590px;
   padding-block: 18px;
-  transform: translateY(-10px);
+  transform: translateY(-4px);
 }
 
 .store-trail-eyebrow {
@@ -157,7 +160,8 @@ body,
   margin: 0;
   color: #f5f7f8;
   font: var(--fw-bold) clamp(4rem, 5.65vw, 5.7rem)/0.94 var(--font-display);
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
@@ -178,8 +182,7 @@ body,
 .store-trail-commerce {
   display: flex;
   align-items: center;
-  gap: clamp(28px, 3vw, 48px);
-  margin-top: 20px;
+  margin-top: 32px;
 }
 
 .store-trail-product-summary {
@@ -278,7 +281,7 @@ body,
 .store-terrain-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  height: 136px;
+  height: 152px;
   border-top: 2px solid #020508;
   background: #020508;
 }
@@ -428,7 +431,7 @@ body,
 
 @media (max-width: 1100px) {
   .store-trail-layout {
-    grid-template-columns: minmax(430px, 0.95fr) minmax(0, 1.2fr) 112px;
+    padding-inline: var(--space-6);
   }
 
   .store-trail-title {
@@ -494,11 +497,12 @@ body,
   }
 
   .store-trail-background img {
-    object-position: 67% 58%;
+    right: -8%;
+    height: 112%;
   }
 
   .store-trail-layout {
-    grid-template-columns: minmax(360px, 0.9fr) minmax(0, 1.1fr);
+    display: flex;
     padding-inline: var(--space-5);
   }
 
@@ -512,8 +516,6 @@ body,
 
   .store-trail-commerce {
     align-items: flex-start;
-    flex-direction: column;
-    gap: var(--space-5);
   }
 
   .store-trail-commerce > button:first-child {
@@ -612,12 +614,12 @@ body,
     flex: none;
   }
 
-  .store-brand img {
-    height: 34px !important;
+  .store-header--dark .store-brand img {
+    height: 30px !important;
   }
 
-  .store-brand-name {
-    font-size: 18px !important;
+  .store-header--dark .store-brand-name {
+    font-size: 17px !important;
   }
 
   .store-header-actions {
@@ -626,9 +628,9 @@ body,
     gap: 2px !important;
   }
 
-  .store-header-actions > button {
-    width: 44px !important;
-    height: 44px !important;
+  .store-header--dark .store-header-actions > button {
+    width: 40px !important;
+    height: 40px !important;
   }
 
   .store-primary-nav {
@@ -651,25 +653,23 @@ body,
   }
 
   .store-trail-hero {
-    height: 760px;
+    height: 720px;
   }
 
   .store-trail-background img {
-    position: absolute;
+    top: 0;
+    right: auto;
     left: 50%;
-    bottom: 0;
-    width: 130%;
+    width: auto;
     max-width: none;
-    height: auto;
-    object-fit: contain;
-    object-position: center bottom;
+    height: 100%;
     transform: translateX(-50%);
   }
 
   .store-trail-shade {
     background:
-      linear-gradient(180deg, rgba(2, 5, 8, 0.9) 0%, rgba(2, 5, 8, 0.74) 46%, rgba(2, 5, 8, 0.03) 59%, rgba(2, 5, 8, 0.08) 100%),
-      linear-gradient(90deg, rgba(2, 5, 8, 0.24), rgba(2, 5, 8, 0.02));
+      linear-gradient(180deg, rgba(2, 5, 8, 0.92) 0%, rgba(2, 5, 8, 0.78) 37%, rgba(2, 5, 8, 0.2) 53%, rgba(2, 5, 8, 0.04) 100%),
+      linear-gradient(90deg, rgba(2, 5, 8, 0.3), rgba(2, 5, 8, 0.04));
   }
 
   .store-trail-layout {
@@ -707,14 +707,12 @@ body,
   .store-trail-commerce {
     position: relative;
     z-index: 3;
-    flex-direction: row;
     align-items: center;
-    gap: var(--space-4);
     margin-top: var(--space-5);
   }
 
   .store-trail-commerce > button:first-child {
-    min-width: 188px !important;
+    min-width: 210px !important;
     height: 58px !important;
     padding-inline: 20px !important;
     font-size: var(--fs-sm) !important;
@@ -733,14 +731,25 @@ body,
   }
 
   .store-terrain-strip {
-    grid-template-columns: minmax(0, 1fr);
-    height: auto;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(210px, 72vw);
+    grid-template-columns: none;
+    height: 112px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
   }
 
   .store-terrain-link {
     min-height: 112px;
-    border-right: 0;
-    border-bottom: 2px solid #020508;
+    border-right: 2px solid #020508;
+    border-bottom: 0;
+    scroll-snap-align: start;
+  }
+
+  .store-terrain-strip::-webkit-scrollbar {
+    display: none;
   }
 
   .store-home-lineup {

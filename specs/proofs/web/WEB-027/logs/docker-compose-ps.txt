@@ -1,0 +1,2 @@
+Docker Compose status could not be collected because the Docker CLI is not installed on this host.
+The repository-managed parity state was captured separately in parity-state.json.

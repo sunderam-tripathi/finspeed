@@ -6,13 +6,6 @@ import { productImage, products } from '../../data/storefront.js';
 function Home({ onNav, onAdd, onProduct }) {
   const featured = ['bull-shark', 'mako-shark', 'tiger-shark', 'sunset-marlin']
     .map((id) => products.find((product) => product.id === id));
-  const mako = products.find((product) => product.id === 'mako-shark');
-  const specifications = [
-    { value: '27.5”', label: 'Wheels', icon: 'circle-dot' },
-    { value: '21', label: 'Speed', icon: 'gauge' },
-    { value: 'Disc', label: 'Brakes', icon: 'disc' },
-    { value: 'All-terrain', label: 'Rubber', icon: 'compass' },
-  ];
   const terrains = [
     { label: 'Mountain', filter: 'mountain', image: '/assets/campaign/trail-command-hero.webp' },
     { label: 'City', filter: 'city', image: '/assets/campaign/terrain-city.webp' },
@@ -23,8 +16,8 @@ function Home({ onNav, onAdd, onProduct }) {
     <div className="store-home fin-dark">
       <section className="store-trail-hero" aria-labelledby="trail-hero-title">
         <picture className="store-trail-background">
-          <source media="(max-width: 600px)" srcSet="/assets/campaign/mako-shark-hero-v4-mobile.webp" />
-          <img src="/assets/campaign/mako-shark-hero-v4.webp" alt="" />
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/quiet-summit-hero-mobile.webp" />
+          <img src="/assets/campaign/quiet-summit-hero.webp" alt="" />
         </picture>
         <div className="store-trail-shade" aria-hidden="true" />
 
@@ -36,8 +29,8 @@ function Home({ onNav, onAdd, onProduct }) {
             </h1>
             <div className="store-trail-rule" aria-hidden="true" />
             <p className="store-trail-description">
-              High-tensile frames, disc-brake confidence and broad all-terrain rubber.
-              The fleet that turns the commute into an expedition.
+              Engineered for exploration. Built for performance.<br />
+              For every trail, every turn, every you.
             </p>
 
             <div className="store-trail-commerce">
@@ -47,33 +40,12 @@ function Home({ onNav, onAdd, onProduct }) {
                 bevel
                 onClick={() => onNav('shop')}
                 iconRight={<i data-lucide="arrow-right" style={{ width: 20, height: 20 }} />}
-                style={{ minWidth: 300, height: 72, fontSize: 'var(--fs-lg)' }}
+                style={{ minWidth: 258, height: 64, fontSize: 'var(--fs-md)' }}
               >
-                Shop the fleet
+                Find your ride
               </Button>
-
-              <button
-                type="button"
-                className="store-trail-product-summary"
-                onClick={() => onProduct('mako-shark')}
-                aria-label="View Mako Shark details"
-              >
-                <span className="store-trail-product-name">{mako.name}</span>
-                <span className="store-trail-product-price">₹{mako.price.toLocaleString('en-IN')}</span>
-                <span className="store-trail-product-spec">{mako.wheels} {mako.speed} MTB</span>
-              </button>
             </div>
           </div>
-
-          <aside className="store-trail-specs" aria-label="Mako Shark key specifications">
-            {specifications.map((spec) => (
-              <div className="store-trail-spec" key={spec.label}>
-                <strong>{spec.value}</strong>
-                <span>{spec.label}</span>
-                <i data-lucide={spec.icon} aria-hidden="true" />
-              </div>
-            ))}
-          </aside>
         </div>
       </section>
 

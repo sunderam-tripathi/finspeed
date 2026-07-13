@@ -1,48 +1,48 @@
-# Design QA — WEB-026
+# Design QA — WEB-027
 
 ## Comparison target
 
-- Source visual truth: `specs/proofs/web/WEB-026/artefacts/source/production-failure-content-2048x990.png`
-- Generated desktop art target: `specs/proofs/web/WEB-026/artefacts/design/mako-shark-hero-v4-desktop.png`
-- Generated mobile art target: `specs/proofs/web/WEB-026/artefacts/design/mako-shark-hero-v4-mobile.png`
-- Rendered desktop implementation: `specs/proofs/web/WEB-026/artefacts/local/desktop-2048x990-final.png`
-- Rendered mobile implementation: `specs/proofs/web/WEB-026/artefacts/local/mobile-390x844-final.png`
-- Desktop viewport/state: 2048 × 990, homepage, dark theme, consent preference already resolved
-- Mobile viewport/state: 390 × 844 browser viewport (375px content width with scrollbar), homepage, dark theme
+- Selected direction: `specs/proofs/web/WEB-027/artefacts/source/selected-quiet-summit.png`
+- Clean desktop photograph: `specs/proofs/web/WEB-027/artefacts/design/quiet-summit-clean-desktop.png`
+- Clean mobile photograph: `specs/proofs/web/WEB-027/artefacts/design/quiet-summit-clean-mobile.png`
+- Rendered desktop implementation: `specs/proofs/web/WEB-027/artefacts/local/desktop-1586x992-pass2.png`
+- Rendered mobile implementation: `specs/proofs/web/WEB-027/artefacts/local/mobile-390x844-final.png`
+- Desktop state: 1586 × 992 browser viewport, homepage, dark theme, consent resolved
+- Mobile state: 390 × 844 browser viewport (375px content width with scrollbar), homepage, dark theme
 
 ## Comparison evidence
 
-- Full-view normalized comparison: `specs/proofs/web/WEB-026/artefacts/design/comparison-full-pass1.png`
-- Focused bicycle comparison: `specs/proofs/web/WEB-026/artefacts/design/comparison-bike-pass1.png`
-- A focused comparison was required because the decisive defect concerned spoke detail, frame edges, lighting, tire contact, and product/background coherence that are not reliably judged from a reduced full-page board.
+- Full-view normalized comparison: `specs/proofs/web/WEB-027/artefacts/design/comparison-full-pass2.png`
+- Focused photographic comparison: `specs/proofs/web/WEB-027/artefacts/design/comparison-subject-pass2.png`
+- The focused comparison verifies the decisive issue: bicycle frame detail, spoke clarity, rider contact, lighting, and the absence of an extraction halo.
 
 ## Findings
 
 - No actionable P0, P1, or P2 findings remain.
-- Fonts and typography: the existing display face, mono eyebrow/price treatment, body hierarchy, wrapping, and optical weights remain consistent with the approved dark storefront direction. The shortened hero does not create title, body, or commerce collisions.
-- Spacing and layout rhythm: the 96px header, 744px hero, and 136px terrain strip end at y=976 in the 990px reference viewport. Copy, commerce, full bicycle, specification rail, and all three terrain destinations are visible with 14px remaining.
-- Colors and tokens: the near-black, graphite, cyan, white, and mint palette remains coherent. The reduced shade overlay protects copy contrast without flattening the newly generated lighting.
-- Image quality and asset fidelity: the final desktop/mobile heroes are complete generated photographs. The low-resolution cutout is not overlaid or upscaled. The bicycle has crisp frame edges, circular wheels, plausible fork/drivetrain/brake geometry, coherent atmosphere, and direct tire contact shadows with no matte halo.
-- Copy and content: the approved headline, support copy, offer, specifications, and terrain labels are unchanged and remain readable.
-- Icons and controls: the Lucide action/specification icons remain aligned and visually consistent; no visible asset is replaced by CSS or handcrafted SVG art.
-- Responsiveness and accessibility: desktop has no horizontal overflow; mobile uses the dedicated portrait art, retains full-width navigation and 44px header actions, and shows the complete bicycle horizontally without clipping. Semantic region, navigation, complementary, button, and heading roles remain intact.
+- Composition: the homepage now leads with a brand moment rather than an offer. The rider and bicycle form one believable photographic subject, while the left third retains dark copy-safe space.
+- Typography: the campaign headline uses the selected uppercase treatment, three-line wrap, strong display face, cyan mono eyebrow, and compact supporting copy.
+- Viewport fit: at 1586 × 992 the 82px header, 752px hero, and full 152px terrain strip are all visible without horizontal overflow. The CTA and complete bicycle remain inside the hero.
+- Image quality: the desktop WebP is 2880 × 1801 and the mobile WebP is 1440 × 1920. Both are complete photographs; there is no enlarged transparent product cutout or separately composited shadow.
+- Product fidelity: the bicycle retains the mint-and-graphite Finspeed identity and the campaign context without presenting false price, specification, or offer claims in the hero.
+- Responsiveness: the phone breakpoint uses dedicated portrait art, a compact two-row header, an entirely visible CTA, and a horizontally scrollable terrain strip beginning immediately after the hero.
+- Controls and accessibility: the CTA and all terrain destinations remain real buttons with semantic region/navigation labels. The visible controls have accessible names and there are no browser-console warnings or errors in the tested path.
 
 ## Comparison history
 
-1. Pre-pass mobile capture (`artefacts/local/mobile-390x844.png`) exposed a P2 horizontal bicycle crop caused by applying the portrait asset through a cover crop.
-2. Fix: the phone breakpoint now sizes the dedicated portrait art to 130% width, preserves its intrinsic aspect ratio, centers it, and anchors it to the hero floor. This keeps the complete bicycle horizontally visible while retaining dark copy-safe space.
-3. Post-fix evidence: `artefacts/local/mobile-390x844-final.png` shows the full front and rear bicycle geometry across the phone width without horizontal page overflow.
-4. Formal desktop full-view and focused pass (`comparison-full-pass1.png`, `comparison-bike-pass1.png`) found no remaining P0/P1/P2 mismatch. No visual change was made after that pass.
+1. Desktop pass 1 confirmed that the clean photograph removed the pixelated cutout and fit the hero without upscaling; it exposed a softer title-case campaign treatment.
+2. The headline was changed to the selected uppercase treatment and optical tracking was tightened.
+3. Mobile pass 1 exposed a three-row, 185px header caused by high-specificity desktop action sizing.
+4. The mobile brand and action selectors were made breakpoint-specific, reducing the header to 115px and bringing the entire hero to the first viewport boundary.
+5. Final desktop and mobile captures found no remaining P0/P1/P2 mismatch.
 
 ## Browser verification
 
-- Primary CTA: “Shop the fleet” opened `/shop` with the `Shop all cycles` heading.
-- Product CTA: “View Mako Shark details” opened `/products/mako-shark` with the `Mako Shark` heading.
-- Brand control returned to the homepage after each path.
-- Browser console: no errors or warnings recorded during the tested flow.
+- “Find your ride” opened `/shop` with the `Shop all cycles` heading.
+- The Mountain terrain destination opened `/shop?category=mountain` with the Mountain filter pressed and five matching cycles.
+- Browser console: no errors or warnings during the tested homepage and navigation flow.
 
 ## Follow-up polish
 
-- P3: none required for the current correction.
+- P3: none required for the current hero correction.
 
 final result: passed

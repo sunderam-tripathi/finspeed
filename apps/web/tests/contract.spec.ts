@@ -6,12 +6,12 @@ test.describe('SCN-001 site shell contract', () => {
   test('hero conveys brand promise and CTA', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1, name: EN_HEADLINE })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Shop the fleet' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Find your ride' })).toBeVisible();
   });
 
   test('primary CTA opens the redesigned catalog', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: 'Shop the fleet' }).click();
+    await page.getByRole('button', { name: 'Find your ride' }).click();
     await expect(page).toHaveURL(/\/shop$/);
     await expect(page.getByRole('heading', { level: 1, name: 'Shop all cycles' })).toBeVisible();
   });
