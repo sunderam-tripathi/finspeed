@@ -1,0 +1,4 @@
+> spec:progress
+> node tools/spec/progress.mjs
+
+Progress summary updated at specs/project-progress/progress-summary.json
