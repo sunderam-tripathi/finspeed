@@ -1,0 +1,1 @@
+Docker CLI unavailable on this host. `npm run dev:parity` completed successfully and the governed parity state is retained separately.

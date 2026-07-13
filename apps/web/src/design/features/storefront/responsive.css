@@ -94,10 +94,6 @@ body,
   color: #f0f4f6 !important;
 }
 
-.store-header--light .store-primary-nav > button {
-  color: var(--ink-700) !important;
-}
-
 .store-header-actions {
   gap: clamp(10px, 1.4vw, 22px) !important;
 }
@@ -486,20 +482,12 @@ body,
     -webkit-backdrop-filter: none !important;
   }
 
-  .store-header:not(.store-header--dark) {
-    background: rgba(255, 255, 255, 0.98) !important;
-  }
-
   .store-header {
     height: 84px !important;
   }
 
   .store-header--dark {
     background: #020508 !important;
-  }
-
-  .store-header--light {
-    background: rgba(255, 255, 255, 0.98) !important;
   }
 
   .store-header-main {

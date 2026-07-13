@@ -700,6 +700,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-029",
+      "title": "Uniform dark storefront header",
+      "done_definition": [
+        "The shared storefront header uses the homepage dark surface, light logo, light navigation, and light action treatment across home, catalog, product, and service routes",
+        "Header height, padding, logo lockup, navigation placement, and action geometry remain identical across routes and breakpoints",
+        "Route transitions preserve navigation, search, account, cart, consent, analytics, focus, and accessibility behavior",
+        "Desktop and mobile same-viewport design QA, lint, production build, automated browser checks, accessibility checks, and console checks pass",
+        "The existing Amplify main application deploys the verified correction to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-029.md",
+        "specs/proofs/web/WEB-029/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

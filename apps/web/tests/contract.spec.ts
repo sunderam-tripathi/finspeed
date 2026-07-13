@@ -50,6 +50,49 @@ test.describe('SCN-001 site shell contract', () => {
     }
   });
 
+  test('shared header visual treatment remains stable across storefront routes', async ({ page }) => {
+    const readTreatment = async () => page.locator('.store-header').evaluate((header) => {
+      const style = (selector: string) => {
+        const element = header.querySelector(selector) as HTMLElement;
+        const computed = getComputedStyle(element);
+        return {
+          color: computed.color,
+          backgroundColor: computed.backgroundColor,
+          borderBottomColor: computed.borderBottomColor,
+        };
+      };
+      const headerStyle = getComputedStyle(header);
+      return {
+        className: header.className,
+        header: {
+          backgroundColor: headerStyle.backgroundColor,
+          borderBottomColor: headerStyle.borderBottomColor,
+        },
+        logoSource: (header.querySelector('.store-brand img') as HTMLImageElement).getAttribute('src'),
+        wordmark: style('.store-brand-name'),
+        navigation: style('.store-primary-nav > button'),
+        action: style('.store-header-actions > button'),
+      };
+    });
+
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      const home = await readTreatment();
+      for (const route of ['/shop', '/products/mako-shark', '/about']) {
+        await page.goto(route);
+        const treatment = await readTreatment();
+        expect(treatment).toEqual(home);
+        expect(treatment.className).toContain('store-header--dark');
+        expect(treatment.logoSource).toBe('/assets/logos/finspeed-mark-light.png');
+        expect(['rgba(2, 5, 8, 0.96)', 'rgb(2, 5, 8)']).toContain(treatment.header.backgroundColor);
+        expect(treatment.wordmark.color).toBe('rgb(255, 255, 255)');
+        expect(treatment.navigation.color).toBe('rgb(240, 244, 246)');
+        expect(treatment.action.color).toBe('rgb(255, 255, 255)');
+      }
+    }
+  });
+
   test('shared header controls retain their navigation routes', async ({ page }) => {
     await page.goto('/about');
     const header = page.getByRole('banner');
@@ -65,6 +108,21 @@ test.describe('SCN-001 site shell contract', () => {
 
     await header.getByRole('button', { name: 'Account' }).click();
     await expect(page).toHaveURL(/\/sign-in$/);
+  });
+
+  test('shared header routes render without console errors', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error') errors.push(message.text());
+    });
+    page.on('pageerror', (error) => errors.push(error.message));
+
+    for (const route of ['/', '/shop', '/products/mako-shark', '/about']) {
+      await page.goto(route);
+      await expect(page.getByRole('banner')).toBeVisible();
+    }
+
+    expect(errors).toEqual([]);
   });
 
   test('store locator remains available from the support footer', async ({ page }) => {
