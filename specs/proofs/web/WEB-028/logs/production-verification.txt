@@ -1,0 +1,32 @@
+WEB-028 production verification
+Date: 2026-07-14 (Asia/Calcutta)
+
+Release
+- Implementation commit: 55d3e4daafe50221edf8e9d745f49aa9ceccb7c5
+- AWS Amplify app: d2h8tz7elv2xy8
+- Branch: main (PRODUCTION)
+- Region: ap-south-1
+- Release job: 401
+- Overall status: SUCCEED
+- BUILD: SUCCEED
+- DEPLOY: SUCCEED
+- VERIFY: SUCCEED
+- Completed: 2026-07-14T01:22:07.799000+05:30
+
+Public HTTP checks
+- https://www.finspeed.online/ -> 200
+- https://www.finspeed.online/shop -> 200
+
+Live browser check at one 1586 x 992 viewport
+- Home header: 82.49px; logo: 54 x 54px; wordmark frame: 54px; action target: 48 x 48px
+- Shop header: 82.49px; logo: 54 x 54px; wordmark frame: 54px; action target: 48 x 48px
+- Home and Shop brand, navigation, and action coordinates match exactly.
+- Shop navigation foreground: rgb(26, 33, 41)
+- Shop action foreground: rgb(10, 14, 18)
+- Shop variant class: store-header store-header--light
+- Browser console: no warnings or errors
+
+Responsive confidence
+- The production asset came from the same successful build as the tested commit.
+- The repository browser suite passed the shared header contract at 1440 x 900 and 390 x 844, including exact Home/Shop geometry equality at both viewports.
+- Focused local screenshots for both responsive viewports were visually inspected and are retained in this proof bundle.

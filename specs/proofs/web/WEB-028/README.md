@@ -5,7 +5,7 @@
 The shared storefront header now keeps one geometry contract across the homepage and interior routes. Home and Shop use identical height, padding, brand lockup, navigation typography/spacing, icon scale, and action targets. Dark and light surfaces remain intentional visual variants, but color no longer changes layout and the light header no longer inherits low-contrast dark-surface foreground tokens.
 
 RESULT (local): PASS
-RESULT (production): PENDING
+RESULT (production): PASS
 
 ## Root cause and correction
 
@@ -63,16 +63,17 @@ The browser console contained no warnings or errors in the verified Home, Shop, 
 - Managed dev server: `logs/managed-web.log` — local QA server lifecycle captured; port 3100 stopped after verification
 - Slice index refresh: `logs/slice-index.log` — exit 0
 - Progress telemetry refresh: `logs/progress.log` — exit 0
+- Production verification: `logs/production-verification.txt` — Amplify job, public HTTP, live geometry, color, and console checks passed
 - Go sweep: not applicable; the repository does not define `go:test-all`
 
 ## Production release
 
-- Git implementation commit: pending
+- Git implementation commit: `55d3e4daafe50221edf8e9d745f49aa9ceccb7c5`
 - Pushed branch: `origin/main`
 - Amplify application: `d2h8tz7elv2xy8`
 - Amplify branch: `main` (`PRODUCTION`)
 - Region: `ap-south-1`
-- Release job: pending
+- Release job: `401` — `BUILD`, `DEPLOY`, and `VERIFY` all `SUCCEED`
 - Public URL: `https://www.finspeed.online/`
 
 ## Acceptance review
@@ -84,5 +85,5 @@ The browser console contained no warnings or errors in the verified Home, Shop, 
 - [x] Search, account, cart, and category handlers preserved
 - [x] Same-viewport focused design QA passes
 - [x] Lint, build, accessibility, and 20-test browser suite pass
-- [ ] Amplify production deployment verified
-- [ ] Slice parked to `IDLE` with no managed dev server left running
+- [x] Amplify production deployment verified
+- [x] Slice parked to `IDLE` with no managed dev server left running
