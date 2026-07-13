@@ -148,6 +148,32 @@
       "logPath": "tmp/process-logs/spec-progress-2026-07-13T09-07-08-939Z.log",
       "exitCode": 0,
       "ended_at": "2026-07-13T09:07:09.415Z"
+    },
+    {
+      "name": "web-dev",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "dev",
+        "-w",
+        "web"
+      ],
+      "logPath": "tmp/process-logs/web-dev-2026-07-13T13-10-23-253Z.log",
+      "exitCode": 4294967295,
+      "ended_at": "2026-07-13T13:23:32.992Z"
+    },
+    {
+      "name": "web-dev",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "dev",
+        "-w",
+        "web"
+      ],
+      "logPath": "tmp/process-logs/web-dev-2026-07-13T13-27-05-110Z.log",
+      "exitCode": 4294967295,
+      "ended_at": "2026-07-13T13:37:10.113Z"
     }
   ]
 }

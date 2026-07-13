@@ -555,6 +555,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-024",
+      "title": "Integrated Mako hero campaign visual",
+      "done_definition": [
+        "The homepage hero uses one integrated campaign image built from the exact official Mako Shark product asset",
+        "The bicycle is not redrawn, regenerated, recolored, or distorted and no longer reads as a pasted cutout",
+        "Hero content, price, CTA, and technical specifications remain fully visible at desktop and mobile breakpoints",
+        "Design QA, lint, production build, browser interactions, and console checks pass",
+        "The existing Amplify main application deploys the verified correction to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-024.md",
+        "specs/proofs/web/WEB-024/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

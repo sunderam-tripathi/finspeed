@@ -1,39 +1,42 @@
-# WEB-023 Design QA
+# WEB-024 Design QA
 
 ## Evidence
 
-- Source design: `specs/proofs/web/WEB-023/artefacts/design/selected-option-2.png`
-- Browser-rendered implementation: `specs/proofs/web/WEB-023/artefacts/design/implementation-desktop-1586x992-final.png`
-- Comparison: `specs/proofs/web/WEB-023/artefacts/design/comparison-final.png`
-- Focused hero comparison: `specs/proofs/web/WEB-023/artefacts/design/comparison-hero-final.png`
-- Responsive evidence: `specs/proofs/web/WEB-023/artefacts/design/implementation-mobile-390x844.png`
-- Desktop viewport/state: 1586 x 992, homepage, scrollY 0, analytics consent already answered so the persistent notice is not present.
-- Mobile viewport/state: 390 x 844, homepage, scrollY 0, no horizontal overflow (`scrollWidth` 375 at a 390 CSS-pixel viewport with browser scrollbar).
+- Source visual truth: `specs/proofs/web/WEB-024/artefacts/design/approved-dark-hero-reference.png`
+- User-reported production failure: `specs/proofs/web/WEB-024/artefacts/design/production-layout-failure.png`
+- Browser-rendered implementation: `specs/proofs/web/WEB-024/artefacts/screenshots/final-local-desktop-1280x720-v2.png`
+- Same-state full-view comparison: `specs/proofs/web/WEB-024/artefacts/design/design-comparison-1280x720-v2.png`
+- Focused product comparison: `specs/proofs/web/WEB-024/artefacts/design/product-focus-comparison.png`
+- Large desktop evidence: `specs/proofs/web/WEB-024/artefacts/screenshots/final-local-desktop-1920x990.png`
+- Mobile evidence: `specs/proofs/web/WEB-024/artefacts/screenshots/final-local-mobile-390x844.png`
+- Comparison viewport/state: 1280 x 720, homepage, dark storefront, scrollY 0, first-visit analytics notice visible.
+- Large desktop viewport/state: 1920 x 990, homepage, dark storefront, scrollY 0, first-visit analytics notice visible.
+- Mobile viewport/state: 390 x 844, homepage, dark storefront, scrollY 0, first-visit analytics notice visible.
 
 ## Mandatory comparison pass
 
-- Typography: the display face, weight, line breaks, uppercase eyebrow, price hierarchy, and body-copy measure follow the selected design. The implemented title is slightly more compact optically, but retains the same hierarchy and three-line composition.
-- Spacing and layout: header height, left hero anchor, CTA/product pairing, bicycle footprint, right specification rail, and terrain-strip reveal align closely with the source. No collisions or clipped controls remain.
-- Viewport resilience: desktop and mobile were rendered in the in-app browser. The mobile header reflows into two rows, the hero becomes a readable single-column composition, and the bicycle continues below the fold without horizontal overflow.
-- Colors and tokens: the near-black shell, cyan accents, white display type, muted copy, and low-contrast mountain atmosphere match the intended palette and use the existing storefront token system.
-- Image quality and asset fidelity: the hero uses an intentionally generated mountain background plus the official transparent Mako Shark product cutout. City and hybrid terrain imagery uses generated campaign assets sized for their slots. No placeholder boxes, CSS art, handcrafted SVG art, or stretched screenshots are present.
-- Copy and content: all hero, product, category, engineering, newsletter, and footer copy is coherent in the Finspeed storefront context.
-- Icons: existing Lucide storefront icons render consistently in the header and specification rail. All visible icons are present and aligned.
-- States and interactions: verified `Shop the fleet` -> `/shop`, featured Mako summary -> `/products/mako-shark`, and terrain Mountain -> `/shop?category=mountain`.
-- Accessibility: semantic headings/navigation/aside labels, descriptive bicycle alt text, labelled controls, visible focus styles, reduced-motion handling, and practical mobile tap targets are retained.
-- Browser console: checked after the interaction pass; zero error entries.
+- Fonts and typography: the existing display/body/mono families, three-line headline, uppercase eyebrow, cyan price hierarchy, line-height, and letter spacing preserve the source design's optical hierarchy. No wrapping or truncation defects remain.
+- Spacing and layout rhythm: the header, copy anchor, CTA/product-summary pairing, integrated bicycle stage, and right specification rail retain the source's three-zone structure. The final copy group is shifted 24 px upward at desktop to keep the commerce row clear at short viewports.
+- Colors and tokens: near-black, graphite, white, muted steel blue, and restrained cyan stay within the existing storefront token system. The generated environment adds depth without introducing a new visual language.
+- Image quality and asset fidelity: the environment is generated separately. The official 1200 x 900 Mako Shark source is composited at native 1:1 size; only the elongated neutral studio-floor residue is removed. Every RGBA pixel outside that mask remains byte-identical to the source. Desktop and mobile use purpose-composed assets rather than responsive scaling of an independent product layer.
+- Copy and content: all existing Finspeed hero, product, pricing, specification, navigation, and consent copy is unchanged and coherent.
+- Icons: existing Lucide storefront icons remain complete, aligned, and consistent in the header and technical rail.
+- Responsiveness: desktop and mobile art direction use separate precomposed crops. The desktop CTA and price are visible at the reported production viewport; mobile no longer applies the desktop bicycle scaling rules and has no product-layer collision.
+- Accessibility: semantic heading/navigation/aside structure, labelled controls, focus styles, and practical tap targets remain intact. The decorative campaign picture has an empty alternative.
+- Interactions: verified the Mako product summary routes to `/products/mako-shark` and the Shop control routes to `/shop`.
+- Browser console: zero error entries after the interaction pass.
 
 ## Findings
 
-- P3 imagery: the official Mako Shark cutout has a different camera angle and a light studio-ground edge compared with the generated source mock. Keeping the real product asset is preferable to inventing or distorting the bicycle.
-- P3 icons: the existing Lucide wheel/brake/terrain glyphs are simpler than the bespoke technical line icons in the source, but they are complete, consistent, and production-safe.
+- P3 source limitation: the official product PNG contains light edge pixels and lower-resolution wheel detail. Those pixels are intentionally preserved because the user required the bicycle itself to remain unchanged.
+- P3 expected state difference: the global analytics notice overlays the bottom edge on a first visit. At the reported 1920 x 990 desktop viewport the CTA and price remain fully readable above it; the notice is not part of the hero design.
 
 No actionable P0, P1, or P2 findings remain.
 
 ## Comparison history
 
-1. Initial browser capture (`implementation-desktop-1586x992.png`): title scale and bicycle placement drifted, the specification rail lacked supported icons, and the unhandled consent state obscured the storefront.
-2. Intermediate pass (`implementation-desktop-1586x992-v3.png`): corrected title scale, hero spacing, and bicycle footprint; captured the normal answered-consent state and replaced unsupported icon names with the project's existing Lucide set.
-3. Final pass (`implementation-desktop-1586x992-final.png`): aligned the specification rail to the source, stacked its icon treatment vertically, moved the official bicycle into the target footprint, and verified desktop/mobile states and primary navigation.
+1. Initial production capture: the independently scaled bicycle was oversized, retained a bright studio-floor streak, appeared pasted onto the mountain background, and the viewport-height composition obscured commerce content.
+2. Initial integrated-image capture (`design-comparison-1280x720.png`): the product/background separation was resolved, but the copy block sat roughly 24 px lower than the source at the short desktop viewport (P2 spacing drift).
+3. Final capture (`design-comparison-1280x720-v2.png`): moved the desktop copy group up 24 px, kept the CTA clear, preserved the price hierarchy, and reconfirmed the full product stage. No P0/P1/P2 differences remain.
 
 final result: passed

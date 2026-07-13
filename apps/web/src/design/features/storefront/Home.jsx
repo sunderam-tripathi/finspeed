@@ -22,12 +22,10 @@ function Home({ onNav, onAdd, onProduct }) {
   return (
     <div className="store-home fin-dark">
       <section className="store-trail-hero" aria-labelledby="trail-hero-title">
-        <img
-          className="store-trail-background"
-          src="/assets/campaign/trail-command-hero.webp"
-          alt=""
-          aria-hidden="true"
-        />
+        <picture className="store-trail-background">
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/mako-shark-hero-v2-mobile.webp" />
+          <img src="/assets/campaign/mako-shark-hero-v2.webp" alt="" />
+        </picture>
         <div className="store-trail-shade" aria-hidden="true" />
 
         <div className="store-trail-layout">
@@ -49,7 +47,7 @@ function Home({ onNav, onAdd, onProduct }) {
                 bevel
                 onClick={() => onNav('shop')}
                 iconRight={<i data-lucide="arrow-right" style={{ width: 20, height: 20 }} />}
-                style={{ minWidth: 312, height: 82, fontSize: 'var(--fs-lg)' }}
+                style={{ minWidth: 300, height: 72, fontSize: 'var(--fs-lg)' }}
               >
                 Shop the fleet
               </Button>
@@ -65,14 +63,6 @@ function Home({ onNav, onAdd, onProduct }) {
                 <span className="store-trail-product-spec">{mako.wheels} {mako.speed} MTB</span>
               </button>
             </div>
-          </div>
-
-          <div className="store-trail-product" aria-label="Featured bicycle">
-            <img
-              className="store-trail-bike"
-              src="/assets/products/cutouts/mako-shark.png"
-              alt="Mint-green Mako Shark mountain bicycle"
-            />
           </div>
 
           <aside className="store-trail-specs" aria-label="Mako Shark key specifications">
