@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { SiteHeader } from '@/components/site-header';
 
 export default function ModelsPage() {
@@ -54,24 +55,24 @@ export default function ModelsPage() {
               </li>
             </ul>
             <div className="mt-4 flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/catalog"
                 className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full bg-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-ink)] transition hover:bg-[var(--fs-primary-dark)]"
               >
                 {locale === 'hi' ? 'कैटलॉग देखें' : 'View catalog overview'}
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/dealers"
                 className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full border border-[var(--fs-primary)] px-6 py-3 text-sm font-semibold text-[var(--fs-primary)] transition hover:bg-[rgba(64,176,208,0.08)] hover:text-[var(--fs-text-primary)]"
               >
                 {locale === 'hi' ? 'डीलर खोजें' : 'Find a dealer'}
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/brand-story"
                 className="focus-ring-target inline-flex items-center justify-center gap-2 rounded-full border border-[var(--fs-border)] px-6 py-3 text-sm font-semibold text-[var(--fs-text-primary)] transition hover:border-[var(--fs-primary)]"
               >
                 {locale === 'hi' ? 'हमारी कहानी पढ़ें' : 'Read the brand story'}
-              </a>
+              </Link>
             </div>
           </section>
         </main>

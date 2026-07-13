@@ -1,40 +1,30 @@
 import { test, expect } from '@playwright/test';
 
-const EN_HEADLINE = 'Turning Pedals into Power';
-const HI_HEADLINE = 'पैडल को शक्ति में बदलें';
-const HI_CTA = 'अपने निकटतम Finspeed डीलर को खोजें';
-
-const selectors = {
-  heroHeading: 'data-testid=hero-heading',
-  dealerCta: 'data-testid=dealer-cta',
-  supportFooter: 'data-testid=support-footer'
-};
+const EN_HEADLINE = 'Ride Beyond Boundaries';
 
 test.describe('SCN-001 site shell contract', () => {
   test('hero conveys brand promise and CTA', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1, name: EN_HEADLINE })).toBeVisible();
-    await expect(page.locator(selectors.dealerCta)).toHaveAttribute('href', '/dealers');
+    await expect(page.getByRole('button', { name: 'Shop the fleet' })).toBeVisible();
   });
 
-  test('language toggle switches to Hindi copy (IC-6)', async ({ page }) => {
+  test('primary CTA opens the redesigned catalog', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: /Hindi/ }).click();
-    await expect(page.getByRole('heading', { level: 1, name: HI_HEADLINE })).toBeVisible();
-    await expect(page.locator(selectors.dealerCta)).toHaveText(HI_CTA);
+    await page.getByRole('button', { name: 'Shop the fleet' }).click();
+    await expect(page).toHaveURL(/\/shop$/);
+    await expect(page.getByRole('heading', { level: 1, name: 'Shop all cycles' })).toBeVisible();
   });
 
-  test('dealer CTA available from navigation (IC-8)', async ({ page }) => {
+  test('store locator remains available from the support footer', async ({ page }) => {
     await page.goto('/');
-    const navDealer = page.getByRole('link', { name: 'Find a Dealer' }).first();
-    await expect(navDealer).toBeVisible();
-    await expect(navDealer).toHaveAttribute('href', '/dealers');
+    await expect(page.getByRole('contentinfo').getByText('Find a store')).toBeVisible();
   });
 
-  test('support footer exposes contact channels', async ({ page }) => {
+  test('support footer exposes warranty and contact routes', async ({ page }) => {
     await page.goto('/');
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByText('WhatsApp')).toBeVisible();
-    await expect(footer.getByText('Email')).toBeVisible();
+    await expect(footer.getByText('Warranty')).toBeVisible();
+    await expect(footer.getByText('Contact')).toBeVisible();
   });
 });

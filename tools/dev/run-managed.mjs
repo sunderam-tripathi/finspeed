@@ -9,6 +9,9 @@ if (!cmd) {
   process.exit(2);
 }
 const args = process.argv.slice(4);
+const isWindowsCommandShim = process.platform === 'win32' && /\.(cmd|bat)$/i.test(cmd);
+const executable = isWindowsCommandShim ? (process.env.ComSpec || 'cmd.exe') : cmd;
+const executableArgs = isWindowsCommandShim ? ['/d', '/s', '/c', cmd, ...args] : args;
 
 mkdirSync('tmp/process-logs', { recursive: true });
 mkdirSync('specs/working-memory', { recursive: true });
@@ -16,7 +19,7 @@ mkdirSync('specs/working-memory', { recursive: true });
 const ts = new Date().toISOString().replace(/[:.]/g, '-');
 const logPath = `tmp/process-logs/${name}-${ts}.log`;
 const out = [];
-const child = spawn(cmd, args, { stdio: ['ignore', 'pipe', 'pipe'] });
+const child = spawn(executable, executableArgs, { stdio: ['ignore', 'pipe', 'pipe'] });
 child.stdout.on('data', d => out.push(d.toString()));
 child.stderr.on('data', d => out.push(d.toString()));
 child.on('close', code => {

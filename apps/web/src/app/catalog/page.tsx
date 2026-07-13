@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { SiteHeader } from '@/components/site-header';
 import type { LocaleKey } from '@/data/brand';
@@ -166,12 +167,12 @@ export default function CatalogPage() {
                       <span className="inline-flex items-center rounded-full border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] px-3 py-1 text-xs text-[var(--fs-text-muted)]">
                         {category.badge}
                       </span>
-                      <a
+                      <Link
                         href="/dealers"
                         className="focus-ring-target rounded-full border border-[var(--fs-primary)] px-4 py-1.5 text-xs font-semibold text-[var(--fs-primary)] transition hover:bg-[var(--fs-primary)] hover:text-[var(--fs-ink)]"
                       >
                         {locale === 'hi' ? 'टेस्ट राइड खोजें' : 'Find a test ride'}
-                      </a>
+                      </Link>
                     </div>
                   </article>
                 );

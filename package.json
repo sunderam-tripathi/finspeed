@@ -2,7 +2,9 @@
   "name": "finspeed-lean-workflow",
   "private": true,
   "type": "module",
-  "workspaces": ["apps/web"],
+  "workspaces": [
+    "apps/web"
+  ],
   "scripts": {
     "spec:check-active": "node tools/spec/check-active-slice.mjs",
     "spec:set-active": "node tools/spec/set-active-slice.mjs",
@@ -24,6 +26,6 @@
     "npm": ">=10.8.0"
   },
   "dependencies": {
-    "minimatch": "^10.1.1"
+    "minimatch": "^10.2.5"
   }
 }

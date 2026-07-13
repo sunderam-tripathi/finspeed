@@ -1,0 +1,140 @@
+/* ============================================================
+   Finspeed — Color System
+   Brand: shark-fin emblem in electric cyan on ink black.
+   Futuristic, high-contrast, performance-grade.
+   ============================================================ */
+:root {
+  /* ---- Brand: Cyan (sampled from logo ring #3EB8D3) ---- */
+  --cyan-50:  #ecfaff;
+  --cyan-100: #d2f2fb;
+  --cyan-200: #a7e6f5;
+  --cyan-300: #6fd4ec;
+  --cyan-400: #3eb8d3;   /* brand cyan — the logo ring */
+  --cyan-500: #1f9fbd;
+  --cyan-600: #157e9d;
+  --cyan-700: #156379;
+  --cyan-800: #175163;
+  --cyan-900: #184354;
+  --cyan-electric: #19d5f2; /* hi-energy accent for dark surfaces / glows */
+
+  /* ---- Ink: cool near-blacks (brand black) ---- */
+  --ink-900: #0a0e12;   /* primary ink / hero canvas */
+  --ink-800: #11161c;
+  --ink-700: #1a2129;
+  --ink-600: #273039;
+  --ink-500: #3a4651;
+
+  /* ---- Neutral / steel grays ---- */
+  --steel-50:  #f6f8f9;
+  --steel-100: #eceff2;
+  --steel-200: #dde2e7;
+  --steel-300: #c2cad2;
+  --steel-400: #97a3ad;
+  --steel-500: #6b7884;
+  --steel-600: #4d5862;
+  --steel-700: #39424b;
+  --white: #ffffff;
+
+  /* ---- Semantic ---- */
+  --success: #1faa6b;
+  --success-bg: #e6f6ee;
+  --warning: #e08a1e;
+  --warning-bg: #fbf0dc;
+  --danger:  #d6453c;
+  --danger-bg: #fbe7e5;
+  --info: var(--cyan-500);
+
+  /* ============================================================
+     SEMANTIC ALIASES — light (storefront default)
+     ============================================================ */
+  --bg-page:        var(--steel-50);
+  --bg-canvas:      var(--white);
+  --surface-card:   var(--white);
+  --surface-sunken: var(--steel-100);
+  --surface-raised: var(--white);
+
+  --text-strong:  var(--ink-900);
+  --text-body:    var(--ink-700);
+  --text-muted:   var(--steel-600);   /* ~7:1 on white — comfortable secondary text (was steel-500) */
+  --text-faint:   var(--steel-500);   /* ~4.6:1 on white — AA-legible tertiary (was steel-400, a sub-AA 2.6:1) */
+  --text-on-brand:#ffffff;
+  --text-inverse: var(--white);
+
+  --brand:        var(--cyan-400);
+  --brand-strong: var(--cyan-500);
+  --brand-ink:    var(--cyan-700);   /* cyan text legible on white */
+  --on-brand:     var(--ink-900);    /* text/icons on a cyan fill */
+
+  --border-subtle: var(--steel-200);
+  --border-strong: var(--steel-300);
+  --border-ink:    var(--ink-900);
+  --focus-ring:    var(--cyan-400);
+
+  /* Price / commercial highlight (matches catalog cyan figures) */
+  --price-accent:  var(--cyan-500);
+}
+
+/* ============================================================
+   DARK SURFACE — "performance" hero / footer / panels.
+   Apply with class="fin-dark" or [data-theme="dark"].
+   ============================================================ */
+.fin-dark,
+[data-theme="dark"] {
+  --bg-page:        var(--ink-900);
+  --bg-canvas:      var(--ink-900);
+  --surface-card:   var(--ink-800);
+  --surface-sunken: var(--ink-700);
+  --surface-raised: var(--ink-700);
+
+  --text-strong:  var(--white);
+  --text-body:    #c4ced6;
+  --text-muted:   #9aa8b3;   /* ~7.9:1 on ink — comfortable secondary text (was #85939f) */
+  --text-faint:   #7e8a96;   /* ~5.5:1 on ink — legible tertiary (was #5b6671, a sub-AA 3.3:1) */
+  --on-brand:     var(--ink-900);
+
+  --brand:        var(--cyan-electric);
+  --brand-strong: var(--cyan-400);
+  --brand-ink:    var(--cyan-300);
+
+  --border-subtle: rgba(255,255,255,0.10);
+  --border-strong: rgba(255,255,255,0.18);
+  --border-ink:    var(--cyan-electric);
+  --focus-ring:    var(--cyan-electric);
+  --price-accent:  var(--cyan-electric);
+}
+
+/* ============================================================
+   EXPLICIT LIGHT — re-assert the light canvas on a subtree even
+   when an ancestor (or the host preview) has forced dark mode.
+   Light-canvas products (storefront, distributor portal) set
+   data-theme="light" on <html>/<body> so their designed light
+   surface — and the dark text on always-light accent panels
+   (cyan-50 boxes, white product wells) — never inverts.
+   Intentional dark bands still work: a child .fin-dark re-wins.
+   ============================================================ */
+[data-theme="light"],
+.fin-light {
+  --bg-page:        var(--steel-50);
+  --bg-canvas:      var(--white);
+  --surface-card:   var(--white);
+  --surface-sunken: var(--steel-100);
+  --surface-raised: var(--white);
+
+  --text-strong:  var(--ink-900);
+  --text-body:    var(--ink-700);
+  --text-muted:   var(--steel-600);
+  --text-faint:   var(--steel-500);
+  --text-on-brand:#ffffff;
+  --text-inverse: var(--white);
+
+  --brand:        var(--cyan-400);
+  --brand-strong: var(--cyan-500);
+  --brand-ink:    var(--cyan-700);
+  --on-brand:     var(--ink-900);
+
+  --border-subtle: var(--steel-200);
+  --border-strong: var(--steel-300);
+  --border-ink:    var(--ink-900);
+  --focus-ring:    var(--cyan-400);
+  --price-accent:  var(--cyan-500);
+}

@@ -179,6 +179,12 @@
           "domain": "web",
           "title": "Production UAT — catalog & content",
           "status": "planned"
+        },
+        {
+          "id": "WEB-022",
+          "domain": "web",
+          "title": "Claude redesign integration and Amplify release",
+          "status": "active"
         }
       ]
     }

@@ -1,0 +1,64 @@
+/* ============================================================
+   Finspeed — Spacing, Radius, Shadow, Border, Motion
+   ============================================================ */
+:root {
+  /* ---- Spacing (4px base grid) ---- */
+  --space-0:  0;
+  --space-1:  0.25rem;   /* 4 */
+  --space-2:  0.5rem;    /* 8 */
+  --space-3:  0.75rem;   /* 12 */
+  --space-4:  1rem;      /* 16 */
+  --space-5:  1.5rem;    /* 24 */
+  --space-6:  2rem;      /* 32 */
+  --space-7:  3rem;      /* 48 */
+  --space-8:  4rem;      /* 64 */
+  --space-9:  6rem;      /* 96 */
+  --space-10: 8rem;      /* 128 */
+
+  /* ---- Radius — restrained, technical. Hardware feel: small + a beveled hero. ---- */
+  --radius-xs:  3px;
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-pill: 999px;
+  /* Signature beveled corner (echoes the wordmark's cut corners) */
+  --bevel: 12px;
+  --clip-bevel: polygon(var(--bevel) 0, 100% 0, 100% calc(100% - var(--bevel)), calc(100% - var(--bevel)) 100%, 0 100%, 0 var(--bevel));
+
+  /* ---- Borders ---- */
+  --border-width: 1px;
+  --border-width-bold: 2px;
+  --border-hairline: 1px solid var(--border-subtle);
+
+  /* ---- Shadows — soft, cool-tinted; product cards lift gently ---- */
+  --shadow-xs: 0 1px 2px rgba(10,14,18,0.06);
+  --shadow-sm: 0 2px 6px rgba(10,14,18,0.07);
+  --shadow-md: 0 8px 24px rgba(10,14,18,0.09);
+  --shadow-lg: 0 18px 48px rgba(10,14,18,0.14);
+  --shadow-product: 0 24px 48px -16px rgba(10,14,18,0.22);
+  /* Cyan glow — futuristic accent for dark surfaces / active states */
+  --glow-cyan: 0 0 0 1px var(--cyan-400), 0 0 24px -4px rgba(25,213,242,0.55);
+  --glow-cyan-soft: 0 0 32px -8px rgba(62,184,211,0.45);
+
+  /* ---- Z-index ---- */
+  --z-base: 0;        /* @kind other */
+  --z-raised: 10;     /* @kind other */
+  --z-sticky: 100;    /* @kind other */
+  --z-overlay: 1000;  /* @kind other */
+  --z-modal: 1100;    /* @kind other */
+  --z-toast: 1200;    /* @kind other */
+
+  /* ---- Motion — quick, mechanical, confident. No bounce. ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* @kind other */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* @kind other */
+  --dur-fast: 120ms;  /* @kind other */
+  --dur-base: 200ms;  /* @kind other */
+  --dur-slow: 360ms;  /* @kind other */
+  --transition-base: all var(--dur-base) var(--ease-out);  /* @kind other */
+
+  /* ---- Layout ---- */
+  --container-max: 1240px;
+  --container-wide: 1440px;
+  --gutter: var(--space-5);
+}

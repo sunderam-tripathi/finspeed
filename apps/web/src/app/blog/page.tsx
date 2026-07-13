@@ -1,6 +1,7 @@
 'use client';
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState, startTransition } from 'react';
+import Link from 'next/link';
 import { BLOG_DATA, type BlogCategoryKey, type BlogCopy, LocaleKey } from '@/data/blog';
 import { SiteHeader } from '@/components/site-header';
 
@@ -255,9 +256,9 @@ function SubscriptionBanner({ locale, copy }: { locale: LocaleKey; copy: BlogCop
       </form>
       <p className="mt-3 text-sm text-[var(--fs-text-muted)]">{copy.helper}</p>
       <p className="mt-1 text-xs text-[var(--fs-text-soft)]">
-        <a href="/privacy" className="focus-ring-target underline">
+        <Link href="/privacy" className="focus-ring-target underline">
           {copy.privacy}
-        </a>
+        </Link>
       </p>
       {message ? (
         <p

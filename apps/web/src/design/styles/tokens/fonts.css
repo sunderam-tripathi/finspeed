@@ -1,0 +1,8 @@
+/* ============================================================
+   Finspeed — Webfonts
+   The Finspeed wordmark uses a custom squared/beveled techno
+   face. Nearest widely-available match: Chakra Petch (display),
+   paired with Archivo (body) and JetBrains Mono (technical data).
+   Fonts are linked from Google Fonts CDN. See readme.md → Type.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');

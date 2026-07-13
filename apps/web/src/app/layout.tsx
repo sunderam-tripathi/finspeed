@@ -19,8 +19,8 @@ const hind = Hind({
 });
 
 export const metadata: Metadata = {
-  title: 'Finspeed — Turning Pedals into Power',
-  description: 'Precision-engineered bicycles with bilingual dealer access across India.'
+  title: 'Finspeed — Ride Beyond Boundaries',
+  description: 'Finspeed performance bicycles and distributor ordering portal.'
 };
 
 export default function RootLayout({

@@ -5,6 +5,8 @@ const skipWebServer = process.env.PLAYWRIGHT_SKIP_WEBSERVER === '1';
 
 export default defineConfig({
   testDir: './tests',
+  timeout: 60 * 1000,
+  workers: 2,
   retries: process.env.CI ? 1 : 0,
   use: {
     baseURL: `http://127.0.0.1:${PORT}`

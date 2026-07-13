@@ -182,6 +182,7 @@ function Header({ locale }: { locale: LocaleKey }) {
   const copy = HOME_COPY[locale];
   return (
     <section
+      role="region"
       className="rounded-[30px] border border-[var(--fs-card-border)] bg-[var(--fs-card)] px-6 py-8 text-[var(--fs-text-primary)] shadow-[var(--fs-card-shadow)]"
       aria-labelledby="dealer-hero"
     >
@@ -189,7 +190,7 @@ function Header({ locale }: { locale: LocaleKey }) {
         <div className="space-y-3 text-[var(--fs-text-primary)]">
           <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[var(--fs-primary)]">{copy.dealer.title}</p>
           <h1 id="dealer-hero" className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            {copy.dealer.subtitle}
+            {copy.dealer.subtitle || (locale === 'hi' ? 'नज़दीकी Finspeed डीलर खोजें' : 'Find a Finspeed dealer')}
           </h1>
           <p className="text-base text-[var(--fs-text-muted)]">{copy.dealer.helper}</p>
         </div>

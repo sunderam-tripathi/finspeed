@@ -498,6 +498,34 @@
         "package-lock.json",
         ".nvmrc"
       ]
+    },
+    {
+      "id": "WEB-022",
+      "title": "Claude redesign integration and Amplify release",
+      "done_definition": [
+        "Approved storefront redesign is implemented in the existing Next.js application",
+        "Existing production routes and integrations remain available or have an explicit compatibility path",
+        "Local build, lint, automated browser checks, and production smoke tests pass",
+        "Amplify main is deployed and finspeed.online serves the verified release",
+        "Temporary duplicate AWS infrastructure is removed after production verification"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-022.md",
+        "specs/proofs/web/WEB-022/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile"
+      ]
     }
   ]
 }

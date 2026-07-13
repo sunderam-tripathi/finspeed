@@ -22,7 +22,7 @@ export function LocaleSwitch({ value, onChange, ariaLabel = 'Select language' }:
     <div
       role="group"
       aria-label={ariaLabel}
-      className="inline-flex items-center rounded-full border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-1 text-xs font-semibold text-[var(--fs-text-muted)]"
+      className="inline-flex items-center rounded-full border border-[var(--fs-card-border)] bg-[var(--fs-surface-muted)] p-1 text-xs font-semibold text-[var(--fs-text-primary)]"
     >
       {options.map((option) => (
         <button
@@ -35,7 +35,7 @@ export function LocaleSwitch({ value, onChange, ariaLabel = 'Select language' }:
           className={`focus-ring-target inline-flex flex-col rounded-full px-3 py-1 text-left transition ${
             value === option
               ? 'bg-[var(--fs-primary)] text-[var(--fs-ink)]'
-              : 'text-[var(--fs-text-muted)] hover:text-[var(--fs-text-primary)]'
+              : 'text-[var(--fs-text-primary)] hover:text-[var(--fs-primary)]'
           }`}
         >
           <span aria-hidden="true" className="text-[0.65rem] font-semibold uppercase tracking-[0.3em]">
@@ -44,7 +44,7 @@ export function LocaleSwitch({ value, onChange, ariaLabel = 'Select language' }:
           <span
             aria-hidden="true"
             className={`text-[0.6rem] font-normal leading-tight ${
-              value === option ? 'text-[var(--fs-text-primary)]' : 'text-[var(--fs-text-muted)]'
+              value === option ? 'text-[var(--fs-ink)]' : 'text-[var(--fs-text-primary)]'
             }`}
           >
             {LABELS[option].detail}

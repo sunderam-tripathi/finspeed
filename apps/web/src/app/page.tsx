@@ -1,5 +1,5 @@
-import { LandingShell } from '@/components/landing-shell';
+import { DesignApp } from '@/components/design-app';
 
 export default function HomePage() {
-  return <LandingShell />;
+  return <DesignApp />;
 }
