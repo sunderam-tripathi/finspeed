@@ -526,6 +526,35 @@
         ".gitignore",
         "Makefile"
       ]
+    },
+    {
+      "id": "WEB-023",
+      "title": "Dark storefront visual refinement",
+      "done_definition": [
+        "The approved dark mountain-performance homepage is implemented responsively in the existing storefront",
+        "Existing storefront navigation, shopping actions, and product routes remain functional",
+        "Design QA passes against the approved visual target at the matching desktop viewport",
+        "Local build and browser interaction checks pass without new console errors",
+        "The existing Amplify main application deploys the verified release and finspeed.online serves it"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-023.md",
+        "specs/proofs/web/WEB-023/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

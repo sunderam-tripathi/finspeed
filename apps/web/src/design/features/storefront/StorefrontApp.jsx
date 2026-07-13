@@ -136,7 +136,7 @@ export default function StorefrontApp() {
   const shared = { onNav: nav };
 
   return (
-    <div className="store-app" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-page)' }}>
+    <div className={`store-app${route === 'home' ? ' store-app--home' : ''}`} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: route === 'home' ? 'var(--ink-900)' : 'var(--bg-page)' }}>
       <Header
         cartCount={cartCount}
         route={route}
@@ -174,10 +174,11 @@ export default function StorefrontApp() {
                 title="Be first to the next drop"
                 description="New launches, restocks and rider stories — straight to your inbox. No spam, ever."
                 cta="Subscribe"
+                tone={route === 'home' ? 'dark' : 'light'}
               />
             </div>
           </div>
-          <Footer onNav={nav} />
+          <Footer onNav={nav} tone={route === 'home' ? 'dark' : 'light'} />
         </>
       )}
 
