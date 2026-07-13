@@ -28,10 +28,18 @@ RESULT local-parity: PASS
 
 ## Production evidence
 
-Pending Amplify release and public-domain verification.
+- Release commit: `7651b5388bad88100b387841b0a7f364cba150de`
+- AWS Amplify app/branch: `d2h8tz7elv2xy8` / `main`
+- Amplify job: `398`, `SUCCEED` at 2026-07-13 20:50:54 +05:30
+- Public URL: `https://www.finspeed.online/`
+- Desktop production render: `artefacts/production/production-desktop-1920x990.png`
+- Mobile production render: `artefacts/production/production-mobile-390x844.png`
+- Production validation: `artefacts/production/production-validation.md`
 
-RESULT production: PENDING
+Both public-domain screenshots were opened at original resolution and inspected. The deployed site selects the v3 desktop and mobile assets, preserves the approved composition, has no horizontal overflow or browser console errors, and keeps the product/copy separation proven locally. The Amplify branch origin independently showed the consent notice, dismissed it immediately after Accept, and kept it dismissed after reload.
+
+RESULT production: PASS
 
 ## Acceptance
 
-Local acceptance is approved. Production acceptance remains pending the existing Amplify main deployment and public verification.
+Acceptance is approved: the bicycle identity and silhouette are preserved, the supplied product is scene-matched without generative redrawing, desktop/mobile design QA passes, the consent notice dismisses reliably, all 18 automated tests pass, Amplify job 398 succeeded, and the public domain serves the verified assets with zero browser console errors.
