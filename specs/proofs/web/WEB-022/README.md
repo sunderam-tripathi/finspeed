@@ -26,6 +26,8 @@ This proof bundle records the redesign integration, local parity checks, Amplify
 - `artefacts/logs/managed-runner-windows-smoke.log` — repaired managed-process runner executes Windows command shims without the previous `spawn EINVAL` failure or shell-injection warning.
 - `artefacts/logs/spec-slice-index.log` and `artefacts/logs/spec-progress.log` — repository slice index and progress telemetry refreshed successfully.
 - `artefacts/amplify-main-buildspec.yml` — branch-specific Amplify build contract for the current `apps/web` workspace; the admin branch retains its existing configuration.
+- `artefacts/amplify-ssr-trust-policy.json` and `artefacts/amplify-ssr-logs-policy.json` — restored the deleted SSR logging role with account-scoped Amplify trust and only the CloudWatch Logs permissions required by AWS.
+- `artefacts/production-release.md` — immutable release identifiers, failed-attempt diagnosis, successful Amplify job, public-domain smoke results, and duplicate-stack cleanup state.
 - `specs/working-memory/parity-state.json` — parity session recorded by the repository guard.
 
 ## Security review
@@ -35,11 +37,14 @@ This proof bundle records the redesign integration, local parity checks, Amplify
 - `npm audit` now reports two moderate PostCSS advisories nested under the latest stable Next.js. npm's proposed forced remediation would downgrade Next to `9.3.3`; that unsafe downgrade was rejected and the residual findings are accepted for this release pending an upstream stable patch.
 - No production secrets were copied into source or proof artefacts.
 
-## Remaining production gates
+## Production evidence
 
-- Commit and push the guarded release.
-- Update the existing Amplify build specification for the current `apps/web` workspace.
-- Verify the Amplify branch URL and `finspeed.online` with browser smoke tests.
-- Remove the temporary `finspeed-web-app` CloudFormation stack after production verification.
+- Guarded implementation commit `5c305831a1c6187f4559399d8d4c825e83d09d18` is pushed to `origin/main`.
+- Amplify job `395` completed with `BUILD`, `DEPLOY`, and `VERIFY` all `SUCCEED`.
+- The Amplify branch URL and the public `https://www.finspeed.online` domain render the redesign.
+- Browser smoke passed for `/`, `/shop`, `/products/mako-shark`, `/dealers`, and `/distributor`; all checked pages had zero broken images and the browser console had zero warnings or errors.
+- Public deep-link smoke passed at `https://www.finspeed.online/products/mako-shark`.
 
-RESULT: PASS — LOCAL/PRE-RELEASE; PRODUCTION PENDING
+- The duplicate `finspeed-web-app` CloudFormation stack and its S3/CloudFront resources were deleted after production verification.
+
+RESULT: PASS — PRODUCTION VERIFIED AND DUPLICATE STACK REMOVED
