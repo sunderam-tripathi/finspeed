@@ -27,4 +27,38 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(footer.getByText('Warranty')).toBeVisible();
     await expect(footer.getByText('Contact')).toBeVisible();
   });
+
+  test('accept dismisses consent immediately and persists the choice', async ({ page }) => {
+    await page.goto('/');
+    const notice = page.getByRole('region', { name: 'Analytics consent notice' });
+    await expect(notice).toBeVisible();
+    await notice.getByRole('button', { name: 'Accept' }).click();
+    await expect(notice).toBeHidden();
+    await page.reload();
+    await expect(notice).toBeHidden();
+  });
+
+  test('decline dismisses consent immediately and persists the choice', async ({ page }) => {
+    await page.goto('/');
+    const notice = page.getByRole('region', { name: 'Analytics consent notice' });
+    await expect(notice).toBeVisible();
+    await notice.getByRole('button', { name: 'Decline' }).click();
+    await expect(notice).toBeHidden();
+    await page.reload();
+    await expect(notice).toBeHidden();
+  });
+
+  test('consent still dismisses when storage is unavailable', async ({ page }) => {
+    await page.addInitScript(() => {
+      const originalSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = function setItem(key: string, value: string) {
+        if (key === 'finspeed-consent') throw new DOMException('Storage blocked', 'SecurityError');
+        return originalSetItem.call(this, key, value);
+      };
+    });
+    await page.goto('/');
+    const notice = page.getByRole('region', { name: 'Analytics consent notice' });
+    await notice.getByRole('button', { name: 'Accept' }).click();
+    await expect(notice).toBeHidden();
+  });
 });

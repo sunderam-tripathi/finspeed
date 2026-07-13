@@ -174,6 +174,24 @@
       "logPath": "tmp/process-logs/web-dev-2026-07-13T13-27-05-110Z.log",
       "exitCode": 4294967295,
       "ended_at": "2026-07-13T13:37:10.113Z"
+    },
+    {
+      "name": "web",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "dev",
+        "--",
+        "--hostname",
+        "127.0.0.1",
+        "--port",
+        "3000"
+      ],
+      "logPath": "tmp/process-logs/web-2026-07-13T14-45-20-865Z.log",
+      "exitCode": 4294967295,
+      "ended_at": "2026-07-13T15:07:50.491Z"
     }
   ]
 }

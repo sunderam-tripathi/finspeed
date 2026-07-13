@@ -584,6 +584,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-025",
+      "title": "Natural Mako hero composite and consent dismissal",
+      "done_definition": [
+        "The homepage hero preserves the official Mako Shark geometry, branding, frame proportions, and mint product color while removing bright matte contamination and matching the scene lighting",
+        "The bicycle is naturally grounded with compatible perspective, contact shadows, atmosphere, and responsive art direction at desktop and mobile breakpoints",
+        "Accept and Decline both dismiss the consent notice immediately and the selected preference persists when browser storage is available",
+        "Design QA, lint, production build, browser interactions, accessibility checks, and console checks pass",
+        "The existing Amplify main application deploys the verified correction to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-025.md",
+        "specs/proofs/web/WEB-025/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }
