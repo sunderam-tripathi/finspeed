@@ -1,0 +1,41 @@
+WEB-026 production verification
+
+Git implementation commit:
+3c8c7a8a058ca71c62bad008cb4f5eeb66bee922
+
+AWS Amplify:
+- account: 660883642048
+- app: d2h8tz7elv2xy8
+- branch: main
+- region: ap-south-1
+- job: 399
+- started: 2026-07-13T22:12:36.227+05:30
+- ended: 2026-07-13T22:16:17.134+05:30
+- BUILD: SUCCEED
+- DEPLOY: SUCCEED
+- VERIFY: SUCCEED
+
+Public HTTP evidence:
+- https://www.finspeed.online/ -> 200 text/html
+- https://www.finspeed.online/assets/campaign/mako-shark-hero-v4.webp -> 200 image/webp, 275952 bytes
+- https://www.finspeed.online/assets/campaign/mako-shark-hero-v4-mobile.webp -> 200 image/webp, 265838 bytes
+
+Production browser evidence:
+- desktop viewport: 1920x990
+- hero bounds: y=96..840, height=744
+- terrain bounds: y=840..976, height=136
+- desktop currentSrc: /assets/campaign/mako-shark-hero-v4.webp
+- mobile viewport: 390x844
+- mobile currentSrc: /assets/campaign/mako-shark-hero-v4-mobile.webp
+- page horizontal overflow: none
+- consent notice after selection: hidden
+- Shop the fleet: /shop, heading Shop all cycles
+- View Mako Shark details: /products/mako-shark, heading Mako Shark
+- console entries: none
+
+Visual inspection:
+- production desktop screenshot opened; bicycle is crisp, fully visible, naturally lit, and grounded
+- full specification rail and all terrain destinations visible before fold
+- production mobile screenshot opened; dedicated portrait asset loads and bicycle remains horizontally complete
+
+RESULT: PASS

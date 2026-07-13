@@ -5,7 +5,7 @@
 The homepage now uses complete generated desktop and mobile campaign photographs. The bicycle and alpine environment are rendered together; the final v4 assets do not overlay or upscale the low-resolution product cutout. At the 2048 × 990 reference content viewport, the 96px header, 744px hero, and 136px terrain strip end at y=976, so the complete hero and all terrain destinations are visible before the fold.
 
 RESULT (local): PASS
-RESULT (production): PENDING DEPLOYMENT
+RESULT (production): PASS
 
 ## Source and generated assets
 
@@ -25,8 +25,10 @@ The generated sources were opened at original resolution. The bicycle has two ci
 - User-sized desktop 2048 × 990: `artefacts/local/desktop-2048x990-final.png`
 - Mobile 390 × 844 before crop correction: `artefacts/local/mobile-390x844.png`
 - Mobile 390 × 844 after correction: `artefacts/local/mobile-390x844-final.png`
+- Production desktop 1920 × 990: `artefacts/production/desktop-1920x990.png`
+- Production mobile 390 × 844: `artefacts/production/mobile-390x844.png`
 
-All four captures were opened and visually inspected. The final 2048px desktop capture keeps the full bicycle, copy, CTA, price, technical rail, and three terrain destinations in view. The final phone capture retains the complete bicycle horizontally without page overflow.
+All local and production captures were opened and visually inspected. The final desktop captures keep the full bicycle, copy, CTA, price, technical rail, and three terrain destinations in view. The final phone captures retain the complete bicycle horizontally without page overflow.
 
 Primary interaction checks in the in-app browser:
 
@@ -52,6 +54,20 @@ The focused comparison confirms the correction to edge sharpness, natural lighti
 - Targeted axe retry after light-panel token correction: `logs/a11y.log` — 1 passed
 - Parity state: `logs/parity-state.json` — governed state `running`
 - Docker status attempt: `logs/docker-compose-ps.txt` — host CLI unavailable; limitation recorded rather than hidden
+- Production verification: `logs/production-verification.txt` — Amplify job 399 and public assets/routes pass
+
+## Production release
+
+- Git implementation commit: `3c8c7a8a058ca71c62bad008cb4f5eeb66bee922`
+- Pushed branch: `origin/main`
+- Amplify application: `d2h8tz7elv2xy8`
+- Amplify branch: `main` (`PRODUCTION`)
+- Region: `ap-south-1`
+- Release job: `399`
+- Job result: `BUILD`, `DEPLOY`, and `VERIFY` all `SUCCEED`
+- Public URL: `https://www.finspeed.online/`
+
+The public page loaded the desktop v4 asset at 1920 × 990 and the mobile v4 asset at 390 × 844. Desktop hero geometry matched local evidence: hero y=96..840, terrain y=840..976, no horizontal page overflow, no consent overlay after selection. Public CTA and product routes returned the expected headings and the production console remained clean.
 
 ## Acceptance review
 
@@ -64,4 +80,4 @@ The focused comparison confirms the correction to edge sharpness, natural lighti
 - [x] Browser console clean
 - [x] Accessibility, lint, build, and 18-test browser suite pass
 - [x] Side-by-side design QA passes
-- [ ] Amplify production deployment verified
+- [x] Amplify production deployment verified
