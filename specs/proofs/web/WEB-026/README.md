@@ -81,3 +81,4 @@ The public page loaded the desktop v4 asset at 1920 × 990 and the mobile v4 ass
 - [x] Accessibility, lint, build, and 18-test browser suite pass
 - [x] Side-by-side design QA passes
 - [x] Amplify production deployment verified
+- [x] Slice parked to `IDLE` with no managed dev server left running
