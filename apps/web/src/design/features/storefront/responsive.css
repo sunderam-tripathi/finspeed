@@ -46,41 +46,63 @@ body,
   overscroll-behavior-inline: contain;
 }
 
-/* WEB-023 — selected dark mountain-performance homepage */
-.store-header--dark {
+/* WEB-028 — route-invariant storefront header geometry. */
+.store-header {
   height: clamp(80px, 5.2vw, 88px) !important;
   padding-inline: clamp(32px, 3vw, 56px) !important;
 }
 
-.store-header--dark .store-header-main {
+.store-header-main {
   gap: clamp(56px, 6vw, 96px) !important;
 }
 
-.store-header--dark .store-primary-nav {
+.store-primary-nav {
   gap: clamp(28px, 3vw, 48px) !important;
 }
 
-.store-header--dark .store-brand img {
-  height: 54px !important;
+.store-brand {
+  gap: 10px !important;
+  min-height: 54px;
 }
 
-.store-header--dark .store-brand-name {
+.store-brand img {
+  display: block;
+  flex: none;
+  width: 54px;
+  height: 54px !important;
+  object-fit: contain;
+}
+
+.store-brand-name {
+  display: inline-flex;
+  align-items: center;
+  height: 54px;
   font-family: var(--font-body) !important;
   font-size: clamp(24px, 2.15vw, 34px) !important;
   font-weight: var(--fw-semibold) !important;
+  line-height: 1 !important;
   letter-spacing: 0.035em !important;
+  text-transform: uppercase;
+  transform: translateY(1px);
+}
+
+.store-primary-nav > button {
+  font: var(--fw-medium) 1.05rem/1 var(--font-body) !important;
 }
 
 .store-header--dark .store-primary-nav > button {
   color: #f0f4f6 !important;
-  font-size: 1.05rem !important;
 }
 
-.store-header--dark .store-header-actions {
+.store-header--light .store-primary-nav > button {
+  color: var(--ink-700) !important;
+}
+
+.store-header-actions {
   gap: clamp(10px, 1.4vw, 22px) !important;
 }
 
-.store-header--dark .store-header-actions > button {
+.store-header-actions > button {
   width: 48px !important;
   height: 48px !important;
 }
@@ -468,9 +490,16 @@ body,
     background: rgba(255, 255, 255, 0.98) !important;
   }
 
-  .store-header--dark {
+  .store-header {
     height: 84px !important;
+  }
+
+  .store-header--dark {
     background: #020508 !important;
+  }
+
+  .store-header--light {
+    background: rgba(255, 255, 255, 0.98) !important;
   }
 
   .store-header-main {
@@ -612,14 +641,18 @@ body,
   .store-brand {
     order: 1;
     flex: none;
+    min-height: 30px;
   }
 
-  .store-header--dark .store-brand img {
+  .store-brand img {
+    width: 30px;
     height: 30px !important;
   }
 
-  .store-header--dark .store-brand-name {
+  .store-brand-name {
+    height: 30px;
     font-size: 17px !important;
+    transform: translateY(1px);
   }
 
   .store-header-actions {
@@ -628,7 +661,7 @@ body,
     gap: 2px !important;
   }
 
-  .store-header--dark .store-header-actions > button {
+  .store-header-actions > button {
     width: 40px !important;
     height: 40px !important;
   }

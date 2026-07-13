@@ -16,6 +16,57 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Shop all cycles' })).toBeVisible();
   });
 
+  test('shared header geometry remains stable between home and catalog', async ({ page }) => {
+    const readGeometry = async () => page.locator('.store-header').evaluate((header) => {
+      const metric = (selector: string) => {
+        const element = header.querySelector(selector) as HTMLElement;
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return {
+          width: Math.round(rect.width * 100) / 100,
+          height: Math.round(rect.height * 100) / 100,
+          fontSize: style.fontSize,
+          gap: style.gap,
+        };
+      };
+      return {
+        headerHeight: Math.round(header.getBoundingClientRect().height * 100) / 100,
+        brand: metric('.store-brand'),
+        logo: metric('.store-brand img'),
+        name: metric('.store-brand-name'),
+        nav: metric('.store-primary-nav'),
+        actions: metric('.store-header-actions'),
+        action: metric('.store-header-actions button'),
+      };
+    });
+
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      const home = await readGeometry();
+      await page.goto('/shop');
+      const shop = await readGeometry();
+      expect(shop).toEqual(home);
+    }
+  });
+
+  test('shared header controls retain their navigation routes', async ({ page }) => {
+    await page.goto('/about');
+    const header = page.getByRole('banner');
+
+    await header.getByRole('navigation', { name: 'Store categories' }).getByRole('button', { name: 'Shop' }).click();
+    await expect(page).toHaveURL(/\/shop$/);
+
+    await header.getByRole('button', { name: 'Finspeed home' }).click();
+    await expect(page).toHaveURL(/\/$/);
+
+    await header.getByRole('button', { name: 'Search' }).click();
+    await expect(page).toHaveURL(/\/search$/);
+
+    await header.getByRole('button', { name: 'Account' }).click();
+    await expect(page).toHaveURL(/\/sign-in$/);
+  });
+
   test('store locator remains available from the support footer', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('contentinfo').getByText('Find a store')).toBeVisible();

@@ -1,0 +1,122 @@
+
+> web@0.1.0 dev
+> next dev --hostname 127.0.0.1 --port 3100
+
+▲ Next.js 16.2.10 (Turbopack)
+- Local:         http://127.0.0.1:3100
+- Network:       http://127.0.0.1:3100
+✓ Ready in 9.3s
+
+ GET / 200 in 1711ms (next.js: 1119ms, application-code: 592ms)
+ GET /shop 200 in 1963ms (next.js: 1720ms, application-code: 244ms)
+ GET / 200 in 69ms (next.js: 9ms, application-code: 60ms)
+ GET / 200 in 111ms (next.js: 32ms, application-code: 79ms)
+✓ Compiled in 4.3s
+✓ Compiled in 244ms
+✓ Compiled in 138ms
+ GET / 200 in 157ms (next.js: 13ms, application-code: 144ms)
+ GET /shop 200 in 114ms (next.js: 28ms, application-code: 86ms)
+ GET / 200 in 112ms (next.js: 16ms, application-code: 96ms)
+ GET /shop 200 in 317ms (next.js: 126ms, application-code: 191ms)
+ GET / 200 in 292ms (next.js: 88ms, application-code: 204ms)
+ GET /shop 200 in 84ms (next.js: 30ms, application-code: 54ms)
+ GET /products/mako-shark 200 in 94ms (next.js: 9ms, application-code: 85ms)
+ GET /support 200 in 1272ms (next.js: 570ms, application-code: 701ms)
+ GET / 200 in 61ms (next.js: 8ms, application-code: 53ms)
+ GET /shop 200 in 134ms (next.js: 43ms, application-code: 91ms)
+ GET /products/mako-shark 200 in 193ms (next.js: 121ms, application-code: 72ms)
+ GET /about 200 in 637ms (next.js: 539ms, application-code: 98ms)
+ GET / 200 in 63ms (next.js: 22ms, application-code: 42ms)
+ GET /shop 200 in 85ms (next.js: 24ms, application-code: 62ms)
+ GET /products/mako-shark 200 in 101ms (next.js: 22ms, application-code: 79ms)
+ GET /about 200 in 592ms (next.js: 522ms, application-code: 70ms)
+ GET / 200 in 44ms (next.js: 7ms, application-code: 37ms)
+ GET / 200 in 576ms (next.js: 531ms, application-code: 45ms)
+ GET / 200 in 79ms (next.js: 8ms, application-code: 71ms)
+ GET /shop 200 in 118ms (next.js: 28ms, application-code: 90ms)
+ GET / 200 in 122ms (next.js: 13ms, application-code: 110ms)
+ GET /shop 200 in 164ms (next.js: 23ms, application-code: 140ms)
+ GET /about 200 in 778ms (next.js: 700ms, application-code: 78ms)
+✓ Compiled in 171ms
+ GET / 200 in 874ms (next.js: 725ms, application-code: 148ms)
+ GET / 200 in 46ms (next.js: 7ms, application-code: 39ms)
+ GET /blog 200 in 1271ms (next.js: 339ms, application-code: 932ms)
+ GET /dealers 200 in 1513ms (next.js: 999ms, application-code: 514ms)
+ GET /api/dealers 404 in 1846ms
+ GET /brand-story 200 in 697ms (next.js: 241ms, application-code: 456ms)
+ GET / 200 in 214ms (next.js: 26ms, application-code: 188ms)
+ GET /dealers 200 in 90ms (next.js: 9ms, application-code: 81ms)
+ GET /api/dealers 404 in 139ms (next.js: 25ms, application-code: 114ms)
+ GET /dealers 200 in 205ms (next.js: 8ms, application-code: 197ms)
+ GET /api/dealers 404 in 275ms (next.js: 46ms, application-code: 229ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET /dealers 200 in 86ms (next.js: 8ms, application-code: 77ms)
+ GET /api/dealers 404 in 162ms (next.js: 84ms, application-code: 78ms)
+ GET / 200 in 88ms (next.js: 11ms, application-code: 77ms)
+ GET /dealers 200 in 254ms (next.js: 10ms, application-code: 244ms)
+ GET /api/dealers 404 in 146ms (next.js: 60ms, application-code: 86ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET / 200 in 59ms (next.js: 7ms, application-code: 52ms)
+ GET /dealers 200 in 167ms (next.js: 23ms, application-code: 144ms)
+ GET /shop 200 in 743ms (next.js: 436ms, application-code: 307ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET / 200 in 249ms (next.js: 19ms, application-code: 230ms)
+ GET /api/dealers 404 in 293ms (next.js: 84ms, application-code: 209ms)
+ GET /shop 200 in 121ms (next.js: 13ms, application-code: 108ms)
+ GET /support 200 in 297ms (next.js: 49ms, application-code: 248ms)
+ GET / 200 in 238ms (next.js: 19ms, application-code: 219ms)
+ GET /testimonials 200 in 648ms (next.js: 345ms, application-code: 304ms)
+ GET / 200 in 179ms (next.js: 31ms, application-code: 147ms)
+ GET / 200 in 86ms (next.js: 10ms, application-code: 77ms)
+ GET / 200 in 154ms (next.js: 18ms, application-code: 135ms)
+ GET / 200 in 118ms (next.js: 8ms, application-code: 109ms)
+ GET / 200 in 60ms (next.js: 7ms, application-code: 53ms)
+ GET / 200 in 64ms (next.js: 6ms, application-code: 58ms)
+ GET / 200 in 199ms (next.js: 118ms, application-code: 81ms)
+ GET / 200 in 97ms (next.js: 20ms, application-code: 78ms)
+ GET /blog 200 in 303ms (next.js: 8ms, application-code: 294ms)
+ GET /dealers 200 in 309ms (next.js: 21ms, application-code: 288ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET /api/dealers 404 in 172ms (next.js: 46ms, application-code: 126ms)
+ GET /brand-story 200 in 143ms (next.js: 16ms, application-code: 127ms)
+ GET / 200 in 80ms (next.js: 8ms, application-code: 72ms)
+ GET /dealers 200 in 92ms (next.js: 6ms, application-code: 85ms)
+ GET /api/dealers 404 in 135ms (next.js: 72ms, application-code: 63ms)
+ GET / 200 in 106ms (next.js: 10ms, application-code: 96ms)
+ GET /dealers 200 in 111ms (next.js: 11ms, application-code: 101ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET /api/dealers 404 in 111ms (next.js: 25ms, application-code: 85ms)
+ GET / 200 in 95ms (next.js: 7ms, application-code: 88ms)
+ GET /dealers 200 in 186ms (next.js: 9ms, application-code: 177ms)
+ GET /shop 200 in 825ms (next.js: 564ms, application-code: 261ms)
+ GET / 200 in 368ms (next.js: 30ms, application-code: 338ms)
+ GET /shop 200 in 147ms (next.js: 11ms, application-code: 136ms)
+ GET /dealers 200 in 79ms (next.js: 5ms, application-code: 74ms)
+ GET /about 200 in 150ms (next.js: 29ms, application-code: 121ms)
+[browser] [dealers] Using static dataset Error: Failed to load dealers
+    at DealersPage.useEffect (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/upstream-finspeed_apps_web_src_0is_dfm._.js:908:49) (file://C:/Users/SunderamTripathi/OneDrive - Archetype Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/.next/dev/static/chunks/10ke_next_dist_1uo5wh0._.js:2477:13)
+ GET /api/dealers 404 in 189ms (next.js: 50ms, application-code: 139ms)
+ GET /dealers 200 in 121ms (next.js: 9ms, application-code: 112ms)
+ GET /api/dealers 404 in 304ms (next.js: 210ms, application-code: 94ms)
+ GET / 200 in 147ms (next.js: 16ms, application-code: 130ms)
+ GET /support 200 in 81ms (next.js: 10ms, application-code: 71ms)
+ GET / 200 in 95ms (next.js: 6ms, application-code: 89ms)
+ GET /testimonials 200 in 261ms (next.js: 14ms, application-code: 247ms)
+ GET / 200 in 109ms (next.js: 7ms, application-code: 102ms)
+ GET / 200 in 62ms (next.js: 12ms, application-code: 50ms)
+ GET / 200 in 146ms (next.js: 6ms, application-code: 140ms)
+ GET / 200 in 82ms (next.js: 7ms, application-code: 75ms)
+ GET / 200 in 99ms (next.js: 8ms, application-code: 91ms)
+[?25h
+npm error Lifecycle script `dev` failed with error:
+npm error code 4294967295
+npm error path C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web
+npm error workspace web@0.1.0
+npm error location C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web
+npm error command failed
+npm error command C:\Windows\system32\cmd.exe /d /s /c next dev --hostname 127.0.0.1 --port 3100

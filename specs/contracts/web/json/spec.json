@@ -671,6 +671,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-028",
+      "title": "Consistent storefront header geometry",
+      "done_definition": [
+        "The official Finspeed logo and wordmark share one aligned lockup across the homepage, catalog, product, and service routes",
+        "Header height, horizontal padding, logo scale, navigation placement, and action control geometry remain stable when navigating between storefront pages",
+        "Dark and light header color variants may differ, but route transitions do not create layout shift or apparent brand resizing",
+        "Desktop and mobile same-viewport design QA, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
+        "The existing Amplify main application deploys the verified correction to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-028.md",
+        "specs/proofs/web/WEB-028/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

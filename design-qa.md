@@ -1,48 +1,53 @@
-# Design QA — WEB-027
+# Design QA — WEB-028
 
 ## Comparison target
 
-- Selected direction: `specs/proofs/web/WEB-027/artefacts/source/selected-quiet-summit.png`
-- Clean desktop photograph: `specs/proofs/web/WEB-027/artefacts/design/quiet-summit-clean-desktop.png`
-- Clean mobile photograph: `specs/proofs/web/WEB-027/artefacts/design/quiet-summit-clean-mobile.png`
-- Rendered desktop implementation: `specs/proofs/web/WEB-027/artefacts/local/desktop-1586x992-pass2.png`
-- Rendered mobile implementation: `specs/proofs/web/WEB-027/artefacts/local/mobile-390x844-final.png`
-- Desktop state: 1586 × 992 browser viewport, homepage, dark theme, consent resolved
-- Mobile state: 390 × 844 browser viewport (375px content width with scrollbar), homepage, dark theme
+- Source visual truth: `specs/proofs/web/WEB-028/artefacts/local-before/home-desktop-before.png` — preferred Home header scale and spacing
+- Pre-fix interior state: `specs/proofs/web/WEB-028/artefacts/local-before/shop-desktop-before.png`
+- Rendered desktop implementation: `specs/proofs/web/WEB-028/artefacts/local-after/home-desktop-after.png` and `shop-desktop-after.png`
+- Rendered mobile implementation: `specs/proofs/web/WEB-028/artefacts/local-after/home-mobile-after.png` and `shop-mobile-after.png`
+- Desktop state: browser override 1586 × 992 at 1.25 OS scaling, captured content viewport approximately 1265 × 710, consent resolved
+- Mobile state: browser override 390 × 844, captured content width 375px, consent resolved
 
 ## Comparison evidence
 
-- Full-view normalized comparison: `specs/proofs/web/WEB-027/artefacts/design/comparison-full-pass2.png`
-- Focused photographic comparison: `specs/proofs/web/WEB-027/artefacts/design/comparison-subject-pass2.png`
-- The focused comparison verifies the decisive issue: bicycle frame detail, spoke clarity, rider contact, lighting, and the absence of an extraction halo.
+- Full pre-fix comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-desktop-before.png`
+- Full post-fix comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-desktop-after.png`
+- Focused pre-fix header comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-header-before.png`
+- Focused post-fix header comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-header-after.png`
+- Mobile post-fix comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-mobile-after.png`
+- Focused mobile header comparison: `specs/proofs/web/WEB-028/artefacts/design/comparison-mobile-header-after.png`
+
+The focused comparisons are required because the decisive defects concern the logo/wordmark optical baseline, header height, nav spacing, icon scale, and action-target geometry.
 
 ## Findings
 
 - No actionable P0, P1, or P2 findings remain.
-- Composition: the homepage now leads with a brand moment rather than an offer. The rider and bicycle form one believable photographic subject, while the left third retains dark copy-safe space.
-- Typography: the campaign headline uses the selected uppercase treatment, three-line wrap, strong display face, cyan mono eyebrow, and compact supporting copy.
-- Viewport fit: at 1586 × 992 the 82px header, 752px hero, and full 152px terrain strip are all visible without horizontal overflow. The CTA and complete bicycle remain inside the hero.
-- Image quality: the desktop WebP is 2880 × 1801 and the mobile WebP is 1440 × 1920. Both are complete photographs; there is no enlarged transparent product cutout or separately composited shadow.
-- Product fidelity: the bicycle retains the mint-and-graphite Finspeed identity and the campaign context without presenting false price, specification, or offer claims in the hero.
-- Responsiveness: the phone breakpoint uses dedicated portrait art, a compact two-row header, an entirely visible CTA, and a horizontally scrollable terrain strip beginning immediately after the hero.
-- Controls and accessibility: the CTA and all terrain destinations remain real buttons with semantic region/navigation labels. The visible controls have accessible names and there are no browser-console warnings or errors in the tested path.
+- Fonts and typography: Home and interior routes now share the same body-font wordmark, 600 weight, responsive size, line height, tracking, and navigation typography. The wordmark occupies the same 54px desktop / 30px mobile lockup frame as the official mark, with a 1px optical baseline correction.
+- Spacing and layout rhythm: desktop Home and Shop now both measure 80px high in the captured viewport, with the same 38.4px side padding, 54px mark, 54px wordmark frame, 38.4px nav gap, 48px actions, and 17.92px action gap. Mobile states both measure 114.8px high with the same 30px mark, 30px wordmark frame, 40px actions, and 48px navigation row.
+- Colors and tokens: dark and light surfaces remain intentional variants. The light header now explicitly uses `--ink-700` navigation and `--ink-900` actions instead of inheriting low-contrast dark-surface tokens.
+- Image quality and asset fidelity: the official Finspeed mark assets are unchanged. No logo, wordmark, or icon was replaced with CSS art, custom SVG, or generated imagery.
+- Copy and content: brand and navigation labels are unchanged. The brand control now exposes the concise accessible name `Finspeed home` instead of duplicating the image alt and visible wordmark.
+- Icons and controls: all routes use the same 22px Lucide icons, 48px desktop targets, and 40px mobile targets. Search, account, cart, and category controls retain their existing handlers.
+- Responsiveness: Home and Shop header geometry is identical at desktop and mobile. The automated contract also compares both routes at 1440 × 900 and 390 × 844.
 
 ## Comparison history
 
-1. Desktop pass 1 confirmed that the clean photograph removed the pixelated cutout and fit the hero without upscaling; it exposed a softer title-case campaign treatment.
-2. The headline was changed to the selected uppercase treatment and optical tracking was tightened.
-3. Mobile pass 1 exposed a three-row, 185px header caused by high-specificity desktop action sizing.
-4. The mobile brand and action selectors were made breakpoint-specific, reducing the header to 115px and bringing the entire hero to the first viewport boundary.
-5. Final desktop and mobile captures found no remaining P0/P1/P2 mismatch.
+1. Pre-fix focused comparison found a P1 route-transition shift: Home used an 80px header, 54px mark, 27.52px wordmark, 38.4px nav gap, and 48px actions; Shop used a 74px header, 38px mark, 22px wordmark, 24px nav gap, and 44px actions.
+2. Pre-fix comparison also found a P1 contrast regression in the light state: navigation resolved to `#c4ced6` and action icons to white on an 86% white surface.
+3. Fix: all geometry moved into shared `.store-header`, `.store-brand`, `.store-primary-nav`, and `.store-header-actions` contracts. Route variants now control colors only, and light-state foreground colors are explicit.
+4. Post-fix full and focused comparisons show identical route geometry and readable controls. Mobile Home and Shop also match exactly. No visual change was made after the passing comparison.
 
 ## Browser verification
 
-- “Find your ride” opened `/shop` with the `Shop all cycles` heading.
-- The Mountain terrain destination opened `/shop?category=mountain` with the Mountain filter pressed and five matching cycles.
-- Browser console: no errors or warnings during the tested homepage and navigation flow.
+- Home and Shop screenshots were captured and opened at matching desktop and mobile viewport overrides.
+- Browser geometry reads confirm identical Home/Shop header, brand, logo, wordmark, navigation, action-group, and button dimensions.
+- Product detail uses the same shared Header component and measured desktop geometry.
+- Browser console: no errors or warnings during the verified route states.
+- Automated interaction contracts: shared header geometry passes at both 1440 × 900 and 390 × 844, and Shop, Home, Search, and Account routes remain connected.
 
 ## Follow-up polish
 
-- P3: none required for the current hero correction.
+- P3: none required for the shared header correction.
 
 final result: passed
