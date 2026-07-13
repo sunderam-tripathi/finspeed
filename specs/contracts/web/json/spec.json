@@ -613,6 +613,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-026",
+      "title": "Fully generated Mako hero and viewport-fit campaign",
+      "done_definition": [
+        "The homepage hero uses a complete high-resolution generated campaign photograph in which the bicycle and environment share coherent lighting, perspective, atmosphere, and ground contact",
+        "The final hero does not reuse, upscale, or overlay the low-resolution official cutout and avoids pixelated edges, matte halos, and pasted-product artefacts",
+        "The header, hero headline, supporting copy, commerce actions, specifications, and terrain navigation are visible within the reference desktop viewport",
+        "Desktop and mobile art direction, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
+        "The existing Amplify main application deploys the verified correction to finspeed.online"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-026.md",
+        "specs/proofs/web/WEB-026/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

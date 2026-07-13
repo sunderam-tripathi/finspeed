@@ -1,0 +1,62 @@
+
+> web@0.1.0 test
+> playwright test
+
+[2m[WebServer] [22m
+[2m[WebServer] [22m> web@0.1.0 dev
+[2m[WebServer] [22m> next dev --hostname 127.0.0.1 --port 3100
+[2m[WebServer] [22m
+[2m[WebServer] [22m[1m[38;2;173;127;168m▲ Next.js 16.2.10[39m[22m (Turbopack)
+[2m[WebServer] [22m- Local:         http://127.0.0.1:3100
+[2m[WebServer] [22m- Network:       http://127.0.0.1:3100
+[2m[WebServer] [22m[32m[1m✓[22m[39m Ready in 674ms
+[2m[WebServer] [22m
+[2m[WebServer] [22m GET / [32m200[39m in 517ms[2m (next.js: 237ms, application-code: 280ms)[22m
+
+Running 18 tests using 2 workers
+
+[2m[WebServer] [22m GET /dealers [32m200[39m in 661ms[2m (next.js: 125ms, application-code: 536ms)[22m
+[2m[WebServer] [22m GET /blog [32m200[39m in 502ms[2m (next.js: 124ms, application-code: 378ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 271ms[2m (next.js: 210ms, application-code: 61ms)[22m
+  ok  1 [chromium] › tests\blog.spec.ts:3:5 › SCN-007 blog landing renders the approved article hero in both locale states (5.7s)
+  ok  2 [chromium] › tests\a11y.spec.ts:4:5 › Dealer locator passes axe audit (7.4s)
+[2m[WebServer] [22m GET /brand-story [32m200[39m in 311ms[2m (next.js: 137ms, application-code: 174ms)[22m
+  ok  3 [chromium] › tests\brand-story.spec.ts:4:7 › SCN-005 brand story › renders hero copy and CTA links (2.5s)
+  ok  5 [chromium] › tests\dealer-data.spec.ts:16:5 › dealer data matches SCN-004 schema (40ms)
+[2m[WebServer] [22m GET /dealers [32m200[39m in 324ms[2m (next.js: 10ms, application-code: 314ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 240ms[2m (next.js: 26ms, application-code: 214ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 43ms[2m (next.js: 26ms, application-code: 16ms)[22m
+  ok  6 [chromium] › tests\dealer-locator.spec.ts:16:7 › SCN-004 dealer locator contract › valid postal shows dealer results and filter chips update list (2.0s)
+  ok  4 [chromium] › tests\contract.spec.ts:6:7 › SCN-001 site shell contract › hero conveys brand promise and CTA (3.6s)
+[2m[WebServer] [22m GET /dealers [32m200[39m in 128ms[2m (next.js: 10ms, application-code: 118ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 61ms[2m (next.js: 29ms, application-code: 32ms)[22m
+  ok  7 [chromium] › tests\dealer-locator.spec.ts:28:7 › SCN-004 dealer locator contract › invalid postal triggers inline error (2.2s)
+[2m[WebServer] [22m GET / [32m200[39m in 232ms[2m (next.js: 9ms, application-code: 223ms)[22m
+  ok  8 [chromium] › tests\contract.spec.ts:12:7 › SCN-001 site shell contract › primary CTA opens the redesigned catalog (3.1s)
+[2m[WebServer] [22m GET /dealers [32m200[39m in 190ms[2m (next.js: 16ms, application-code: 174ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 138ms[2m (next.js: 81ms, application-code: 57ms)[22m
+  ok  9 [chromium] › tests\dealer-locator.spec.ts:38:7 › SCN-004 dealer locator contract › outage banner hides results and promotes support channels (3.1s)
+[2m[WebServer] [22m GET / [32m200[39m in 114ms[2m (next.js: 13ms, application-code: 100ms)[22m
+[2m[WebServer] [22m GET /dealers [32m200[39m in 453ms[2m (next.js: 15ms, application-code: 438ms)[22m
+  ok 10 [chromium] › tests\contract.spec.ts:19:7 › SCN-001 site shell contract › store locator remains available from the support footer (3.6s)
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 73ms[2m (next.js: 22ms, application-code: 51ms)[22m
+  ok 11 [chromium] › tests\dealer-locator.spec.ts:50:7 › SCN-004 dealer locator contract › analytics stubs push GA payloads with consent flag (3.2s)
+[2m[WebServer] [22m GET / [32m200[39m in 74ms[2m (next.js: 9ms, application-code: 65ms)[22m
+[2m[WebServer] [22m GET /dealers [32m200[39m in 108ms[2m (next.js: 9ms, application-code: 99ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 27ms[2m (next.js: 10ms, application-code: 17ms)[22m
+  ok 13 [chromium] › tests\outage.spec.ts:5:5 › outage toggle logs analytics event (2.0s)
+[2m[WebServer] [22m GET /support [32m200[39m in 199ms[2m (next.js: 68ms, application-code: 131ms)[22m
+  ok 12 [chromium] › tests\contract.spec.ts:24:7 › SCN-001 site shell contract › support footer exposes warranty and contact routes (5.0s)
+  ok 14 [chromium] › tests\support.spec.ts:3:5 › SCN-008 support hub renders bilingual hero and contacts (2.4s)
+[2m[WebServer] [22m GET / [32m200[39m in 678ms[2m (next.js: 35ms, application-code: 644ms)[22m
+[2m[WebServer] [22m GET /testimonials [32m200[39m in 795ms[2m (next.js: 212ms, application-code: 583ms)[22m
+  ok 16 [chromium] › tests\testimonials.spec.ts:3:5 › SCN-006 testimonials hero renders source-backed copy in both locale states (5.1s)
+[2m[WebServer] [22m GET / [32m200[39m in 281ms[2m (next.js: 41ms, application-code: 240ms)[22m
+  ok 15 [chromium] › tests\contract.spec.ts:31:7 › SCN-001 site shell contract › accept dismisses consent immediately and persists the choice (7.2s)
+[2m[WebServer] [22m GET / [32m200[39m in 149ms[2m (next.js: 12ms, application-code: 136ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 184ms[2m (next.js: 22ms, application-code: 162ms)[22m
+  ok 17 [chromium] › tests\contract.spec.ts:41:7 › SCN-001 site shell contract › decline dismisses consent immediately and persists the choice (2.7s)
+[2m[WebServer] [22m GET / [32m200[39m in 78ms[2m (next.js: 10ms, application-code: 68ms)[22m
+  ok 18 [chromium] › tests\contract.spec.ts:51:7 › SCN-001 site shell contract › consent still dismisses when storage is unavailable (3.0s)
+
+  18 passed (44.8s)

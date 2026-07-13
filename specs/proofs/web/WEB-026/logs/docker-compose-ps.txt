@@ -1,0 +1,8 @@
+Docker CLI unavailable in the Codex host shell.
+
+Attempted command: docker compose ps --format json
+Observed result: PowerShell CommandNotFoundException (`docker` is not recognized).
+
+Repository parity control still completed through `node tools/dev/parity-stack.mjs ensure`.
+The resulting governed state is captured in `parity-state.json` with status `running`
+and `last_ensure` `2026-07-13T15:55:27.578Z`.

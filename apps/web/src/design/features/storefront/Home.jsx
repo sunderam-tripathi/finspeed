@@ -23,8 +23,8 @@ function Home({ onNav, onAdd, onProduct }) {
     <div className="store-home fin-dark">
       <section className="store-trail-hero" aria-labelledby="trail-hero-title">
         <picture className="store-trail-background">
-          <source media="(max-width: 600px)" srcSet="/assets/campaign/mako-shark-hero-v3-mobile.webp" />
-          <img src="/assets/campaign/mako-shark-hero-v3.webp" alt="" />
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/mako-shark-hero-v4-mobile.webp" />
+          <img src="/assets/campaign/mako-shark-hero-v4.webp" alt="" />
         </picture>
         <div className="store-trail-shade" aria-hidden="true" />
 

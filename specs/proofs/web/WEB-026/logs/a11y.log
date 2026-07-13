@@ -1,0 +1,18 @@
+[2m[WebServer] [22m
+[2m[WebServer] [22m> web@0.1.0 dev
+[2m[WebServer] [22m> next dev --hostname 127.0.0.1 --port 3100
+[2m[WebServer] [22m
+[2m[WebServer] [22m[1m[38;2;173;127;168m▲ Next.js 16.2.10[39m[22m (Turbopack)
+[2m[WebServer] [22m- Local:         http://127.0.0.1:3100
+[2m[WebServer] [22m- Network:       http://127.0.0.1:3100
+[2m[WebServer] [22m[32m[1m✓[22m[39m Ready in 682ms
+[2m[WebServer] [22m
+[2m[WebServer] [22m GET / [32m200[39m in 1645ms[2m (next.js: 1264ms, application-code: 381ms)[22m
+
+Running 1 test using 1 worker
+
+[2m[WebServer] [22m GET /dealers [32m200[39m in 279ms[2m (next.js: 80ms, application-code: 199ms)[22m
+[2m[WebServer] [22m GET /api/dealers [32m200[39m in 258ms[2m (next.js: 212ms, application-code: 46ms)[22m
+  ok 1 [chromium] › apps\web\tests\a11y.spec.ts:4:5 › Dealer locator passes axe audit (5.9s)
+
+  1 passed (14.9s)

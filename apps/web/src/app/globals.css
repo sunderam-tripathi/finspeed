@@ -114,6 +114,10 @@ a {
 }
 
 .glass-panel-light {
+  --fs-text-primary: #0f172a;
+  --fs-text-muted: #475569;
+  --fs-text-soft: #64748b;
+  --fs-surface-muted: #f1f5f9;
   position: relative;
   border-radius: 32px;
   background-color: var(--fs-card);

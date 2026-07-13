@@ -192,6 +192,128 @@
       "logPath": "tmp/process-logs/web-2026-07-13T14-45-20-865Z.log",
       "exitCode": 4294967295,
       "ended_at": "2026-07-13T15:07:50.491Z"
+    },
+    {
+      "name": "web026-lint",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web026-lint-2026-07-13T16-15-00-462Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:16:47.114Z"
+    },
+    {
+      "name": "web026-build",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web026-build-2026-07-13T16-17-20-113Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:18:30.550Z"
+    },
+    {
+      "name": "web026-test",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test"
+      ],
+      "logPath": "tmp/process-logs/web026-test-2026-07-13T16-18-55-712Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-13T16:20:20.305Z"
+    },
+    {
+      "name": "web026-test-serial",
+      "cmd": "npx.cmd",
+      "args": [
+        "playwright",
+        "test",
+        "--config",
+        "apps/web/playwright.config.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web026-test-serial-2026-07-13T16-22-06-443Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-13T16:23:13.092Z"
+    },
+    {
+      "name": "web026-a11y-retry",
+      "cmd": "npx.cmd",
+      "args": [
+        "playwright",
+        "test",
+        "apps/web/tests/a11y.spec.ts",
+        "--config",
+        "apps/web/playwright.config.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web026-a11y-retry-2026-07-13T16-24-10-625Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-13T16:24:24.594Z"
+    },
+    {
+      "name": "web026-a11y-pass",
+      "cmd": "npx.cmd",
+      "args": [
+        "playwright",
+        "test",
+        "apps/web/tests/a11y.spec.ts",
+        "--config",
+        "apps/web/playwright.config.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web026-a11y-pass-2026-07-13T16-27-25-313Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:27:43.128Z"
+    },
+    {
+      "name": "web026-test-pass",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test"
+      ],
+      "logPath": "tmp/process-logs/web026-test-pass-2026-07-13T16-28-20-702Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:29:07.191Z"
+    },
+    {
+      "name": "web026-lint-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web026-lint-final-2026-07-13T16-30-10-959Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:32:00.794Z"
+    },
+    {
+      "name": "web026-build-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web026-build-final-2026-07-13T16-32-40-796Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-13T16:34:05.595Z"
     }
   ]
 }

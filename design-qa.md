@@ -1,42 +1,48 @@
-# Design QA — WEB-025
+# Design QA — WEB-026
 
 ## Comparison target
 
-- Source visual truth: `specs/proofs/web/WEB-025/artefacts/design/mako-shark-hero-v3.png`, `specs/proofs/web/WEB-025/artefacts/design/mako-shark-hero-v3-mobile.png`, and the user-reported production failure at `specs/proofs/web/WEB-025/artefacts/screenshots/production-reported-failure.png`.
-- Browser implementation: `specs/proofs/web/WEB-025/artefacts/screenshots/local-desktop-1920x990.png` and `specs/proofs/web/WEB-025/artefacts/screenshots/local-mobile-390x844.png`.
-- Viewports: desktop 1920 × 990; mobile 390 × 844.
-- State: homepage, dark storefront, consent notice dismissed after an explicit choice.
-- Full-view comparison: `specs/proofs/web/WEB-025/artefacts/design/design-comparison-desktop.png`.
-- Focused product comparison: `specs/proofs/web/WEB-025/artefacts/design/product-focus-comparison.png`.
-- Mobile art-direction comparison: `specs/proofs/web/WEB-025/artefacts/design/design-comparison-mobile.png`.
+- Source visual truth: `specs/proofs/web/WEB-026/artefacts/source/production-failure-content-2048x990.png`
+- Generated desktop art target: `specs/proofs/web/WEB-026/artefacts/design/mako-shark-hero-v4-desktop.png`
+- Generated mobile art target: `specs/proofs/web/WEB-026/artefacts/design/mako-shark-hero-v4-mobile.png`
+- Rendered desktop implementation: `specs/proofs/web/WEB-026/artefacts/local/desktop-2048x990-final.png`
+- Rendered mobile implementation: `specs/proofs/web/WEB-026/artefacts/local/mobile-390x844-final.png`
+- Desktop viewport/state: 2048 × 990, homepage, dark theme, consent preference already resolved
+- Mobile viewport/state: 390 × 844 browser viewport (375px content width with scrollbar), homepage, dark theme
+
+## Comparison evidence
+
+- Full-view normalized comparison: `specs/proofs/web/WEB-026/artefacts/design/comparison-full-pass1.png`
+- Focused bicycle comparison: `specs/proofs/web/WEB-026/artefacts/design/comparison-bike-pass1.png`
+- A focused comparison was required because the decisive defect concerned spoke detail, frame edges, lighting, tire contact, and product/background coherence that are not reliably judged from a reduced full-page board.
 
 ## Findings
 
-No actionable P0, P1, or P2 findings remain.
-
-- Fonts and typography: the display face, body hierarchy, line breaks, weights, and cyan commerce emphasis remain consistent with the selected dark storefront. Desktop and mobile wrapping are deliberate and readable.
-- Spacing and layout rhythm: header, copy, CTA, price, product stage, and specification rail retain clear separation. At 390 × 844, the copy ends before the product begins and there is no horizontal overflow.
-- Colors and visual tokens: near-black surfaces, restrained petrol-blue atmosphere, cyan controls, and white copy maintain the intended performance palette and accessible hierarchy.
-- Image quality and asset fidelity: the official Mako Shark geometry, branding, component placement, proportions, mint frame, and yellow accent are preserved. Bright matte contamination and neutral highlights are scene-matched; both wheels receive perspective-aware contact shadows; the background has compatible grain, light direction, and ground scale. No generated product substitute or code-drawn image is used.
-- Copy and content: homepage copy, price, specifications, and CTA remain unchanged and coherent.
-- Icons and controls: existing Lucide storefront icons remain aligned and consistent. Consent actions are semantic buttons with practical touch targets and visible focus treatment.
-- Interaction and accessibility: Accept and Decline dismiss immediately; automated checks cover persistence and storage failure. Browser console errors are zero in both reviewed viewports.
+- No actionable P0, P1, or P2 findings remain.
+- Fonts and typography: the existing display face, mono eyebrow/price treatment, body hierarchy, wrapping, and optical weights remain consistent with the approved dark storefront direction. The shortened hero does not create title, body, or commerce collisions.
+- Spacing and layout rhythm: the 96px header, 744px hero, and 136px terrain strip end at y=976 in the 990px reference viewport. Copy, commerce, full bicycle, specification rail, and all three terrain destinations are visible with 14px remaining.
+- Colors and tokens: the near-black, graphite, cyan, white, and mint palette remains coherent. The reduced shade overlay protects copy contrast without flattening the newly generated lighting.
+- Image quality and asset fidelity: the final desktop/mobile heroes are complete generated photographs. The low-resolution cutout is not overlaid or upscaled. The bicycle has crisp frame edges, circular wheels, plausible fork/drivetrain/brake geometry, coherent atmosphere, and direct tire contact shadows with no matte halo.
+- Copy and content: the approved headline, support copy, offer, specifications, and terrain labels are unchanged and remain readable.
+- Icons and controls: the Lucide action/specification icons remain aligned and visually consistent; no visible asset is replaced by CSS or handcrafted SVG art.
+- Responsiveness and accessibility: desktop has no horizontal overflow; mobile uses the dedicated portrait art, retains full-width navigation and 44px header actions, and shows the complete bicycle horizontally without clipping. Semantic region, navigation, complementary, button, and heading roles remain intact.
 
 ## Comparison history
 
-1. Initial WEB-024 production evidence showed a P1 image-quality mismatch: bright neutral edges and spokes, incompatible background lighting, oversized product presentation, and no convincing wheel contact. The correction uses a quieter ground plane, protected photometric cleanup, reduced product scale, matched neutral lighting, and wheel-specific shadows. Post-fix evidence: `product-focus-comparison.png` and `local-desktop-1920x990.png`.
-2. First WEB-025 mobile capture showed a P2 issue: the responsive shade reduced product visibility too heavily below the commerce block. The lower-half overlay was reduced while the copy-safe upper zone remained dark. Post-fix evidence: `design-comparison-mobile.png` and `local-mobile-390x844.png`.
+1. Pre-pass mobile capture (`artefacts/local/mobile-390x844.png`) exposed a P2 horizontal bicycle crop caused by applying the portrait asset through a cover crop.
+2. Fix: the phone breakpoint now sizes the dedicated portrait art to 130% width, preserves its intrinsic aspect ratio, centers it, and anchors it to the hero floor. This keeps the complete bicycle horizontally visible while retaining dark copy-safe space.
+3. Post-fix evidence: `artefacts/local/mobile-390x844-final.png` shows the full front and rear bicycle geometry across the phone width without horizontal page overflow.
+4. Formal desktop full-view and focused pass (`comparison-full-pass1.png`, `comparison-bike-pass1.png`) found no remaining P0/P1/P2 mismatch. No visual change was made after that pass.
+
+## Browser verification
+
+- Primary CTA: “Shop the fleet” opened `/shop` with the `Shop all cycles` heading.
+- Product CTA: “View Mako Shark details” opened `/products/mako-shark` with the `Mako Shark` heading.
+- Brand control returned to the homepage after each path.
+- Browser console: no errors or warnings recorded during the tested flow.
 
 ## Follow-up polish
 
-- P3: the supplied product photograph is lower-resolution than the generated environment, so very close inspection still reveals source softness. Further improvement would require a higher-resolution official product photograph rather than redrawing the bicycle.
-
-## Implementation checklist
-
-- [x] Desktop crop and hierarchy match the corrected campaign direction.
-- [x] Product matte, neutral lighting, scale, and contact shadows are integrated.
-- [x] Mobile art direction avoids copy/product overlap and horizontal overflow.
-- [x] Consent choices dismiss immediately and preserve accessibility semantics.
-- [x] Desktop and mobile console checks report zero errors.
+- P3: none required for the current correction.
 
 final result: passed
