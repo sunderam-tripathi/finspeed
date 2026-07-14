@@ -1,0 +1,6 @@
+Command: docker compose ps
+Result: NOT AVAILABLE
+
+docker : The term 'docker' is not recognized as the name of a cmdlet, function, script file, or operable program.
+
+The repository parity helper still completed successfully and its governed snapshot is archived separately.

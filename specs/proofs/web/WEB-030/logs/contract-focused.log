@@ -1,0 +1,58 @@
+[2m[WebServer] [22m
+[2m[WebServer] [22m> web@0.1.0 dev
+[2m[WebServer] [22m> next dev --hostname 127.0.0.1 --port 3100
+[2m[WebServer] [22m
+[2m[WebServer] [22m[1m[38;2;173;127;168m▲ Next.js 16.2.10[39m[22m (Turbopack)
+[2m[WebServer] [22m- Local:         http://127.0.0.1:3100
+[2m[WebServer] [22m- Network:       http://127.0.0.1:3100
+[2m[WebServer] [22m[32m[1m✓[22m[39m Ready in 784ms
+[2m[WebServer] [22m
+[2m[WebServer] [22m GET / [32m200[39m in 1079ms[2m (next.js: 836ms, application-code: 244ms)[22m
+
+Running 13 tests using 1 worker
+
+[2m[WebServer] [22m GET / [32m200[39m in 106ms[2m (next.js: 7ms, application-code: 99ms)[22m
+  ok  1 [chromium] › apps\web\tests\contract.spec.ts:6:7 › SCN-001 site shell contract › hero conveys brand promise and CTA (3.6s)
+[2m[WebServer] [22m GET / [32m200[39m in 93ms[2m (next.js: 7ms, application-code: 86ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 184ms[2m (next.js: 19ms, application-code: 165ms)[22m
+  ok  2 [chromium] › apps\web\tests\contract.spec.ts:12:7 › SCN-001 site shell contract › light homepage selects dedicated responsive campaign assets (2.6s)
+[2m[WebServer] [22m GET / [32m200[39m in 103ms[2m (next.js: 7ms, application-code: 96ms)[22m
+  ok  3 [chromium] › apps\web\tests\contract.spec.ts:47:7 › SCN-001 site shell contract › primary CTA opens the redesigned catalog (2.7s)
+[2m[WebServer] [22m GET / [32m200[39m in 65ms[2m (next.js: 7ms, application-code: 58ms)[22m
+[2m[WebServer] [22m GET /shop [32m200[39m in 1412ms[2m (next.js: 1291ms, application-code: 121ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 89ms[2m (next.js: 8ms, application-code: 81ms)[22m
+[2m[WebServer] [22m GET /shop [32m200[39m in 196ms[2m (next.js: 42ms, application-code: 153ms)[22m
+  ok  4 [chromium] › apps\web\tests\contract.spec.ts:54:7 › SCN-001 site shell contract › shared header geometry remains stable between home and catalog (4.9s)
+[2m[WebServer] [22m GET / [32m200[39m in 62ms[2m (next.js: 7ms, application-code: 55ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 120ms[2m (next.js: 19ms, application-code: 101ms)[22m
+  ok  5 [chromium] › apps\web\tests\contract.spec.ts:91:7 › SCN-001 site shell contract › brand mark and wordmark retain their optical alignment (2.8s)
+[2m[WebServer] [22m GET / [32m200[39m in 70ms[2m (next.js: 5ms, application-code: 65ms)[22m
+[2m[WebServer] [22m GET /shop [32m200[39m in 120ms[2m (next.js: 27ms, application-code: 93ms)[22m
+[2m[WebServer] [22m GET /products/mako-shark [32m200[39m in 81ms[2m (next.js: 7ms, application-code: 74ms)[22m
+[2m[WebServer] [22m GET /about [32m200[39m in 138ms[2m (next.js: 8ms, application-code: 130ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 96ms[2m (next.js: 7ms, application-code: 89ms)[22m
+[2m[WebServer] [22m GET /shop [32m200[39m in 188ms[2m (next.js: 22ms, application-code: 166ms)[22m
+[2m[WebServer] [22m GET /products/mako-shark [32m200[39m in 106ms[2m (next.js: 6ms, application-code: 100ms)[22m
+[2m[WebServer] [22m GET /about [32m200[39m in 130ms[2m (next.js: 7ms, application-code: 123ms)[22m
+  ok  6 [chromium] › apps\web\tests\contract.spec.ts:113:7 › SCN-001 site shell contract › shared header visual treatment remains stable across storefront routes (4.6s)
+[2m[WebServer] [22m GET /about [32m200[39m in 116ms[2m (next.js: 24ms, application-code: 91ms)[22m
+  ok  7 [chromium] › apps\web\tests\contract.spec.ts:156:7 › SCN-001 site shell contract › shared header controls retain their navigation routes (3.8s)
+[2m[WebServer] [22m GET / [32m200[39m in 85ms[2m (next.js: 7ms, application-code: 78ms)[22m
+[2m[WebServer] [22m GET /shop [32m200[39m in 339ms[2m (next.js: 36ms, application-code: 303ms)[22m
+[2m[WebServer] [22m GET /products/mako-shark [32m200[39m in 136ms[2m (next.js: 7ms, application-code: 129ms)[22m
+[2m[WebServer] [22m GET /about [32m200[39m in 210ms[2m (next.js: 20ms, application-code: 191ms)[22m
+  ok  8 [chromium] › apps\web\tests\contract.spec.ts:173:7 › SCN-001 site shell contract › shared header routes render without console errors (3.4s)
+[2m[WebServer] [22m GET / [32m200[39m in 65ms[2m (next.js: 6ms, application-code: 58ms)[22m
+  ok  9 [chromium] › apps\web\tests\contract.spec.ts:188:7 › SCN-001 site shell contract › store locator remains available from the support footer (1.7s)
+[2m[WebServer] [22m GET / [32m200[39m in 69ms[2m (next.js: 7ms, application-code: 62ms)[22m
+  ok 10 [chromium] › apps\web\tests\contract.spec.ts:193:7 › SCN-001 site shell contract › support footer exposes warranty and contact routes (1.6s)
+[2m[WebServer] [22m GET / [32m200[39m in 50ms[2m (next.js: 5ms, application-code: 45ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 163ms[2m (next.js: 9ms, application-code: 154ms)[22m
+  ok 11 [chromium] › apps\web\tests\contract.spec.ts:200:7 › SCN-001 site shell contract › accept dismisses consent immediately and persists the choice (1.5s)
+[2m[WebServer] [22m GET / [32m200[39m in 74ms[2m (next.js: 6ms, application-code: 69ms)[22m
+[2m[WebServer] [22m GET / [32m200[39m in 130ms[2m (next.js: 10ms, application-code: 120ms)[22m
+  ok 12 [chromium] › apps\web\tests\contract.spec.ts:210:7 › SCN-001 site shell contract › decline dismisses consent immediately and persists the choice (1.6s)
+[2m[WebServer] [22m GET / [32m200[39m in 75ms[2m (next.js: 9ms, application-code: 66ms)[22m
+  ok 13 [chromium] › apps\web\tests\contract.spec.ts:220:7 › SCN-001 site shell contract › consent still dismisses when storage is unavailable (1.7s)
+
+  13 passed (44.5s)

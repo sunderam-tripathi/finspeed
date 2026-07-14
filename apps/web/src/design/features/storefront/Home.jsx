@@ -7,17 +7,36 @@ function Home({ onNav, onAdd, onProduct }) {
   const featured = ['bull-shark', 'mako-shark', 'tiger-shark', 'sunset-marlin']
     .map((id) => products.find((product) => product.id === id));
   const terrains = [
-    { label: 'Mountain', filter: 'mountain', image: '/assets/campaign/trail-command-hero.webp' },
-    { label: 'City', filter: 'city', image: '/assets/campaign/terrain-city.webp' },
-    { label: 'Hybrid', filter: 'hybrid', image: '/assets/campaign/terrain-hybrid.webp' },
+    {
+      label: 'Mountain',
+      filter: 'mountain',
+      darkImage: '/assets/campaign/trail-command-hero.webp',
+      lightImage: '/assets/campaign/light-terrain-mountain.webp',
+    },
+    {
+      label: 'City',
+      filter: 'city',
+      darkImage: '/assets/campaign/terrain-city.webp',
+      lightImage: '/assets/campaign/light-terrain-city.webp',
+    },
+    {
+      label: 'Hybrid',
+      filter: 'hybrid',
+      darkImage: '/assets/campaign/terrain-hybrid.webp',
+      lightImage: '/assets/campaign/light-terrain-hybrid.webp',
+    },
   ];
 
   return (
-    <div className="store-home fin-dark">
+    <div className="store-home">
       <section className="store-trail-hero" aria-labelledby="trail-hero-title">
-        <picture className="store-trail-background">
+        <picture className="store-trail-background store-theme-dark-only">
           <source media="(max-width: 600px)" srcSet="/assets/campaign/quiet-summit-hero-mobile.webp" />
           <img src="/assets/campaign/quiet-summit-hero.webp" alt="" />
+        </picture>
+        <picture className="store-trail-background store-theme-light-only">
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/light-summit-hero-mobile.webp" />
+          <img src="/assets/campaign/light-summit-hero.webp" alt="" />
         </picture>
         <div className="store-trail-shade" aria-hidden="true" />
 
@@ -57,7 +76,8 @@ function Home({ onNav, onAdd, onProduct }) {
             key={terrain.filter}
             onClick={() => onNav('shop', terrain.filter)}
           >
-            <img src={terrain.image} alt="" aria-hidden="true" />
+            <img className="store-theme-dark-only" src={terrain.darkImage} alt="" aria-hidden="true" />
+            <img className="store-theme-light-only" src={terrain.lightImage} alt="" aria-hidden="true" />
             <span className="store-terrain-overlay" aria-hidden="true" />
             <span className="store-terrain-label">{terrain.label}</span>
             <i data-lucide="arrow-right" aria-hidden="true" />

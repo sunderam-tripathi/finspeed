@@ -1,55 +1,40 @@
-# Design QA — WEB-029 Uniform dark storefront header
+# Design QA - WEB-030 Light homepage campaign assets
 
 ## Comparison target
 
-- Source visual truth: `specs/proofs/web/WEB-029/artefacts/source-home-dark.png`
-- Rendered implementation:
-  - `specs/proofs/web/WEB-029/artefacts/local-home-dark.png`
-  - `specs/proofs/web/WEB-029/artefacts/local-shop-dark.png`
-  - `specs/proofs/web/WEB-029/artefacts/local-home-mobile-dark.png`
-  - `specs/proofs/web/WEB-029/artefacts/local-shop-mobile-dark.png`
-- Desktop viewport: 1280 × 720
-- Mobile viewport: 390 × 844
-- States: released Home source; local Home and Shop implementations; default, no hover or focus
-
-## Comparison evidence
-
-- Full-view desktop comparison: the released Home source and local Shop implementation were opened together in one comparison input at the same 1280 × 720 viewport.
-- Full-view mobile comparison: local Home and Shop were opened together in one comparison input at the same 390 × 844 viewport.
-- Focused header evidence: `specs/proofs/web/WEB-029/artefacts/local-shop-header-dark.png`; the full-view captures were also inspected at native size because the header controls remain clearly readable there.
-- The Shop page body is outside the WEB-029 header target and is unchanged by this slice.
+- Before captures: `specs/proofs/web/WEB-030/artefacts/before/`
+- Final captures: `specs/proofs/web/WEB-030/artefacts/after/`
+- Desktop viewport: 1586 x 992
+- Mobile viewport: 390 x 844
+- State: local production build, light homepage, no hover or focus
 
 ## Findings
 
-No actionable P0, P1, or P2 header differences remain.
+No actionable P0, P1, or P2 visual differences remain.
 
-- Fonts and typography: the logo wordmark, navigation labels, and action controls retain the Home header family, weight, size, line height, and letter spacing on Shop.
-- Spacing and layout rhythm: header height, side padding, logo lockup, navigation gaps, and action positions match across Home and Shop at desktop and mobile.
-- Colors and visual tokens: every storefront Header state uses the same dark surface, light wordmark, light navigation, and white actions; obsolete light-route selectors were removed.
-- Image quality and asset fidelity: the official light Finspeed logo asset is used unchanged on every route; no generated, redrawn, or substitute brand asset was introduced.
-- Copy and content: header labels and category order are unchanged.
-- Icons and behavior: the existing Lucide search, account, and cart icons remain aligned and the navigation handlers pass automated route checks.
-- Accessibility: visible targets preserve the established 48px desktop and 40px mobile geometry; the complete axe audit passes after the test waits for the persisted theme to finish hydrating.
+- Hero composition: the desktop rider and complete bicycle sit on the right; the portrait source keeps the complete bicycle below the mobile copy.
+- Copy safety: the live eyebrow, headline, body, rule, and CTA remain on a calm left or upper zone with sufficient tonal separation.
+- Category imagery: Mountain, City, and Hybrid are immediately distinct in the shallow desktop strip and remain usable when stacked.
+- Cohesion: all five assets share bright early-morning light, restrained color, and a realistic editorial finish.
+- Asset integrity: generated images contain no baked copy, UI, logo overlay, border, or watermark.
+- Responsive fidelity: the desktop and portrait hero sources switch at the existing mobile breakpoint; light and dark image families switch from `data-theme`.
+- Brand continuity: the black storefront header, Finspeed wordmark, typography, CTA geometry, and existing dark campaign sources remain unchanged.
+- Runtime quality: the clean production build rendered with zero console errors or warnings, and the full 24-test suite passed.
 
 ## Comparison history
 
 ### Pass 1
 
-- Earlier finding: the released Shop header used a light surface while Home used a dark surface, so route transitions still felt like a different header despite matched geometry.
-- Fix: removed the route-dependent color branch and obsolete light-only responsive rules; the shared Header now always uses the Home dark treatment and official light logo.
-- Post-fix evidence: the desktop and mobile Home/Shop captures listed above show identical header treatment and coordinates. No further P0-P2 fix was required.
+- The generated light compositions and initial responsive wiring were correct, but the category label shade was heavier than necessary.
+- The light category overlay was reduced to preserve more daylight detail while retaining label contrast. The dark overlay was left unchanged.
+
+### Final pass
+
+- Desktop and mobile screenshots were reopened at original resolution after the final production build.
+- No further P0-P2 correction was required.
 
 ## Open questions
 
-None for the header target.
-
-## Implementation checklist
-
-- [x] One dark Header treatment across routes
-- [x] Official light logo retained
-- [x] WEB-028 geometry contract preserved
-- [x] Desktop and mobile visual comparisons pass
-- [x] Home, Shop, product, and service route contract passes
-- [x] Navigation, console, lint, build, accessibility, and 22-test browser suite pass
+None for the local implementation. Production deployment was intentionally not performed.
 
 final result: passed

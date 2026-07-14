@@ -9,3 +9,5 @@ specs/project-progress/progress-summary.json
 apps/web/.next/
 apps/web/out/
 specs/working-memory/
+.playwright-cli/
+output/

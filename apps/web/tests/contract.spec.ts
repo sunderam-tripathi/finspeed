@@ -5,8 +5,43 @@ const EN_HEADLINE = 'Ride Beyond Boundaries';
 test.describe('SCN-001 site shell contract', () => {
   test('hero conveys brand promise and CTA', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1, name: EN_HEADLINE })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: EN_HEADLINE })).toBeVisible({ timeout: 20_000 });
     await expect(page.getByRole('button', { name: 'Find your ride' })).toBeVisible();
+  });
+
+  test('light homepage selects dedicated responsive campaign assets', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/');
+
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+    const lightHero = page.locator('.store-trail-background.store-theme-light-only');
+    const darkHero = page.locator('.store-trail-background.store-theme-dark-only');
+    await expect(lightHero).toBeVisible();
+    await expect(darkHero).toBeHidden();
+    await expect(lightHero.locator('img')).toHaveAttribute('src', '/assets/campaign/light-summit-hero.webp');
+
+    const lightTerrainSources = await page.locator('.store-terrain-link > img.store-theme-light-only').evaluateAll((images) =>
+      images.map((image) => image.getAttribute('src')),
+    );
+    expect(lightTerrainSources).toEqual([
+      '/assets/campaign/light-terrain-mountain.webp',
+      '/assets/campaign/light-terrain-city.webp',
+      '/assets/campaign/light-terrain-hybrid.webp',
+    ]);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload();
+    const mobileCurrentSource = await page.locator('.store-trail-background.store-theme-light-only img').evaluate(
+      (image: HTMLImageElement) => new URL(image.currentSrc).pathname,
+    );
+    expect(mobileCurrentSource).toBe('/assets/campaign/light-summit-hero-mobile.webp');
+
+    await page.locator('html').evaluate((root) => {
+      root.dataset.theme = 'dark';
+    });
+    await expect(lightHero).toBeHidden();
+    await expect(darkHero).toBeVisible();
+    await expect(darkHero.locator('img')).toHaveAttribute('src', '/assets/campaign/quiet-summit-hero.webp');
   });
 
   test('primary CTA opens the redesigned catalog', async ({ page }) => {
@@ -17,28 +52,31 @@ test.describe('SCN-001 site shell contract', () => {
   });
 
   test('shared header geometry remains stable between home and catalog', async ({ page }) => {
-    const readGeometry = async () => page.locator('.store-header').evaluate((header) => {
-      const metric = (selector: string) => {
-        const element = header.querySelector(selector) as HTMLElement;
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        return {
-          width: Math.round(rect.width * 100) / 100,
-          height: Math.round(rect.height * 100) / 100,
-          fontSize: style.fontSize,
-          gap: style.gap,
+    const readGeometry = async () => {
+      await page.evaluate(() => document.fonts.ready);
+      return page.locator('.store-header').evaluate((header) => {
+        const metric = (selector: string) => {
+          const element = header.querySelector(selector) as HTMLElement;
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return {
+            width: Math.round(rect.width * 100) / 100,
+            height: Math.round(rect.height * 100) / 100,
+            fontSize: style.fontSize,
+            gap: style.gap,
+          };
         };
-      };
-      return {
-        headerHeight: Math.round(header.getBoundingClientRect().height * 100) / 100,
-        brand: metric('.store-brand'),
-        logo: metric('.store-brand img'),
-        name: metric('.store-brand-name'),
-        nav: metric('.store-primary-nav'),
-        actions: metric('.store-header-actions'),
-        action: metric('.store-header-actions button'),
-      };
-    });
+        return {
+          headerHeight: Math.round(header.getBoundingClientRect().height * 100) / 100,
+          brand: metric('.store-brand'),
+          logo: metric('.store-brand img'),
+          name: metric('.store-brand-name'),
+          nav: metric('.store-primary-nav'),
+          actions: metric('.store-header-actions'),
+          action: metric('.store-header-actions button'),
+        };
+      });
+    };
 
     for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
       await page.setViewportSize(viewport);

@@ -729,6 +729,35 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-030",
+      "title": "Light-theme homepage campaign assets",
+      "done_definition": [
+        "The light-theme homepage uses dedicated high-resolution desktop and mobile hero photography with bright natural art direction and a protected text-safe region",
+        "Mountain, City, and Hybrid destinations use a coherent light-theme image family rather than dark-theme campaign crops",
+        "Theme changes select the correct responsive assets without altering homepage copy, navigation, filters, or interactions",
+        "Desktop and mobile design QA, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
+        "The implementation is committed with local proof and clearly records whether production was changed"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-030.md",
+        "specs/proofs/web/WEB-030/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }
