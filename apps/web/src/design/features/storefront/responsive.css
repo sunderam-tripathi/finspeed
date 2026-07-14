@@ -71,6 +71,8 @@ body,
   width: 54px;
   height: 54px !important;
   object-fit: contain;
+  /* The source artwork carries lower visual weight from its embedded label. */
+  transform: translateY(-2px);
 }
 
 .store-brand-name {
@@ -83,7 +85,8 @@ body,
   line-height: 1 !important;
   letter-spacing: 0.035em !important;
   text-transform: uppercase;
-  transform: translateY(1px);
+  /* Align the letterform ink, rather than the font's line box, to the mark. */
+  transform: translateY(2px);
 }
 
 .store-primary-nav > button {
@@ -635,6 +638,7 @@ body,
   .store-brand img {
     width: 30px;
     height: 30px !important;
+    transform: none;
   }
 
   .store-brand-name {

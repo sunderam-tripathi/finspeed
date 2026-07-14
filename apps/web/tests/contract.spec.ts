@@ -50,6 +50,28 @@ test.describe('SCN-001 site shell contract', () => {
     }
   });
 
+  test('brand mark and wordmark retain their optical alignment', async ({ page }) => {
+    for (const viewport of [
+      { width: 1440, height: 900, expectedCenterDelta: -4 },
+      { width: 390, height: 844, expectedCenterDelta: -1 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+
+      const centerDelta = await page.locator('.store-brand').evaluate((brand) => {
+        const logo = brand.querySelector('img') as HTMLImageElement;
+        const name = brand.querySelector('.store-brand-name') as HTMLElement;
+        const logoRect = logo.getBoundingClientRect();
+        const nameRect = name.getBoundingClientRect();
+        const logoCenter = logoRect.top + logoRect.height / 2;
+        const nameCenter = nameRect.top + nameRect.height / 2;
+        return Math.round((logoCenter - nameCenter) * 100) / 100;
+      });
+
+      expect(centerDelta).toBe(viewport.expectedCenterDelta);
+    }
+  });
+
   test('shared header visual treatment remains stable across storefront routes', async ({ page }) => {
     const readTreatment = async () => page.locator('.store-header').evaluate((header) => {
       const style = (selector: string) => {
