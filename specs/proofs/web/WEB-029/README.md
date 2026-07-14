@@ -5,7 +5,7 @@
 The shared storefront Header now uses the released Home page treatment everywhere: dark surface, official light logo, white wordmark, light navigation, and white action icons. The WEB-028 geometry contract is unchanged, so route transitions preserve both layout and visual treatment. A pre-release optical correction now also aligns the painted logo and wordmark centers without changing header height or brand scale.
 
 RESULT (local): PASS
-RESULT (production): PENDING
+RESULT (production): PASS
 
 ## Root cause and correction
 
@@ -38,6 +38,8 @@ The desktop before/after images were opened together at their original 1265 x 71
 - Docker status: `logs/docker-compose-ps.txt` - host CLI unavailable; limitation recorded
 - Slice index: `logs/slice-index.log` - exit 0
 - Progress telemetry: `logs/progress.log` - exit 0
+- Amplify release: `logs/amplify-job-402.json` - job 402, BUILD/DEPLOY/VERIFY all `SUCCEED`
+- Live verification: `logs/production-verification.md` - Home and Shop render the uniform 80 px dark header with the deployed optical transforms and zero console errors
 - Go sweep: not applicable; the repository does not define `go:test-all`
 
 ## Production release
@@ -48,7 +50,7 @@ The desktop before/after images were opened together at their original 1265 x 71
 - Amplify application: `d2h8tz7elv2xy8`
 - Amplify branch: `main` (`PRODUCTION`)
 - Region: `ap-south-1`
-- Release job: pending
+- Release job: `402` - `SUCCEED` at `2026-07-14T11:42:07.847+05:30`
 - Public URL: `https://www.finspeed.online/`
 
 ## Acceptance review
@@ -62,5 +64,5 @@ The desktop before/after images were opened together at their original 1265 x 71
 - [x] Header navigation and actions preserved
 - [x] Matching-viewport design QA passes
 - [x] Lint, build, accessibility, and 23-test browser suite pass
-- [ ] Amplify production deployment verified
-- [ ] Slice parked to `IDLE`
+- [x] Amplify production deployment verified
+- [x] Slice parked to `IDLE`
