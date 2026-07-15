@@ -2,7 +2,7 @@
 
 ## Outcome
 
-The supplied `Quiet Summit` homepage design system is now integrated into the production storefront. The light homepage has a daylight desktop hero, a portrait mobile hero, and coordinated Mountain, City, and Hybrid panels. The shared header now exposes the supplied dual-theme control while retaining its previously approved uniform black geometry across routes. Live copy and controls remain HTML, the left hero region stays text-safe, and the existing dark campaign sources remain available behind the dark-theme selectors.
+The supplied `Quiet Summit` homepage design system is now integrated into the production storefront. The light homepage has a daylight desktop hero, a portrait mobile hero, and coordinated Mountain, City, and Hybrid panels. The shared header now follows the active theme while preserving one route-invariant geometry: a white glass surface and dark controls in light mode, and the established black surface and light controls in dark mode. Live copy and controls remain HTML, the left hero region stays text-safe, and the existing dark campaign sources remain available behind the dark-theme selectors.
 
 RESULT (local): PASS
 RESULT (production): NOT DEPLOYED
@@ -42,6 +42,10 @@ The untouched generated PNG masters and the exact shared art direction are store
 - Final mobile: `artefacts/after/mobile-390x844.png`
 - Fresh desktop with theme control: `artefacts/after/fresh-light-desktop-1586x992.png`
 - Fresh mobile with theme control: `artefacts/after/fresh-light-mobile-390x844.png`
+- Supplied dark header reference: `artefacts/design/theme-header-dark-reference.png`
+- Theme-aware desktop light/dark: `artefacts/after/theme-header-desktop-light.png` and `artefacts/after/theme-header-desktop-dark.png`
+- Theme-aware mobile light/dark: `artefacts/after/theme-header-mobile-light.png` and `artefacts/after/theme-header-mobile-dark.png`
+- Focused header crops: `artefacts/after/theme-header-*-focused.png`
 - Design review: repository-root `design-qa.md` - `final result: passed`
 
 The final captures came from a clean Next production build. At 1586 x 992, the desktop hero retains a calm left copy zone and places the rider and full bicycle on the right. At 390 x 844, the portrait source keeps the full bicycle in frame below the copy and CTA. The three shallow desktop terrain crops remain distinct and their labels stay readable.
@@ -56,6 +60,14 @@ The final captures came from a clean Next production build. At 1586 x 992, the d
 - Fresh complete Playwright suite: `logs/test-all-fresh.log` - 25 passed, including theme-control, interaction, and axe accessibility coverage
 - Fresh in-app browser session: `logs/browser-session-fresh.log` - desktop/mobile rendering, theme switch, CTA navigation, and route checks
 - Fresh parity state: `logs/parity-state-fresh.json` - governed state `running`
+- Theme header browser proof: `logs/theme-header-browser-proof.json` - matching light/dark geometry on four routes at desktop/mobile, no header overflow, and zero console errors
+- Theme header lint: `logs/lint-theme-header-final.log` - exit 0, no errors
+- Theme header production build: `logs/build-theme-header.log` - exit 0
+- Theme header initial full run: `logs/test-theme-header-initial.log` - 24 passed; one Playwright worker setup timed out before opening a page
+- Theme header navigation retry: `logs/test-theme-header-navigation-retry.log` - the timed-out navigation contract passed in isolation with one worker
+- Theme header initial serial run: `logs/test-theme-header-serial-initial.log` - 24 passed; the existing cold-font measurement race was reproduced
+- Theme header geometry retry: `logs/test-theme-header-geometry-retry.log` - desktop/mobile geometry passed after waiting for the computed wordmark font and two painted frames
+- Theme header final serial run: `logs/test-theme-header-final.log` - 25 passed
 - Production-build browser check: zero console errors or warnings
 - Managed production start: `logs/production-start.log` - served the final visual QA build successfully
 - Parity ensure: `logs/parity.log` - exit 0; `logs/parity-state.json` records governed state `running`
@@ -75,6 +87,8 @@ The first focused run exposed an existing cold-font timing race in the route-geo
 - [x] Existing dark campaign source selection preserved
 - [x] Supplied theme control integrated with real Lucide sun/moon states
 - [x] Uniform header geometry preserved between home and catalog
+- [x] Shared header surface, logo, wordmark, navigation, actions, and theme control follow the active theme
+- [x] Header geometry remains identical across light/dark states and storefront routes
 - [x] Desktop and mobile visual QA passed
 - [x] Lint, build, accessibility, interaction, and console checks passed
 - [x] Production remains unchanged pending separate deployment authorization

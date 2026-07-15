@@ -415,6 +415,140 @@
       "logPath": "tmp/process-logs/web030-progress-final-2026-07-15T10-17-54-552Z.log",
       "exitCode": 0,
       "ended_at": "2026-07-15T10:17:54.957Z"
+    },
+    {
+      "name": "web030-handoff",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "dev",
+        "--",
+        "--hostname",
+        "127.0.0.1",
+        "--port",
+        "3100"
+      ],
+      "logPath": "tmp/process-logs/web030-handoff-2026-07-15T10-23-11-868Z.log",
+      "exitCode": 4294967295,
+      "ended_at": "2026-07-15T13:45:38.051Z"
+    },
+    {
+      "name": "web030-theme-header-lint",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-lint-2026-07-15T13-46-03-212Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T13:47:42.743Z"
+    },
+    {
+      "name": "web030-theme-header-build",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-build-2026-07-15T13-48-37-944Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T13:49:32.797Z"
+    },
+    {
+      "name": "web030-theme-header-test",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-test-2026-07-15T18-14-39-271Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-15T18:19:23.749Z"
+    },
+    {
+      "name": "web030-theme-header-navigation-retry",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--grep",
+        "shared header controls retain their navigation routes",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-navigation-retry-2026-07-15T18-21-13-068Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T18:22:18.293Z"
+    },
+    {
+      "name": "web030-theme-header-test-serial",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-test-serial-2026-07-15T18-25-16-153Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-15T18:30:40.376Z"
+    },
+    {
+      "name": "web030-theme-header-geometry-retry",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--grep",
+        "shared header geometry remains stable between home and catalog",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-geometry-retry-2026-07-15T18-33-55-509Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T18:34:25.317Z"
+    },
+    {
+      "name": "web030-theme-header-test-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-test-final-2026-07-15T18-35-15-423Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T18:37:24.828Z"
+    },
+    {
+      "name": "web030-theme-header-lint-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web030-theme-header-lint-final-2026-07-15T18-39-16-325Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T18:41:48.297Z"
     }
   ]
 }

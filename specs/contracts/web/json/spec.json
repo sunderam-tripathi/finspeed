@@ -737,7 +737,7 @@
         "The light-theme homepage uses dedicated high-resolution desktop and mobile hero photography with bright natural art direction and a protected text-safe region",
         "Mountain, City, and Hybrid destinations use a coherent light-theme image family rather than dark-theme campaign crops",
         "Theme changes select the correct responsive assets without altering homepage copy, navigation, filters, or interactions",
-        "The supplied sun and moon theme control is available in the uniform storefront header and uses the existing Lucide icon family",
+        "The uniform storefront header follows the active light or dark theme while preserving route-invariant geometry, optical alignment, and the existing Lucide sun and moon control",
         "Desktop and mobile design QA, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
         "The implementation is committed with local proof and clearly records whether production was changed"
       ],

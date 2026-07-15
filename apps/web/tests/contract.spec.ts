@@ -67,7 +67,13 @@ test.describe('SCN-001 site shell contract', () => {
 
   test('shared header geometry remains stable between home and catalog', async ({ page }) => {
     const readGeometry = async () => {
-      await page.evaluate(() => document.fonts.ready);
+      await page.locator('.store-brand-name').waitFor();
+      await page.locator('.store-brand-name').evaluate(async (wordmark) => {
+        const computed = getComputedStyle(wordmark);
+        await document.fonts.load(computed.font, wordmark.textContent || 'Finspeed');
+        await document.fonts.ready;
+        await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      });
       return page.locator('.store-header').evaluate((header) => {
         const metric = (selector: string) => {
           const element = header.querySelector(selector) as HTMLElement;
@@ -149,21 +155,46 @@ test.describe('SCN-001 site shell contract', () => {
       };
     });
 
+    const assertRouteTreatment = async (expected: ReturnType<typeof readTreatment> extends Promise<infer T> ? T : never) => {
+      for (const route of ['/shop', '/products/mako-shark', '/about']) {
+        await page.goto(route);
+        expect(await readTreatment()).toEqual(expected);
+      }
+    };
+
     for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
       await page.setViewportSize(viewport);
       await page.goto('/');
-      const home = await readTreatment();
-      for (const route of ['/shop', '/products/mako-shark', '/about']) {
-        await page.goto(route);
-        const treatment = await readTreatment();
-        expect(treatment).toEqual(home);
-        expect(treatment.className).toContain('store-header--dark');
-        expect(treatment.logoSource).toBe('/assets/logos/finspeed-mark-light.png');
-        expect(['rgba(2, 5, 8, 0.96)', 'rgb(2, 5, 8)']).toContain(treatment.header.backgroundColor);
-        expect(treatment.wordmark.color).toBe('rgb(255, 255, 255)');
-        expect(treatment.navigation.color).toBe('rgb(240, 244, 246)');
-        expect(treatment.action.color).toBe('rgb(255, 255, 255)');
+
+      if (await page.locator('html').getAttribute('data-theme') === 'dark') {
+        await page.getByRole('button', { name: 'Switch to light theme' }).click();
       }
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+      await expect(page.locator('.store-primary-nav > button').first()).toHaveCSS('color', 'rgb(57, 66, 75)');
+      await expect(page.locator('.store-header-actions > button').first()).toHaveCSS('color', 'rgb(10, 14, 18)');
+
+      const light = await readTreatment();
+      expect(light.className).toContain('store-header--light');
+      expect(light.logoSource).toBe('/assets/logos/finspeed-mark.png');
+      expect(['rgba(255, 255, 255, 0.94)', 'rgb(255, 255, 255)']).toContain(light.header.backgroundColor);
+      expect(light.wordmark.color).toBe('rgb(10, 14, 18)');
+      expect(light.navigation.color).toBe('rgb(57, 66, 75)');
+      expect(light.action.color).toBe('rgb(10, 14, 18)');
+      await assertRouteTreatment(light);
+
+      await page.goto('/');
+      await page.getByRole('button', { name: 'Switch to dark theme' }).click();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+      await expect(page.locator('.store-primary-nav > button').first()).toHaveCSS('color', 'rgb(240, 244, 246)');
+      await expect(page.locator('.store-header-actions > button').first()).toHaveCSS('color', 'rgb(255, 255, 255)');
+      const dark = await readTreatment();
+      expect(dark.className).toContain('store-header--dark');
+      expect(dark.logoSource).toBe('/assets/logos/finspeed-mark-light.png');
+      expect(['rgba(2, 5, 8, 0.96)', 'rgb(2, 5, 8)']).toContain(dark.header.backgroundColor);
+      expect(dark.wordmark.color).toBe('rgb(255, 255, 255)');
+      expect(dark.navigation.color).toBe('rgb(240, 244, 246)');
+      expect(dark.action.color).toBe('rgb(255, 255, 255)');
+      await assertRouteTreatment(dark);
     }
   });
 

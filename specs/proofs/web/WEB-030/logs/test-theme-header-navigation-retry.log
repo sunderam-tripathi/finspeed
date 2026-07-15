@@ -1,0 +1,10 @@
+
+> web@0.1.0 test
+> playwright test --grep shared header controls retain their navigation routes --workers=1
+
+
+Running 1 test using 1 worker
+
+  ok 1 [chromium] › tests\contract.spec.ts:195:7 › SCN-001 site shell contract › shared header controls retain their navigation routes (11.0s)
+
+  1 passed (54.1s)

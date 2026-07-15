@@ -97,6 +97,15 @@ body,
   color: #f0f4f6 !important;
 }
 
+.store-header--light {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-bottom-color: rgba(2, 5, 8, 0.10) !important;
+}
+
+.store-header--light .store-primary-nav > button {
+  color: var(--steel-700) !important;
+}
+
 .store-header-actions {
   gap: clamp(10px, 1.4vw, 22px) !important;
 }
@@ -558,6 +567,10 @@ body,
     background: #020508 !important;
   }
 
+  .store-header--light {
+    background: #ffffff !important;
+  }
+
   .store-header-main {
     gap: var(--space-5) !important;
   }
@@ -684,6 +697,10 @@ body,
 
   .store-header--dark {
     background: #020508 !important;
+  }
+
+  .store-header--light {
+    background: #ffffff !important;
   }
 
   .store-header-main {

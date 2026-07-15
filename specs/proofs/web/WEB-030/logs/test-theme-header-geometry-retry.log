@@ -1,0 +1,10 @@
+
+> web@0.1.0 test
+> playwright test --grep shared header geometry remains stable between home and catalog --workers=1
+
+
+Running 1 test using 1 worker
+
+  ok 1 [chromium] › tests\contract.spec.ts:68:7 › SCN-001 site shell contract › shared header geometry remains stable between home and catalog (8.3s)
+
+  1 passed (26.6s)
