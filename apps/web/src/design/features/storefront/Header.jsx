@@ -2,7 +2,7 @@
 import React from 'react';
 import { IconButton } from '../../ui/index.js';
 
-function Header({ cartCount, onNav, onCart, onAccount, onSearch }) {
+function Header({ cartCount, theme, onNav, onCart, onAccount, onSearch, onThemeToggle }) {
   const links = [
     { k:'shop', label:'Shop' },
     { k:'shop', label:'Mountain', filter:'mountain' },
@@ -36,6 +36,14 @@ function Header({ cartCount, onNav, onCart, onAccount, onSearch }) {
       </div>
       <div className="store-header-actions" style={{ display:'flex', alignItems:'center' }}>
         <IconButton variant="ghost" aria-label="Search" onClick={onSearch} icon={<i data-lucide="search" style={{width:22,height:22}}></i>} style={{ color:'var(--white)' }} />
+        <IconButton
+          variant="ghost"
+          aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+          aria-pressed={theme === 'light'}
+          onClick={onThemeToggle}
+          icon={<i data-lucide={theme === 'dark' ? 'sun' : 'moon'} style={{width:22,height:22}}></i>}
+          style={{ color:'var(--white)' }}
+        />
         <IconButton variant="ghost" aria-label="Account" onClick={onAccount} icon={<i data-lucide="user" style={{width:22,height:22}}></i>} style={{ color:'var(--white)' }} />
         <IconButton variant="ghost" aria-label="Cart" count={cartCount||null} onClick={onCart} icon={<i data-lucide="shopping-cart" style={{width:22,height:22}}></i>} style={{ color:'var(--white)' }} />
       </div>

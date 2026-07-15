@@ -39,7 +39,7 @@ function routeName(pathname) {
   return Object.entries(routePaths).find(([, path]) => path === normalized)?.[0] || 'not-found';
 }
 
-export default function StorefrontApp() {
+export default function StorefrontApp({ theme, onThemeToggle }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -139,11 +139,13 @@ export default function StorefrontApp() {
     <div className={`store-app${route === 'home' ? ' store-app--home' : ''}`} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-page)' }}>
       <Header
         cartCount={cartCount}
+        theme={theme}
         route={route}
         onNav={nav}
         onCart={() => setCartOpen(true)}
         onAccount={() => navigate(user ? '/account' : '/sign-in')}
         onSearch={() => navigate('/search')}
+        onThemeToggle={onThemeToggle}
       />
 
       <main className="store-main" style={{ flex: 1 }}>

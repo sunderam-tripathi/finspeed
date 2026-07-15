@@ -1,7 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
 import { useTheme } from '@/components/theme-provider';
 
 const DesignRuntime = dynamic(() => import('@/design/design-runtime.jsx'), {
@@ -16,11 +15,7 @@ const DesignRuntime = dynamic(() => import('@/design/design-runtime.jsx'), {
 });
 
 export function DesignApp() {
-  const { setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    setTheme('light');
-  }, [setTheme]);
-
-  return <DesignRuntime />;
+  return <DesignRuntime theme={theme} onThemeToggle={toggleTheme} />;
 }

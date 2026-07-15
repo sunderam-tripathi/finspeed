@@ -44,6 +44,20 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(darkHero.locator('img')).toHaveAttribute('src', '/assets/campaign/quiet-summit-hero.webp');
   });
 
+  test('header theme control exposes both campaign treatments', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+
+    const toggle = page.getByRole('button', { name: 'Switch to dark theme' });
+    await expect(toggle).toBeVisible();
+    await toggle.click();
+
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.getByRole('button', { name: 'Switch to light theme' })).toBeVisible();
+    await expect(page.locator('.store-trail-background.store-theme-dark-only')).toBeVisible();
+    await expect(page.locator('.store-trail-background.store-theme-light-only')).toBeHidden();
+  });
+
   test('primary CTA opens the redesigned catalog', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Find your ride' }).click();

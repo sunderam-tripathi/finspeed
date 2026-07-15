@@ -2,7 +2,7 @@
 
 ## Outcome
 
-The light homepage now has a dedicated responsive image system: a daylight desktop hero, a portrait mobile hero, and coordinated Mountain, City, and Hybrid panels. The live copy and controls remain HTML, the left hero region stays text-safe, and the existing dark campaign sources remain available behind the dark-theme selectors.
+The supplied `Quiet Summit` homepage design system is now integrated into the production storefront. The light homepage has a daylight desktop hero, a portrait mobile hero, and coordinated Mountain, City, and Hybrid panels. The shared header now exposes the supplied dual-theme control while retaining its previously approved uniform black geometry across routes. Live copy and controls remain HTML, the left hero region stays text-safe, and the existing dark campaign sources remain available behind the dark-theme selectors.
 
 RESULT (local): PASS
 RESULT (production): NOT DEPLOYED
@@ -12,6 +12,15 @@ RESULT (production): NOT DEPLOYED
 The homepage rendered the dark Quiet Summit artwork and night-oriented terrain images in every theme. Light tokens changed the surrounding surfaces, but the campaign imagery and shade layer still belonged to the dark composition.
 
 WEB-030 adds separate light sources instead of trying to recolor the dark files with CSS. `Home.jsx` renders paired light/dark image sources, while `responsive.css` selects the correct set from `data-theme` and supplies a light-specific text shade. The desktop and mobile heroes use separate crops so the live headline and complete bicycle remain legible at both breakpoints.
+
+The supplied package also defines a header theme control. The production runtime now passes the existing theme state into the shared storefront header and renders a Lucide sun/moon control, making both campaign treatments reachable without replacing the application's real routes or commerce behavior.
+
+## Supplied design package
+
+- Package SHA-256: `7953bdcf56f2026fb0c362cc151dd64526039c5751fafb93d3442b832688295f`
+- Package verification: `logs/design-package-verification.md`
+- The two responsive hero WebPs match the package byte-for-byte.
+- The three terrain panels preserve the supplied scenes and dimensions with deterministic optimized encoding.
 
 ## Production assets
 
@@ -31,6 +40,8 @@ The untouched generated PNG masters and the exact shared art direction are store
 - Before mobile: `artefacts/before/mobile-390x844.png`
 - Final desktop: `artefacts/after/desktop-1586x992.png`
 - Final mobile: `artefacts/after/mobile-390x844.png`
+- Fresh desktop with theme control: `artefacts/after/fresh-light-desktop-1586x992.png`
+- Fresh mobile with theme control: `artefacts/after/fresh-light-mobile-390x844.png`
 - Design review: repository-root `design-qa.md` - `final result: passed`
 
 The final captures came from a clean Next production build. At 1586 x 992, the desktop hero retains a calm left copy zone and places the rider and full bicycle on the right. At 390 x 844, the portrait source keeps the full bicycle in frame below the copy and CTA. The three shallow desktop terrain crops remain distinct and their labels stay readable.
@@ -40,7 +51,11 @@ The final captures came from a clean Next production build. At 1586 x 992, the d
 - ESLint: `logs/lint.log` - exit 0, 42 existing warnings, 0 errors
 - Next production build: `logs/build.log` - exit 0
 - Focused Playwright contract: `logs/contract-focused.log` - 13 passed, including desktop/mobile light source selection and dark-source preservation
-- Complete Playwright suite: `logs/test-all.log` - 24 passed, including interaction and axe accessibility coverage
+- Fresh ESLint: `logs/lint-fresh.log` - exit 0, 42 existing warnings, 0 errors
+- Fresh Next production build: `logs/build-fresh.log` - exit 0
+- Fresh complete Playwright suite: `logs/test-all-fresh.log` - 25 passed, including theme-control, interaction, and axe accessibility coverage
+- Fresh in-app browser session: `logs/browser-session-fresh.log` - desktop/mobile rendering, theme switch, CTA navigation, and route checks
+- Fresh parity state: `logs/parity-state-fresh.json` - governed state `running`
 - Production-build browser check: zero console errors or warnings
 - Managed production start: `logs/production-start.log` - served the final visual QA build successfully
 - Parity ensure: `logs/parity.log` - exit 0; `logs/parity-state.json` records governed state `running`
@@ -58,6 +73,8 @@ The first focused run exposed an existing cold-font timing race in the route-geo
 - [x] No baked text, controls, logos, borders, or watermarks
 - [x] Responsive source selection verified
 - [x] Existing dark campaign source selection preserved
+- [x] Supplied theme control integrated with real Lucide sun/moon states
+- [x] Uniform header geometry preserved between home and catalog
 - [x] Desktop and mobile visual QA passed
 - [x] Lint, build, accessibility, interaction, and console checks passed
 - [x] Production remains unchanged pending separate deployment authorization

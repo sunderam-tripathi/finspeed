@@ -1,0 +1,34 @@
+
+> web@0.1.0 test
+> playwright test
+
+
+Running 25 tests using 2 workers
+
+  ok  1 [chromium] › tests\blog.spec.ts:3:5 › SCN-007 blog landing renders the approved article hero in both locale states (3.8s)
+  ok  2 [chromium] › tests\a11y.spec.ts:4:5 › Dealer locator passes axe audit (5.0s)
+  ok  3 [chromium] › tests\brand-story.spec.ts:4:7 › SCN-005 brand story › renders hero copy and CTA links (1.4s)
+  ok  5 [chromium] › tests\dealer-data.spec.ts:16:5 › dealer data matches SCN-004 schema (30ms)
+  ok  6 [chromium] › tests\dealer-locator.spec.ts:16:7 › SCN-004 dealer locator contract › valid postal shows dealer results and filter chips update list (1.7s)
+  ok  7 [chromium] › tests\dealer-locator.spec.ts:28:7 › SCN-004 dealer locator contract › invalid postal triggers inline error (1.4s)
+  ok  8 [chromium] › tests\dealer-locator.spec.ts:38:7 › SCN-004 dealer locator contract › outage banner hides results and promotes support channels (1.2s)
+  ok  4 [chromium] › tests\contract.spec.ts:6:7 › SCN-001 site shell contract › hero conveys brand promise and CTA (5.7s)
+  ok  9 [chromium] › tests\dealer-locator.spec.ts:50:7 › SCN-004 dealer locator contract › analytics stubs push GA payloads with consent flag (1.5s)
+  ok 11 [chromium] › tests\outage.spec.ts:5:5 › outage toggle logs analytics event (1.7s)
+  ok 10 [chromium] › tests\contract.spec.ts:12:7 › SCN-001 site shell contract › light homepage selects dedicated responsive campaign assets (2.8s)
+  ok 12 [chromium] › tests\support.spec.ts:3:5 › SCN-008 support hub renders bilingual hero and contacts (1.9s)
+  ok 13 [chromium] › tests\contract.spec.ts:47:7 › SCN-001 site shell contract › header theme control exposes both campaign treatments (2.6s)
+  ok 14 [chromium] › tests\testimonials.spec.ts:3:5 › SCN-006 testimonials hero renders source-backed copy in both locale states (1.8s)
+  ok 15 [chromium] › tests\contract.spec.ts:61:7 › SCN-001 site shell contract › primary CTA opens the redesigned catalog (2.2s)
+  ok 16 [chromium] › tests\contract.spec.ts:68:7 › SCN-001 site shell contract › shared header geometry remains stable between home and catalog (4.2s)
+  ok 17 [chromium] › tests\contract.spec.ts:105:7 › SCN-001 site shell contract › brand mark and wordmark retain their optical alignment (2.4s)
+  ok 18 [chromium] › tests\contract.spec.ts:127:7 › SCN-001 site shell contract › shared header visual treatment remains stable across storefront routes (4.3s)
+  ok 19 [chromium] › tests\contract.spec.ts:170:7 › SCN-001 site shell contract › shared header controls retain their navigation routes (2.3s)
+  ok 20 [chromium] › tests\contract.spec.ts:187:7 › SCN-001 site shell contract › shared header routes render without console errors (3.3s)
+  ok 21 [chromium] › tests\contract.spec.ts:202:7 › SCN-001 site shell contract › store locator remains available from the support footer (1.6s)
+  ok 22 [chromium] › tests\contract.spec.ts:207:7 › SCN-001 site shell contract › support footer exposes warranty and contact routes (1.8s)
+  ok 23 [chromium] › tests\contract.spec.ts:214:7 › SCN-001 site shell contract › accept dismisses consent immediately and persists the choice (1.4s)
+  ok 24 [chromium] › tests\contract.spec.ts:224:7 › SCN-001 site shell contract › decline dismisses consent immediately and persists the choice (1.4s)
+  ok 25 [chromium] › tests\contract.spec.ts:234:7 › SCN-001 site shell contract › consent still dismisses when storage is unavailable (1.4s)
+
+  25 passed (45.8s)

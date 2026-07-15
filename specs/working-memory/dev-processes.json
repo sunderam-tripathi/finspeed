@@ -314,6 +314,107 @@
       "logPath": "tmp/process-logs/web026-build-final-2026-07-13T16-32-40-796Z.log",
       "exitCode": 0,
       "ended_at": "2026-07-13T16:34:05.595Z"
+    },
+    {
+      "name": "web030-test",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test"
+      ],
+      "logPath": "tmp/process-logs/web030-test-2026-07-15T09-49-21-762Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T09:50:20.082Z"
+    },
+    {
+      "name": "web030-fresh-qa",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "dev",
+        "--",
+        "--hostname",
+        "127.0.0.1",
+        "--port",
+        "3100"
+      ],
+      "logPath": "tmp/process-logs/web030-fresh-qa-2026-07-15T09-25-12-958Z.log",
+      "exitCode": 4294967295,
+      "ended_at": "2026-07-15T09:53:25.234Z"
+    },
+    {
+      "name": "web030-lint",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web030-lint-2026-07-15T09-54-03-795Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T09:55:32.306Z"
+    },
+    {
+      "name": "web030-build",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web030-build-2026-07-15T09-56-16-573Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T09:57:09.264Z"
+    },
+    {
+      "name": "web030-slice-index",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:slice-index"
+      ],
+      "logPath": "tmp/process-logs/web030-slice-index-2026-07-15T10-14-30-203Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T10:14:32.155Z"
+    },
+    {
+      "name": "web030-progress",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:progress"
+      ],
+      "logPath": "tmp/process-logs/web030-progress-2026-07-15T10-14-48-638Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T10:14:49.009Z"
+    },
+    {
+      "name": "web030-slice-index-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:slice-index"
+      ],
+      "logPath": "tmp/process-logs/web030-slice-index-final-2026-07-15T10-17-51-157Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T10:17:54.187Z"
+    },
+    {
+      "name": "web030-progress-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:progress"
+      ],
+      "logPath": "tmp/process-logs/web030-progress-final-2026-07-15T10-17-54-552Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-15T10:17:54.957Z"
     }
   ]
 }
