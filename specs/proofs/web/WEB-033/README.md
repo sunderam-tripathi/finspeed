@@ -5,7 +5,7 @@
 The default framework triangle is replaced by a browser icon derived from the official Finspeed cyan-and-white mark. The emblem sits on a stable dark field so it remains legible in light and dark browser chrome, while the full wordmark is intentionally omitted because it is unreadable at favicon scale.
 
 RESULT (local): PASS
-RESULT (production): PENDING RELEASE
+RESULT (production): PASS
 
 ## Source and outputs
 
@@ -29,7 +29,8 @@ RESULT (production): PENDING RELEASE
 - Next production build: exit 0; `/icon.png` and `/apple-icon.png` are emitted static metadata routes.
 - Full Playwright sweep: 25 passed, 1 unrelated responsive-image intrinsic-width assertion failed; favicon test and all other scenarios passed.
 - Parity stack: `node tools/dev/parity-stack.mjs ensure` passed; snapshot archived at `logs/parity-state.json`.
-- Production status: pending the authorized release step.
+- Amplify release: `logs/amplify-job-404.json` - job 404, BUILD/DEPLOY/VERIFY all `SUCCEED`.
+- Production verification: `logs/production-verification.md` - public icon bytes, HTML metadata, browser metadata, and console diagnostics pass.
 
 ## Acceptance review
 
@@ -41,5 +42,5 @@ RESULT (production): PENDING RELEASE
 - [x] Next metadata advertises all three icon resources
 - [x] Local responses match the exact source-tree hashes
 - [x] Focused browser test, lint, and production build pass
-- [ ] Amplify production release succeeds
-- [ ] Public favicon responses and metadata match the released hashes
+- [x] Amplify production release succeeds
+- [x] Public favicon responses and metadata match the released hashes
