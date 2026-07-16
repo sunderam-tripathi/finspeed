@@ -81,7 +81,7 @@ export const distributorFaq = [
   { q:'Dispatch & logistics', a:'All orders dispatch ex-works Greater Noida. FTL freight is arranged on request and billed at actuals; LTL consignments are insured to destination.' },
 ];
 
-export const distributorProductImage = (id) => '/assets/products/' + id + '.jpg';
+export const distributorProductImage = (id) => `/assets/products/upscaled/${id}-480.webp`;
 export const formatInr = (n) => '₹' + Number(n).toLocaleString('en-IN');
 
 // B2B fulfilment stages (index = current step)

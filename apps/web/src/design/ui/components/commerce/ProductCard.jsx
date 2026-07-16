@@ -12,6 +12,8 @@ export function ProductCard({
   name,
   series,
   image,
+  imageSrcSet = null,
+  imageSizes = '(max-width: 620px) 92vw, (max-width: 980px) 46vw, 30vw',
   price,
   mrp = null,
   rating = null,
@@ -62,7 +64,7 @@ export function ProductCard({
         <span style={{ position: 'absolute', top: 10, right: 10, zIndex: 2, opacity: hover ? 1 : 0, transform: hover ? 'none' : 'translateY(-4px)', transition: 'var(--transition-base)' }}>
           <IconButton variant="outline" size="sm" aria-label="Add to wishlist" icon={<i data-lucide="heart" style={{ width: 16, height: 16 }}></i>} style={{ background: 'var(--surface-card)' }} />
         </span>
-        <img src={image} alt={name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply', opacity: soldOut ? 0.5 : 1, filter: soldOut ? 'grayscale(0.45)' : 'none', transition: 'var(--transition-base)', transform: hover && !soldOut ? 'scale(1.04)' : 'none' }} />
+        <img src={image} srcSet={imageSrcSet || undefined} sizes={imageSrcSet ? imageSizes : undefined} alt={name} loading="lazy" decoding="async" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', mixBlendMode: 'multiply', opacity: soldOut ? 0.5 : 1, filter: soldOut ? 'grayscale(0.45)' : 'none', transition: 'var(--transition-base)', transform: hover && !soldOut ? 'scale(1.04)' : 'none' }} />
         {soldOut && (
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
             <span style={{ font: 'var(--fw-semibold) var(--fs-3xs)/1 var(--font-mono)', letterSpacing: 'var(--tracking-wider)', textTransform: 'uppercase', color: 'var(--text-strong)', background: 'var(--surface-card)', border: 'var(--border-width) solid var(--border-strong)', padding: '7px 14px', borderRadius: 'var(--radius-pill)', boxShadow: 'var(--shadow-sm)' }}>Sold out</span>

@@ -1,7 +1,7 @@
 // Finspeed storefront — Search results
 import React from 'react';
 import { ProductCard, Breadcrumb, Tag, EmptyState, Button } from '../../ui/index.js';
-import { productImage, products } from '../../data/storefront.js';
+import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 function Search({ query, setQuery, onAdd, onProduct, onNav }) {
@@ -52,7 +52,7 @@ function Search({ query, setQuery, onAdd, onProduct, onNav }) {
             ) : (
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(270px,1fr))', gap:'var(--space-5)' }}>
                 {results.map(p=>(
-                  <ProductCard key={p.id} name={p.name} series={p.series} image={productImage(p.id)} price={p.price} mrp={p.mrp} rating={p.rating} ratingCount={p.reviews} badge={p.badge} badgeTone={p.badge==='New'?'success':(p.badge==='Best value'?'ink':'brand')} soldOut={p.stock===0} onAdd={()=>onAdd(p.id)} onClick={()=>onProduct(p.id)} />
+                  <ProductCard key={p.id} name={p.name} series={p.series} image={productImage(p.id, 960)} imageSrcSet={productImageSrcSet(p.id)} price={p.price} mrp={p.mrp} rating={p.rating} ratingCount={p.reviews} badge={p.badge} badgeTone={p.badge==='New'?'success':(p.badge==='Best value'?'ink':'brand')} soldOut={p.stock===0} onAdd={()=>onAdd(p.id)} onClick={()=>onProduct(p.id)} />
                 ))}
               </div>
             )}

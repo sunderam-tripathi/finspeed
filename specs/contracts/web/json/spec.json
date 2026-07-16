@@ -759,6 +759,36 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-031",
+      "title": "High-resolution storefront asset integration",
+      "done_definition": [
+        "Catalog and product-detail primary imagery uses web-optimized derivatives generated from the verified Finspeed 4x delivery masters",
+        "Homepage light and dark campaign imagery is regenerated from the preferred upscaled masters without changing approved crops, text-safe zones, copy, or interactions",
+        "Responsive product and campaign assets remain sharp at desktop and mobile sizes without serving print-scale PNG masters directly",
+        "Asset provenance records the delivery manifest hash, authoritative source path, output dimensions, hashes, and encoding settings",
+        "Desktop and mobile design QA, accessibility, interactions, lint, production build, automated browser checks, and console checks pass",
+        "The implementation is committed with local proof and clearly records whether production was changed"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-031.md",
+        "specs/proofs/web/WEB-031/**",
+        "specs/references/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        ".nvmrc",
+        ".gitignore",
+        "Makefile",
+        "design-qa.md"
+      ]
     }
   ]
 }

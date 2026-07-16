@@ -1,7 +1,7 @@
 // Finspeed storefront — Product detail page
 import React from 'react';
 import { Button, Badge, PriceTag, SpecPill, Rating, QuantityStepper, Breadcrumb, Accordion, Modal } from '../../ui/index.js';
-import { productImage, products } from '../../data/storefront.js';
+import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
 
 function ProductDetail({ id, onAdd, onNav, onProduct }) {
   const P = products;
@@ -32,13 +32,13 @@ function ProductDetail({ id, onAdd, onNav, onProduct }) {
           {/* gallery */}
           <div className="store-product-gallery" style={{ position:'relative', background:'linear-gradient(180deg,#fff,var(--steel-50))', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', padding:'var(--space-7)', display:'flex', alignItems:'center', justifyContent:'center', minHeight:440 }}>
             {p.badge && <span style={{ position:'absolute', top:16, left:16 }}><Badge tone="brand" solid>{p.badge}</Badge></span>}
-            <img src={productImage(p.id)} alt={p.name} style={{ maxWidth:'100%', maxHeight:420, objectFit:'contain', mixBlendMode:'multiply' }} />
+            <img src={productImage(p.id, 1600)} srcSet={productImageSrcSet(p.id)} sizes="(max-width: 760px) 92vw, 48vw" alt={p.name} decoding="async" fetchPriority="high" style={{ maxWidth:'100%', maxHeight:420, objectFit:'contain', mixBlendMode:'multiply' }} />
           </div>
 
           {/* info */}
           <div className="store-product-info">
             <span className="fin-eyebrow">{p.series}</span>
-            <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'8px 0 6px' }}>{p.name}</h1>
+            <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'8px 0 6px' }}>{p.name}</h1>
             <p style={{ font:'var(--fw-medium) var(--fs-md)/1.4 var(--font-body)', color:'var(--text-muted)', margin:'0 0 var(--space-4)' }}>{p.sub}</p>
             <Rating value={p.rating} count={p.reviews} />
             <div style={{ margin:'var(--space-5) 0' }}><PriceTag price={p.price} mrp={p.mrp} size="lg" /></div>
@@ -99,13 +99,13 @@ function ProductDetail({ id, onAdd, onNav, onProduct }) {
 
         {/* specifications */}
         <div className="store-product-specifications" style={{ marginTop:'var(--space-9)', maxWidth:760 }}>
-          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'0 0 var(--space-5)' }}>Specifications</h2>
+          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'0 0 var(--space-5)' }}>Specifications</h2>
           <Accordion defaultOpen={0} items={specGroups.map(g=>({ title:g.title, icon:g.icon, content:<SpecTable rows={g.rows} /> }))} />
         </div>
 
         {/* related */}
         <div style={{ marginTop:'var(--space-9)' }}>
-          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'0 0 var(--space-5)' }}>You might also like</h2>
+          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'0 0 var(--space-5)' }}>You might also like</h2>
           <div className="store-related-grid" style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-5)' }}>
             {related.map(r=>(
               <RelatedCard key={r.id} p={r} onProduct={onProduct} />
@@ -128,11 +128,11 @@ function RelatedCard({ p, onProduct }) {
       onMouseEnter={e=>e.currentTarget.style.boxShadow='var(--shadow-sm)'}
       onMouseLeave={e=>e.currentTarget.style.boxShadow='none'}>
       <div style={{ width:96, height:80, flex:'none', background:'linear-gradient(180deg,#fff,var(--steel-50))', borderRadius:'var(--radius-sm)', display:'flex', alignItems:'center', justifyContent:'center', padding:6 }}>
-        <img src={productImage(p.id)} alt={p.name} style={{ maxWidth:'100%', maxHeight:'100%', objectFit:'contain', mixBlendMode:'multiply' }} />
+        <img src={productImage(p.id)} alt={p.name} loading="lazy" decoding="async" style={{ maxWidth:'100%', maxHeight:'100%', objectFit:'contain', mixBlendMode:'multiply' }} />
       </div>
       <div>
         <div style={{ font:'var(--fw-regular) var(--fs-3xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wider)', textTransform:'uppercase', color:'var(--brand-ink)' }}>{p.series}</div>
-        <div style={{ font:'var(--fw-bold) var(--fs-md)/1.1 var(--font-display)', color:'var(--ink-900)', margin:'4px 0 6px' }}>{p.name}</div>
+        <div style={{ font:'var(--fw-bold) var(--fs-md)/1.1 var(--font-display)', color:'var(--text-strong)', margin:'4px 0 6px' }}>{p.name}</div>
         <div style={{ font:'var(--fw-bold) var(--fs-sm)/1 var(--font-mono)', color:'var(--price-accent)' }}>₹{p.price.toLocaleString('en-IN')}</div>
       </div>
     </button>

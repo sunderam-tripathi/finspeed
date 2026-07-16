@@ -1,51 +1,52 @@
-# Design QA - WEB-030 theme-aware storefront header
+# Design QA - WEB-031 responsive product imagery
 
 ## Comparison target
 
-- Source implementation: `C:\Users\SunderamTripathi\AppData\Local\Temp\finspeed-homepage-design-20260715\templates\storefront\Header.jsx`
-- Source dark visual: `specs/proofs/web/WEB-030/artefacts/design/theme-header-dark-reference.png`
-- Expected states:
-  - Light theme: white glass header, dark logo/wordmark/navigation/action icons, moon toggle.
-  - Dark theme: black glass header, light logo/wordmark/navigation/action icons, sun toggle.
+- Source visual truth: `C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Picture upscale\outputs\delivery\Finspeed-Upscaled-Final\04-qa-and-documentation\production-overview.png`
+- Source manifest SHA-256: `212ACC9E20540A10EFB63195AF5DDD8907807E1755425A7DB56BA0809D0FC850`
+- Implementation route: `http://127.0.0.1:3100/shop`
 - Viewports: 1440 x 900 desktop and 390 x 844 mobile.
-- Routes: `/`, `/shop`, `/products/mako-shark`, and `/about`.
+- State: light catalog pages 1 and 2; Mako Shark product detail in light and dark themes.
 
-## Final evidence
+## Evidence
 
-- Desktop light full/focused: `specs/proofs/web/WEB-030/artefacts/after/theme-header-desktop-light.png` and `theme-header-desktop-light-focused.png`
-- Desktop dark full/focused: `specs/proofs/web/WEB-030/artefacts/after/theme-header-desktop-dark.png` and `theme-header-desktop-dark-focused.png`
-- Mobile light full/focused: `specs/proofs/web/WEB-030/artefacts/after/theme-header-mobile-light.png` and `theme-header-mobile-light-focused.png`
-- Mobile dark full/focused: `specs/proofs/web/WEB-030/artefacts/after/theme-header-mobile-dark.png` and `theme-header-mobile-dark-focused.png`
-- Computed treatment, geometry, overflow, route, and console proof: `specs/proofs/web/WEB-030/logs/theme-header-browser-proof.json`
+- Full-view catalog: `specs/proofs/web/WEB-031/artefacts/after/shop-side-profile-desktop-1440x900.png`
+- Full-view page 2: `specs/proofs/web/WEB-031/artefacts/after/shop-side-profile-page-2-desktop-1440x900.png`
+- Focused lower row: `specs/proofs/web/WEB-031/artefacts/after/shop-side-profile-page-2-lower-desktop-1440x900.png`
+- Mobile: `specs/proofs/web/WEB-031/artefacts/after/shop-side-profile-mobile-390x844.png`
+- Product detail light: `specs/proofs/web/WEB-031/artefacts/after/product-detail-side-profile-desktop-1440x900.png`
+- Product detail dark: `specs/proofs/web/WEB-031/artefacts/after/product-detail-side-profile-dark-desktop-1440x900.png`
+- Browser interaction and console proof: `specs/proofs/web/WEB-031/logs/browser-qa.md`
+
+The production overview and the final catalog screenshots were opened together in one comparison input. The page-2 upper and lower captures provide focused evidence because they make the remaining five product silhouettes readable at card scale.
 
 ## Findings
 
-- No P0, P1, or P2 header findings remain.
-- The supplied dark reference and final dark capture were reviewed together. The black surface, light lockup, navigation, action treatment, scale, and spacing retain the source hierarchy.
-- The final light and dark captures were reviewed together at the same viewport. Theme changes alter only the surface, foreground palette, mark asset, and theme-toggle state; header geometry does not shift.
-- Desktop measurements are identical between themes: brand `228.47 x 54`, mark `54 x 54`, and actions `252.47 x 48`.
-- Mobile measurements are identical between themes: brand `130.31 x 30`, mark `30 x 30`, and actions `166 x 40`.
-- Every required route reports the same treatment and geometry for its active theme.
-- The header reports no horizontal overflow at either viewport. The proof records an unrelated pre-existing page-content overflow on mobile `/about`; it is outside `.store-header` and does not affect the header or this scoped change.
-- Browser console and page-error capture is empty.
+- No actionable P0, P1, or P2 product-image findings remain.
+- Image quality and asset fidelity: all 11 products use verified high-resolution delivery masters and responsive WebP derivatives. The selected sources form the closest available side-profile family without altering product geometry, branding, drivetrain, wheels, or colorways.
+- Spacing and layout rhythm: the existing card grid, image wells, product scale, and whitespace remain unchanged. Images are fully framed and do not overlap or clip at either viewport.
+- Fonts and typography: the existing display/body/mono hierarchy and wrapping are preserved. The dark product-title token regression found during pass 1 is fixed.
+- Colors and visual tokens: catalog wells remain neutral white for reliable product comparison. Light/dark semantic text tokens now keep the product title readable without changing the imagery.
+- Copy and content: product names, series, prices, labels, and descriptions remain unchanged.
+- Responsiveness: desktop and 390-pixel mobile layouts preserve the product silhouette and readable catalog hierarchy.
+- P3 accepted source constraint: Sunset Marlin remains mildly three-quarter because its delivery contains only two three-quarter views. `angle-1` is the less distorted and closest side-facing source; generating a replacement would risk changing the product.
 
 ## Comparison history
 
-- Pass 1: blocked because the in-app browser could not claim the local URL under its security policy.
-- Pass 2: user approved the Playwright fallback. Captures exposed a transient CSS-color read during the theme transition and an undifferentiated page-overflow flag.
-- Pass 3: proof now waits for the final computed theme colors and reports header overflow separately from page content. Desktop/mobile light/dark comparisons and route checks pass.
+- Pass 1: the catalog comparison confirmed consistent side-profile selection, but dark-theme product-detail QA exposed an invisible Mako Shark title (`--ink-900` on the dark page). Result blocked by one P2 color-token issue.
+- Fix: the product title, section headings, and related-product names in `ProductDetail.jsx` now use semantic `--text-strong`.
+- Pass 2: the final dark capture shows the title in white (`rgb(255, 255, 255)`), all product images remain unchanged, source selection is correct, and the console is clean. No P0/P1/P2 findings remain.
 
 ## Implementation checklist
 
-- [x] Theme-aware shared header implemented with existing logo and Lucide assets.
-- [x] Desktop light/dark screenshots captured and compared.
-- [x] Mobile light/dark screenshots captured and compared.
-- [x] Route-invariant geometry verified.
-- [x] Header overflow verified independently from unrelated page content.
-- [x] Browser console verified clean.
-- [x] Header theme contract passed in the full Playwright run.
-- [x] Header navigation retry passed after a single worker-setup timeout in the first full run.
-- [x] Cold-font geometry race was hardened and the final serial Playwright suite passed 25/25.
-- [x] Lint and production build passed.
+- [x] Compare every available product angle in the delivery overview.
+- [x] Select the closest available side profile per product rather than relying on filename order.
+- [x] Verify all 11 cards across both catalog pages.
+- [x] Verify desktop and mobile responsive source selection.
+- [x] Verify product-detail image selection in light and dark themes.
+- [x] Fix the dark-theme semantic title token found during QA.
+- [x] Verify pagination, theme toggle, semantic names, and console errors.
+
+Residual test gap: the standalone Playwright accessibility/regression suite was not run under the selected-browser constraint. This does not leave a visible design mismatch in the tested flow.
 
 final result: passed

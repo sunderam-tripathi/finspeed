@@ -19,6 +19,10 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(lightHero).toBeVisible();
     await expect(darkHero).toBeHidden();
     await expect(lightHero.locator('img')).toHaveAttribute('src', '/assets/campaign/light-summit-hero.webp');
+    await expect(lightHero.locator('img')).toHaveAttribute(
+      'srcset',
+      '/assets/campaign/light-summit-hero-1440.webp 1440w, /assets/campaign/light-summit-hero.webp 2880w',
+    );
 
     const lightTerrainSources = await page.locator('.store-terrain-link > img.store-theme-light-only').evaluateAll((images) =>
       images.map((image) => image.getAttribute('src')),
@@ -34,7 +38,7 @@ test.describe('SCN-001 site shell contract', () => {
     const mobileCurrentSource = await page.locator('.store-trail-background.store-theme-light-only img').evaluate(
       (image: HTMLImageElement) => new URL(image.currentSrc).pathname,
     );
-    expect(mobileCurrentSource).toBe('/assets/campaign/light-summit-hero-mobile.webp');
+    expect(mobileCurrentSource).toBe('/assets/campaign/light-summit-hero-mobile-720.webp');
 
     await page.locator('html').evaluate((root) => {
       root.dataset.theme = 'dark';
@@ -42,6 +46,24 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(lightHero).toBeHidden();
     await expect(darkHero).toBeVisible();
     await expect(darkHero.locator('img')).toHaveAttribute('src', '/assets/campaign/quiet-summit-hero.webp');
+  });
+
+  test('catalog and product detail use responsive upscaled product imagery', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/shop');
+
+    const firstProduct = page.locator('.store-product-grid article img').first();
+    await expect(firstProduct).toHaveAttribute('src', '/assets/products/upscaled/bull-shark-960.webp');
+    await expect(firstProduct).toHaveAttribute(
+      'srcset',
+      '/assets/products/upscaled/bull-shark-480.webp 480w, /assets/products/upscaled/bull-shark-960.webp 960w, /assets/products/upscaled/bull-shark-1600.webp 1600w',
+    );
+
+    await page.goto('/products/bull-shark');
+    const productHero = page.locator('.store-product-gallery img');
+    await expect(productHero).toHaveAttribute('src', '/assets/products/upscaled/bull-shark-1600.webp');
+    await expect(productHero).toHaveJSProperty('complete', true);
+    expect(await productHero.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThanOrEqual(960);
   });
 
   test('header theme control exposes both campaign treatments', async ({ page }) => {

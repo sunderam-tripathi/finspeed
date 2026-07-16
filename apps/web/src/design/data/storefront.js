@@ -45,7 +45,11 @@ export const products = [
     desc:'A comfortable step-through city cruiser with single-walled steel rims and an optional carrier.',
     colors:['#2f9b96','#3a4651'] },
 ];
-export const productImage = (id) => '/assets/products/' + id + '.jpg';
+const PRODUCT_IMAGE_WIDTHS = [480, 960, 1600];
+export const productImage = (id, width = 480) => `/assets/products/upscaled/${id}-${width}.webp`;
+export const productImageSrcSet = (id) => PRODUCT_IMAGE_WIDTHS
+  .map((width) => `${productImage(id, width)} ${width}w`)
+  .join(', ');
 
 // Signed-in rider profile + saved addresses (mock)
 export const demoUser = {

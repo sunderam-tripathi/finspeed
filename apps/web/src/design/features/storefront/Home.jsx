@@ -1,7 +1,7 @@
 // Finspeed storefront — Home
 import React from 'react';
 import { Button, ProductCard } from '../../ui/index.js';
-import { productImage, products } from '../../data/storefront.js';
+import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
 
 function Home({ onNav, onAdd, onProduct }) {
   const featured = ['bull-shark', 'mako-shark', 'tiger-shark', 'sunset-marlin']
@@ -10,20 +10,26 @@ function Home({ onNav, onAdd, onProduct }) {
     {
       label: 'Mountain',
       filter: 'mountain',
-      darkImage: '/assets/campaign/trail-command-hero.webp',
+      darkImage: '/assets/campaign/terrain-mountain.webp',
+      darkImageSmall: '/assets/campaign/terrain-mountain-960.webp',
       lightImage: '/assets/campaign/light-terrain-mountain.webp',
+      lightImageSmall: '/assets/campaign/light-terrain-mountain-960.webp',
     },
     {
       label: 'City',
       filter: 'city',
       darkImage: '/assets/campaign/terrain-city.webp',
+      darkImageSmall: '/assets/campaign/terrain-city-960.webp',
       lightImage: '/assets/campaign/light-terrain-city.webp',
+      lightImageSmall: '/assets/campaign/light-terrain-city-960.webp',
     },
     {
       label: 'Hybrid',
       filter: 'hybrid',
       darkImage: '/assets/campaign/terrain-hybrid.webp',
+      darkImageSmall: '/assets/campaign/terrain-hybrid-960.webp',
       lightImage: '/assets/campaign/light-terrain-hybrid.webp',
+      lightImageSmall: '/assets/campaign/light-terrain-hybrid-960.webp',
     },
   ];
 
@@ -31,12 +37,12 @@ function Home({ onNav, onAdd, onProduct }) {
     <div className="store-home">
       <section className="store-trail-hero" aria-labelledby="trail-hero-title">
         <picture className="store-trail-background store-theme-dark-only">
-          <source media="(max-width: 600px)" srcSet="/assets/campaign/quiet-summit-hero-mobile.webp" />
-          <img src="/assets/campaign/quiet-summit-hero.webp" alt="" />
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/quiet-summit-hero-mobile-720.webp 720w, /assets/campaign/quiet-summit-hero-mobile.webp 1440w" sizes="100vw" />
+          <img src="/assets/campaign/quiet-summit-hero.webp" srcSet="/assets/campaign/quiet-summit-hero-1440.webp 1440w, /assets/campaign/quiet-summit-hero.webp 2880w" sizes="100vw" alt="" decoding="async" />
         </picture>
         <picture className="store-trail-background store-theme-light-only">
-          <source media="(max-width: 600px)" srcSet="/assets/campaign/light-summit-hero-mobile.webp" />
-          <img src="/assets/campaign/light-summit-hero.webp" alt="" />
+          <source media="(max-width: 600px)" srcSet="/assets/campaign/light-summit-hero-mobile-720.webp 720w, /assets/campaign/light-summit-hero-mobile.webp 1440w" sizes="100vw" />
+          <img src="/assets/campaign/light-summit-hero.webp" srcSet="/assets/campaign/light-summit-hero-1440.webp 1440w, /assets/campaign/light-summit-hero.webp 2880w" sizes="100vw" alt="" decoding="async" />
         </picture>
         <div className="store-trail-shade" aria-hidden="true" />
 
@@ -76,8 +82,8 @@ function Home({ onNav, onAdd, onProduct }) {
             key={terrain.filter}
             onClick={() => onNav('shop', terrain.filter)}
           >
-            <img className="store-theme-dark-only" src={terrain.darkImage} alt="" aria-hidden="true" />
-            <img className="store-theme-light-only" src={terrain.lightImage} alt="" aria-hidden="true" />
+            <img className="store-theme-dark-only" src={terrain.darkImage} srcSet={`${terrain.darkImageSmall} 960w, ${terrain.darkImage} 1920w`} sizes="(max-width: 760px) 85vw, 34vw" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <img className="store-theme-light-only" src={terrain.lightImage} srcSet={`${terrain.lightImageSmall} 960w, ${terrain.lightImage} 1920w`} sizes="(max-width: 760px) 85vw, 34vw" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <span className="store-terrain-overlay" aria-hidden="true" />
             <span className="store-terrain-label">{terrain.label}</span>
             <i data-lucide="arrow-right" aria-hidden="true" />
@@ -105,7 +111,8 @@ function Home({ onNav, onAdd, onProduct }) {
               key={product.id}
               name={product.name}
               series={product.series}
-              image={productImage(product.id)}
+              image={productImage(product.id, 960)}
+              imageSrcSet={productImageSrcSet(product.id)}
               price={product.price}
               mrp={product.mrp}
               rating={product.rating}
