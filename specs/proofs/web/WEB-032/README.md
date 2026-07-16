@@ -5,7 +5,7 @@
 Red Snapper now uses the supplied `side-clean.png` cycle master in its catalog card, product-detail gallery, related products, search, cart, checkout, account, and distributor thumbnails through the existing shared responsive product-image mapping.
 
 RESULT (local): PASS
-RESULT (production): NOT DEPLOYED
+RESULT (production): PASS
 
 ## Source and outputs
 
@@ -25,7 +25,8 @@ The delivery manifest changed with the newer Red Snapper master. Only the three 
 - ESLint: `logs/lint.md` - exit 0, 0 errors, 42 existing warnings.
 - Next production build: `logs/build.md` - exit 0.
 - Design QA: project-root `design-qa.md` - `final result: passed`.
-- Production status: `logs/production-status.md` - unchanged.
+- Amplify release: `logs/amplify-job-403.json` - job 403, BUILD/DEPLOY/VERIFY all `SUCCEED`.
+- Production verification: `logs/production-status.md` - public routes, exact asset hash, rendered image, responsive source selection, layout width, and browser console all pass.
 
 ## Acceptance review
 
@@ -37,4 +38,6 @@ The delivery manifest changed with the newer Red Snapper master. Only the three 
 - [x] Layout, copy, price, controls, and other product assets remain unchanged
 - [x] Browser console is clean
 - [x] Lint and production build pass
-- [x] Production remains unchanged pending separate authorization
+- [x] Amplify production deployment succeeds on job 403
+- [x] Public Red Snapper 1600 px asset matches the expected SHA-256
+- [x] Public product page renders the new master without clipping, broken images, horizontal overflow, or console errors

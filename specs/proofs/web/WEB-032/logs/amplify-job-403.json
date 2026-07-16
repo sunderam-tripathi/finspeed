@@ -1,0 +1,28 @@
+{
+  "jobId": "403",
+  "status": "SUCCEED",
+  "commitId": "HEAD",
+  "commitMessage": "WEB-030 to WEB-032 production release 886110c",
+  "startTime": "2026-07-16T18:25:11.671000+05:30",
+  "endTime": "2026-07-16T18:28:23.517000+05:30",
+  "steps": [
+    {
+      "stepName": "BUILD",
+      "status": "SUCCEED",
+      "startTime": "2026-07-16T18:25:11.686000+05:30",
+      "endTime": "2026-07-16T18:28:01.998000+05:30"
+    },
+    {
+      "stepName": "DEPLOY",
+      "status": "SUCCEED",
+      "startTime": "2026-07-16T18:28:02.252000+05:30",
+      "endTime": "2026-07-16T18:28:23.171000+05:30"
+    },
+    {
+      "stepName": "VERIFY",
+      "status": "SUCCEED",
+      "startTime": "2026-07-16T18:28:23.362000+05:30",
+      "endTime": "2026-07-16T18:28:23.384000+05:30"
+    }
+  ]
+}
