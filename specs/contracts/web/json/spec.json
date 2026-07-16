@@ -813,6 +813,31 @@
         "package-lock.json",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-033",
+      "title": "Branded browser favicon",
+      "done_definition": [
+        "The default framework favicon is replaced by a favicon derived from the official Finspeed mark",
+        "The favicon remains recognizable and contrast-safe in light and dark browser chrome at common favicon sizes",
+        "The root document advertises the branded favicon and no legacy framework icon remains in the generated metadata",
+        "Lint, production build, browser metadata, network delivery, and console checks pass",
+        "The implementation is committed, released through the existing Amplify production app, and verified on the public domain"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-033.md",
+        "specs/proofs/web/WEB-033/**",
+        "specs/working-memory/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        "design-qa.md"
+      ]
     }
   ]
 }
