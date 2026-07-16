@@ -37,7 +37,7 @@ PRODUCT_SOURCES = {
     "lemon-shark": "01-raster-masters-4x/products/lemon-shark/angle-3.png",
     "lightning-marlin": "01-raster-masters-4x/products/lightning-marlin/angle-2.png",
     "mako-shark": "01-raster-masters-4x/products/mako-shark/angle-2.png",
-    "red-snapper": "01-raster-masters-4x/products/red-snapper/angle-1.png",
+    "red-snapper": "01-raster-masters-4x/products/red-snapper/side-clean.png",
     "sea-breeze": "01-raster-masters-4x/products/sea-breeze/angle-1.png",
     "shark-blue": "01-raster-masters-4x/products/shark-blue/angle-1.png",
     "sunset-marlin": "01-raster-masters-4x/products/sunset-marlin/angle-1.png",

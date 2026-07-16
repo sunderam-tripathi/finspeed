@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source_package": "Finspeed-Upscaled-Final",
-  "source_manifest_sha256": "212ACC9E20540A10EFB63195AF5DDD8907807E1755425A7DB56BA0809D0FC850",
+  "source_manifest_sha256": "B9042B97CB67D7771B84ADA1D20D6FD85B9263102E1350F9BDF2B224D74F27DC",
   "encoder": "Pillow 12.2.0",
   "assets": [
     {
@@ -461,37 +461,37 @@
       "resampling": "Pillow LANCZOS"
     },
     {
-      "source": "01-raster-masters-4x/products/red-snapper/angle-1.png",
-      "source_sha256": "97086EF534913E460DB700563DB1AFB234DE3362E27B7AC6A1C8DE76D4E39B16",
+      "source": "01-raster-masters-4x/products/red-snapper/side-clean.png",
+      "source_sha256": "BF5CE4CE5E8436202EDF07532EA01760967551D2B9A1BAB15466672919BD34FD",
       "output": "assets/products/upscaled/red-snapper-480.webp",
-      "output_sha256": "6A096718D957A49AB790D42081493641A9524617B8C545DA2704491E7AC879A1",
+      "output_sha256": "FC02FD46772584AC0FC0C4E6514B103FD656BF96D90032AC060402EED4943CB0",
       "width": 480,
       "height": 322,
-      "bytes": 21276,
+      "bytes": 20566,
       "format": "WEBP",
       "quality": 86,
       "resampling": "Pillow LANCZOS"
     },
     {
-      "source": "01-raster-masters-4x/products/red-snapper/angle-1.png",
-      "source_sha256": "97086EF534913E460DB700563DB1AFB234DE3362E27B7AC6A1C8DE76D4E39B16",
+      "source": "01-raster-masters-4x/products/red-snapper/side-clean.png",
+      "source_sha256": "BF5CE4CE5E8436202EDF07532EA01760967551D2B9A1BAB15466672919BD34FD",
       "output": "assets/products/upscaled/red-snapper-960.webp",
-      "output_sha256": "6E50F226486F78D2529AC46CE66C2D1E4086453D3EDB8C8E581160C6DDFF9373",
+      "output_sha256": "24C3BA058AB15CC77441F670EABA642DC306CBEC693665DA357CB9C4135CF058",
       "width": 960,
       "height": 644,
-      "bytes": 59004,
+      "bytes": 59218,
       "format": "WEBP",
       "quality": 86,
       "resampling": "Pillow LANCZOS"
     },
     {
-      "source": "01-raster-masters-4x/products/red-snapper/angle-1.png",
-      "source_sha256": "97086EF534913E460DB700563DB1AFB234DE3362E27B7AC6A1C8DE76D4E39B16",
+      "source": "01-raster-masters-4x/products/red-snapper/side-clean.png",
+      "source_sha256": "BF5CE4CE5E8436202EDF07532EA01760967551D2B9A1BAB15466672919BD34FD",
       "output": "assets/products/upscaled/red-snapper-1600.webp",
-      "output_sha256": "2AC743A2985702DCC7E0534BD59373506AB315CEE23063408FD4B40B58B2491F",
+      "output_sha256": "B3A2A0FE498C88B1BFF75A205F6C7271B1E44E9BF85A97AD7A4AD0852696B0BE",
       "width": 1600,
       "height": 1073,
-      "bytes": 113214,
+      "bytes": 121022,
       "format": "WEBP",
       "quality": 86,
       "resampling": "Pillow LANCZOS"

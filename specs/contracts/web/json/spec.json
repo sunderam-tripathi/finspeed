@@ -789,6 +789,30 @@
         "Makefile",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-032",
+      "title": "Updated Red Snapper product master",
+      "done_definition": [
+        "Red Snapper catalog and product-detail imagery uses the supplied side-clean master without altering other product assets",
+        "Responsive 480, 960, and 1600-pixel derivatives and provenance hashes are regenerated deterministically",
+        "Catalog and product-detail visual QA confirms the updated cycle remains sharp, fully framed, and source-faithful",
+        "Lint, production build, browser source selection, and console checks pass",
+        "The implementation is committed with local proof and clearly records whether production was changed"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-032.md",
+        "specs/proofs/web/WEB-032/**",
+        "specs/working-memory/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        "design-qa.md"
+      ]
     }
   ]
 }
