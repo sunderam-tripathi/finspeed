@@ -5,8 +5,8 @@
 The Finspeed storefront is implemented as one warm, premium editorial system across home, signature range, product detail, build, engineering, search, account, authentication, cart, checkout, support, dealer, owner, and legacy public routes.
 
 - Local result: **PASS**
-- Production result: **NOT RUN** - deployment evidence will be added after the verified release commit is published
-- Release SHA: pending final commit
+- Production result: **PASS**
+- Release SHA: `84f83455737086a66826a419c38da67822b34171`
 
 ## Source truth and verified assets
 
@@ -48,6 +48,14 @@ Mobile, opened at 390 x 844 and inspected for overflow, clipping, tap targets, r
 
 The final mobile build-step rail and five-stage tracking rail fit without collision, clipping, or native horizontal scrollbars. No product-background seam remains in the build studio or editorial product surfaces.
 
+Production captures, opened at 100% zoom and visually inspected after both release surfaces were live:
+
+- `artefacts/screenshots/production/public-home-desktop-1280x720.png`
+- `artefacts/screenshots/production/public-build-mobile-390x844.png`
+- `artefacts/screenshots/production/amplify-home-desktop-1280x720.png`
+
+The public and Amplify home captures are visually equivalent, and the public mobile builder retains the verified non-overflow treatment.
+
 ## Automated verification
 
 - Full Playwright regression: `logs/full-regression.log` - **55/55 passed**
@@ -66,14 +74,14 @@ Coverage includes menu focus containment, Escape and route-close behavior, body-
 - Plan lint, active-slice guard, and staged diff check: `logs/local-gates.md`
 - Slice index generation: `logs/slice-index.log`
 - Project progress generation: `logs/progress.log`
+- Production release, CI disposition, and runtime UAT: `logs/production-release.md`
 - `specs/working-memory/parity-state.json` records the parity helper state.
 - This repository has no Docker Compose manifest or Go module. The parity helper is therefore state-only; no Docker Compose or Go gate is claimed.
 
-## Production evidence pending
+## Production acceptance
 
-After the final clean SHA is pushed, this bundle will record:
-
-- Vercel deployment status for the exact SHA and public checks at `https://www.finspeed.online/`
-- Amplify job ID and BUILD / DEPLOY / VERIFY status in `ap-south-1`
-- Runtime checks for the public domain and Amplify origin
-- Final release SHA and production screenshots without development chrome
+- Vercel Git deployment for the release SHA: **SUCCEED**
+- AWS Amplify job `405` in `ap-south-1`: **SUCCEED**
+- Amplify BUILD / DEPLOY / VERIFY: **SUCCEED / SUCCEED / SUCCEED**
+- Public-domain and Amplify-origin route checks: **10/10 passed**
+- Browser console warnings/errors during production UAT: **none**
