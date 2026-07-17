@@ -46,6 +46,7 @@
   --z-raised: 10;     /* @kind other */
   --z-sticky: 100;    /* @kind other */
   --z-overlay: 1000;  /* @kind other */
+  --z-overlay-raised: 1001; /* @kind other */
   --z-modal: 1100;    /* @kind other */
   --z-toast: 1200;    /* @kind other */
 
@@ -61,4 +62,24 @@
   --container-max: 1240px;
   --container-wide: 1440px;
   --gutter: var(--space-5);
+
+  /* Shared editorial shell geometry */
+  --editorial-header-height: 92px;
+  --editorial-shell-gutter: clamp(28px, 3.2vw, 52px);
+  --editorial-section-gutter: clamp(24px, 4vw, 64px);
+  --editorial-reading-measure: 410px;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --editorial-header-height: 80px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --editorial-header-height: 72px;
+    --editorial-shell-gutter: 14px;
+    --editorial-section-gutter: 20px;
+  }
 }

@@ -1,0 +1,17 @@
+✔ configured order lines retain their checkout price and build specification (1.7326ms)
+✔ legacy seeded lines continue to resolve catalogue product data and price (0.6906ms)
+✔ missing order totals are calculated from normalized line prices (0.1587ms)
+✔ configuration entries ignore missing values instead of inventing details (0.1463ms)
+✔ downloadable receipt includes the configured unit total and governed ownership terms (61.1789ms)
+✔ checkout productId lines preserve configuration, quantity, and unit pricing (0.2147ms)
+✔ newsletter fallback is an honest pre-addressed email action (2.4265ms)
+✔ configured newsletter delivery posts the normalized address to the endpoint (23.1196ms)
+✔ newsletter delivery never reports success for a rejected request (0.9573ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 729.2701

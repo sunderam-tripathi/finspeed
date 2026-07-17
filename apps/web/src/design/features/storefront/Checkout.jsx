@@ -1,173 +1,277 @@
-// Finspeed storefront — Checkout
+// Finspeed storefront — premium editorial checkout
 import React from 'react';
-import { Button, Input, Breadcrumb } from '../../ui/index.js';
-import { productImage, products } from '../../data/storefront.js';
+import { Breadcrumb } from '../../ui/index.js';
+import { cartLines, productImage } from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
-function Checkout({ items, onQty, onRemove, onNav, onProduct, onPlaced }) {
-  const P = products;
-  const lines = Object.entries(items).map(([id,qty])=>({ p:P.find(x=>x.id===id), qty })).filter(l=>l.p);
-  const subtotal = lines.reduce((s,l)=>s + l.p.price*l.qty, 0);
-  const count = lines.reduce((s,l)=>s+l.qty,0);
-  const shipping = 0;
-  const total = subtotal + shipping;
+function Checkout({ items, onNav, onProduct, onPlaced }) {
+  const lines = cartLines(items);
+  const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
+  const count = lines.reduce((sum, line) => sum + line.quantity, 0);
+  const total = subtotal;
   const [placed, setPlaced] = React.useState(false);
   const [pay, setPay] = React.useState('cod');
-  const [orderNo] = React.useState(()=> 'FS' + Math.floor(100000 + Math.random()*900000));
-  const inr = (n)=> '₹' + n.toLocaleString('en-IN');
+  const paymentRefs = React.useRef([]);
+  const paymentKeys = ['cod', 'upi'];
+  const [orderNo] = React.useState(() => `FS${Math.floor(100000 + Math.random() * 900000)}`);
+  const inr = (amount) => `₹${amount.toLocaleString('en-IN')}`;
 
   useLucideIcons();
 
-  // ---- success ----
   if (placed) {
     return (
-      <div style={{ background:'var(--bg-page)', minHeight:'70vh' }}>
-        <div className="store-page-shell store-checkout-state" style={{ maxWidth:620, margin:'0 auto', padding:'var(--space-9) var(--space-7)', textAlign:'center' }}>
-          <span style={{ display:'inline-flex', width:72, height:72, borderRadius:'50%', alignItems:'center', justifyContent:'center', background:'var(--success-bg)', color:'var(--success)', marginBottom:'var(--space-5)' }}>
-            <i data-lucide="check" style={{width:34,height:34}}></i>
-          </span>
-          <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'0 0 var(--space-3)' }}>Order confirmed</h1>
-          <p style={{ font:'var(--text-body-md)', color:'var(--text-muted)', margin:'0 0 var(--space-2)' }}>Thanks for riding with Finspeed. A confirmation is on its way.</p>
-          <p style={{ font:'var(--fw-bold) var(--fs-sm)/1 var(--font-mono)', letterSpacing:'var(--tracking-wide)', color:'var(--brand-ink)', margin:'0 0 var(--space-7)' }}>Order {orderNo}</p>
-          <div style={{ display:'flex', gap:'var(--space-3)', justifyContent:'center', flexWrap:'wrap' }}>
-            <Button variant="primary" size="lg" onClick={()=>onNav('account')} iconLeft={<i data-lucide="map-pin" style={{width:18,height:18}}></i>}>Track order</Button>
-            <Button variant="outline" size="lg" onClick={()=>onNav('shop')} iconRight={<i data-lucide="arrow-right" style={{width:18,height:18}}></i>}>Continue shopping</Button>
-          </div>
+      <section className="store-checkout-outcome" aria-labelledby="checkout-confirmed-title">
+        <div className="store-checkout-outcome__mark" aria-hidden="true">
+          <i data-lucide="check" />
         </div>
-      </div>
+        <p className="editorial-kicker">Order {orderNo}</p>
+        <h1 id="checkout-confirmed-title">Order confirmed</h1>
+        <p className="store-checkout-outcome__copy">
+          Your Finspeed is reserved. We’ll send the order details and delivery updates to the email you provided.
+        </p>
+        <div className="store-checkout-outcome__actions">
+          <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('account')}>
+            Track order <i data-lucide="map-pin" aria-hidden="true" />
+          </button>
+          <button type="button" className="editorial-cta editorial-cta--secondary" onClick={() => onNav('shop')}>
+            Continue shopping <i data-lucide="arrow-right" aria-hidden="true" />
+          </button>
+        </div>
+      </section>
     );
   }
 
-  // ---- empty ----
-  if (lines.length===0) {
+  if (lines.length === 0) {
     return (
-      <div style={{ background:'var(--bg-page)', minHeight:'70vh' }}>
-        <div className="store-page-shell store-checkout-state" style={{ maxWidth:620, margin:'0 auto', padding:'var(--space-9) var(--space-7)', textAlign:'center', color:'var(--text-muted)' }}>
-          <i data-lucide="shopping-cart" style={{width:38,height:38}}></i>
-          <h1 style={{ font:'var(--fw-bold) var(--fs-2xl)/1.1 var(--font-display)', color:'var(--ink-900)', margin:'var(--space-4) 0 var(--space-2)' }}>Your cart is empty</h1>
-          <p style={{ font:'var(--text-body-sm)', margin:'0 0 var(--space-5)' }}>Add a cycle to the cart before checking out.</p>
-          <Button variant="dark" onClick={()=>onNav('shop')}>Browse the fleet</Button>
+      <section className="store-checkout-outcome" aria-labelledby="checkout-empty-title">
+        <div className="store-checkout-outcome__mark store-checkout-outcome__mark--quiet" aria-hidden="true">
+          <i data-lucide="shopping-cart" />
         </div>
-      </div>
+        <p className="editorial-kicker">Nothing queued</p>
+        <h1 id="checkout-empty-title">Your cart is empty</h1>
+        <p className="store-checkout-outcome__copy">Choose a cycle or configure one around the way you ride.</p>
+        <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('shop')}>
+          Explore the range <i data-lucide="arrow-right" aria-hidden="true" />
+        </button>
+      </section>
     );
   }
 
-  function place(e){
-    e.preventDefault(); window.scrollTo(0,0); setPlaced(true);
+  function place(event) {
+    event.preventDefault();
+    const fields = new FormData(event.currentTarget);
+    const value = (name) => String(fields.get(name) || '').trim();
+    const customer = {
+      name: value('name'),
+      phone: value('phone'),
+      email: value('email'),
+    };
+    const shippingAddress = {
+      name: customer.name,
+      line: value('address'),
+      city: value('city'),
+      state: value('state'),
+      pin: value('postal-code'),
+      landmark: value('landmark'),
+      phone: customer.phone,
+    };
+    window.scrollTo(0, 0);
+    setPlaced(true);
     const order = {
-      no: orderNo.replace(/^FS/,'FS'),
-      date: new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
-      step: 0, eta: 'Arriving in 4\u20136 days',
-      items: lines.map(l=>({ id:l.p.id, qty:l.qty })),
+      no: orderNo,
+      date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+      step: 0,
+      eta: 'Arriving in 4–6 days',
+      items: lines.map(({ lineId, product, quantity, unitPrice, configuration }) => ({
+        lineId,
+        id: product.id,
+        qty: quantity,
+        unitPrice,
+        configuration,
+      })),
+      paymentMethod: pay,
+      customer,
+      shippingAddress,
+      ownerEmail: customer.email.toLowerCase(),
       total,
     };
-    onPlaced && onPlaced(order);
+    onPlaced?.(order);
   }
 
-  const sectionTitle = (n, t) => (
-    <div style={{ display:'flex', alignItems:'center', gap:'var(--space-3)', marginBottom:'var(--space-5)' }}>
-      <span style={{ width:28, height:28, flex:'none', borderRadius:'var(--radius-sm)', background:'var(--ink-900)', color:'var(--cyan-electric)', display:'inline-flex', alignItems:'center', justifyContent:'center', font:'var(--fw-bold) var(--fs-xs)/1 var(--font-mono)' }}>{n}</span>
-      <h2 style={{ font:'var(--fw-semibold) var(--fs-xl)/1 var(--font-display)', letterSpacing:'var(--tracking-tight)', color:'var(--ink-900)', margin:0 }}>{t}</h2>
-    </div>
-  );
+  function selectPayment(key, index, moveFocus = false) {
+    setPay(key);
+    if (moveFocus) paymentRefs.current[index]?.focus();
+  }
 
-  const cardStyle = { background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', padding:'var(--space-6)' };
-  const payTile = (key, label, sub, icon) => {
-    const active = pay===key;
+  function handlePaymentKeyDown(event, index) {
+    const last = paymentKeys.length - 1;
+    let nextIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = index === last ? 0 : index + 1;
+    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = index === 0 ? last : index - 1;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = last;
+    else return;
+    event.preventDefault();
+    selectPayment(paymentKeys[nextIndex], nextIndex, true);
+  }
+
+  const paymentOption = (key, label, detail, icon, index) => {
+    const active = pay === key;
     return (
-      <button type="button" onClick={()=>setPay(key)} style={{ flex:'1 1 180px', textAlign:'left', cursor:'pointer', display:'flex', gap:'var(--space-3)', alignItems:'flex-start', padding:'var(--space-4)', background:active?'var(--cyan-50)':'var(--surface-card)', border:'var(--border-width-bold) solid '+(active?'var(--brand)':'var(--border-strong)'), borderRadius:'var(--radius-md)', transition:'var(--transition-base)' }}>
-        <i data-lucide={icon} style={{width:20,height:20,flex:'none',color:active?'var(--brand-ink)':'var(--text-muted)',marginTop:2}}></i>
-        <span>
-          <span style={{ display:'block', font:'var(--fw-semibold) var(--fs-sm)/1.2 var(--font-body)', color:'var(--text-strong)' }}>{label}</span>
-          <span style={{ display:'block', font:'var(--fw-regular) var(--fs-2xs)/1.3 var(--font-body)', color:'var(--text-muted)', marginTop:3 }}>{sub}</span>
+      <button
+        type="button"
+        className={`store-checkout-payment${active ? ' is-selected' : ''}`}
+        role="radio"
+        aria-checked={active}
+        tabIndex={active ? 0 : -1}
+        ref={(element) => { paymentRefs.current[index] = element; }}
+        onClick={() => selectPayment(key, index)}
+        onKeyDown={(event) => handlePaymentKeyDown(event, index)}
+      >
+        <span className="store-checkout-payment__icon" aria-hidden="true"><i data-lucide={icon} /></span>
+        <span className="store-checkout-payment__copy">
+          <strong>{label}</strong>
+          <small>{detail}</small>
         </span>
+        <span className="store-checkout-payment__radio" aria-hidden="true" />
       </button>
     );
   };
 
   return (
-    <div style={{ background:'var(--bg-page)' }}>
-      <div className="store-page-shell store-checkout-page" style={{ maxWidth:'var(--container-max)', margin:'0 auto', padding:'var(--space-5) var(--space-7) var(--space-9)' }}>
-        <div style={{ padding:'var(--space-4) 0' }}>
-          <Breadcrumb items={[{label:'Home',onClick:()=>onNav('home')},{label:'Shop',onClick:()=>onNav('shop')},{label:'Checkout'}]} />
+    <div className="store-checkout-surface">
+      <div className="store-checkout-shell">
+        <div className="store-checkout-breadcrumb">
+          <Breadcrumb items={[
+            { label: 'Home', onClick: () => onNav('home') },
+            { label: 'Shop', onClick: () => onNav('shop') },
+            { label: 'Checkout' },
+          ]} />
         </div>
-        <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'4px 0 var(--space-7)' }}>Checkout</h1>
 
-        <form className="store-checkout-layout" onSubmit={place} style={{ display:'grid', gridTemplateColumns:'1.4fr 0.9fr', gap:'var(--space-7)', alignItems:'start' }}>
-          {/* left — details */}
-          <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-5)' }}>
-            <div className="store-checkout-card" style={cardStyle}>
-              {sectionTitle('1','Contact')}
-              <div className="store-form-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-4)' }}>
-                <Input label="Full name" placeholder="Arjun Mehta" required />
-                <Input label="Phone" placeholder="+91 98765 43210" required />
-                <div style={{ gridColumn:'1 / -1' }}><Input label="Email" type="email" placeholder="you@email.com" required /></div>
-              </div>
-            </div>
+        <header className="store-checkout-heading">
+          <div>
+            <p className="editorial-kicker">Secure checkout · {count} {count === 1 ? 'cycle' : 'cycles'}</p>
+            <h1>Complete your ride</h1>
+          </div>
+          <p>Delivery is free across India. Your frame is covered for two years.</p>
+        </header>
 
-            <div className="store-checkout-card" style={cardStyle}>
-              {sectionTitle('2','Shipping address')}
-              <div className="store-form-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-4)' }}>
-                <div style={{ gridColumn:'1 / -1' }}><Input label="Address" placeholder="Flat / house, street, area" required /></div>
-                <Input label="City" placeholder="Greater Noida" required />
-                <Input label="State" placeholder="Uttar Pradesh" required />
-                <Input label="PIN code" placeholder="201306" required />
-                <Input label="Landmark (optional)" placeholder="Near Sarin Farm Market" />
+        <form className="store-checkout-layout store-checkout-form" onSubmit={place}>
+          <div className="store-checkout-form__sections">
+            <CheckoutSection number="01" title="Contact">
+              <div className="store-checkout-fields">
+                <CheckoutField label="Full name" name="name" autoComplete="name" placeholder="Arjun Mehta" required />
+                <CheckoutField label="Phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+91 98765 43210" required />
+                <CheckoutField className="store-checkout-field--wide" label="Email" name="email" type="email" autoComplete="email" placeholder="you@email.com" required />
               </div>
-            </div>
+            </CheckoutSection>
 
-            <div className="store-checkout-card" style={cardStyle}>
-              {sectionTitle('3','Payment')}
-              <div className="store-payment-options" style={{ display:'flex', gap:'var(--space-4)', flexWrap:'wrap' }}>
-                {payTile('cod','Cash on delivery','Pay when your cycle arrives','banknote')}
-                {payTile('upi','UPI on delivery','Scan & pay at handover','smartphone')}
+            <CheckoutSection number="02" title="Shipping address">
+              <div className="store-checkout-fields">
+                <CheckoutField className="store-checkout-field--wide" label="Address" name="address" autoComplete="street-address" placeholder="Flat / house, street, area" required />
+                <CheckoutField label="City" name="city" autoComplete="address-level2" placeholder="Greater Noida" required />
+                <CheckoutField label="State" name="state" autoComplete="address-level1" placeholder="Uttar Pradesh" required />
+                <CheckoutField label="PIN code" name="postal-code" inputMode="numeric" autoComplete="postal-code" placeholder="201306" required />
+                <CheckoutField label="Landmark (optional)" name="landmark" placeholder="Near Sarin Farm Market" />
               </div>
-            </div>
+            </CheckoutSection>
+
+            <CheckoutSection number="03" title="Payment">
+              <p className="store-checkout-section__intro">Pay at handover after you have checked your cycle.</p>
+              <div className="store-payment-options" role="radiogroup" aria-label="Payment method">
+                {paymentOption('cod', 'Cash on delivery', 'Pay when your cycle arrives', 'banknote', 0)}
+                {paymentOption('upi', 'UPI on delivery', 'Scan and pay at handover', 'smartphone', 1)}
+              </div>
+            </CheckoutSection>
           </div>
 
-          {/* right — order summary */}
-          <div className="store-checkout-card store-checkout-summary" style={{ ...cardStyle, position:'sticky', top:'var(--space-5)' }}>
-            <h2 style={{ font:'var(--fw-semibold) var(--fs-xl)/1 var(--font-display)', letterSpacing:'var(--tracking-tight)', color:'var(--ink-900)', margin:'0 0 var(--space-5)' }}>Order summary <span style={{ font:'var(--fw-regular) var(--fs-sm)/1 var(--font-mono)', color:'var(--text-muted)' }}>({count})</span></h2>
-            <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)', marginBottom:'var(--space-5)' }}>
-              {lines.map(({p,qty})=>(
-                <div className="store-checkout-item" key={p.id} style={{ display:'flex', gap:'var(--space-3)', alignItems:'center' }}>
-                  <div style={{ position:'relative', width:64, height:54, flex:'none', background:'linear-gradient(180deg,#fff,var(--steel-50))', borderRadius:'var(--radius-sm)', display:'flex', alignItems:'center', justifyContent:'center', padding:5, cursor:'pointer' }} onClick={()=>onProduct(p.id)}>
-                    <img src={productImage(p.id)} alt={p.name} style={{ maxWidth:'100%', maxHeight:'100%', objectFit:'contain', mixBlendMode:'multiply' }} />
-                    <span style={{ position:'absolute', top:-7, right:-7, minWidth:18, height:18, padding:'0 5px', display:'inline-flex', alignItems:'center', justifyContent:'center', background:'var(--ink-900)', color:'#fff', font:'var(--fw-bold) var(--fs-3xs)/1 var(--font-mono)', borderRadius:'var(--radius-pill)' }}>{qty}</span>
-                  </div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ font:'var(--fw-bold) var(--fs-sm)/1.1 var(--font-display)', color:'var(--ink-900)' }}>{p.name}</div>
-                    <div style={{ font:'var(--fw-regular) var(--fs-2xs)/1 var(--font-mono)', color:'var(--text-muted)', marginTop:2 }}>{p.wheels} · {p.speed}</div>
-                  </div>
-                  <span style={{ font:'var(--fw-bold) var(--fs-sm)/1 var(--font-mono)', color:'var(--ink-900)' }}>{inr(p.price*qty)}</span>
-                </div>
-              ))}
+          <aside className="store-checkout-summary" aria-labelledby="checkout-summary-title">
+            <div className="store-checkout-summary__heading">
+              <p className="editorial-kicker">Your selection</p>
+              <h2 id="checkout-summary-title">Order summary <span>({count})</span></h2>
             </div>
-            <div style={{ borderTop:'1px solid var(--border-subtle)', paddingTop:'var(--space-4)', display:'flex', flexDirection:'column', gap:'var(--space-3)' }}>
-              <OrderSummaryRow k="Subtotal" v={inr(subtotal)} />
-              <OrderSummaryRow k="Shipping" v="Free" accent />
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', borderTop:'1px solid var(--border-subtle)', paddingTop:'var(--space-4)', marginTop:'var(--space-1)' }}>
-                <span style={{ font:'var(--fw-semibold) var(--fs-md)/1 var(--font-body)', color:'var(--text-strong)' }}>Total</span>
-                <span style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-mono)', color:'var(--ink-900)' }}>{inr(total)}</span>
+
+            <div className="store-checkout-summary__items">
+              {lines.map(({ lineId, product, quantity, unitPrice, configuration }) => {
+                const configuredSummary = configuration
+                  ? [
+                    configuration.base?.wheels,
+                    configuration.brakes?.title,
+                    configuration.suspension?.title,
+                    configuration.gears?.title,
+                    configuration.finish?.title,
+                  ].filter(Boolean).join(' · ')
+                  : `${product.wheels} · ${product.speed}`;
+                return (
+                  <article className="store-checkout-item" key={lineId}>
+                    <button type="button" className="store-checkout-item__image" aria-label={`View ${product.name}`} onClick={() => onProduct(product.id)}>
+                      <img src={productImage(product.id)} alt="" />
+                      <span aria-hidden="true">{quantity}</span>
+                    </button>
+                    <div className="store-checkout-item__copy">
+                      <h3>{product.name}</h3>
+                      <p className="store-checkout-item__configuration">{configuredSummary}</p>
+                    </div>
+                    <strong className="store-checkout-item__price">{inr(unitPrice * quantity)}</strong>
+                  </article>
+                );
+              })}
+            </div>
+
+            <dl className="store-checkout-totals">
+              <OrderSummaryRow label="Subtotal" value={inr(subtotal)} />
+              <OrderSummaryRow label="Shipping" value="Free" accent />
+              <div className="store-checkout-totals__grand">
+                <dt>Total</dt>
+                <dd>{inr(total)}</dd>
               </div>
-            </div>
-            <div style={{ marginTop:'var(--space-5)' }}>
-              <Button type="submit" variant="primary" size="lg" full iconRight={<i data-lucide="lock" style={{width:17,height:17}}></i>}>Place order</Button>
-            </div>
-            <p style={{ font:'var(--fw-regular) var(--fs-2xs)/1.4 var(--font-body)', color:'var(--text-faint)', textAlign:'center', margin:'var(--space-3) 0 0' }}>Free delivery across India · 1-year warranty</p>
-          </div>
+            </dl>
+
+            <button type="submit" className="editorial-cta editorial-cta--primary store-checkout-submit">
+              Place order <i data-lucide="lock" aria-hidden="true" />
+            </button>
+            <p className="store-checkout-assurance">
+              <i data-lucide="shield-check" aria-hidden="true" />
+              Free delivery across India · 2-year frame warranty
+            </p>
+          </aside>
         </form>
       </div>
     </div>
   );
 }
 
-function OrderSummaryRow({ k, v, accent }) {
+function CheckoutSection({ number, title, children }) {
+  const id = `checkout-section-${number}`;
   return (
-    <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline' }}>
-      <span style={{ font:'var(--fw-regular) var(--fs-sm)/1 var(--font-body)', color:'var(--text-muted)' }}>{k}</span>
-      <span style={{ font:'var(--fw-semibold) var(--fs-sm)/1 var(--font-mono)', color: accent ? 'var(--success)' : 'var(--text-strong)' }}>{v}</span>
+    <section className="store-checkout-section" aria-labelledby={id}>
+      <header className="store-checkout-section__heading">
+        <span>{number}</span>
+        <h2 id={id}>{title}</h2>
+      </header>
+      <div className="store-checkout-section__body">{children}</div>
+    </section>
+  );
+}
+
+function CheckoutField({ label, className = '', ...inputProps }) {
+  const id = `checkout-${inputProps.name}`;
+  return (
+    <label className={`store-checkout-field ${className}`.trim()} htmlFor={id}>
+      <span>{label}</span>
+      <input id={id} {...inputProps} />
+    </label>
+  );
+}
+
+function OrderSummaryRow({ label, value, accent = false }) {
+  return (
+    <div className={accent ? 'is-accent' : undefined}>
+      <dt>{label}</dt>
+      <dd>{value}</dd>
     </div>
   );
 }
+
 export default Checkout;

@@ -838,6 +838,32 @@
         "package-lock.json",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-034",
+      "title": "Premium editorial navigation and build journey",
+      "done_definition": [
+        "The selected Editorial Navigation Index is implemented as a responsive, route-aware storefront header and full-screen menu",
+        "Primary navigation is organized around The Bikes, Build Your Ride, Our Engineering, and Visit Finspeed while all existing routes remain reachable",
+        "The menu supports keyboard focus, Escape, route-close, body-scroll locking, and accessible open and closed states",
+        "A premium Build Your Ride entry route uses verified Finspeed product imagery and compatibility-safe configuration copy",
+        "Search, account, cart, checkout, theme switching, product detail, and existing content routes continue to work",
+        "Desktop and mobile design QA, accessibility, interactions, lint, tests, production build, and console checks pass"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-034.md",
+        "specs/proofs/web/WEB-034/**",
+        "specs/working-memory/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        "design-qa.md"
+      ]
     }
   ]
 }

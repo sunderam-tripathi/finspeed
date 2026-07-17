@@ -1,4 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
+@import "../design/styles/tokens/fonts.css";
+@import "../design/styles/tokens/colors.css";
+@import "../design/styles/tokens/typography.css";
+@import "../design/styles/tokens/spacing.css";
+@import "../design/styles/tokens/base.css";
+@import "../design/features/storefront/responsive.css";
+@import "../design/features/storefront/footer-newsletter.css";
+@import "../design/features/storefront/editorial-navigation.css";
+@import "../design/features/storefront/checkout-cart-editorial.css";
+@import "../design/features/storefront/account.css";
+@import "../design/features/storefront/home-editorial.css";
+@import "../design/features/storefront/search-editorial.css";
+@import "../design/features/storefront/product-detail.css";
+@import "../design/features/storefront/engineering.css";
+@import "../design/features/storefront/editorial-pages.css";
+@import "../design/features/storefront/legacy-editorial.css";
+@import "../design/features/distributor/responsive.css";
 
 :root {
   color-scheme: dark;
@@ -51,7 +69,6 @@
   --fs-card: #ffffff;
   --fs-text-primary: #0f172a;
   --fs-text-muted: rgba(15, 23, 42, 0.65);
-  --fs-text-soft: rgba(15, 23, 42, 0.55);
   --fs-border: #d5deee;
   --fs-muted-text: #475569;
   --fs-card-border: rgba(15, 23, 42, 0.08);

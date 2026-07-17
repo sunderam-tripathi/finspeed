@@ -3,28 +3,54 @@
    Light, non-invasive resets so specimen cards + kits inherit
    the brand without a CSS framework.
    ============================================================ */
-*, *::before, *::after { box-sizing: border-box; }
+.design-runtime,
+.design-runtime *,
+.design-runtime *::before,
+.design-runtime *::after { box-sizing: border-box; }
 
-body {
+.design-runtime {
+  min-width: 320px;
+  min-height: 100vh;
   margin: 0;
   font: var(--text-body-md);
   color: var(--text-body);
   background: var(--bg-page);
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 {
+.design-runtime button,
+.design-runtime input,
+.design-runtime select,
+.design-runtime textarea,
+.design-runtime table {
+  font-family: inherit;
+}
+
+.design-runtime button:focus-visible,
+.design-runtime a:focus-visible,
+.design-runtime input:focus-visible,
+.design-runtime select:focus-visible,
+.design-runtime textarea:focus-visible {
+  outline: 3px solid var(--cyan-100);
+  outline-offset: 2px;
+}
+
+.design-runtime h1,
+.design-runtime h2,
+.design-runtime h3,
+.design-runtime h4 {
   font-family: var(--font-display);
   color: var(--text-strong);
   letter-spacing: var(--tracking-tight);
   margin: 0;
 }
 
-a { color: var(--brand-ink); text-decoration: none; }
-a:hover { text-decoration: underline; }
+.design-runtime a { color: var(--brand-ink); text-decoration: none; }
+.design-runtime a:hover { text-decoration: underline; }
 
-::selection { background: var(--cyan-200); color: var(--ink-900); }
+.design-runtime ::selection { background: var(--cyan-200); color: var(--ink-900); }
 
 /* ---- Brand utility classes ---- */
 .fin-eyebrow {

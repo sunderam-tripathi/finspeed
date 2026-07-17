@@ -1,51 +1,103 @@
-// Finspeed storefront — Footer
 import React from 'react';
+
+const footerColumns = [
+  {
+    heading: 'The Bikes',
+    items: [
+      { label: 'Signature range', href: '/shop', route: 'shop', category: 'all' },
+      { label: 'Mountain', href: '/shop?category=mountain', route: 'shop', category: 'mountain' },
+      { label: 'City', href: '/shop?category=city', route: 'shop', category: 'city' },
+      { label: 'Hybrid', href: '/shop?category=hybrid', route: 'shop', category: 'hybrid' },
+    ],
+  },
+  {
+    heading: 'Build & Engineering',
+    items: [
+      { label: 'Build your ride', href: '/build', route: 'build' },
+      { label: 'Our engineering', href: '/engineering', route: 'engineering' },
+      { label: 'Assembly guide', href: '/assembly', route: 'assembly' },
+      { label: 'Warranty', href: '/warranty', route: 'warranty' },
+    ],
+  },
+  {
+    heading: 'Visit & Owners',
+    items: [
+      { label: 'Find a store', href: '/stores', route: 'stores' },
+      { label: 'Our story', href: '/about', route: 'about' },
+      { label: 'Contact', href: '/contact', route: 'contact' },
+      { label: 'Distributors', href: '/distributor' },
+    ],
+  },
+];
+
+function shouldUseClientNavigation(event) {
+  return event.button === 0
+    && !event.defaultPrevented
+    && !event.metaKey
+    && !event.ctrlKey
+    && !event.shiftKey
+    && !event.altKey;
+}
 
 function Footer({ onNav, tone = 'light' }) {
   const dark = tone === 'dark';
-  const go = onNav || (()=>{});
-  const cols = [
-    { h:'Shop', items:[['Mountain',()=>go('shop','mountain')],['City',()=>go('shop','city')],['Hybrid',()=>go('shop','hybrid')],['Geared Elite',()=>go('shop','mountain')],['All cycles',()=>go('shop','all')]] },
-    { h:'Support', items:[['Find a store',()=>go('stores')],['Warranty',()=>go('warranty')],['Assembly guide',()=>go('assembly')],['Contact',()=>go('contact')]] },
-    { h:'Company', items:[['About Finspeed',()=>go('about')],['The Fleet',()=>go('shop','all')],['Distributors',()=>{window.location.href='/distributor';}],['Careers',()=>go('contact')]] },
-  ];
+
+  function navigate(event, route, category) {
+    if (!route || typeof onNav !== 'function' || !shouldUseClientNavigation(event)) return;
+    event.preventDefault();
+    onNav(route, category);
+  }
+
   return (
-    <footer className={`store-footer${dark ? ' fin-dark store-footer--dark' : ''}`} style={{ background:dark ? 'var(--ink-900)' : 'var(--steel-100)', color:'var(--text-body)', padding:'var(--space-9) var(--space-7) var(--space-6)', borderTop:'1px solid var(--border-subtle)' }}>
-      <div className="store-footer-grid" style={{ maxWidth:'var(--container-max)', margin:'0 auto', display:'grid', gridTemplateColumns:'1.6fr 1fr 1fr 1fr', gap:'var(--space-7)' }}>
+    <footer className={`store-footer ${dark ? 'fin-dark store-footer--dark' : 'fin-light store-footer--light'}`}>
+      <div className="store-footer-grid">
         <div className="store-footer-brand">
-          <div style={{ display:'inline-flex', alignItems:'center', gap:10, marginBottom:'var(--space-4)' }}>
-            <img src={dark ? '/assets/logos/finspeed-mark-light.png' : '/assets/logos/finspeed-mark.png'} alt="Finspeed" style={{ height:40 }} />
-            <span style={{ font:'var(--fw-bold) 22px/1 var(--font-display)', letterSpacing:'0.06em', textTransform:'uppercase', color:'var(--text-strong)' }}>Finspeed</span>
-          </div>
-          <p style={{ font:'var(--fw-regular) var(--fs-sm)/1.6 var(--font-body)', color:'var(--text-muted)', maxWidth:300, margin:0 }}>
+          <a
+            className="store-footer-brand__lockup"
+            href="/"
+            aria-label="Finspeed home"
+            onClick={(event) => navigate(event, 'home')}
+          >
+            <img src={dark ? '/assets/logos/finspeed-mark-light.png' : '/assets/logos/finspeed-mark.png'} alt="" />
+            <img src={dark ? '/assets/logos/finspeed-wordmark-dark.svg' : '/assets/logos/finspeed-wordmark-light.svg'} alt="Finspeed" />
+          </a>
+          <p className="store-footer-brand__statement">
             We build cycles for dreamers who seek adventure and push their limits. Beyond limits, beyond boundaries.
           </p>
-          <div className="store-footer-social" style={{ display:'flex', gap:12, marginTop:'var(--space-5)' }}>
-            {['share-2','radio','video'].map(s=>(
-              <span key={s} style={{ width:38, height:38, borderRadius:'var(--radius-sm)', border:'1px solid var(--border-strong)', display:'inline-flex', alignItems:'center', justifyContent:'center', color:'var(--text-body)' }}>
-                <i data-lucide={s} style={{width:17,height:17}}></i>
-              </span>
-            ))}
-          </div>
+          <nav className="store-footer-contact" aria-label="Contact Finspeed">
+            <a href="https://wa.me/919650608982" target="_blank" rel="noreferrer">
+              <i data-lucide="message-square" aria-hidden="true" />
+              <span>WhatsApp</span>
+            </a>
+            <a href="mailto:support@finspeed.online">
+              <i data-lucide="mail" aria-hidden="true" />
+              <span>Email</span>
+            </a>
+          </nav>
         </div>
-        {cols.map((c,i)=>(
-          <div key={i}>
-            <h4 style={{ font:'var(--fw-semibold) var(--fs-2xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wider)', textTransform:'uppercase', color:'var(--brand-strong)', margin:'0 0 var(--space-4)' }}>{c.h}</h4>
-            <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:'var(--space-3)' }}>
-              {c.items.map((it,j)=>(
-                <li key={j}><a onClick={it[1]} style={{ font:'var(--fw-regular) var(--fs-sm)/1 var(--font-body)', color:'var(--text-body)', textDecoration:'none', cursor:'pointer' }}
-                  onMouseEnter={e=>e.currentTarget.style.color='var(--text-strong)'}
-                  onMouseLeave={e=>e.currentTarget.style.color='var(--text-body)'}>{it[0]}</a></li>
+
+        {footerColumns.map((column) => (
+          <nav className="store-footer-column" key={column.heading} aria-labelledby={`footer-${column.heading.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
+            <h2 id={`footer-${column.heading.toLowerCase().replace(/[^a-z]+/g, '-')}`}>{column.heading}</h2>
+            <ul>
+              {column.items.map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} onClick={(event) => navigate(event, item.route, item.category)}>
+                    {item.label}
+                  </a>
+                </li>
               ))}
             </ul>
-          </div>
+          </nav>
         ))}
       </div>
-      <div className="store-footer-bottom" style={{ maxWidth:'var(--container-max)', margin:'var(--space-7) auto 0', paddingTop:'var(--space-5)', borderTop:'1px solid var(--border-subtle)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
-        <span style={{ font:'var(--fw-bold) var(--fs-xs)/1 var(--font-display)', letterSpacing:'var(--tracking-widest)', textTransform:'uppercase', color:'var(--text-muted)' }}>Ride Beyond Boundaries</span>
-        <span style={{ font:'var(--fw-regular) var(--fs-2xs)/1 var(--font-mono)', color:'var(--text-muted)' }}>© 2026 Finspeed · MK Electric · Greater Noida</span>
+
+      <div className="store-footer-bottom">
+        <span>Ride Beyond Boundaries</span>
+        <span>&copy; 2026 Finspeed &middot; MK Electric &middot; Greater Noida</span>
       </div>
     </footer>
   );
 }
+
 export default Footer;

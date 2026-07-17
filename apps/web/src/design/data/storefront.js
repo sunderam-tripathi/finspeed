@@ -51,6 +51,28 @@ export const productImageSrcSet = (id) => PRODUCT_IMAGE_WIDTHS
   .map((width) => `${productImage(id, width)} ${width}w`)
   .join(', ');
 
+// Cart storage supports both legacy product-id → quantity entries and richer
+// configured-build entries. Keeping the reader backward compatible prevents
+// an existing local cart from being lost while giving bespoke builds a real
+// line-item identity, unit price, and configuration summary.
+export function cartLines(items) {
+  if (!items || typeof items !== 'object' || Array.isArray(items)) return [];
+  return Object.entries(items).flatMap(([lineId, value]) => {
+    const legacy = typeof value === 'number';
+    const productId = legacy ? lineId : value?.productId;
+    const product = products.find((item) => item.id === productId);
+    const quantity = legacy ? value : Number(value?.quantity);
+    if (!product || !Number.isFinite(quantity) || quantity <= 0) return [];
+    return [{
+      lineId,
+      product,
+      quantity,
+      unitPrice: legacy || !Number.isFinite(value?.unitPrice) ? product.price : value.unitPrice,
+      configuration: legacy ? null : value.configuration || null,
+    }];
+  });
+}
+
 // Signed-in rider profile + saved addresses (mock)
 export const demoUser = {
   name:'Arjun Mehta', email:'arjun.mehta@email.com', phone:'+91 98765 43210', since:'Apr 2024',
@@ -67,12 +89,26 @@ export const seedOrders = [
   { no:'FS476005', date:'21 May 2026', step:2, eta:'Arriving 27 Jun', items:[{id:'red-snapper',qty:1},{id:'sea-breeze',qty:1}], total:9600 },
 ];
 
-// Retail stores / authorised dealers (for the store locator)
+// Verified Finspeed locations from the governed dealer-location handoff.
+// Keep this list intentionally narrow: unverified marketplace listings do not
+// belong in the customer-facing visit journey.
 export const stores = [
-  { id:'gno', name:'Finspeed Flagship — Surajpur', type:'Flagship', city:'Greater Noida', state:'Uttar Pradesh', addr:'Shop No. 20, Sarin Farm Society Market, Surajpur', pin:'201306', phone:'+91 99580 11234', hours:'Mon–Sat · 10:00–20:00' },
-  { id:'noi', name:'Ravi Cycle Mart', type:'Authorised dealer', city:'Noida', state:'Uttar Pradesh', addr:'Shop No. 14, Sector 18 Market', pin:'201301', phone:'+91 98100 45678', hours:'Mon–Sun · 10:30–20:30' },
-  { id:'del', name:'Capital Cycles', type:'Authorised dealer', city:'New Delhi', state:'Delhi', addr:'2451, Jhandewalan Cycle Market, Karol Bagh', pin:'110055', phone:'+91 98110 22090', hours:'Mon–Sat · 11:00–20:00' },
-  { id:'ggn', name:'Trailhead Bikes', type:'Service centre', city:'Gurugram', state:'Haryana', addr:'SCO 32, Sector 29 Main Market', pin:'122002', phone:'+91 98991 77654', hours:'Tue–Sun · 10:00–19:30' },
-  { id:'jai', name:'Pink City Cycles', type:'Authorised dealer', city:'Jaipur', state:'Rajasthan', addr:'Shop 8, MI Road, near Panch Batti', pin:'302001', phone:'+91 94140 33221', hours:'Mon–Sat · 10:30–20:00' },
-  { id:'pun', name:'Western Ghats Cyclery', type:'Authorised dealer', city:'Pune', state:'Maharashtra', addr:'12, FC Road, Shivajinagar', pin:'411005', phone:'+91 98220 66109', hours:'Mon–Sun · 10:00–21:00' },
+  {
+    id: 'sarin-farm',
+    name: 'Finspeed Dealer — Sarin Farm',
+    type: 'Sales · Test rides · Service',
+    city: 'Greater Noida',
+    state: 'Uttar Pradesh',
+    addr: 'Shop No. 20, Left Side, Sarin Farm Colony, UPSIDC Site A, Surajpur',
+    pin: '201306',
+  },
+  {
+    id: 'krystal-height',
+    name: 'Finspeed Dealer — Krystal Height',
+    type: 'Sales · Service',
+    city: 'Greater Noida',
+    state: 'Uttar Pradesh',
+    addr: 'Lower Ground Shop No. 8, Krystal Height Market, behind ACE CITY, Sector 1, Noida Extension, Bisrakh Jalalpur',
+    pin: '201306',
+  },
 ];

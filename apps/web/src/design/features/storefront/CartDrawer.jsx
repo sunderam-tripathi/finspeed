@@ -1,64 +1,165 @@
-// Finspeed storefront — Cart drawer
 import React from 'react';
-import { Button, IconButton, QuantityStepper } from '../../ui/index.js';
-import { productImage, products } from '../../data/storefront.js';
+import { QuantityStepper } from '../../ui/index.js';
+import { cartLines, productImage } from '../../data/storefront.js';
+import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onCheckout }) {
-  const P = products;
-  const lines = Object.entries(items).map(([id,qty]) => ({ p:P.find(x=>x.id===id), qty })).filter(l=>l.p);
-  const subtotal = lines.reduce((s,l)=>s + l.p.price*l.qty, 0);
-  const count = lines.reduce((s,l)=>s+l.qty,0);
+  const lines = cartLines(items);
+  const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
+  const count = lines.reduce((sum, line) => sum + line.quantity, 0);
+  const drawerRef = React.useRef(null);
+  const previousFocusRef = React.useRef(null);
+
+  useLucideIcons([open, count]);
+
+  React.useEffect(() => {
+    if (!open || !drawerRef.current) return undefined;
+    previousFocusRef.current = document.activeElement;
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    const appRoot = drawerRef.current.closest('.store-app');
+    const backgroundRegions = appRoot
+      ? [...appRoot.querySelectorAll('.editorial-header, .store-main, .store-newsletter-section, .store-footer')]
+      : [];
+    const backgroundState = backgroundRegions.map((element) => ({
+      element,
+      hadInert: element.hasAttribute('inert'),
+      ariaHidden: element.getAttribute('aria-hidden'),
+    }));
+    backgroundRegions.forEach((element) => {
+      element.setAttribute('inert', '');
+      element.setAttribute('aria-hidden', 'true');
+    });
+
+    window.requestAnimationFrame(() => drawerRef.current?.querySelector('button')?.focus());
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+        return;
+      }
+      if (event.key !== 'Tab' || !drawerRef.current) return;
+      const focusable = [...drawerRef.current.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+        .filter((element) => !element.disabled && element.getAttribute('aria-hidden') !== 'true');
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.documentElement.style.overflow = previousOverflow;
+      backgroundState.forEach(({ element, hadInert, ariaHidden }) => {
+        if (!hadInert) element.removeAttribute('inert');
+        if (ariaHidden === null) element.removeAttribute('aria-hidden');
+        else element.setAttribute('aria-hidden', ariaHidden);
+      });
+      document.removeEventListener('keydown', handleKeyDown);
+      if (previousFocusRef.current instanceof HTMLElement) previousFocusRef.current.focus();
+    };
+  }, [open, onClose]);
 
   return (
     <>
-      <div className="store-cart-backdrop" onClick={onClose} style={{ position:'fixed', inset:0, background:'rgba(10,14,18,0.5)', backdropFilter:'blur(2px)', opacity:open?1:0, pointerEvents:open?'auto':'none', transition:'opacity var(--dur-base) var(--ease-out)', zIndex:1000 }}></div>
-      <aside className="store-cart-drawer" aria-hidden={!open} style={{ position:'fixed', top:0, right:0, height:'100%', width:420, maxWidth:'92vw', background:'var(--surface-card)', boxShadow:'var(--shadow-lg)', transform:open?'none':'translateX(100%)', transition:'transform var(--dur-slow) var(--ease-out)', zIndex:1001, display:'flex', flexDirection:'column' }}>
-        <div className="store-cart-header" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'var(--space-5) var(--space-5)', borderBottom:'1px solid var(--border-subtle)' }}>
-          <h3 style={{ font:'var(--fw-bold) var(--fs-xl)/1 var(--font-display)', color:'var(--ink-900)', margin:0 }}>Your cart <span style={{font:'var(--fw-regular) var(--fs-sm)/1 var(--font-mono)',color:'var(--text-muted)'}}>({count})</span></h3>
-          <IconButton variant="ghost" size="sm" aria-label="Close cart" onClick={onClose} icon={<i data-lucide="x" style={{width:18,height:18}}></i>} />
-        </div>
+      <div className={`store-cart-backdrop${open ? ' is-open' : ''}`} aria-hidden="true" onClick={onClose} />
+      <aside
+        ref={drawerRef}
+        className={`store-cart-drawer${open ? ' is-open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="store-cart-title"
+        aria-hidden={!open}
+        inert={!open}
+      >
+        <header className="store-cart-header">
+          <div>
+            <p className="editorial-kicker">Your selection</p>
+            <h2 id="store-cart-title">Cart <span>({count})</span></h2>
+          </div>
+          <button type="button" className="store-cart-close" aria-label="Close cart" onClick={onClose}>
+            <i data-lucide="x" aria-hidden="true" />
+          </button>
+        </header>
 
-        <div className="store-cart-body" style={{ flex:1, overflowY:'auto', padding:'var(--space-4) var(--space-5)' }}>
-          {lines.length===0 && (
-            <div style={{ textAlign:'center', padding:'var(--space-9) 0', color:'var(--text-muted)' }}>
-              <i data-lucide="shopping-cart" style={{width:36,height:36}}></i>
-              <p style={{ font:'var(--fw-medium) var(--fs-sm)/1.4 var(--font-body)', marginTop:12 }}>Your cart is empty.</p>
+        <div className="store-cart-body">
+          {lines.length === 0 && (
+            <div className="store-cart-empty" role="status">
+              <span aria-hidden="true"><i data-lucide="shopping-cart" /></span>
+              <h3>Nothing selected yet</h3>
+              <p>Choose from the range or build one around your ride.</p>
             </div>
           )}
-          {lines.map(({p,qty})=>(
-            <div className="store-cart-item" key={p.id} style={{ display:'flex', gap:14, padding:'var(--space-4) 0', borderBottom:'1px solid var(--border-subtle)' }}>
-              <div className="store-cart-item-image" style={{ width:84, height:72, flex:'none', background:'linear-gradient(180deg,#fff,var(--steel-50))', borderRadius:'var(--radius-sm)', display:'flex', alignItems:'center', justifyContent:'center', padding:6, cursor:'pointer' }} onClick={()=>onProduct(p.id)}>
-                <img src={productImage(p.id)} alt={p.name} style={{ maxWidth:'100%', maxHeight:'100%', objectFit:'contain', mixBlendMode:'multiply' }} />
-              </div>
-              <div style={{ flex:1 }}>
-                <div style={{ display:'flex', justifyContent:'space-between', gap:8 }}>
-                  <div>
-                    <div style={{ font:'var(--fw-bold) var(--fs-md)/1.1 var(--font-display)', color:'var(--ink-900)' }}>{p.name}</div>
-                    <div style={{ font:'var(--fw-regular) var(--fs-2xs)/1 var(--font-mono)', color:'var(--text-muted)', marginTop:3 }}>{p.wheels} · {p.speed}</div>
+
+          {lines.map(({ lineId, product, quantity, unitPrice, configuration }, index) => {
+            const configuredSummary = configuration
+              ? [
+                configuration.base?.wheels,
+                configuration.brakes?.title,
+                configuration.suspension?.title,
+                configuration.gears?.title,
+                configuration.finish?.title,
+              ].filter(Boolean).join(' · ')
+              : `${product.wheels} · ${product.speed}`;
+            return (
+              <article className="store-cart-item" key={lineId}>
+                <span className="store-cart-item__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <button type="button" className="store-cart-item-image" aria-label={`View ${product.name}`} onClick={() => onProduct(product.id)}>
+                  <img src={productImage(product.id)} alt="" />
+                </button>
+                <div className="store-cart-item__content">
+                  <div className="store-cart-item__heading">
+                    <div>
+                      <h3>{product.name}</h3>
+                      <p>{configuredSummary}</p>
+                    </div>
+                    <button type="button" className="store-cart-remove" onClick={() => onRemove(lineId)} aria-label={`Remove ${product.name} from cart`}>
+                      <i data-lucide="trash-2" aria-hidden="true" />
+                    </button>
                   </div>
-                  <button onClick={()=>onRemove(p.id)} aria-label="Remove" style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-faint)', padding:2 }}><i data-lucide="trash-2" style={{width:16,height:16}}></i></button>
+                  <div className="store-cart-item-controls">
+                    <QuantityStepper
+                      className="store-cart-quantity"
+                      value={quantity}
+                      min={1}
+                      max={5}
+                      onChange={(value) => onQty(lineId, value)}
+                      style={{ borderRadius: 0, background: 'transparent', borderColor: 'var(--editorial-line)' }}
+                    />
+                    <strong>₹{(unitPrice * quantity).toLocaleString('en-IN')}</strong>
+                  </div>
                 </div>
-                <div className="store-cart-item-controls" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:10 }}>
-                  <QuantityStepper value={qty} min={1} max={5} onChange={(v)=>onQty(p.id,v)} style={{ transform:'scale(0.92)', transformOrigin:'left' }} />
-                  <span style={{ font:'var(--fw-bold) var(--fs-sm)/1 var(--font-mono)', color:'var(--price-accent)' }}>₹{(p.price*qty).toLocaleString('en-IN')}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+              </article>
+            );
+          })}
         </div>
 
-        {lines.length>0 && (
-          <div className="store-cart-footer" style={{ padding:'var(--space-5)', borderTop:'1px solid var(--border-subtle)' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:'var(--space-4)' }}>
-              <span style={{ font:'var(--fw-medium) var(--fs-sm)/1 var(--font-body)', color:'var(--text-muted)' }}>Subtotal</span>
-              <span style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-mono)', color:'var(--ink-900)' }}>₹{subtotal.toLocaleString('en-IN')}</span>
+        {lines.length > 0 && (
+          <footer className="store-cart-footer">
+            <div className="store-cart-subtotal">
+              <span>Subtotal</span>
+              <strong>₹{subtotal.toLocaleString('en-IN')}</strong>
             </div>
-            <Button variant="primary" size="lg" full onClick={onCheckout} iconRight={<i data-lucide="arrow-right" style={{width:18,height:18}}></i>}>Checkout</Button>
-            <p style={{ font:'var(--fw-regular) var(--fs-2xs)/1.4 var(--font-body)', color:'var(--text-faint)', textAlign:'center', margin:'var(--space-3) 0 0' }}>Free delivery across India · 1-year warranty</p>
-          </div>
+            <p>Taxes included. Delivery is complimentary.</p>
+            <button type="button" className="editorial-cta editorial-cta--primary store-cart-checkout" onClick={onCheckout}>
+              Checkout <i data-lucide="arrow-right" aria-hidden="true" />
+            </button>
+            <div className="store-cart-assurance">
+              <span><i data-lucide="truck" aria-hidden="true" /> Free India delivery</span>
+              <span><i data-lucide="shield-check" aria-hidden="true" /> 2-year frame warranty</span>
+            </div>
+          </footer>
         )}
       </aside>
     </>
   );
 }
+
 export default CartDrawer;

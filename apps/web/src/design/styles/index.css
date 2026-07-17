@@ -1,42 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import url('./tokens/fonts.css');
 @import url('./tokens/colors.css');
 @import url('./tokens/typography.css');
 @import url('./tokens/spacing.css');
 @import url('./tokens/base.css');
+@import url('../features/storefront/footer-newsletter.css');
 @import url('../features/storefront/responsive.css');
+@import url('../features/storefront/editorial-navigation.css');
+@import url('../features/storefront/checkout-cart-editorial.css');
+@import url('../features/storefront/home-editorial.css');
+@import url('../features/storefront/search-editorial.css');
+@import url('../features/storefront/engineering.css');
+@import url('../features/storefront/product-detail.css');
+@import url('../features/storefront/editorial-pages.css');
+@import url('../features/storefront/legacy-editorial.css');
+@import url('../features/storefront/account.css');
 @import url('../features/distributor/responsive.css');
-
-html {
-  background: var(--bg-page);
-  scroll-behavior: smooth;
-}
-
-html,
-body,
-#root {
-  min-width: 320px;
-  min-height: 100%;
-  margin: 0;
-}
-
-body {
-  min-height: 100vh;
-  background: var(--bg-page);
-}
-
-button,
-input,
-select,
-textarea,
-table {
-  font-family: inherit;
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--cyan-100);
-  outline-offset: 2px;
-}

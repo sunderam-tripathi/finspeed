@@ -35,8 +35,63 @@
   --steel-700: #39424b;
   --white: #ffffff;
 
+  /* ---- Editorial porcelain system ----
+     Shared by the premium navigation, signature range, and build studio.
+     These are named primitives so component CSS never has to recreate the
+     warm paper surface or its accessible cyan/text pairings. */
+  --porcelain-50:  #faf8f6;
+  --porcelain-100: #f8f6f2;
+  --porcelain-200: #f7f3ef;
+  --porcelain-300: #f2eeea;
+  --porcelain-350: #f1ede9;
+  --porcelain-400: #f0ede7;
+  --porcelain-450: #efeae6;
+  --porcelain-500: #f1ebe6;
+  --porcelain-line: #d8d5cf;
+  --porcelain-line-strong: #d8d4d2;
+
+  --editorial-ink-900: #101215;
+  --editorial-muted-600: #5e6267;
+  --editorial-number-500: #62676c;
+  --editorial-accent-500: #087895;
+  --editorial-accent-600: #066b87;
+  --editorial-accent-300: #55c9e7;
+  --editorial-accent-vivid-500: #19b9dd;
+  --editorial-accent-vivid-600: #087a99;
+  --editorial-accent-vivid-300: #52c4e0;
+  --editorial-on-accent: #071014;
+
+  --editorial-dark-surface: #0d1115;
+  --editorial-dark-text: #f7f6f2;
+  --editorial-dark-muted: #a9b0b5;
+  --editorial-dark-number: #96999c;
+  --editorial-dark-border: rgba(255, 255, 255, 0.14);
+  --editorial-header-light: rgba(248, 246, 242, 0.97);
+  --editorial-header-dark: rgba(10, 14, 18, 0.97);
+  --editorial-filter-light: rgba(248, 246, 242, 0.95);
+  --build-canvas-fallback: #f1ece7;
+
+  /* A single art-directed surface token keeps the configurator controls and
+     product stage on one uninterrupted canvas. */
+  --build-canvas:
+    radial-gradient(
+      76% 92% at 100% 100%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 72%
+    ),
+    linear-gradient(
+      90deg,
+      var(--porcelain-200) 0%,
+      var(--porcelain-300) 34%,
+      var(--porcelain-450) 50%,
+      var(--porcelain-350) 67%,
+      var(--porcelain-300) 82%,
+      var(--porcelain-500) 94%,
+      var(--porcelain-500) 100%
+    );
+
   /* ---- Semantic ---- */
-  --success: #1faa6b;
+  --success: #0b7046;
   --success-bg: #e6f6ee;
   --warning: #e08a1e;
   --warning-bg: #fbf0dc;

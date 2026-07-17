@@ -549,6 +549,531 @@
       "logPath": "tmp/process-logs/web030-theme-header-lint-final-2026-07-15T18-39-16-325Z.log",
       "exitCode": 0,
       "ended_at": "2026-07-15T18:41:48.297Z"
+    },
+    {
+      "name": "web034-contract",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "contract.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-contract-2026-07-16T17-30-16-050Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-16T17:32:21.903Z"
+    },
+    {
+      "name": "web034-product-imagery",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "contract.spec.ts",
+        "--grep",
+        "catalog and product detail",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-product-imagery-2026-07-16T17-35-57-801Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:36:05.107Z"
+    },
+    {
+      "name": "web034-header-treatment",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "contract.spec.ts",
+        "--grep",
+        "shared header visual treatment",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-header-treatment-2026-07-16T17-36-26-083Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:36:42.621Z"
+    },
+    {
+      "name": "web034-a11y",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "a11y.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-a11y-2026-07-16T17-48-15-687Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:48:44.659Z"
+    },
+    {
+      "name": "web034-contract-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "contract.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-contract-final-2026-07-16T17-49-06-214Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:49:59.256Z"
+    },
+    {
+      "name": "web034-full-regression",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-full-regression-2026-07-16T17-51-01-561Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:52:02.739Z"
+    },
+    {
+      "name": "web034-lint-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web034-lint-final-2026-07-16T17-56-40-432Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T17:58:46.607Z"
+    },
+    {
+      "name": "web034-build-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web034-build-final-2026-07-16T17-59-20-061Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-16T18:00:24.163Z"
+    },
+    {
+      "name": "web034-a11y-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "a11y.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-a11y-final-2026-07-16T18-03-14-014Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-16T18:03:56.058Z"
+    },
+    {
+      "name": "web034-lint",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web034-lint-2026-07-17T16-36-18-824Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T16:38:03.168Z"
+    },
+    {
+      "name": "web034-unit",
+      "cmd": "node",
+      "args": [
+        "--test",
+        "apps/web/src/design/lib/__tests__/*.test.mjs"
+      ],
+      "logPath": "tmp/process-logs/web034-unit-2026-07-17T16-39-32-045Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T16:39:32.271Z"
+    },
+    {
+      "name": "web034-focused",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/product-detail-editorial.spec.ts",
+        "tests/cart-drawer.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/account.spec.ts",
+        "tests/auth.spec.ts",
+        "tests/footer-newsletter.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-focused-2026-07-17T16-41-01-312Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-17T16:42:13.397Z"
+    },
+    {
+      "name": "web034-focused-rerun",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/product-detail-editorial.spec.ts",
+        "tests/cart-drawer.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/account.spec.ts",
+        "tests/auth.spec.ts",
+        "tests/footer-newsletter.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-focused-rerun-2026-07-17T17-03-21-925Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-17T17:04:12.728Z"
+    },
+    {
+      "name": "web034-auth-cart",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/auth.spec.ts",
+        "tests/cart-drawer.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-auth-cart-2026-07-17T17-10-04-456Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:10:26.944Z"
+    },
+    {
+      "name": "web034-legacy",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/dealer-locator.spec.ts",
+        "tests/outage.spec.ts",
+        "tests/brand-story.spec.ts",
+        "tests/testimonials.spec.ts",
+        "tests/blog.spec.ts",
+        "tests/support.spec.ts",
+        "tests/a11y.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-legacy-2026-07-17T17-15-01-620Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-17T17:15:45.163Z"
+    },
+    {
+      "name": "web034-a11y",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/a11y.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-a11y-2026-07-17T17-17-21-674Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:18:03.592Z"
+    },
+    {
+      "name": "web034-legacy-contract-tests",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/dealer-locator.spec.ts",
+        "tests/outage.spec.ts",
+        "tests/brand-story.spec.ts",
+        "tests/testimonials.spec.ts",
+        "tests/blog.spec.ts",
+        "tests/support.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-legacy-contract-tests-2026-07-17T17-18-27-522Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:19:08.050Z"
+    },
+    {
+      "name": "web034-legacy-a11y",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/a11y.spec.ts",
+        "--grep",
+        "Dealer locator",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-legacy-a11y-2026-07-17T17-20-06-388Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:20:19.053Z"
+    },
+    {
+      "name": "web034-contract",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/contract.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-contract-2026-07-17T17-20-04-158Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-17T17:22:29.134Z"
+    },
+    {
+      "name": "web034-contract-fixes",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/contract.spec.ts",
+        "--grep",
+        "light homepage|header theme|build tabs",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-contract-fixes-2026-07-17T17-24-19-060Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:24:37.710Z"
+    },
+    {
+      "name": "web034-new-journeys",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/search-editorial.spec.ts",
+        "tests/support.spec.ts",
+        "tests/account.spec.ts",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-new-journeys-2026-07-17T17-27-23-089Z.log",
+      "exitCode": 1,
+      "ended_at": "2026-07-17T17:27:39.486Z"
+    },
+    {
+      "name": "web034-support-validation",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "tests/support.spec.ts",
+        "--workers=1"
+      ],
+      "logPath": "tmp/process-logs/web034-support-validation-2026-07-17T17-29-52-875Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:30:05.552Z"
+    },
+    {
+      "name": "web034-full-regression",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-full-regression-2026-07-17T17-31-12-841Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T17:34:09.975Z"
+    },
+    {
+      "name": "web034-full-regression-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-full-regression-final-2026-07-17T18-01-02-166Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:04:43.173Z"
+    },
+    {
+      "name": "web034-full-regression-final2",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-full-regression-final2-2026-07-17T18-01-54-740Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:05:13.187Z"
+    },
+    {
+      "name": "web034-unit-final2",
+      "cmd": "node",
+      "args": [
+        "--test",
+        "apps/web/src/design/lib/__tests__/*.test.mjs"
+      ],
+      "logPath": "tmp/process-logs/web034-unit-final2-2026-07-17T18-08-23-313Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:08:24.130Z"
+    },
+    {
+      "name": "web034-lint-final2",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web034-lint-final2-2026-07-17T18-08-23-297Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:10:07.729Z"
+    },
+    {
+      "name": "web034-build-final2",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web034-build-final2-2026-07-17T18-11-39-151Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:12:36.353Z"
+    },
+    {
+      "name": "web034-lint-final3",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "lint"
+      ],
+      "logPath": "tmp/process-logs/web034-lint-final3-2026-07-17T18-15-19-654Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:15:35.911Z"
+    },
+    {
+      "name": "web034-build-final3",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "build"
+      ],
+      "logPath": "tmp/process-logs/web034-build-final3-2026-07-17T18-15-19-638Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:15:39.837Z"
+    },
+    {
+      "name": "web034-progress-final",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:progress"
+      ],
+      "logPath": "tmp/process-logs/web034-progress-final-2026-07-17T18-18-45-351Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:18:46.269Z"
+    },
+    {
+      "name": "web034-slice-index-final2",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:slice-index"
+      ],
+      "logPath": "tmp/process-logs/web034-slice-index-final2-2026-07-17T18-19-30-364Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:19:31.401Z"
+    },
+    {
+      "name": "web034-progress-final2",
+      "cmd": "npm.cmd",
+      "args": [
+        "run",
+        "spec:progress"
+      ],
+      "logPath": "tmp/process-logs/web034-progress-final2-2026-07-17T18-19-31-515Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:19:32.631Z"
+    },
+    {
+      "name": "web034-full-regression-final3",
+      "cmd": "npm.cmd",
+      "args": [
+        "--workspace",
+        "web",
+        "run",
+        "test",
+        "--",
+        "--workers=2"
+      ],
+      "logPath": "tmp/process-logs/web034-full-regression-final3-2026-07-17T18-17-23-892Z.log",
+      "exitCode": 0,
+      "ended_at": "2026-07-17T18:20:47.312Z"
     }
   ]
 }

@@ -1,10 +1,19 @@
 import React from 'react';
 import { Button } from '../core/Button.jsx';
+import {
+  NEWSLETTER_CONTACT_EMAIL,
+  buildNewsletterMailto,
+  deliverNewsletterSubscription,
+} from '../../../lib/newsletter-actions.mjs';
+
+const ENV_NEWSLETTER_ENDPOINT = typeof process !== 'undefined'
+  ? process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || ''
+  : '';
 
 /**
- * Finspeed Newsletter — email-capture band ("Join the Network" energy).
- * Eyebrow + cyan accent rule + display headline + inline email field.
- * `tone="dark"` flips it onto the performance ink surface where cyan glows.
+ * Finspeed newsletter band. A configured endpoint (or supplied onSubmit)
+ * receives the address; without one, the component exposes an honest mailto
+ * action instead of pretending that an address was stored.
  */
 export function Newsletter({
   eyebrow = 'Join the network',
@@ -13,84 +22,109 @@ export function Newsletter({
   placeholder = 'you@email.com',
   cta = 'Subscribe',
   onSubmit = null,
-  align = 'left',          // 'left' | 'center'
-  tone = 'light',          // 'light' | 'dark'
+  endpoint = ENV_NEWSLETTER_ENDPOINT,
+  fallbackEmail = NEWSLETTER_CONTACT_EMAIL,
+  align = 'left',
+  tone = 'light',
+  className = '',
   style = {},
   ...rest
 }) {
   const [email, setEmail] = React.useState('');
-  const [done, setDone] = React.useState(false);
+  const [status, setStatus] = React.useState('idle');
+  const inputId = React.useId();
+  const feedbackId = `${inputId}-feedback`;
   const dark = tone === 'dark';
-
-  const submit = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    if (onSubmit) onSubmit(email);
-    setDone(true);
-  };
-
   const centered = align === 'center';
+  const canSubmitDirectly = Boolean(onSubmit || endpoint?.trim());
+  const fallbackHref = buildNewsletterMailto(fallbackEmail);
+  const sectionClassName = [
+    'store-newsletter',
+    dark ? 'fin-dark store-newsletter--dark' : 'fin-light store-newsletter--light',
+    centered ? 'store-newsletter--centered' : '',
+    className,
+  ].filter(Boolean).join(' ');
+
+  async function submit(event) {
+    event.preventDefault();
+    setStatus('submitting');
+
+    try {
+      await deliverNewsletterSubscription({ email, endpoint: endpoint?.trim(), onSubmit });
+      setEmail('');
+      setStatus('success');
+    } catch {
+      setStatus('error');
+    }
+  }
 
   return (
-    <section
-      className={dark ? 'fin-dark' : undefined}
-      style={{
-        background: dark ? 'var(--ink-900)' : 'var(--surface-sunken)',
-        color: 'var(--text-body)',
-        borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-7) var(--space-7)',
-        ...style,
-      }}
-      {...rest}
-    >
-      <div style={{
-        maxWidth: 560,
-        margin: centered ? '0 auto' : 0,
-        textAlign: centered ? 'center' : 'left',
-        display: 'flex', flexDirection: 'column', gap: 'var(--space-4)',
-        alignItems: centered ? 'center' : 'flex-start',
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', alignItems: centered ? 'center' : 'flex-start' }}>
-          <span style={{ font: 'var(--fw-semibold) var(--fs-3xs)/1 var(--font-mono)', letterSpacing: 'var(--tracking-wider)', textTransform: 'uppercase', color: 'var(--brand-ink)' }}>{eyebrow}</span>
-          <span aria-hidden="true" style={{ width: 56, height: 3, background: 'var(--brand)', display: 'block' }}></span>
-          <h2 style={{ font: 'var(--fw-bold) var(--fs-3xl)/1.05 var(--font-display)', letterSpacing: 'var(--tracking-tight)', color: 'var(--text-strong)', margin: 0 }}>{title}</h2>
-          {description && (
-            <p style={{ font: 'var(--text-body-md)', color: 'var(--text-muted)', margin: 0, maxWidth: 460 }}>{description}</p>
-          )}
+    <section className={sectionClassName} style={style} {...rest}>
+      <div className="store-newsletter__inner">
+        <div className="store-newsletter__copy">
+          <p className="store-newsletter__eyebrow">{eyebrow}</p>
+          <span className="store-newsletter__rule" aria-hidden="true" />
+          <h2>{title}</h2>
+          {description && <p className="store-newsletter__description">{description}</p>}
         </div>
 
-        {done ? (
-          <p role="status" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', font: 'var(--fw-semibold) var(--fs-sm)/1 var(--font-body)', color: 'var(--brand-ink)', margin: 0 }}>
-            <i data-lucide="check-circle" style={{ width: 18, height: 18 }}></i>
-            You're on the list — welcome aboard.
-          </p>
-        ) : (
-          <form onSubmit={submit} style={{ display: 'flex', gap: 'var(--space-3)', width: '100%', maxWidth: 460, flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={placeholder}
-              aria-label="Email address"
-              style={{
-                flex: '1 1 200px',
-                height: 46,
-                padding: '0 16px',
-                font: 'var(--fw-regular) var(--fs-sm)/1 var(--font-body)',
-                color: 'var(--text-strong)',
-                background: 'var(--surface-card)',
-                border: 'var(--border-width) solid var(--border-strong)',
-                borderRadius: 'var(--radius-sm)',
-                outline: 'none',
-                transition: 'var(--transition-base)',
-              }}
-              onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--focus-ring)'; e.currentTarget.style.boxShadow = '0 0 0 3px var(--cyan-100)'; }}
-              onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.boxShadow = 'none'; }}
-            />
-            <Button type="submit" variant="primary">{cta}</Button>
-          </form>
-        )}
+        <div className="store-newsletter__interaction" aria-live="polite">
+          {!canSubmitDirectly ? (
+            <div className="store-newsletter__fallback">
+              <p>Email Finspeed to request ride updates. Nothing is submitted from this page.</p>
+              <a className="store-newsletter__mail-action" href={fallbackHref}>
+                <span>Request updates by email</span>
+                <i data-lucide="mail" aria-hidden="true" />
+              </a>
+            </div>
+          ) : status === 'success' ? (
+            <div className="store-newsletter__feedback store-newsletter__feedback--success" role="status">
+              <i data-lucide="check-circle" aria-hidden="true" />
+              <div>
+                <strong>Your subscription was confirmed.</strong>
+                <span>Look out for the next Finspeed release.</span>
+              </div>
+              <button type="button" onClick={() => setStatus('idle')}>Use another email</button>
+            </div>
+          ) : (
+            <form className="store-newsletter__form" onSubmit={submit} aria-busy={status === 'submitting'}>
+              <label htmlFor={inputId}>Email address</label>
+              <div className="store-newsletter__form-row">
+                <input
+                  id={inputId}
+                  type="email"
+                  required
+                  autoComplete="email"
+                  inputMode="email"
+                  value={email}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    if (status === 'error') setStatus('idle');
+                  }}
+                  placeholder={placeholder}
+                  aria-describedby={status === 'error' ? feedbackId : undefined}
+                />
+                <Button
+                  className="store-newsletter__submit"
+                  type="submit"
+                  variant="primary"
+                  bevel
+                  disabled={status === 'submitting'}
+                  iconRight={<i data-lucide="arrow-right" aria-hidden="true" />}
+                >
+                  {status === 'submitting' ? 'Subscribing...' : cta}
+                </Button>
+              </div>
+              <p className="store-newsletter__privacy">Product updates only. Unsubscribe at any time.</p>
+              {status === 'error' && (
+                <p id={feedbackId} className="store-newsletter__error" role="alert">
+                  We could not confirm your subscription.{' '}
+                  <a href={fallbackHref}>Request updates by email instead.</a>
+                </p>
+              )}
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

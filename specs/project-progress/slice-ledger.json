@@ -185,6 +185,12 @@
           "domain": "web",
           "title": "Claude redesign integration and Amplify release",
           "status": "active"
+        },
+        {
+          "id": "WEB-034",
+          "domain": "web",
+          "title": "Premium editorial navigation and build journey",
+          "status": "active"
         }
       ]
     }

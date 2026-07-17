@@ -1,183 +1,322 @@
-// Finspeed storefront — Product detail page
+/* eslint-disable @next/next/no-img-element -- native responsive sources preserve the governed product masters */
 import React from 'react';
-import { Button, Badge, PriceTag, SpecPill, Rating, QuantityStepper, Breadcrumb, Accordion, Modal } from '../../ui/index.js';
+import { Breadcrumb, QuantityStepper } from '../../ui/index.js';
 import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
+import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
-function ProductDetail({ id, onAdd, onNav, onProduct }) {
-  const P = products;
-  const p = P.find(x=>x.id===id) || P[0];
-  const [qty, setQty] = React.useState(1);
-  const [color, setColor] = React.useState(0);
-  const [sizeOpen, setSizeOpen] = React.useState(false);
-  const related = P.filter(x=>x.tag===p.tag && x.id!==p.id).slice(0,3);
-  const I = (n) => <i data-lucide={n} style={{width:15,height:15}}></i>;
-  const susp = p.tag==='mountain' ? 'Front suspension' : 'Rigid fork';
-  const soldOut = p.stock===0;
-  const lowStock = p.stock>0 && p.stock<=3;
-  const specGroups = [
-    { title:'Frame & fork', icon:I('shield'), rows:[['Frame','High-tensile steel'],['Fork',susp],['Finish','Powder-coat'],['Series',p.series]] },
-    { title:'Drivetrain', icon:I('settings'), rows:[['Gears', p.speed==='Single'?'Single speed':p.speed],['Shifters', p.speed==='Single'?'—':'Easy Fire 3×7'],['Brakes', p.brakes+' brakes']] },
-    { title:'Wheels & tyres', icon:I('circle-dot'), rows:[['Wheel size', p.wheels],['Rims','Double-walled alloy'],['Tyres','Broad all-terrain']] },
+const categoryLabels = {
+  mountain: 'Mountain',
+  city: 'City',
+  hybrid: 'Hybrid',
+};
+
+const supportEmail = 'support@finspeed.online';
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function formatPrice(value) {
+  return `₹${value.toLocaleString('en-IN')}`;
+}
+
+function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }) {
+  const product = products.find((item) => item.id === id) || products[0];
+  const [quantity, setQuantity] = React.useState(1);
+  const [notifyEmail, setNotifyEmail] = React.useState('');
+  const [notifyStatus, setNotifyStatus] = React.useState('idle');
+  const [notifyFeedback, setNotifyFeedback] = React.useState('');
+  const soldOut = product.stock === 0;
+  const lowStock = product.stock > 0 && product.stock <= 3;
+  const category = categoryLabels[product.tag] || product.tag;
+  const related = products.filter((item) => item.tag === product.tag && item.id !== product.id).slice(0, 3);
+  const endpoint = notifyEndpoint
+    || process.env.NEXT_PUBLIC_PRODUCT_NOTIFY_ENDPOINT
+    || process.env.NEXT_PUBLIC_SUPPORT_FORM_ENDPOINT
+    || '';
+  const validNotifyEmail = emailPattern.test(notifyEmail.trim());
+  const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent(`Finspeed availability · ${product.name}`)}&body=${encodeURIComponent(`Please let me know when the ${product.name} (${product.id}) is available.\n\nContact email: ${notifyEmail.trim()}`)}`;
+  const specification = [
+    ['Series', product.series],
+    ['Category', category],
+    ['Wheel size', product.wheels],
+    ['Drivetrain', product.speed],
+    ['Braking system', product.brakes],
   ];
 
+  useLucideIcons([product.id, soldOut, notifyStatus]);
+
+  function buyNow() {
+    if (onBuyNow) {
+      onBuyNow(product.id, quantity);
+      return;
+    }
+    onAdd?.(product.id, quantity);
+    onNav?.('checkout');
+  }
+
+  function openMailFallback(event) {
+    if (!validNotifyEmail) {
+      event.preventDefault();
+      setNotifyStatus('error');
+      setNotifyFeedback('Enter a valid email address before preparing the request.');
+      return;
+    }
+    setNotifyStatus('fallback');
+    setNotifyFeedback('Your email app is opening. Send the prepared message to complete the request.');
+  }
+
+  async function submitNotification(event) {
+    event.preventDefault();
+    if (!validNotifyEmail) {
+      setNotifyStatus('error');
+      setNotifyFeedback('Enter a valid email address so we can send an availability update.');
+      return;
+    }
+
+    if (!endpoint) {
+      window.location.href = mailto;
+      setNotifyStatus('fallback');
+      setNotifyFeedback('Your email app is opening. Send the prepared message to complete the request.');
+      return;
+    }
+
+    setNotifyStatus('submitting');
+    setNotifyFeedback('');
+    try {
+      const payload = new FormData();
+      payload.append('email', notifyEmail.trim());
+      payload.append('productId', product.id);
+      payload.append('productName', product.name);
+      payload.append('source', 'product-detail-availability');
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: payload,
+      });
+      if (!response.ok) throw new Error('The availability request could not be sent.');
+      setNotifyStatus('success');
+      setNotifyFeedback(`Request received. We will contact ${notifyEmail.trim()} when availability changes.`);
+      setNotifyEmail('');
+    } catch (error) {
+      setNotifyStatus('error');
+      setNotifyFeedback(error instanceof Error ? error.message : 'The availability request could not be sent.');
+    }
+  }
+
   return (
-    <div style={{ background:'var(--bg-page)' }}>
-      <div className="store-page-shell store-product-page" style={{ maxWidth:'var(--container-max)', margin:'0 auto', padding:'var(--space-5) var(--space-7) var(--space-9)' }}>
-        {/* breadcrumb */}
-        <div style={{ padding:'var(--space-4) 0' }}>
-          <Breadcrumb items={[{label:'Home',onClick:()=>onNav('home')},{label:'Shop',onClick:()=>onNav('shop')},{label:p.name}]} />
+    <article className="product-editorial-page">
+      <div className="product-editorial-breadcrumb">
+        <Breadcrumb
+          items={[
+            { label: 'Home', onClick: () => onNav('home') },
+            { label: 'The bikes', onClick: () => onNav('shop') },
+            { label: product.name },
+          ]}
+        />
+      </div>
+
+      <section className="product-editorial-hero store-product-layout" aria-labelledby="product-title">
+        <div className="product-editorial-stage store-product-gallery">
+          <div className="product-editorial-stage__topline">
+            <span>{product.series}</span>
+            {product.badge ? <span className="product-editorial-badge">{product.badge}</span> : null}
+          </div>
+          <div className="product-editorial-stage__image">
+            <img
+              src={productImage(product.id, 1600)}
+              srcSet={productImageSrcSet(product.id)}
+              sizes="(max-width: 900px) 100vw, 60vw"
+              alt={`Finspeed ${product.name} bicycle in side profile`}
+              decoding="async"
+              fetchPriority="high"
+            />
+          </div>
+          <dl className="product-editorial-stage__specs" aria-label={`${product.name} key specifications`}>
+            <div><dt>Wheels</dt><dd>{product.wheels}</dd></div>
+            <div><dt>Drive</dt><dd>{product.speed}</dd></div>
+            <div><dt>Brakes</dt><dd>{product.brakes}</dd></div>
+            <div><dt>Category</dt><dd>{category}</dd></div>
+          </dl>
         </div>
 
-        <div className="store-product-layout" style={{ display:'grid', gridTemplateColumns:'1.1fr 1fr', gap:'var(--space-8)', alignItems:'start' }}>
-          {/* gallery */}
-          <div className="store-product-gallery" style={{ position:'relative', background:'linear-gradient(180deg,#fff,var(--steel-50))', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', padding:'var(--space-7)', display:'flex', alignItems:'center', justifyContent:'center', minHeight:440 }}>
-            {p.badge && <span style={{ position:'absolute', top:16, left:16 }}><Badge tone="brand" solid>{p.badge}</Badge></span>}
-            <img src={productImage(p.id, 1600)} srcSet={productImageSrcSet(p.id)} sizes="(max-width: 760px) 92vw, 48vw" alt={p.name} decoding="async" fetchPriority="high" style={{ maxWidth:'100%', maxHeight:420, objectFit:'contain', mixBlendMode:'multiply' }} />
+        <div className="product-editorial-info store-product-info">
+          <p className="editorial-kicker">{product.series}</p>
+          <h1 id="product-title">{product.name}</h1>
+          <p className="product-editorial-subtitle">{product.sub}</p>
+          <p className="product-editorial-rating" aria-label={`${product.rating} out of 5 from ${product.reviews} rider reviews`}>
+            <strong>{product.rating.toFixed(1)}</strong> / 5 <span>·</span> {product.reviews} rider reviews
+          </p>
+
+          <div className="product-editorial-price">
+            <strong>{formatPrice(product.price)}</strong>
+            {product.mrp ? <span>List {formatPrice(product.mrp)}</span> : null}
           </div>
+          <p className="product-editorial-description">{product.desc}</p>
 
-          {/* info */}
-          <div className="store-product-info">
-            <span className="fin-eyebrow">{p.series}</span>
-            <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'8px 0 6px' }}>{p.name}</h1>
-            <p style={{ font:'var(--fw-medium) var(--fs-md)/1.4 var(--font-body)', color:'var(--text-muted)', margin:'0 0 var(--space-4)' }}>{p.sub}</p>
-            <Rating value={p.rating} count={p.reviews} />
-            <div style={{ margin:'var(--space-5) 0' }}><PriceTag price={p.price} mrp={p.mrp} size="lg" /></div>
-            <p style={{ font:'var(--fw-regular) var(--fs-md)/1.65 var(--font-body)', color:'var(--text-body)', margin:'0 0 var(--space-5)', maxWidth:440 }}>{p.desc}</p>
+          <button type="button" className="product-editorial-fit-link editorial-text-link" onClick={() => onNav('stores')}>
+            <i data-lucide="ruler" aria-hidden="true" /> Confirm your fit with a dealer
+            <i data-lucide="arrow-right" aria-hidden="true" />
+          </button>
 
-            <div style={{ display:'flex', flexWrap:'wrap', gap:8, marginBottom:'var(--space-6)' }}>
-              <SpecPill icon={I('circle-dot')}>{p.wheels} wheels</SpecPill>
-              <SpecPill icon={I('settings')}>{p.speed}</SpecPill>
-              <SpecPill icon={I('disc')}>{p.brakes} brakes</SpecPill>
-            </div>
-
-            {/* colour */}
-            <div style={{ marginBottom:'var(--space-6)' }}>
-              <div style={{ font:'var(--fw-semibold) var(--fs-xs)/1 var(--font-body)', color:'var(--text-strong)', marginBottom:10 }}>Colourway</div>
-              <div style={{ display:'flex', gap:10 }}>
-                {p.colors.map((c,i)=>(
-                  <button key={i} onClick={()=>setColor(i)} aria-label={'colour '+(i+1)} style={{ width:38, height:38, borderRadius:'50%', background:c, cursor:'pointer', border:'2px solid '+(color===i?'var(--ink-900)':'transparent'), outline:'1px solid var(--border-subtle)', outlineOffset:2 }}></button>
-                ))}
-              </div>
-              <button type="button" onClick={()=>setSizeOpen(true)} style={{ marginTop:14, display:'inline-flex', alignItems:'center', gap:7, background:'transparent', border:'none', padding:0, cursor:'pointer', font:'var(--fw-semibold) var(--fs-xs)/1 var(--font-body)', color:'var(--brand-ink)' }}>
-                <i data-lucide="ruler" style={{width:15,height:15}}></i> Size guide
-              </button>
-            </div>
-
-            {/* buy row */}
+          <div className="product-editorial-purchase">
             {soldOut ? (
-              <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-3)', maxWidth:440 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8, font:'var(--fw-semibold) var(--fs-xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase', color:'var(--danger)' }}>
-                  <i data-lucide="x-circle" style={{width:16,height:16}}></i> Sold out
-                </div>
-                <div style={{ display:'flex', gap:'var(--space-3)', flexWrap:'wrap' }}>
-                  <Button variant="dark" size="lg" disabled>Add to cart</Button>
-                  <Button variant="outline" size="lg" iconLeft={<i data-lucide="bell" style={{width:18,height:18}}></i>}>Notify me</Button>
-                </div>
-              </div>
+              <AvailabilityForm
+                product={product}
+                email={notifyEmail}
+                setEmail={setNotifyEmail}
+                endpoint={endpoint}
+                validEmail={validNotifyEmail}
+                mailto={mailto}
+                status={notifyStatus}
+                feedback={notifyFeedback}
+                onSubmit={submitNotification}
+                onMailFallback={openMailFallback}
+              />
             ) : (
-              <div>
-                {lowStock && (
-                  <div style={{ display:'flex', alignItems:'center', gap:7, marginBottom:'var(--space-4)', font:'var(--fw-semibold) var(--fs-xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase', color:'var(--warning)' }}>
-                    <i data-lucide="alert-triangle" style={{width:15,height:15}}></i> Only {p.stock} left in stock
+              <>
+                <p className={`product-editorial-stock${lowStock ? ' is-low' : ''}`}>
+                  <span aria-hidden="true" />
+                  {lowStock ? `Only ${product.stock} remaining` : 'Available to order'}
+                </p>
+                <div className="product-editorial-actions store-product-actions">
+                  <div className="product-editorial-quantity">
+                    <span>Quantity</span>
+                    <QuantityStepper
+                      value={quantity}
+                      min={1}
+                      max={Math.min(5, product.stock || 5)}
+                      onChange={setQuantity}
+                    />
                   </div>
-                )}
-                <div className="store-product-actions" style={{ display:'flex', gap:'var(--space-4)', alignItems:'center', flexWrap:'wrap' }}>
-                  <QuantityStepper value={qty} min={1} max={Math.min(5, p.stock||5)} onChange={setQty} />
-                  <Button variant="primary" size="lg" onClick={()=>onAdd(p.id, qty)} iconLeft={<i data-lucide="shopping-cart" style={{width:18,height:18}}></i>}>Add to cart</Button>
-                  <Button variant="dark" size="lg">Buy now</Button>
+                  <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onAdd(product.id, quantity)}>
+                    Add to cart <i data-lucide="shopping-cart" aria-hidden="true" />
+                  </button>
+                  <button type="button" className="editorial-cta product-editorial-buy" onClick={buyNow}>
+                    Buy now <i data-lucide="arrow-right" aria-hidden="true" />
+                  </button>
                 </div>
-              </div>
+              </>
             )}
-
-            <div className="store-product-benefits" style={{ display:'flex', gap:'var(--space-5)', marginTop:'var(--space-6)', font:'var(--fw-regular) var(--fs-xs)/1.4 var(--font-body)', color:'var(--text-muted)' }}>
-              <span style={{display:'inline-flex',alignItems:'center',gap:6}}><i data-lucide="truck" style={{width:15,height:15,color:'var(--brand-strong)'}}></i> Free delivery</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:6}}><i data-lucide="shield-check" style={{width:15,height:15,color:'var(--brand-strong)'}}></i> 1-year warranty</span>
-              <span style={{display:'inline-flex',alignItems:'center',gap:6}}><i data-lucide="wrench" style={{width:15,height:15,color:'var(--brand-strong)'}}></i> 85% pre-assembled</span>
-            </div>
           </div>
         </div>
+      </section>
 
-        {/* specifications */}
-        <div className="store-product-specifications" style={{ marginTop:'var(--space-9)', maxWidth:760 }}>
-          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'0 0 var(--space-5)' }}>Specifications</h2>
-          <Accordion defaultOpen={0} items={specGroups.map(g=>({ title:g.title, icon:g.icon, content:<SpecTable rows={g.rows} /> }))} />
+      <section className="product-editorial-specification" aria-labelledby="product-specification-title">
+        <div className="product-editorial-specification__intro">
+          <p className="editorial-kicker">The essentials</p>
+          <h2 id="product-specification-title">The specification,<br />without the noise.</h2>
+          <p>{product.desc}</p>
         </div>
+        <dl className="product-editorial-specification__table">
+          {specification.map(([term, detail], index) => (
+            <div key={term}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <dt>{term}</dt>
+              <dd>{detail}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
-        {/* related */}
-        <div style={{ marginTop:'var(--space-9)' }}>
-          <h2 style={{ font:'var(--fw-bold) var(--fs-2xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--text-strong)', margin:'0 0 var(--space-5)' }}>You might also like</h2>
-          <div className="store-related-grid" style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-5)' }}>
-            {related.map(r=>(
-              <RelatedCard key={r.id} p={r} onProduct={onProduct} />
+      {related.length ? (
+        <section className="product-editorial-related" aria-labelledby="related-products-title">
+          <div className="product-editorial-related__heading">
+            <div>
+              <p className="editorial-kicker">Continue exploring</p>
+              <h2 id="related-products-title">More from {category.toLowerCase()}.</h2>
+            </div>
+            <button type="button" className="editorial-text-link" onClick={() => onNav('shop', product.tag)}>
+              View the range <i data-lucide="arrow-right" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="product-editorial-related__grid">
+            {related.map((item, index) => (
+              <RelatedProduct key={item.id} product={item} sequence={index + 1} onProduct={onProduct} />
             ))}
           </div>
-        </div>
-
-        <Modal open={sizeOpen} onClose={()=>setSizeOpen(false)} eyebrow="Find your fit" title="Size guide" width={560}>
-          <p style={{ font:'var(--text-body-md)', color:'var(--text-muted)', margin:'0 0 var(--space-5)' }}>Match your height to a frame. When between sizes, size down for control, up for reach.</p>
-          <SizeGuideTable />
-        </Modal>
-      </div>
-    </div>
+        </section>
+      ) : null}
+    </article>
   );
 }
 
-function RelatedCard({ p, onProduct }) {
+function AvailabilityForm({ product, email, setEmail, endpoint, validEmail, mailto, status, feedback, onSubmit, onMailFallback }) {
+  const submitting = status === 'submitting';
   return (
-    <button className="store-related-card" onClick={()=>onProduct(p.id)} style={{ display:'flex', gap:14, alignItems:'center', textAlign:'left', cursor:'pointer', background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-md)', padding:12, transition:'var(--transition-base)' }}
-      onMouseEnter={e=>e.currentTarget.style.boxShadow='var(--shadow-sm)'}
-      onMouseLeave={e=>e.currentTarget.style.boxShadow='none'}>
-      <div style={{ width:96, height:80, flex:'none', background:'linear-gradient(180deg,#fff,var(--steel-50))', borderRadius:'var(--radius-sm)', display:'flex', alignItems:'center', justifyContent:'center', padding:6 }}>
-        <img src={productImage(p.id)} alt={p.name} loading="lazy" decoding="async" style={{ maxWidth:'100%', maxHeight:'100%', objectFit:'contain', mixBlendMode:'multiply' }} />
+    <form className="product-notify" onSubmit={onSubmit} noValidate>
+      <div className="product-notify__heading">
+        <span className="product-notify__status" aria-hidden="true" />
+        <div>
+          <strong>Currently unavailable</strong>
+          <p>Request an update for the {product.name}.</p>
+        </div>
       </div>
-      <div>
-        <div style={{ font:'var(--fw-regular) var(--fs-3xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wider)', textTransform:'uppercase', color:'var(--brand-ink)' }}>{p.series}</div>
-        <div style={{ font:'var(--fw-bold) var(--fs-md)/1.1 var(--font-display)', color:'var(--text-strong)', margin:'4px 0 6px' }}>{p.name}</div>
-        <div style={{ font:'var(--fw-bold) var(--fs-sm)/1 var(--font-mono)', color:'var(--price-accent)' }}>₹{p.price.toLocaleString('en-IN')}</div>
+      <label htmlFor={`notify-${product.id}`}>Email address</label>
+      <div className="product-notify__field">
+        <input
+          id={`notify-${product.id}`}
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="you@email.com"
+          autoComplete="email"
+          required
+          aria-describedby={`notify-note-${product.id}`}
+        />
+        {endpoint ? (
+          <button type="submit" className="editorial-cta editorial-cta--primary" disabled={submitting}>
+            {submitting ? 'Sending…' : 'Notify me'} <i data-lucide="bell" aria-hidden="true" />
+          </button>
+        ) : (
+          <a
+            className={`editorial-cta editorial-cta--primary${validEmail ? '' : ' is-disabled'}`}
+            href={validEmail ? mailto : undefined}
+            aria-disabled={!validEmail}
+            onClick={onMailFallback}
+          >
+            Notify me <i data-lucide="mail" aria-hidden="true" />
+          </a>
+        )}
       </div>
+      <p id={`notify-note-${product.id}`} className="product-notify__note">
+        {endpoint
+          ? 'Your address is used only for this availability update.'
+          : `This opens a prepared message to ${supportEmail}. No request is sent until you send that email.`}
+      </p>
+      {feedback ? (
+        <p className={`product-notify__feedback is-${status}`} role={status === 'error' ? 'alert' : 'status'}>
+          {feedback}
+          {status === 'error' && endpoint ? <a href={mailto}>Email the request instead</a> : null}
+        </p>
+      ) : null}
+    </form>
+  );
+}
+
+function RelatedProduct({ product, sequence, onProduct }) {
+  return (
+    <button
+      type="button"
+      className="product-editorial-related__item"
+      onClick={() => onProduct(product.id)}
+      aria-label={`View ${product.name}, ${formatPrice(product.price)}`}
+    >
+      <span className="product-editorial-related__sequence" aria-hidden="true">{String(sequence).padStart(2, '0')}</span>
+      <span className="product-editorial-related__image">
+        <img
+          src={productImage(product.id, 960)}
+          srcSet={productImageSrcSet(product.id)}
+          sizes="(max-width: 700px) 82vw, 31vw"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </span>
+      <span className="product-editorial-related__copy">
+        <small>{product.series}</small>
+        <strong>{product.name}</strong>
+        <span>{formatPrice(product.price)} <i data-lucide="arrow-right" aria-hidden="true" /></span>
+      </span>
     </button>
   );
 }
 
-function SpecTable({ rows }) {
-  return (
-    <div className="store-spec-table-grid" style={{ display:'grid', gridTemplateColumns:'170px 1fr', rowGap:12, columnGap:20 }}>
-      {rows.map(([k,v],i)=>(
-        <React.Fragment key={i}>
-          <div style={{ font:'var(--fw-medium) var(--fs-2xs)/1.4 var(--font-mono)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase', color:'var(--text-muted)' }}>{k}</div>
-          <div style={{ font:'var(--fw-regular) var(--fs-sm)/1.4 var(--font-body)', color:'var(--text-strong)' }}>{v}</div>
-        </React.Fragment>
-      ))}
-    </div>
-  );
-}
-
-function SizeGuideTable() {
-  const cols = ['Size','Wheel','Rider height','Inseam'];
-  const rows = [
-    ['XS','24"','142–155 cm','67–73 cm'],
-    ['S','26"','155–168 cm','71–78 cm'],
-    ['M','27.5"','168–178 cm','76–83 cm'],
-    ['L','29"','178–188 cm','81–88 cm'],
-  ];
-  const cell = { padding:'12px 14px', textAlign:'left', borderBottom:'1px solid var(--border-subtle)' };
-  return (
-    <div className="store-size-table-wrap">
-    <table style={{ width:'100%', borderCollapse:'collapse', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-md)', overflow:'hidden' }}>
-      <thead>
-        <tr style={{ background:'var(--surface-sunken)' }}>
-          {cols.map(c=>(<th key={c} style={{ ...cell, font:'var(--fw-semibold) var(--fs-3xs)/1 var(--font-mono)', letterSpacing:'var(--tracking-wider)', textTransform:'uppercase', color:'var(--text-strong)' }}>{c}</th>))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((r,i)=>(
-          <tr key={i}>
-            {r.map((v,j)=>(<td key={j} style={{ ...cell, font:j===0?'var(--fw-bold) var(--fs-sm)/1 var(--font-display)':'var(--fw-regular) var(--fs-sm)/1 var(--font-body)', color:j===0?'var(--brand-ink)':'var(--text-body)' }}>{v}</td>))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    </div>
-  );
-}
 export default ProductDetail;

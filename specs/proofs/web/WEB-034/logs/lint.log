@@ -1,0 +1,116 @@
+
+> web@0.1.0 lint
+> eslint
+
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\components\theme-provider.tsx
+  31:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Account.jsx
+  41:39  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Auth.jsx
+  12:43  warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+  28:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Dashboard.jsx
+  81:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Invoices.jsx
+  39:9   warning  'agingTotal' is assigned a value but never used                        @typescript-eslint/no-unused-vars
+  43:5   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  45:27  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\OrderBuilder.jsx
+   3:35  warning  'Input' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  55:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Orders.jsx
+  120:31  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\PriceList.jsx
+  57:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Sidebar.jsx
+  19:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\distributor\Support.jsx
+   3:51  warning  'IconButton' is defined but never used                                 @typescript-eslint/no-unused-vars
+  23:31  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  27:5   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\BuildRide.jsx
+  297:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  323:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\CartDrawer.jsx
+  115:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Checkout.jsx
+  209:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\EditorialPages.jsx
+   36:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  348:38  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Footer.jsx
+  61:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  62:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Header.jsx
+  160:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  161:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  229:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Home.jsx
+   95:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  123:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  167:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  171:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  175:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\LegacyEditorialPages.jsx
+  224:52  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Search.jsx
+  77:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\Shop.jsx
+  70:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\features\storefront\StorefrontApp.jsx
+  13:36  warning  'Journal' is defined but never used       @typescript-eslint/no-unused-vars
+  13:45  warning  'RiderStories' is defined but never used  @typescript-eslint/no-unused-vars
+  13:67  warning  'Support' is defined but never used       @typescript-eslint/no-unused-vars
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\lib\useLucideIcons.js
+  167:6  warning  React Hook React.useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\commerce\ProductCard.jsx
+  67:9   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  90:54  warning  Expected an assignment or function call and instead saw an expression                                                                                                                                                                                                                    @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\commerce\SwatchSelector.jsx
+  25:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\core\Logo.jsx
+  20:7  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\forms\Checkbox.jsx
+  26:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\forms\QuantityStepper.jsx
+  7:73  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\forms\Radio.jsx
+  28:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  78:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\forms\Toggle.jsx
+  26:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\src\design\ui\components\navigation\Tabs.jsx
+  14:5  warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+✖ 49 problems (0 errors, 49 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.

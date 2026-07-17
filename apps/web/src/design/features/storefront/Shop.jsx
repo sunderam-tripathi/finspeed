@@ -1,74 +1,131 @@
-// Finspeed storefront — Shop / collection
 import React from 'react';
-import { Tag, Select, ProductCard, Breadcrumb, Pagination } from '../../ui/index.js';
 import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
-const SHOP_PAGE_SIZE = 6;
 
-function Shop({ filter, setFilter, onAdd, onProduct, onNav }) {
-  const P = products;
-  const [sort, setSort] = React.useState('featured');
-  const [page, setPage] = React.useState(1);
-  const cats = [['all','All bikes'],['mountain','Mountain'],['city','City'],['hybrid','Hybrid']];
-  let list = P.filter(p => filter==='all' || !filter ? true : p.tag===filter);
-  if (sort==='low') list = [...list].sort((a,b)=>a.price-b.price);
-  if (sort==='high') list = [...list].sort((a,b)=>b.price-a.price);
-  if (sort==='rating') list = [...list].sort((a,b)=>b.rating-a.rating);
-  React.useEffect(()=>{ setPage(1); }, [filter, sort]);
-  const pageCount = Math.ceil(list.length / SHOP_PAGE_SIZE) || 1;
-  const safePage = Math.min(page, pageCount);
-  const pageList = list.slice((safePage-1)*SHOP_PAGE_SIZE, safePage*SHOP_PAGE_SIZE);
+const categories = [
+  ['all', 'All bikes'],
+  ['mountain', 'Mountain'],
+  ['city', 'City'],
+  ['hybrid', 'Hybrid'],
+];
+
+const categoryCopy = {
+  all: ['The Signature Range', 'Eleven purposeful bikes. No filler.', 'Choose by the way you ride, then make the details your own.'],
+  mountain: ['Mountain', 'Built for the long way round.', 'Confident geometry, durable frames, and the control to leave the road behind.'],
+  city: ['City', 'For movement that feels effortless.', 'Simple, assured bicycles designed for everyday streets and familiar routes.'],
+  hybrid: ['Hybrid', 'Road pace. All-day freedom.', 'Fast-rolling 700C platforms that stay composed when the surface changes.'],
+};
+
+const featuredByCategory = {
+  all: ['mako-shark', 'lightning-marlin', 'red-snapper'],
+  mountain: ['mako-shark', 'bull-shark', 'tiger-shark'],
+  city: ['red-snapper', 'great-white-shark', 'sea-breeze'],
+  hybrid: ['lightning-marlin', 'sunset-marlin'],
+};
+
+const terrainLine = {
+  mountain: 'Trail authority',
+  city: 'Everyday clarity',
+  hybrid: 'Versatile speed',
+};
+
+function Shop({ filter, setFilter, onProduct, onNav }) {
+  const selectedCategory = categories.some(([key]) => key === filter) ? filter : 'all';
+  const copy = categoryCopy[selectedCategory];
+  const list = products.filter((product) => selectedCategory === 'all' || product.tag === selectedCategory);
+  const featureIds = featuredByCategory[selectedCategory] || featuredByCategory.all;
+  const featured = featureIds.map((id) => products.find((product) => product.id === id)).filter(Boolean);
 
   return (
-    <div className="store-shop-page" style={{ background:'var(--bg-page)', minHeight:'70vh' }}>
-      {/* page head */}
-      <div style={{ background:'var(--surface-card)', borderBottom:'1px solid var(--border-subtle)' }}>
-        <div className="store-page-shell store-shop-page-head" style={{ maxWidth:'var(--container-max)', margin:'0 auto', padding:'var(--space-7) var(--space-7) var(--space-6)' }}>
-          <div style={{ marginBottom:'var(--space-4)' }}>
-            <Breadcrumb items={[{label:'Home',onClick:()=>onNav&&onNav('home')},{label:'Shop'}]} />
-          </div>
-          <span className="fin-eyebrow">The full fleet</span>
-          <h1 style={{ font:'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'8px 0 0' }}>Shop all cycles</h1>
+    <div className="range-page">
+      <section className="range-intro" aria-labelledby="range-title">
+        <div>
+          <p className="editorial-kicker">The Bikes</p>
+          <h1 id="range-title">{copy[0]}</h1>
         </div>
-      </div>
-
-      <div className="store-page-shell store-shop-content" style={{ maxWidth:'var(--container-max)', margin:'0 auto', padding:'var(--space-6) var(--space-7) var(--space-9)' }}>
-        {/* toolbar */}
-        <div className="store-shop-toolbar" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'var(--space-4)', marginBottom:'var(--space-6)', flexWrap:'wrap' }}>
-          <div style={{ display:'flex', gap:'var(--space-2)', flexWrap:'wrap' }}>
-            {cats.map(([k,l])=>(
-              <Tag key={k} selected={(filter||'all')===k} onClick={()=>setFilter(k)}>{l}</Tag>
-            ))}
-          </div>
-          <div className="store-shop-sort" style={{ minWidth:230 }}>
-            <Select options={[{value:'featured',label:'Sort: Featured'},{value:'low',label:'Price: Low to High'},{value:'high',label:'Price: High to Low'},{value:'rating',label:'Top rated'}]} value={sort} onChange={e=>setSort(e.target.value)} />
-          </div>
+        <div className="range-intro__statement">
+          <h2>{copy[1]}</h2>
+          <p>{copy[2]}</p>
         </div>
+      </section>
 
-        <div style={{ font:'var(--fw-regular) var(--fs-sm)/1 var(--font-mono)', color:'var(--text-muted)', marginBottom:'var(--space-5)' }}>{list.length} cycles</div>
+      <nav className="range-filter" aria-label="Bike collections">
+        {categories.map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            className={selectedCategory === key ? 'is-active' : ''}
+            aria-current={selectedCategory === key ? 'page' : undefined}
+            onClick={() => setFilter(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
 
-        {list.length===0 ? (
-          <div style={{ textAlign:'center', padding:'var(--space-9) var(--space-5)', border:'1px dashed var(--border-strong)', borderRadius:'var(--radius-lg)', color:'var(--text-muted)' }}>
-            <i data-lucide="search-x" style={{width:34,height:34}}></i>
-            <h3 style={{ font:'var(--fw-bold) var(--fs-xl)/1.1 var(--font-display)', color:'var(--text-strong)', margin:'var(--space-4) 0 var(--space-2)' }}>No cycles in this category yet</h3>
-            <p style={{ font:'var(--text-body-sm)', margin:'0 0 var(--space-5)' }}>Try another terrain — the full fleet is one tap away.</p>
-            <Tag selected onClick={()=>setFilter('all')}>View all bikes</Tag>
-          </div>
-        ) : (
-          <React.Fragment>
-            <div className="store-product-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(270px,1fr))', gap:'var(--space-5)' }}>
-              {pageList.map(p=>(
-                <ProductCard key={p.id} name={p.name} series={p.series} image={productImage(p.id, 960)} imageSrcSet={productImageSrcSet(p.id)} price={p.price} mrp={p.mrp} rating={p.rating} ratingCount={p.reviews} badge={p.badge} badgeTone={p.badge==='New'?'success':(p.badge==='Best value'?'ink':'brand')} soldOut={p.stock===0} onAdd={()=>onAdd(p.id)} onClick={()=>onProduct(p.id)} />
-              ))}
-            </div>
-            {pageCount > 1 && (
-              <div style={{ display:'flex', justifyContent:'center', marginTop:'var(--space-7)' }}>
-                <Pagination page={safePage} pageCount={pageCount} onChange={(pg)=>{ setPage(pg); window.scrollTo({top:0,behavior:'smooth'}); }} />
+      <div className="range-features">
+        {featured.map((product, index) => (
+          <article key={product.id} className={`range-feature${index % 2 ? ' range-feature--reverse' : ''}`}>
+            <button type="button" className="range-feature__image" onClick={() => onProduct(product.id)} aria-label={`View ${product.name}`}>
+              <span className="range-feature__sequence">{String(index + 1).padStart(2, '0')}</span>
+              <img
+                src={productImage(product.id, 1600)}
+                srcSet={productImageSrcSet(product.id)}
+                sizes="(max-width: 900px) 100vw, 65vw"
+                alt={`${product.name} bicycle`}
+              />
+            </button>
+            <div className="range-feature__copy">
+              <p className="editorial-kicker">{terrainLine[product.tag]} · {product.series}</p>
+              <h2>{product.name}</h2>
+              <p className="range-feature__desc">{product.desc}</p>
+              <dl>
+                <div><dt>Wheel</dt><dd>{product.wheels}</dd></div>
+                <div><dt>Drive</dt><dd>{product.speed}</dd></div>
+                <div><dt>Brakes</dt><dd>{product.brakes}</dd></div>
+              </dl>
+              <p className="range-feature__price">From ₹{product.price.toLocaleString('en-IN')}</p>
+              <div className="range-feature__actions">
+                <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onProduct(product.id)}>
+                  Explore {product.name} <i data-lucide="arrow-right" aria-hidden="true" />
+                </button>
+                <button type="button" className="editorial-text-link" onClick={() => onNav('build')}>
+                  Build your ride <i data-lucide="arrow-right" aria-hidden="true" />
+                </button>
               </div>
-            )}
-          </React.Fragment>
-        )}
+            </div>
+          </article>
+        ))}
       </div>
+
+      <section className="range-index" aria-labelledby="range-index-title">
+        <div className="range-index__heading">
+          <p className="editorial-kicker">The complete edit</p>
+          <h2 id="range-index-title">{selectedCategory === 'all' ? 'Every Finspeed frame' : `${copy[0]} models`}</h2>
+          <p>{list.length} models, each with a clear purpose.</p>
+        </div>
+        <div className="range-index__list">
+          {list.map((product, index) => (
+            <button key={product.id} type="button" onClick={() => onProduct(product.id)}>
+              <span className="range-index__number">{String(index + 1).padStart(2, '0')}</span>
+              <span className="range-index__name">{product.name}</span>
+              <span className="range-index__spec">{product.wheels} · {product.speed}</span>
+              <span className="range-index__price">₹{product.price.toLocaleString('en-IN')}</span>
+              <i data-lucide="arrow-right" aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="range-build-callout">
+        <p className="editorial-kicker">One frame. Your spec.</p>
+        <h2>Want fewer compromises?</h2>
+        <p>Start with the Mako Shark, then choose the braking, suspension, gearing, and finish that fit your ride.</p>
+        <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('build')}>
+          Build your ride <i data-lucide="arrow-right" aria-hidden="true" />
+        </button>
+      </section>
     </div>
   );
 }
+
 export default Shop;
