@@ -123,7 +123,7 @@ export const productVisualRegistration = Object.freeze({
   }),
   'red-snapper': Object.freeze({
     light: registeredVisual({ width: 82.1, height: 85.3, centerX: 50.0, centerY: 50.4, bottom: 93.0 }),
-    dark: registeredVisual({ width: 79.2, height: 83.7, centerX: 49.9, centerY: 51.8, bottom: 93.6 }),
+    dark: registeredVisual({ width: 88.0, height: 90.6, centerX: 50.6, centerY: 50.6, bottom: 95.9 }),
   }),
   'sea-breeze': Object.freeze({
     light: registeredVisual({ width: 84.0, height: 77.8, centerX: 50.0, centerY: 49.1, bottom: 87.9 }),
@@ -140,10 +140,9 @@ const PRODUCT_IMAGE_ROLES = Object.freeze({
   menu: Object.freeze({ scale: 1, sizes: '(max-width: 900px) 100vw, 50vw' }),
 });
 
-// The storefront dark roles use complete, edge-black relights so their canvas
-// disappears into the dark product stage. Four products have passed the v3
-// accuracy review; the remaining governed relights stay on v2 until their own
-// review is complete.
+// The storefront dark roles use governed edge-black relights. Red Snapper's v4
+// poster is an identity-preserving relight of its corrected delivery master:
+// the complete product and exact FINSPEED wordmark remain visible and natural.
 const DARK_STUDIO_IMAGE_BY_PRODUCT = Object.freeze({
   'bull-shark': '/assets/products/dark-studio-v2/bull-shark-studio.webp',
   'mako-shark': '/assets/products/dark-studio-v2/mako-shark-studio.webp',
@@ -154,7 +153,7 @@ const DARK_STUDIO_IMAGE_BY_PRODUCT = Object.freeze({
   'lightning-marlin': '/assets/products/dark-studio-v3/lightning-marlin-studio-v3.webp',
   'sunset-marlin': '/assets/products/dark-studio-v2/sunset-marlin-studio.webp',
   'shark-blue': '/assets/products/dark-studio-v2/shark-blue-studio.webp',
-  'red-snapper': '/assets/products/dark-studio-v3/red-snapper-studio-v3.webp',
+  'red-snapper': '/assets/products/dark-studio-v4/red-snapper-studio-v4.webp',
   'sea-breeze': '/assets/products/dark-studio-v2/sea-breeze-studio.webp',
 });
 
@@ -201,12 +200,19 @@ export function resolveProductImage(id, {
   const selectedWidth = requestedProductWidth(width);
   const isDark = theme === 'dark';
   const darkStudioSrc = isDark ? DARK_STUDIO_IMAGE_BY_PRODUCT[product.id] : null;
-  const src = darkStudioSrc || visualSourceAtWidth(canonical.src, selectedWidth);
+  const correctedStockSrc = !isDark && product.id === 'red-snapper'
+    ? productImage(product.id, selectedWidth)
+    : null;
+  const src = darkStudioSrc || correctedStockSrc || visualSourceAtWidth(canonical.src, selectedWidth);
 
   return {
     ...canonical,
     src,
-    srcSet: darkStudioSrc ? undefined : canonical.srcSet,
+    srcSet: darkStudioSrc
+      ? undefined
+      : correctedStockSrc
+        ? productImageSrcSet(product.id)
+        : canonical.srcSet,
     sizes: roleRegistration.sizes,
     registration: {
       ...registration,

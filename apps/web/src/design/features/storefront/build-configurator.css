@@ -18,7 +18,7 @@
   --configurator-line-strong: var(--porcelain-line-strong, #c8c4bf);
   --configurator-accent: var(--editorial-cyan, #19b9dd);
   --configurator-accent-strong: var(--editorial-accent-600, #066b87);
-  --configurator-on-accent: var(--editorial-on-accent, #071014);
+  --configurator-on-accent: #ffffff;
   --configurator-success: var(--success, #0b7046);
   --configurator-warning: #9a5d13;
   --configurator-danger: var(--danger, #b83b34);
@@ -1056,8 +1056,10 @@ label.configurator-option {
 }
 
 /* ------------------------------------------------------------
-   Stacked tablet / mobile. The photograph is a compact sticky viewport;
-   controls scroll beneath it and the total/continue affordance stays visible.
+   Stacked tablet / mobile. The photograph is a compact preview above the
+   controls and the total/continue affordance stays visible. Keeping this stage
+   in normal flow prevents the sticky header offset from covering the first
+   control heading at intermediate viewport widths.
    ------------------------------------------------------------ */
 
 @media (max-width: 900px) {
@@ -1075,7 +1077,8 @@ label.configurator-option {
   }
 
   .configurator-stage {
-    top: var(--configurator-header-offset);
+    position: relative;
+    top: auto;
     z-index: var(--z-sticky, 100);
     grid-template-rows: minmax(0, 1fr) auto;
     height: clamp(330px, 46svh, 470px);
@@ -1083,6 +1086,22 @@ label.configurator-option {
     max-height: none;
     padding: 14px clamp(18px, 5vw, 42px) 12px;
     border-bottom: 1px solid var(--configurator-line);
+  }
+
+  /* The stacked stage has a definite height, but an intrinsic landscape image
+     can otherwise size itself from the full tablet width and spill into the
+     metadata and controls. Pin the picture to the frame so object-fit owns both
+     axes and the complete bicycle remains inside the stage. */
+  .configurator-stage__picture {
+    position: absolute;
+    inset: 0;
+  }
+
+  .configurator-stage__bike {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .configurator-stage__frame::after,

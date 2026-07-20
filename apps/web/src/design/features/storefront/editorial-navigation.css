@@ -608,9 +608,14 @@
   z-index: 50;
   display: flex;
   justify-content: center;
+  scrollbar-width: none;
   border-block: 1px solid var(--editorial-line);
   background: var(--editorial-filter-light);
   backdrop-filter: blur(12px);
+}
+
+.range-filter::-webkit-scrollbar {
+  display: none;
 }
 
 .range-filter button {

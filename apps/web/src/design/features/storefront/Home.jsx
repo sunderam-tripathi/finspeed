@@ -161,11 +161,11 @@ function Home({ theme, onNav, onProduct }) {
 
       <section className="home-city-story" aria-labelledby="home-city-story-title">
         <img
-          className="home-city-story__image"
+          className="home-city-story__background"
           src={light
-            ? '/assets/home/red-snapper-everyday-architecture-light-v1.webp'
-            : '/assets/home/red-snapper-everyday-architecture-v1.webp'}
-          alt="Red Snapper city bicycle parked outside a warm brick-and-stone residence"
+            ? '/assets/home/red-snapper-city-editorial-light-v3.webp'
+            : '/assets/home/red-snapper-city-editorial-dark-v3.webp'}
+          alt="Red Snapper city bicycle"
           loading="lazy"
           decoding="async"
         />

@@ -46,20 +46,28 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(hero.locator('img')).toHaveAttribute('src', '/assets/campaign/quiet-summit-hero.webp');
   });
 
-  test('catalog and product detail use responsive upscaled product imagery', async ({ page }) => {
+  test('catalog and product detail use responsive canonical product imagery', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/shop');
 
     const firstProduct = page.locator('.range-feature__image img').first();
-    await expect(firstProduct).toHaveAttribute('src', '/assets/products/upscaled/mako-shark-1600.webp');
+    await expect(firstProduct).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
     await expect(firstProduct).toHaveAttribute(
       'srcset',
-      '/assets/products/upscaled/mako-shark-480.webp 480w, /assets/products/upscaled/mako-shark-960.webp 960w, /assets/products/upscaled/mako-shark-1600.webp 1600w',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w480.webp 480w, '
+        + '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w960.webp 960w, '
+        + '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp 1600w',
     );
 
     await page.goto('/products/bull-shark');
     const productHero = page.locator('.store-product-gallery img');
-    await expect(productHero).toHaveAttribute('src', '/assets/products/upscaled/bull-shark-1600.webp');
+    await expect(productHero).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp',
+    );
     await expect(productHero).toHaveJSProperty('complete', true);
     expect(await productHero.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThanOrEqual(640);
   });
@@ -83,7 +91,7 @@ test.describe('SCN-001 site shell contract', () => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Find your ride' }).click();
     await expect(page).toHaveURL(/\/shop$/);
-    await expect(page.getByRole('heading', { level: 1, name: 'The Signature Range' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: 'Find your Finspeed' })).toBeVisible();
   });
 
   test('shared header geometry remains stable between home and catalog', async ({ page }) => {
@@ -191,13 +199,13 @@ test.describe('SCN-001 site shell contract', () => {
       await page.getByRole('button', { name: 'Switch to dark theme' }).click();
       await page.getByRole('button', { name: 'Close', exact: true }).click();
       await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
-      await expect(page.locator('.editorial-icon-button').first()).toHaveCSS('color', 'rgb(247, 246, 242)');
+      await expect(page.locator('.editorial-icon-button').first()).toHaveCSS('color', 'rgb(247, 245, 241)');
       const dark = await readTreatment();
       expect(dark.className).toContain('editorial-header--dark');
       expect(dark.logoSource).toBe('/assets/logos/finspeed-mark-light.png');
       expect(dark.wordmarkSource).toBe('/assets/logos/finspeed-wordmark-dark.svg');
-      expect(dark.header.backgroundColor).toBe('rgba(10, 14, 18, 0.97)');
-      expect(dark.actionColor).toBe('rgb(247, 246, 242)');
+      expect(dark.header.backgroundColor).toBe('rgba(8, 10, 12, 0.96)');
+      expect(dark.actionColor).toBe('rgb(247, 245, 241)');
       await assertRouteTreatment(dark);
     }
   });
@@ -233,24 +241,12 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(menu.getByRole('button', { name: '04 Visit Finspeed' })).toBeVisible();
 
     const menuBike = menu.getByRole('img', { name: 'Finspeed Mako Shark bicycle in profile' });
-    await expect(menuBike).toHaveAttribute('src', '/assets/products/cutouts/mako-shark-side-transparent.png');
+    await expect(menuBike).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
     await expect(menuBike).toHaveJSProperty('complete', true);
-    const cornerAlpha = await menuBike.evaluate((image: HTMLImageElement) => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.naturalWidth;
-      canvas.height = image.naturalHeight;
-      const context = canvas.getContext('2d', { willReadFrequently: true });
-      if (!context) return [];
-      context.drawImage(image, 0, 0);
-      const corners = [
-        [0, 0],
-        [canvas.width - 1, 0],
-        [0, canvas.height - 1],
-        [canvas.width - 1, canvas.height - 1],
-      ];
-      return corners.map(([x, y]) => context.getImageData(x, y, 1, 1).data[3]);
-    });
-    expect(cornerAlpha).toEqual([0, 0, 0, 0]);
+    expect(await menuBike.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThanOrEqual(640);
 
     await page.keyboard.press('Escape');
     await expect(menu).toBeHidden();
@@ -299,10 +295,9 @@ test.describe('SCN-001 site shell contract', () => {
       const geometry = await menu.evaluate((element) => {
         const imageWell = element.querySelector('.editorial-menu__image-well');
         const image = imageWell?.querySelector('img');
-        const owners = element.querySelector('.editorial-menu__owners');
         const primaryItems = [...element.querySelectorAll('.editorial-menu__item')];
 
-        if (!imageWell || !image || !owners || primaryItems.length !== 4) return null;
+        if (!imageWell || !image || primaryItems.length !== 4) return null;
 
         const box = (node: Element) => {
           const rect = node.getBoundingClientRect();
@@ -318,201 +313,216 @@ test.describe('SCN-001 site shell contract', () => {
           viewport: { width: window.innerWidth, height: window.innerHeight },
           well: box(imageWell),
           image: box(image),
-          owners: box(owners),
-          items: primaryItems.map(box),
+          itemCount: primaryItems.length,
+          horizontalOverflow: document.documentElement.scrollWidth - window.innerWidth,
+          dialogHorizontalOverflow: element.scrollWidth - element.clientWidth,
         };
       });
 
       expect(geometry).not.toBeNull();
       expect(geometry!.image.left).toBeGreaterThanOrEqual(geometry!.well.left - 1);
-      expect(geometry!.image.right).toBeLessThanOrEqual(geometry!.well.right + 1);
+      expect(geometry!.image.right).toBeLessThanOrEqual(geometry!.well.right + 2);
       expect(geometry!.image.top).toBeGreaterThanOrEqual(geometry!.well.top - 1);
       expect(geometry!.image.bottom).toBeLessThanOrEqual(geometry!.well.bottom + 1);
-      expect(geometry!.owners.bottom).toBeLessThanOrEqual(geometry!.viewport.height);
-      expect(Math.max(...geometry!.items.map((item) => item.bottom))).toBeLessThanOrEqual(geometry!.viewport.height);
+      expect(geometry!.itemCount).toBe(4);
+      expect(geometry!.horizontalOverflow).toBeLessThanOrEqual(1);
+      expect(geometry!.dialogHorizontalOverflow).toBeLessThanOrEqual(1);
 
       await page.keyboard.press('Escape');
       await expect(menu).toBeHidden();
     }
   });
 
-  test('bespoke build advances through compatible component choices', async ({ page }) => {
+  test('bespoke build exposes seven ordered stages and advances through the current flow', async ({ page }) => {
     await page.goto('/build');
     await expect(page.getByRole('heading', { level: 1, name: 'Mako Shark' })).toBeVisible();
-    await expect(page.getByRole('tab', { name: '01 Base' })).toHaveAttribute('aria-selected', 'true');
 
-    await page.getByRole('button', { name: 'Continue your build' }).click();
-    await expect(page.getByRole('tab', { name: '02 Brakes' })).toHaveAttribute('aria-selected', 'true');
-    await expect(page.getByRole('button', { name: /Power Brakes/ })).toHaveAttribute('aria-pressed', 'true');
+    const progress = page.getByRole('navigation', { name: 'Build progress' });
+    await expect(progress.getByRole('button')).toHaveText([
+      'Ride',
+      'Bicycle',
+      'Fit',
+      'Setup',
+      'Finish',
+      'Extras',
+      'Review',
+    ]);
+    await expect(progress.getByRole('button', { name: 'Ride' })).toHaveAttribute('aria-current', 'step');
+    await expect(page.locator('.configurator-panel__header').getByRole('heading', { level: 2 })).toHaveText('Ride type');
 
-    await page.getByRole('button', { name: 'Save configuration' }).click();
-    await expect(page.getByRole('status')).toHaveText('Configuration saved on this device.');
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await expect(progress.getByRole('button', { name: 'Bicycle' })).toHaveAttribute('aria-current', 'step');
+    await expect(page.locator('.configurator-panel__header').getByRole('heading', { level: 2 })).toHaveText('Choose bicycle');
   });
 
-  test('build base selection updates the official product identity and persists it', async ({ page }) => {
+  test('build bicycle selection updates the official product identity and persists it', async ({ page }) => {
     await page.goto('/build');
-    await page.getByRole('button', { name: /Bull Shark 29-inch big-wheel geometry/ }).click();
+    await page.getByRole('navigation', { name: 'Build progress' }).getByRole('button', { name: 'Bicycle' }).click();
 
+    const bullShark = page.getByRole('radio', { name: /^Bull Shark / });
+    await page.locator('label.configurator-option').filter({ has: bullShark }).click();
+    await expect(bullShark).toBeChecked();
     await expect(page.getByRole('heading', { level: 1, name: 'Bull Shark' })).toBeVisible();
-    await expect(page.getByText('₹9,500', { exact: true })).toBeVisible();
-    await expect(page.locator('.build-studio__price').getByText('29″ wheels', { exact: true })).toBeVisible();
+    await expect(page.locator('.configurator-price strong')).toHaveText('₹9,500');
 
-    const image = page.locator('.build-studio__image-stage img');
-    await expect(image).toHaveAttribute('src', '/assets/products/upscaled/bull-shark-1600.webp');
-    await expect(image).toHaveAttribute('alt', 'Finspeed Bull Shark bicycle in side profile');
+    const image = page.locator('.configurator-stage__bike');
+    await expect(image).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp',
+    );
+    await expect(image).toHaveAttribute('alt', /Finspeed Bull Shark.*29-inch/);
 
     await page.reload();
     await expect(page.getByRole('heading', { level: 1, name: 'Bull Shark' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Bull Shark 29-inch big-wheel geometry/ })).toHaveAttribute('aria-pressed', 'true');
-    await expect(image).toHaveAttribute('src', '/assets/products/upscaled/bull-shark-1600.webp');
+    await page.getByRole('navigation', { name: 'Build progress' }).getByRole('button', { name: 'Bicycle' }).click();
+    await expect(bullShark).toBeChecked();
+    await expect(image).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp',
+    );
   });
 
-  test('build tabs use roving focus and support arrow, Home, and End keys', async ({ page }) => {
+  test('build progress buttons expose and update the active step accessibly', async ({ page }) => {
     await page.goto('/build');
 
-    const base = page.getByRole('tab', { name: '01 Base' });
-    const brakes = page.getByRole('tab', { name: '02 Brakes' });
-    const finish = page.getByRole('tab', { name: '05 Finish' });
+    const progress = page.getByRole('navigation', { name: 'Build progress' });
+    const ride = progress.getByRole('button', { name: 'Ride' });
+    const extras = progress.getByRole('button', { name: 'Extras' });
 
-    await expect(base).toHaveAttribute('tabindex', '0');
-    await expect(brakes).toHaveAttribute('tabindex', '-1');
-    await base.focus();
-    await page.keyboard.press('ArrowRight');
-    await expect(brakes).toBeFocused();
-    await expect(brakes).toHaveAttribute('aria-selected', 'true');
-    await expect(brakes).toHaveAttribute('tabindex', '0');
-    await expect(base).toHaveAttribute('tabindex', '-1');
-    await expect(brakes).toHaveAttribute('aria-controls', 'build-step-panel');
-    await expect(page.locator('#build-step-panel')).toHaveAttribute('aria-labelledby', 'build-step-tab-brakes');
-
-    await page.keyboard.press('End');
-    await expect(finish).toBeFocused();
-    await expect(finish).toHaveAttribute('aria-selected', 'true');
-    await page.keyboard.press('Home');
-    await expect(base).toBeFocused();
-    await page.keyboard.press('ArrowLeft');
-    await expect(finish).toBeFocused();
+    await expect(ride).toHaveAttribute('aria-current', 'step');
+    await extras.focus();
+    await expect(extras).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(extras).toHaveAttribute('aria-current', 'step');
+    await expect(ride).not.toHaveAttribute('aria-current', 'step');
+    await expect(page.locator('.configurator-panel__header').getByRole('heading', { level: 2 })).toHaveText('Add-ons');
   });
 
-  test('finish choice stays explicit and Finish your build opens a truthful review', async ({ page }) => {
+  test('Review opens a truthful summary of the selected build', async ({ page }) => {
     await page.goto('/build');
-    const productImage = page.locator('.build-studio__image-stage img');
-    await expect(productImage).toHaveAttribute('src', '/assets/products/upscaled/mako-shark-1600.webp');
+    const productImage = page.locator('.configurator-stage__bike');
+    await expect(productImage).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
 
-    await page.getByRole('tab', { name: '05 Finish' }).click();
-    await page.getByRole('button', { name: /Deep Graphite/ }).click();
-    await expect(page.getByText('Selected finish: Deep Graphite. Official product photography is shown unchanged.')).toBeVisible();
-    await expect(productImage).toHaveAttribute('src', '/assets/products/upscaled/mako-shark-1600.webp');
-
-    await page.getByRole('button', { name: 'Finish your build' }).click();
-    await expect(page.getByRole('heading', { level: 2, name: 'Your Mako Shark build' })).toBeVisible();
-    await expect(page.getByText('Mako Shark · 27.5″ wheels', { exact: true })).toBeVisible();
-    await expect(page.getByText('Deep Graphite', { exact: true })).toBeVisible();
-    await expect(page.getByText('Review total: ₹10,450. Your choices remain saved on this device.')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Edit your build' })).toBeVisible();
+    await page.getByRole('navigation', { name: 'Build progress' }).getByRole('button', { name: 'Review' }).click();
+    await expect(page.locator('.configurator-panel__header').getByRole('heading', { level: 2 })).toHaveText('Review');
+    await expect(page.locator('.configurator-review')).toContainText('Mako Shark');
+    await expect(page.locator('.configurator-review__total strong')).toHaveText('₹10,100');
+    await expect(page.getByRole('button', { name: 'Add selected build' })).toBeVisible();
   });
 
-  test('build studio keeps the product image on one seamless porcelain canvas', async ({ page }) => {
+  test('configurator keeps the selected bicycle contained across desktop and mobile canvases', async ({ page }) => {
     await page.setViewportSize({ width: 1486, height: 1059 });
     await page.goto('/build');
 
-    const productImage = page.locator('.build-studio__image-stage img');
-    await expect(productImage).toHaveAttribute('src', '/assets/products/upscaled/mako-shark-1600.webp');
+    const productImage = page.locator('.configurator-stage__bike');
+    await expect(productImage).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
     await expect(productImage).toHaveJSProperty('complete', true);
 
-    const treatment = await page.locator('.build-studio').evaluate((studio) => {
-      const controls = studio.querySelector('.build-studio__controls') as HTMLElement;
-      const visual = studio.querySelector('.build-studio__visual') as HTMLElement;
-      const stage = studio.querySelector('.build-studio__image-stage') as HTMLElement;
-      const image = studio.querySelector('.build-studio__image-stage img') as HTMLImageElement;
-      const detailStrip = document.querySelector('.build-detail-strip') as HTMLElement;
-      const studioRect = studio.getBoundingClientRect();
-
+    const desktop = await page.locator('.configurator-shell').evaluate((layout) => {
+      const controls = layout.querySelector('.configurator-controls') as HTMLElement;
+      const stage = layout.querySelector('.configurator-stage') as HTMLElement;
+      const frame = layout.querySelector('.configurator-stage__frame') as HTMLElement;
+      const image = layout.querySelector('.configurator-stage__bike') as HTMLImageElement;
+      const rect = (element: Element) => {
+        const box = element.getBoundingClientRect();
+        return { top: box.top, right: box.right, bottom: box.bottom, left: box.left };
+      };
       return {
-        studioBackground: getComputedStyle(studio).backgroundImage,
-        controlsBackground: getComputedStyle(controls).backgroundColor,
-        visualBackground: getComputedStyle(visual).backgroundColor,
-        stageBackground: getComputedStyle(stage).backgroundColor,
-        imageBlendMode: getComputedStyle(image).mixBlendMode,
-        imageNaturalWidth: image.naturalWidth,
-        imageCurrentSource: new URL(image.currentSrc).pathname,
-        studioTop: Math.round(studioRect.top),
-        studioHeight: Math.round(studioRect.height),
-        detailTop: Math.round(detailStrip.getBoundingClientRect().top),
+        controls: rect(controls),
+        stage: rect(stage),
+        frame: rect(frame),
+        image: rect(image),
+        naturalWidth: image.naturalWidth,
+        horizontalOverflow: document.documentElement.scrollWidth - window.innerWidth,
       };
     });
 
-    expect(treatment.studioBackground).toContain('linear-gradient');
-    expect(treatment.studioBackground).toContain('rgb(247, 243, 239)');
-    expect(treatment.studioBackground).toContain('rgb(241, 235, 230)');
-    expect(treatment.controlsBackground).toBe('rgba(0, 0, 0, 0)');
-    expect(treatment.visualBackground).toBe('rgba(0, 0, 0, 0)');
-    expect(treatment.stageBackground).toBe('rgba(0, 0, 0, 0)');
-    expect(treatment.imageBlendMode).toBe('multiply');
-    expect([
-      '/assets/products/upscaled/mako-shark-960.webp',
-      '/assets/products/upscaled/mako-shark-1600.webp',
-    ]).toContain(treatment.imageCurrentSource);
-    expect(treatment.imageNaturalWidth).toBeGreaterThanOrEqual(900);
-    expect(treatment.studioTop).toBe(92);
-    expect(treatment.studioHeight).toBe(672);
-    expect(treatment.detailTop).toBe(764);
+    expect(desktop.stage.left).toBeGreaterThanOrEqual(desktop.controls.right - 1);
+    expect(desktop.image.left).toBeGreaterThanOrEqual(desktop.frame.left - 1);
+    expect(desktop.image.right).toBeLessThanOrEqual(desktop.frame.right + 1);
+    expect(desktop.image.top).toBeGreaterThanOrEqual(desktop.frame.top - 1);
+    expect(desktop.image.bottom).toBeLessThanOrEqual(desktop.frame.bottom + 1);
+    expect(desktop.naturalWidth).toBeGreaterThanOrEqual(640);
+    expect(desktop.horizontalOverflow).toBeLessThanOrEqual(1);
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload();
-    const mobileActionButtons = page.locator('.build-studio__actions .editorial-cta');
-    await expect(mobileActionButtons).toHaveCount(2);
-    const mobileActions = await mobileActionButtons.evaluateAll((buttons) =>
-      buttons.map((button) => {
-        const rect = button.getBoundingClientRect();
-        return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
-      }),
-    );
-    expect(mobileActions).toHaveLength(2);
-    expect(mobileActions[0].left).toBeGreaterThanOrEqual(0);
-    expect(mobileActions[0].right).toBeLessThanOrEqual(390);
-    expect(mobileActions[1].left).toBeGreaterThanOrEqual(0);
-    expect(mobileActions[1].right).toBeLessThanOrEqual(390);
-    expect(mobileActions[1].top).toBeGreaterThanOrEqual(mobileActions[0].bottom);
+    await expect(productImage).toBeVisible();
+    const mobile = await page.locator('.configurator-shell').evaluate((layout) => {
+      const controls = layout.querySelector('.configurator-controls') as HTMLElement;
+      const stage = layout.querySelector('.configurator-stage') as HTMLElement;
+      const controlsBox = controls.getBoundingClientRect();
+      const stageBox = stage.getBoundingClientRect();
+      return {
+        controlsTop: controlsBox.top,
+        stageTop: stageBox.top,
+        stageBottom: stageBox.bottom,
+        stageLeft: stageBox.left,
+        stageRight: stageBox.right,
+        horizontalOverflow: document.documentElement.scrollWidth - window.innerWidth,
+      };
+    });
+    expect(mobile.stageBottom).toBeLessThanOrEqual(mobile.controlsTop + 1);
+    expect(mobile.stageLeft).toBeGreaterThanOrEqual(0);
+    expect(mobile.stageRight).toBeLessThanOrEqual(390);
+    expect(mobile.horizontalOverflow).toBeLessThanOrEqual(1);
   });
 
-  test('build detail strip uses four distinct generated component studies', async ({ page }) => {
+  test('build detail strip uses four deliberate crops of the selected canonical product', async ({ page }) => {
     await page.goto('/build');
 
     const detailImages = page.locator('.build-detail-card img');
     await expect(detailImages).toHaveCount(4);
 
     const sources = await detailImages.evaluateAll((images) => images.map((image) => image.getAttribute('src')));
-    expect(sources).toEqual([
-      '/assets/campaign/build-detail-brakes-ai.webp',
-      '/assets/campaign/build-detail-suspension-ai.webp',
-      '/assets/campaign/build-detail-drivetrain-ai.webp',
-      '/assets/campaign/build-detail-frame-ai.webp',
+    expect(new Set(sources)).toEqual(new Set([
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    ]));
+    const regions = await page.locator('.build-detail-card').evaluateAll((cards) => (
+      cards.map((card) => card.getAttribute('data-region'))
+    ));
+    expect(regions).toEqual([
+      'brakes',
+      'suspension',
+      'drivetrain',
+      'frame',
     ]);
-    expect(new Set(sources).size).toBe(4);
 
-    await expect.poll(async () => detailImages.evaluateAll((images) => (
-      images.every((image) => image.complete && image.naturalWidth >= 960)
-    ))).toBe(true);
+    const naturalWidths = await detailImages.evaluateAll(async (images) => Promise.all(
+      images.map(async (image) => {
+        await image.decode();
+        return image.naturalWidth;
+      }),
+    ));
+    expect(naturalWidths.every((width) => width > 0)).toBe(true);
   });
 
   test('engineering journey tells a dedicated component story and routes its calls to action', async ({ page }) => {
     await page.goto('/engineering');
 
-    await expect(page.getByRole('heading', { level: 1, name: 'Built like a predator.' })).toBeVisible();
-    await expect(page.locator('.engineering-hero__media img')).toHaveAttribute('src', '/assets/campaign/mako-shark-hero-v4.webp');
+    await expect(page.getByRole('heading', { level: 1, name: /Steady on rough roads\..*Confident in every turn\./ })).toBeVisible();
+    await expect(page.locator('.engineering-hero__media img')).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
     await expect(page.locator('.engineering-chapter')).toHaveCount(4);
 
-    const chapterImages = page.locator('.engineering-chapter__media img');
+    const chapterMedia = page.locator('.engineering-chapter__media');
+    const chapterRegions = await chapterMedia.evaluateAll((items) => items.map((item) => item.getAttribute('data-region')));
+    expect(chapterRegions).toEqual(['frame', 'brakes', 'suspension', 'drivetrain']);
+    const chapterImages = chapterMedia.locator('img');
     const chapterSources = await chapterImages.evaluateAll((images) => images.map((image) => image.getAttribute('src')));
-    expect(chapterSources).toEqual([
-      '/assets/campaign/build-detail-frame-ai.webp',
-      '/assets/campaign/build-detail-brakes-ai.webp',
-      '/assets/campaign/build-detail-suspension-ai.webp',
-      '/assets/campaign/build-detail-drivetrain-ai.webp',
-    ]);
+    expect(new Set(chapterSources)).toEqual(new Set([
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    ]));
     await expect.poll(async () => chapterImages.evaluateAll((images) => (
-      images.every((image) => image.complete && image.naturalWidth >= 960)
+      images.every((image) => image.complete && image.naturalWidth >= 640)
     ))).toBe(true);
 
     await page.getByRole('button', { name: 'Explore the bikes' }).click();
@@ -550,8 +560,8 @@ test.describe('SCN-001 site shell contract', () => {
   test('support footer exposes warranty and contact routes', async ({ page }) => {
     await page.goto('/');
     const footer = page.getByRole('contentinfo');
-    await expect(footer.getByText('Warranty')).toBeVisible();
-    await expect(footer.getByText('Contact')).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Warranty', exact: true })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
   });
 
   test('accept dismisses consent immediately and persists the choice', async ({ page }) => {

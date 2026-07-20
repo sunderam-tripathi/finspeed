@@ -1017,7 +1017,7 @@
     },
     {
       "productId": "red-snapper",
-      "sourceAlias": "01-raster-masters-4x/products/red-snapper/side-clean.png",
+      "sourceAlias": "01-raster-masters-4x/products/red-snapper/angle-1.png",
       "stock": {
         "light": {
           "status": "available",
@@ -1052,7 +1052,7 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/red-snapper-studio.webp", "width": 1536, "height": 1024 }
+            { "path": "/assets/products/dark-studio-v4/red-snapper-studio-v4.webp", "width": 1536, "height": 1024 }
           ]
         }
       },

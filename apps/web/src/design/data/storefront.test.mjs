@@ -15,8 +15,12 @@ test('every storefront product resolves to a canonical light set and an edge-bla
     const light = resolveProductImage(id, { theme: 'light', role: 'feature', width: 960 });
     const dark = resolveProductImage(id, { theme: 'dark', role: 'feature', width: 960 });
 
-    assert.match(light.src, new RegExp(`/assets/configurator/v1/${id}/side-r/light/poster/.+-w960\\.webp$`));
-    assert.match(dark.src, new RegExp(`/assets/products/dark-studio-v[23]/${id}-studio(?:-v3)?\\.webp$`));
+    if (id === 'red-snapper') {
+      assert.equal(light.src, '/assets/products/upscaled/red-snapper-960.webp');
+    } else {
+      assert.match(light.src, new RegExp(`/assets/configurator/v1/${id}/side-r/light/poster/.+-w960\\.webp$`));
+    }
+    assert.match(dark.src, new RegExp(`/assets/products/dark-studio-v[234]/${id}-studio(?:-v[34])?\\.webp$`));
     assert.equal(light.srcSet.split(', ').length, 3);
     assert.equal(dark.srcSet, undefined);
     assert.equal(light.registration.position, dark.registration.position);
@@ -27,12 +31,14 @@ test('every storefront product resolves to a canonical light set and an edge-bla
   });
 });
 
-test('accuracy-reviewed dark relights use optimized v3 webp files while the remaining products retain v2', () => {
+test('accuracy-reviewed dark relights use their approved v3/v4 webp files while the remaining products retain v2', () => {
   const reviewed = new Set(['hammerhead', 'lightning-marlin', 'red-snapper', 'tiger-shark']);
 
   products.forEach(({ id }) => {
     const visual = resolveProductImage(id, { theme: 'dark', role: 'feature', width: 1600 });
-    if (reviewed.has(id)) {
+    if (id === 'red-snapper') {
+      assert.equal(visual.src, '/assets/products/dark-studio-v4/red-snapper-studio-v4.webp');
+    } else if (reviewed.has(id)) {
       assert.equal(visual.src, `/assets/products/dark-studio-v3/${id}-studio-v3.webp`);
     } else {
       assert.equal(visual.src, `/assets/products/dark-studio-v2/${id}-studio.webp`);

@@ -7,10 +7,15 @@ test.describe('premium editorial product detail', () => {
 
     await expect(page.getByRole('heading', { level: 1, name: 'Mako Shark' })).toBeVisible();
     const productImage = page.locator('.product-editorial-stage__image img');
-    await expect(productImage).toHaveAttribute('src', '/assets/products/upscaled/mako-shark-1600.webp');
+    await expect(productImage).toHaveAttribute(
+      'src',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
+    );
     await expect(productImage).toHaveAttribute(
       'srcset',
-      '/assets/products/upscaled/mako-shark-480.webp 480w, /assets/products/upscaled/mako-shark-960.webp 960w, /assets/products/upscaled/mako-shark-1600.webp 1600w',
+      '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w480.webp 480w, '
+        + '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w960.webp 960w, '
+        + '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp 1600w',
     );
     await expect(productImage).toHaveJSProperty('complete', true);
     expect(await productImage.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThanOrEqual(640);

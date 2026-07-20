@@ -1,14 +1,22 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const progressLabels = ['Ride', 'Bicycle', 'Fit', 'Setup', 'Finish', 'Add-ons', 'Review'];
+const progressLabels = ['Ride', 'Bicycle', 'Fit', 'Setup', 'Finish', 'Extras', 'Review'];
 
 async function expectStage(page: Page, index: number, heading: string) {
   const progress = page.getByRole('navigation', { name: 'Build progress' });
   const activeStep = progress.locator('[aria-current="step"]');
 
-  await expect(page.getByText(`Step ${index + 1} of ${progressLabels.length}`, { exact: true })).toBeVisible();
+  await expect(page.getByText(`Step ${index + 1} of ${progressLabels.length}`, { exact: true })).toHaveText(
+    `Step ${index + 1} of ${progressLabels.length}`,
+  );
   await expect(activeStep).toHaveText(progressLabels[index]);
   await expect(page.locator('.configurator-panel__header').getByRole('heading', { level: 2 })).toHaveText(heading);
+}
+
+async function chooseRadio(page: Page, name: string | RegExp) {
+  const radio = page.getByRole('radio', { name });
+  await page.locator('label.configurator-option').filter({ has: radio }).click();
+  await expect(radio).toBeChecked();
 }
 
 test.describe('WEB-035 comprehensive bespoke configurator', () => {
@@ -17,6 +25,22 @@ test.describe('WEB-035 comprehensive bespoke configurator', () => {
       window.localStorage.setItem('finspeed-consent', 'denied');
       window.localStorage.setItem('finspeed-theme', 'light');
     });
+  });
+
+  test('clears the bicycle loading treatment after a cached preview loads', async ({ page }) => {
+    await page.goto('/build');
+    const preview = page.locator('.configurator-stage__bike');
+
+    await expect(preview).toBeVisible({ timeout: 20_000 });
+    await expect(preview).not.toHaveClass(/is-loading/);
+    await expect(page.getByText('Preparing selected bicycle')).toHaveCount(0);
+
+    await page.goto('/shop');
+    await page.goto('/build');
+
+    await expect(preview).toBeVisible({ timeout: 20_000 });
+    await expect(preview).not.toHaveClass(/is-loading/);
+    await expect(page.getByText('Preparing selected bicycle')).toHaveCount(0);
   });
 
   test('builds and persists the selected Red Snapper 24-inch IBC catalog variant', async ({ page }) => {
@@ -30,16 +54,16 @@ test.describe('WEB-035 comprehensive bespoke configurator', () => {
     await expect(progress.getByRole('button')).toHaveText(progressLabels);
     await expectStage(page, 0, 'Ride type');
 
-    await page.getByRole('radio', { name: /^City / }).check();
+    await chooseRadio(page, /^City /);
     await expect(page.getByRole('heading', { level: 1, name: 'Red Snapper' })).toBeVisible();
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await expectStage(page, 1, 'Choose bicycle');
 
-    await page.getByRole('radio', { name: /^Red Snapper / }).check();
+    await chooseRadio(page, /^Red Snapper /);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await expectStage(page, 2, 'Fit & wheels');
 
-    await page.getByRole('radio', { name: /^24-inch, IBC carrier / }).check();
+    await chooseRadio(page, /^24-inch, IBC carrier /);
     await expect(page.locator('.configurator-price strong')).toHaveText('\u20B95,000');
 
     const preview = page.locator('.configurator-stage__bike');
@@ -70,7 +94,7 @@ test.describe('WEB-035 comprehensive bespoke configurator', () => {
     await expect(page.locator('.configurator-panel').getByRole('radio')).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
-    await expectStage(page, 6, 'Review your build');
+    await expectStage(page, 6, 'Review');
 
     const review = page.locator('.configurator-review');
     await expect(review).toContainText('Red Snapper');
@@ -145,11 +169,11 @@ test.describe('WEB-035 comprehensive bespoke configurator', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Mako Shark' })).toBeVisible({ timeout: 20_000 });
 
     await page.getByRole('button', { name: 'Bicycle' }).click();
-    await page.getByRole('radio', { name: /^Bull Shark / }).check();
+    await chooseRadio(page, /^Bull Shark /);
     await page.getByRole('button', { name: 'Review' }).click();
 
-    await expect(page.getByText('Identity confirmation required', { exact: true })).toBeVisible();
-    await expect(page.getByText('Ordering is paused until Finspeed confirms this product identity.')).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Confirm before ordering', { exact: true })).toBeVisible();
+    await expect(page.getByText('Current verified photography and the catalog presentation require a final product-identity check.')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Confirm with Finspeed' })).toBeVisible();
     await expect(page.getByRole('button', { name: /Add .*build/ })).toHaveCount(0);
     await expect.poll(() => page.evaluate(() => JSON.parse(window.localStorage.getItem('finspeed.cart') || '{}')))

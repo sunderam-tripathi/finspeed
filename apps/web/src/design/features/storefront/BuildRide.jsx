@@ -174,12 +174,14 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
   const [storedBuild, setStoredBuild] = usePersistentState('finspeed.build', createDefaultBuild);
   const [changeNotice, setChangeNotice] = React.useState('');
   const [cartStatus, setCartStatus] = React.useState('');
-  const [visualLoading, setVisualLoading] = React.useState(true);
-  const [visualFailed, setVisualFailed] = React.useState(false);
+  const [loadedVisualId, setLoadedVisualId] = React.useState(null);
+  const [failedVisualId, setFailedVisualId] = React.useState(null);
   const stepRefs = React.useRef([]);
   const resolved = React.useMemo(() => resolveBuild(storedBuild), [storedBuild]);
   const summary = React.useMemo(() => configurationSummary(resolved), [resolved]);
   const visual = React.useMemo(() => configuratorVisual(resolved, theme), [resolved, theme]);
+  const visualLoading = loadedVisualId !== visual.id && failedVisualId !== visual.id;
+  const visualFailed = failedVisualId === visual.id;
   const step = CONFIGURATOR_STEPS[activeStep];
   const options = resolved.options[step.id] || [];
 
@@ -188,11 +190,6 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
       setStoredBuild(resolved.build);
     }
   }, [resolved.build, setStoredBuild, storedBuild]);
-
-  React.useEffect(() => {
-    setVisualLoading(true);
-    setVisualFailed(false);
-  }, [visual.id]);
 
   function activateStep(index, moveFocus = false) {
     const nextIndex = Math.max(0, Math.min(CONFIGURATOR_STEPS.length - 1, index));
@@ -216,7 +213,6 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
     const before = resolved;
     const nextBuild = selectBuildOption(before.build, step.id, optionId);
     const next = resolveBuild(nextBuild, step.id);
-    setVisualLoading(true);
     setStoredBuild(next.build);
     setCartStatus('');
 
@@ -379,10 +375,12 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
                 sizes={visual.sizes}
                 alt={visual.alt}
                 decoding="async"
-                onLoad={() => setVisualLoading(false)}
+                onLoad={() => {
+                  setLoadedVisualId(visual.id);
+                  setFailedVisualId(null);
+                }}
                 onError={() => {
-                  setVisualLoading(false);
-                  setVisualFailed(true);
+                  setFailedVisualId(visual.id);
                 }}
               />
             </picture>

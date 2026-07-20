@@ -126,21 +126,21 @@ def make_cutout(
         rgba[..., 3] = np.clip(alpha * 255.0, 0, 255).astype(np.uint8)
     else:
         # Deterministic white-sweep fallback for environments without the
-        # optional segmentation runtime.
-        distance = np.linalg.norm(rgb - background, axis=2)
-        alpha = smoothstep(4.0, 42.0, distance)
-        if cv2 is not None:
-            alpha = cv2.GaussianBlur(alpha, (0, 0), 0.42)
-        else:
-            alpha = np.asarray(
-                Image.fromarray(np.clip(alpha * 255.0, 0, 255).astype(np.uint8)).filter(
-                    ImageFilter.GaussianBlur(radius=0.42)
-                ),
-                dtype=np.float32,
-            ) / 255.0
-        alpha[distance >= 50.0] = 1.0
-        alpha[distance <= 2.5] = 0.0
-        rgba = np.dstack((rgb, alpha[..., None] * 255.0)).astype(np.uint8)
+        # optional segmentation runtime. Recover the foreground colour from
+        # the known white sweep instead of retaining pale anti-aliased halos
+        # around spokes, cables, and the wheel shadows.
+        physical_alpha = np.max(
+            np.clip((background - rgb) / np.maximum(background, 1.0), 0.0, 1.0),
+            axis=2,
+        )
+        alpha = physical_alpha.copy()
+        alpha[physical_alpha < 0.018] = 0.0
+        alpha[physical_alpha > 0.985] = 1.0
+        recovered = (
+            rgb - (background * (1.0 - physical_alpha[..., None]))
+        ) / np.maximum(physical_alpha[..., None], 0.018)
+        recovered = np.clip(recovered, 0.0, 255.0)
+        rgba = np.dstack((recovered, alpha[..., None] * 255.0)).astype(np.uint8)
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     Image.fromarray(rgba, "RGBA").save(destination, "WEBP", lossless=True, method=6)
@@ -172,6 +172,53 @@ def make_backdrop(source: Path, destination: Path) -> None:
         lossless=True,
         method=6,
     )
+
+
+def make_studio_poster(cutout_source: Path, destination: Path) -> None:
+    """Place an exact-product cutout on the shared edge-black studio field."""
+    width, height = 1536, 1024
+    yy, xx = np.mgrid[0:height, 0:width]
+    x = xx / max(width - 1, 1)
+    y = yy / max(height - 1, 1)
+
+    spotlight = np.exp(-(((x - 0.5) / 0.42) ** 2 + ((y - 0.43) / 0.48) ** 2) * 2.0)
+    floor = np.exp(-(((x - 0.5) / 0.48) ** 2 + ((y - 0.92) / 0.16) ** 2) * 2.0)
+    rgb = np.broadcast_to(EDGE_COLOUR, (height, width, 3)).copy()
+    rgb += spotlight[..., None] * np.array([7.0, 12.0, 17.0], dtype=np.float32)
+    rgb += floor[..., None] * np.array([5.0, 10.0, 15.0], dtype=np.float32)
+
+    edge_distance = np.minimum.reduce((x, 1.0 - x, y, 1.0 - y))
+    edge_reveal = smoothstep(0.0, 0.08, edge_distance)[..., None]
+    rgb = EDGE_COLOUR + ((rgb - EDGE_COLOUR) * edge_reveal)
+    stage = Image.fromarray(np.clip(rgb, 0, 255).astype(np.uint8), "RGB").convert("RGBA")
+
+    product = Image.open(cutout_source).convert("RGBA")
+    scale = min((width * 0.96) / product.width, (height * 0.94) / product.height)
+    product = product.resize(
+        (round(product.width * scale), round(product.height * scale)),
+        Image.Resampling.LANCZOS,
+    )
+    product_pixels = np.asarray(product, dtype=np.float32).copy()
+    product_alpha = product_pixels[..., 3:4] / 255.0
+    vertical_light = np.linspace(48.0, 24.0, product.height, dtype=np.float32)[:, None, None]
+    product_pixels[..., :3] = np.clip(
+        (product_pixels[..., :3] * 1.22) + (vertical_light * product_alpha),
+        0.0,
+        255.0,
+    )
+    product = Image.fromarray(product_pixels.astype(np.uint8), "RGBA")
+    left = round((width - product.width) / 2)
+    top = height - product.height - 24
+
+    shadow_alpha = product.getchannel("A").filter(ImageFilter.GaussianBlur(radius=18))
+    shadow_alpha = shadow_alpha.point(lambda value: round(value * 0.34))
+    shadow = Image.new("RGBA", product.size, (0, 0, 0, 0))
+    shadow.putalpha(shadow_alpha)
+    stage.alpha_composite(shadow, (left, top + 14))
+    stage.alpha_composite(product, (left, top))
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    stage.convert("RGB").save(destination, "WEBP", quality=92, method=6)
 
 
 def make_responsive_cutouts(source: Path, output_prefix: Path) -> None:
@@ -215,6 +262,11 @@ def main() -> None:
         type=Path,
         help="Optional prefix for 480/960/1600 responsive cutouts.",
     )
+    parser.add_argument(
+        "--studio-destination",
+        type=Path,
+        help="Optional edge-black studio poster built from --single-destination.",
+    )
     args = parser.parse_args()
 
     repo = args.repo.resolve()
@@ -230,6 +282,10 @@ def main() -> None:
         print(f"single cutout: {visible:.1f}% visible; background={background}; destination={destination}")
         if args.responsive_prefix:
             make_responsive_cutouts(destination, args.responsive_prefix.resolve())
+        if args.studio_destination:
+            studio_destination = args.studio_destination.resolve()
+            make_studio_poster(destination, studio_destination)
+            print(f"studio poster: {studio_destination} (1536x1024)")
         return
 
     if not args.backdrop_only:
