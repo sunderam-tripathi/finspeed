@@ -1,0 +1,31 @@
+{
+  "lightMasterPng": "814108056E89D2202D8F50E1064421906537BE00085F2D42968F7D43A8049E49",
+  "lightMasterWebp": "7E3C36E0B2BB1935C3F8BD419F2B8198FD33F1B1347BC6EE00B5B32B51114C47",
+  "darkMasterPng": "38FC381081A03DCD8078FD5C828061816CD4D3472CE1DD004A41C0DA64FFBA40",
+  "responsiveAssets": [
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w480.webp",
+      "sha256": "3E3DBF41A53E5E596D6249565D453197CBE61AF670FCCA00678C1EEB77BB5377"
+    },
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w960.webp",
+      "sha256": "C1C4234624DEDC8ABEF3EF6DA8E3F8EC5F3C0164208671DFAB4900D0297F29D4"
+    },
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w1600.webp",
+      "sha256": "CDECF34AA4D3BC3D5E05B89B413E9C872D41CAFAE1F0924C6102B807A8419DA8"
+    },
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w480.webp",
+      "sha256": "5EAD40017B3E9C8348249FB7E96C8A3C8CD8EF13B4BF8FE0599D04A027B5A0D1"
+    },
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w960.webp",
+      "sha256": "11A3E788611CCBDBF982E7D10923E7557C25A075F6D5EEF3C67C6422AE049387"
+    },
+    {
+      "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w1600.webp",
+      "sha256": "3D9964552CDA1754365D7F145E4CB0BCF5065FA6D6A3FF6CA8BF567F5714D940"
+    }
+  ]
+}

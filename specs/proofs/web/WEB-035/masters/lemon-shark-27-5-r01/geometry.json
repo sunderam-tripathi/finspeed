@@ -1,0 +1,140 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "productId": "lemon-shark",
+  "skuId": "lemon-shark-27-5",
+  "sourceAlias": "01-raster-masters-4x/products/lemon-shark/angle-3.png",
+  "sourceNote": "",
+  "sourceAssets": {
+    "lightCutout": "apps/web/public/assets/products/dark-cutouts/lemon-shark-transparent.webp",
+    "darkStudio": "apps/web/public/assets/products/dark-studio-v2/lemon-shark-studio.webp",
+    "darkBackdrop": "apps/web/public/assets/products/dark-studio/shared-dark-studio-backdrop.webp"
+  },
+  "registration": {
+    "targetSubjectWidthPercent": 84.0,
+    "targetBaselinePercent": 88.0,
+    "minimumTopSafetyPercent": 7.0,
+    "alphaSubjectThreshold": 32
+  },
+  "lightSubjectBounds": {
+    "sourceWidth": 1600,
+    "sourceHeight": 1067,
+    "scale": 2.01442623,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 8.0078,
+    "topSafetyPercent": 13.2324,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 83.9844,
+    "subjectHeightPercent": 74.7559
+  },
+  "darkSubjectBounds": {
+    "sourceWidth": 1536,
+    "sourceHeight": 1024,
+    "scale": 2.09836066,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 8.0078,
+    "topSafetyPercent": 13.1836,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 83.9844,
+    "subjectHeightPercent": 74.8047
+  },
+  "canvasConformance": "canonical",
+  "assets": {
+    "light": [
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "E5CCE52418FC5723A7FC2695757C8D70DB63AE2DC878F0D61B0C86831342C3B3",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 7.9167,
+            "rightSafetyPercent": 7.9167,
+            "topSafetyPercent": 13.125,
+            "baselinePercent": 87.8125,
+            "subjectWidthPercent": 84.1667,
+            "subjectHeightPercent": 75.0
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "FCF44025172A59B91FB5E794F38A31992C97A78DEF3A5D39459D828851118CB6",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0208,
+            "rightSafetyPercent": 8.0208,
+            "topSafetyPercent": 13.125,
+            "baselinePercent": 87.9688,
+            "subjectWidthPercent": 83.9583,
+            "subjectHeightPercent": 74.8438
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "DB8B3ACE31B97ED81E18FEB7A618B51C34A7D718075DD9FFE6BB3ECF4B8EB1D5",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0,
+            "rightSafetyPercent": 8.0,
+            "topSafetyPercent": 13.2146,
+            "baselinePercent": 87.91,
+            "subjectWidthPercent": 84.0,
+            "subjectHeightPercent": 74.7891
+          }
+        }
+      }
+    ],
+    "dark": [
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "37AAE88DD4761445886E7292ED9919E6A88CC967835E40E20085037F381649C3"
+      },
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "DBE874E51129D78C7D60D55DE3A8AD9C9BC528ABB8A3A7DF2D4E9AC70C30006B"
+      },
+      {
+        "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "1FCA3F56DB1326734E99E66C9A00D6BEB637E119BA582A9847914F728F16D8E3"
+      }
+    ]
+  }
+}

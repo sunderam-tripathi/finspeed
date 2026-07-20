@@ -1,0 +1,317 @@
+/* Complete storefront dark theme.
+   The light experience is built from warm porcelain primitives; the dark
+   experience remaps the same system to warm carbon so page composition,
+   spacing, and hierarchy stay identical without falling back to inversion. */
+
+[data-theme="dark"] .store-app {
+  --porcelain-50: #08090b;
+  --porcelain-100: #0b0d0f;
+  --porcelain-200: #0e1013;
+  --porcelain-300: #121518;
+  --porcelain-350: #15181b;
+  --porcelain-400: #181b1f;
+  --porcelain-450: #1b1f23;
+  --porcelain-500: #1f2328;
+  --porcelain-line: rgba(238, 239, 236, 0.13);
+  --porcelain-line-strong: rgba(238, 239, 236, 0.22);
+
+  --editorial-ink-900: #f5f3ef;
+  --editorial-muted-600: #b6b4af;
+  --editorial-number-500: #94999d;
+  --editorial-accent-500: #55c9e7;
+  --editorial-accent-600: #73d3ea;
+  --editorial-accent-300: #8adff0;
+  --editorial-dark-surface: #090b0e;
+  --editorial-dark-text: #f7f5f1;
+  --editorial-dark-muted: #aeb3b6;
+  --editorial-dark-number: #92989c;
+  --editorial-dark-border: rgba(238, 239, 236, 0.14);
+  --editorial-header-dark: rgba(8, 10, 12, 0.96);
+
+  --bg-page: var(--porcelain-50);
+  --bg-canvas: var(--porcelain-100);
+  --surface-card: var(--porcelain-200);
+  --surface-sunken: var(--porcelain-300);
+  --surface-raised: var(--porcelain-400);
+  --text-strong: var(--editorial-ink-900);
+  --text-body: #c8c7c3;
+  --text-muted: var(--editorial-muted-600);
+  --text-faint: var(--editorial-number-500);
+  --border-subtle: var(--porcelain-line);
+  --border-strong: var(--porcelain-line-strong);
+
+  --porcelain: var(--porcelain-100);
+  --porcelain-deep: var(--porcelain-400);
+  --editorial-surface: var(--porcelain-100);
+  --editorial-surface-soft: var(--porcelain-300);
+  --editorial-canvas: var(--porcelain-50);
+  --editorial-line: var(--porcelain-line);
+  --editorial-cyan: var(--editorial-accent-500);
+  --editorial-cyan-strong: var(--editorial-accent-600);
+  --editorial-cyan-bright: var(--editorial-accent-300);
+  --editorial-ink: var(--editorial-ink-900);
+  --editorial-muted: var(--editorial-muted-600);
+
+  /* Each dark asset is a complete AI-relit photograph generated from its
+     matching catalogue master. The full scene resolves to black at its edges,
+     so responsive letterboxing disappears into the product stage. */
+  --dark-product-studio: #000;
+  --dark-product-studio-compact: #000;
+
+  --build-canvas-fallback: #111316;
+  --build-canvas:
+    radial-gradient(76% 92% at 100% 100%, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 72%),
+    linear-gradient(
+      90deg,
+      #0d0f12 0%,
+      #111417 34%,
+      #171a1e 50%,
+      #14171a 67%,
+      #101316 82%,
+      #0c0f12 100%
+    );
+
+  color-scheme: dark;
+  background: var(--porcelain-50);
+}
+
+[data-theme="dark"] .store-main,
+[data-theme="dark"] .store-home,
+[data-theme="dark"] .editorial-page,
+[data-theme="dark"] .legacy-page,
+[data-theme="dark"] .account-page {
+  background-color: var(--porcelain-50);
+}
+
+[data-theme="dark"] .range-page,
+[data-theme="dark"] .build-ride-page,
+[data-theme="dark"] .product-editorial-page,
+[data-theme="dark"] .engineering-page {
+  color-scheme: dark;
+}
+
+/* Dark product scenes are complete photographs, not cutouts. Keeping the image
+   unfiltered preserves the AI-matched lighting and catalogue details. */
+[data-theme="dark"] .home-bike-story__visual img,
+[data-theme="dark"] .build-studio__image-stage img,
+[data-theme="dark"] .range-feature__image img,
+[data-theme="dark"] .range-showcase__visual img,
+[data-theme="dark"] .product-editorial-stage__image img,
+[data-theme="dark"] .product-editorial-related__image img,
+[data-theme="dark"] .store-checkout-item__image img,
+[data-theme="dark"] .store-cart-item-image img,
+[data-theme="dark"] .editorial-search-list__image img,
+[data-theme="dark"] .engineering-configure__bike img,
+[data-theme="dark"] .account-product__image img {
+  mix-blend-mode: normal;
+  filter: none;
+}
+
+[data-theme="dark"] .store-app img[src*="/dark-studio-v2/"] {
+  display: block;
+  mix-blend-mode: normal;
+  filter: none;
+}
+
+[data-theme="dark"] .store-app img[src*="/dark-studio-v2/"],
+[data-theme="dark"] .store-app img[src*="/dark-studio-v3/"] {
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+[data-theme="dark"] .product-editorial-stage__image img[src*="/dark-studio-v2/"],
+[data-theme="dark"] .product-editorial-stage__image img[src*="/dark-studio-v3/"],
+[data-theme="dark"] .range-feature__image img[src*="/dark-studio-v2/"],
+[data-theme="dark"] .range-feature__image img[src*="/dark-studio-v3/"],
+[data-theme="dark"] .editorial-menu__image-well img[src*="/dark-studio-v2/"],
+[data-theme="dark"] .editorial-menu__image-well img[src*="/dark-studio-v3/"] {
+  opacity: 0.96;
+}
+
+/* Every generated photograph fades to the same black edge field. */
+[data-theme="dark"] .editorial-menu--dark {
+  --menu-bg: var(--dark-product-studio);
+}
+
+[data-theme="dark"] .home-bike-story__visual,
+[data-theme="dark"] .build-studio__image-stage,
+[data-theme="dark"] .range-feature__image,
+[data-theme="dark"] .range-showcase__visual,
+[data-theme="dark"] .product-editorial-stage__image,
+[data-theme="dark"] .product-editorial-related__image,
+[data-theme="dark"] .store-checkout-item__image,
+[data-theme="dark"] .store-cart-item-image,
+[data-theme="dark"] .editorial-search-list__image,
+[data-theme="dark"] .engineering-configure__bike,
+[data-theme="dark"] .account-product__image,
+[data-theme="dark"] .editorial-menu__image-well {
+  background-color: var(--dark-product-studio);
+  background-image: none;
+}
+
+[data-theme="dark"] .home-bike-story__visual::after {
+  border: 0;
+}
+
+[data-theme="dark"] .editorial-menu__image-well img[src*="/dark-studio-v2/"] {
+  inset: 0 0 0 50%;
+  width: min(100%, 720px);
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateX(-50%) translate(var(--product-visual-translate-x, 0), var(--product-visual-translate-y, 0)) scale(var(--product-visual-scale, var(--editorial-bike-scale)));
+  transform-origin: var(--product-visual-origin, center bottom);
+}
+
+[data-theme="dark"] .editorial-menu__image-well img[src*="/dark-studio-v3/"] {
+  inset: 0 0 0 50%;
+  width: min(100%, 720px);
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateX(-50%) translate(var(--product-visual-translate-x, 0), var(--product-visual-translate-y, 0)) scale(var(--product-visual-scale, var(--editorial-bike-scale)));
+  transform-origin: var(--product-visual-origin, center bottom);
+}
+
+[data-theme="dark"] .build-studio__visual {
+  background: var(--dark-product-studio);
+}
+
+[data-theme="dark"] .store-checkout-item__image,
+[data-theme="dark"] .store-cart-item-image,
+[data-theme="dark"] .editorial-search-list__image,
+[data-theme="dark"] .product-editorial-related__image,
+[data-theme="dark"] .account-product__image {
+  background: var(--dark-product-studio-compact);
+}
+
+[data-theme="dark"] .product-editorial-related__item,
+[data-theme="dark"] .range-showcase,
+[data-theme="dark"] .build-detail-strip {
+  background-color: var(--porcelain-100);
+}
+
+[data-theme="dark"] .range-filter {
+  background: rgba(11, 13, 15, 0.94);
+}
+
+[data-theme="dark"] .range-filter button.is-active {
+  background: rgba(85, 201, 231, 0.1);
+  box-shadow: inset 0 -2px 0 var(--editorial-accent-500);
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .home-bike-story__visual > span,
+[data-theme="dark"] .range-feature__sequence,
+[data-theme="dark"] .product-editorial-stage__topline,
+[data-theme="dark"] .product-editorial-stage__specs dt {
+  color: #b5b9b7;
+}
+
+[data-theme="dark"] .product-editorial-stage__topline,
+[data-theme="dark"] .product-editorial-stage__specs,
+[data-theme="dark"] .product-editorial-stage__specs > div {
+  border-color: rgba(238, 239, 236, 0.16);
+}
+
+[data-theme="dark"] .product-editorial-stage__topline,
+[data-theme="dark"] .product-editorial-stage__specs {
+  background: rgba(8, 10, 12, 0.42);
+}
+
+[data-theme="dark"] .product-editorial-stage__specs dd {
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .product-editorial-badge {
+  border-color: rgba(85, 201, 231, 0.7);
+  color: var(--editorial-accent-300);
+}
+
+[data-theme="dark"] .product-editorial-buy {
+  color: var(--porcelain-50);
+}
+
+[data-theme="dark"] .build-detail-card::after {
+  background: linear-gradient(
+    90deg,
+    rgba(14, 16, 19, 0) 34%,
+    rgba(14, 16, 19, 0.72) 58%,
+    rgba(14, 16, 19, 0.96) 78%,
+    rgba(14, 16, 19, 0.99) 100%
+  );
+}
+
+[data-theme="dark"] .build-detail-card__copy,
+[data-theme="dark"] .build-detail-card h3,
+[data-theme="dark"] .build-detail-card p {
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .product-editorial-stock {
+  color: #7fd0a4;
+}
+
+[data-theme="dark"] .product-editorial-stock span {
+  background: #65bb8b;
+}
+
+[data-theme="dark"] .product-editorial-stock.is-low,
+[data-theme="dark"] .product-notify__feedback.is-error {
+  color: #f2b76e;
+}
+
+[data-theme="dark"] .store-newsletter-section {
+  background: var(--porcelain-50);
+}
+
+[data-theme="dark"] .store-newsletter--dark {
+  background:
+    radial-gradient(circle at 82% 16%, rgba(85, 201, 231, 0.08), transparent 34%),
+    var(--porcelain-200);
+}
+
+[data-theme="dark"] .store-newsletter--dark .store-newsletter__description,
+[data-theme="dark"] .store-newsletter--dark .store-newsletter__note {
+  color: var(--editorial-dark-muted);
+}
+
+[data-theme="dark"] .store-newsletter--dark input {
+  border-color: var(--porcelain-line-strong);
+  background: var(--porcelain-50);
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .store-footer--dark {
+  background: #07090b;
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .store-footer--dark .store-footer-contact a,
+[data-theme="dark"] .store-footer--dark .store-footer-column a:hover,
+[data-theme="dark"] .store-footer--dark .store-footer-column a:focus-visible {
+  color: var(--editorial-dark-text);
+}
+
+[data-theme="dark"] .store-app input,
+[data-theme="dark"] .store-app textarea,
+[data-theme="dark"] .store-app select {
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="dark"] .home-bike-story__visual img,
+  [data-theme="dark"] .product-editorial-related__image img {
+    transition: none;
+  }
+}

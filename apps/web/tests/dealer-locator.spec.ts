@@ -2,78 +2,53 @@ import { test, expect } from '@playwright/test';
 
 const path = '/dealers';
 
-const selectors = {
-  postalInput: 'label:has-text("Postal code") input',
-  searchButton: 'button:has-text("Search dealers")',
-  errorText: 'text=Enter a valid 6-digit postal code',
-  outageToggle: 'button:has-text("Simulate outage")',
-  outageBanner: 'text=Locator temporarily unavailable',
-  map: '[data-testid="dealer-map"]',
-  supportLink: 'a:has-text("WhatsApp:")'
-};
-
-test.describe('SCN-004 dealer locator contract', () => {
-  test('valid postal shows dealer results and filter chips update list', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.localStorage.setItem('finspeed-dealer-locale', 'en');
-    });
+test.describe('published-location finder', () => {
+  test('shows only published locations and filters by an available service', async ({ page }) => {
     await page.goto(path);
-    await expect(page.locator('h2', { hasText: 'Results near' })).toBeVisible();
-    const initialCount = await page.locator('[data-testid="dealer-card"]').count();
-    await page.getByRole('button', { name: 'Service' }).click();
-    const filteredCount = await page.locator('[data-testid="dealer-card"]').count();
-    expect(filteredCount).toBeLessThanOrEqual(initialCount);
+    await expect(page.getByTestId('dealer-card')).toHaveCount(2);
+    await page.getByRole('button', { name: 'Test rides' }).click();
+    await expect(page.getByTestId('dealer-card')).toHaveCount(1);
+    await expect(page.getByTestId('dealer-card')).toContainText('Sarin Farm');
+    await expect(page.getByText(/Within \d+ km/)).toHaveCount(0);
   });
 
-  test('invalid postal triggers inline error', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.localStorage.setItem('finspeed-dealer-locale', 'en');
-    });
+  test('search matches location details without claiming a radius lookup', async ({ page }) => {
     await page.goto(path);
-    await page.fill(selectors.postalInput, '123');
-    await page.click(selectors.searchButton);
-    await expect(page.locator(selectors.errorText)).toBeVisible();
+    const input = page.getByLabel('Location, area or PIN code');
+    await input.fill('Krystal Height');
+    await page.getByRole('button', { name: 'Search locations' }).click();
+    await expect(page.getByTestId('dealer-card')).toHaveCount(1);
+    await expect(page.getByTestId('dealer-card')).toContainText('Krystal Height');
+
+    await input.fill('110001');
+    await page.getByRole('button', { name: 'Search locations' }).click();
+    await expect(page.getByText('No location matches that search.')).toBeVisible();
   });
 
-  test('outage banner hides results and promotes support channels', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.localStorage.setItem('finspeed-dealer-locale', 'en');
-    });
+  test('map selection identifies one location even when both share a PIN code', async ({ page }) => {
     await page.goto(path);
-    await page.click(selectors.outageToggle);
-    await expect(page.locator(selectors.outageBanner)).toBeVisible();
-    await expect(page.locator(selectors.map)).not.toBeVisible();
-    await expect(page.locator('[data-testid="dealer-card"]')).toHaveCount(0);
-    await expect(page.locator(selectors.supportLink)).toBeVisible();
+    const pins = page.locator('[data-testid="dealer-map"] button');
+    await expect(pins).toHaveCount(2);
+    await pins.nth(1).click();
+    await expect(page.getByTestId('dealer-card').nth(1)).toHaveClass(/is-active/);
+    await expect(pins.nth(1)).toHaveAttribute('aria-pressed', 'true');
+    await expect(pins.nth(0)).toHaveAttribute('aria-pressed', 'false');
   });
 
-  test('analytics stubs push GA payloads with consent flag', async ({ page }) => {
-    await page.addInitScript(() => {
-      window.localStorage.setItem('finspeed-dealer-locale', 'en');
-    });
+  test('search analytics keeps consent and coarse PIN data', async ({ page }) => {
     await page.goto(path);
     const bannerAccept = page.getByRole('button', { name: 'Accept' });
-    if (await bannerAccept.isVisible()) {
-      await bannerAccept.click();
-    }
-    await page.evaluate(() => window.localStorage.setItem('analytics-test', 'true'));
-    await page.fill(selectors.postalInput, '201306');
-    await page.click(selectors.searchButton);
-    await page.locator('[data-testid="dealer-map"] button').first().click({ force: true });
-    await page.locator('[data-testid="dealer-card"]').first().getByRole('button', { name: 'WhatsApp' }).click();
+    if (await bannerAccept.isVisible()) await bannerAccept.click();
+    await page.getByLabel('Location, area or PIN code').fill('201306');
+    await page.getByRole('button', { name: 'Search locations' }).click();
     await page.waitForFunction(() => {
       const events = (window as unknown as { dataLayer?: Array<{ event: string }> }).dataLayer || [];
-      return events.some((e) => e.event === 'dealer_search_submitted');
+      return events.some((event) => event.event === 'dealer_search_submitted');
     });
     const snapshot = await page.evaluate(() => (window as unknown as { dataLayer?: unknown[] }).dataLayer);
     const events = (snapshot as Array<{ event: string; payload: Record<string, unknown> }>) || [];
-    const searchEvent = events.find((e) => e.event === 'dealer_search_submitted');
-    const contactEvent = events.find((e) => e.event === 'dealer_contact_action');
-    expect(searchEvent?.payload?.postal_prefix).toBe('201');
-    expect(searchEvent?.payload?.consentGranted).toBe(true);
-    expect(contactEvent?.payload?.channel).toBe('whatsapp');
-    const pinEvent = events.find((e) => e.event === 'dealer_map_pin_select');
-    expect(pinEvent?.payload?.latitude).toBeTruthy();
-    expect(pinEvent?.payload?.longitude).toBeTruthy();
+    const event = events.find((item) => item.event === 'dealer_search_submitted');
+    expect(event?.payload?.postal_prefix).toBe('201');
+    expect(event?.payload?.consentGranted).toBe(true);
   });
 });

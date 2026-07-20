@@ -94,7 +94,7 @@ export function createOrderReceipt(order, catalogue = [], customer = {}) {
 
   return [
     'FINSPEED',
-    'ORDER SUMMARY',
+    customer?.preview ? 'SAMPLE ORDER SUMMARY — NOT A LIVE ORDER' : 'ORDER SUMMARY',
     '',
     `Order: ${normalized.no || 'Pending'}`,
     `Placed: ${normalized.date || 'Not available'}`,
@@ -106,8 +106,8 @@ export function createOrderReceipt(order, catalogue = [], customer = {}) {
     `Total: ${money(normalized.total)}`,
     normalized.paymentMethod ? `Payment: ${normalized.paymentMethod.toUpperCase()}` : null,
     '',
-    'Warranty: 2-year frame warranty.',
-    'Service: Two complimentary services within the first six months.',
+    'Warranty: current terms, eligibility and exclusions are confirmed by Finspeed.',
+    'Service: scheduled service eligibility is confirmed before handover.',
     'Rider support: support@finspeed.online | WhatsApp +91 96506 08982.',
     'Support hub: https://www.finspeed.online/support.',
   ].filter((line) => line !== null).join('\n');

@@ -9,7 +9,7 @@ const DesignRuntime = dynamic(() => import('@/design/design-runtime.jsx'), {
     <main
       aria-busy="true"
       aria-label="Loading Finspeed"
-      style={{ minHeight: '100vh', background: '#f6f8f9' }}
+      style={{ minHeight: '100vh', background: 'var(--bg-page, #0a0e12)' }}
     />
   )
 });

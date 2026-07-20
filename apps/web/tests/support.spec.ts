@@ -1,18 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-test('SCN-008 support hub renders bilingual hero and contacts', async ({ page }) => {
-  await page.addInitScript(() => {
-    window.localStorage.setItem('finspeed-support-locale', 'en');
-  });
+test('support hub uses the shared editorial support flow and published contacts', async ({ page }) => {
   await page.goto('/support');
-  await expect(page.getByRole('heading', { level: 1, name: 'Support hub' })).toBeVisible();
-  await expect(page.getByRole('link', { name: /WhatsApp \+/ })).toBeVisible();
-  await page.getByRole('button', { name: /Hindi/ }).click();
-  await expect(page.getByRole('heading', { name: 'सपोर्ट हब' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Support for the whole ride.' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'WhatsApp', exact: true })).toHaveAttribute(
+    'href',
+    'https://wa.me/919650608982',
+  );
+  await expect(page.getByText(/within 6 hours/i)).toHaveCount(0);
 });
 
-test('support request does not accept missing required details', async ({ page }) => {
+test('support request identifies each invalid field', async ({ page }) => {
   await page.goto('/support');
   await page.getByRole('button', { name: 'Send request' }).click();
-  await expect(page.locator('.legacy-form-feedback[role="alert"]')).toHaveText(/Enter your name and a short description/i);
+  await expect(page.locator('.editorial-form-feedback[role="alert"]')).toHaveText(/Check the highlighted fields/i);
+  await expect(page.getByText('Enter your name.')).toBeVisible();
+  await expect(page.getByLabel('Email')).toHaveAttribute('aria-invalid', 'true');
 });

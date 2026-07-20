@@ -1,7 +1,14 @@
 import React from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Button, Newsletter, Toast } from '../../ui/index.js';
-import { addresses as seedAddresses, cartLines, demoUser, products, seedOrders } from '../../data/storefront.js';
+import {
+  addresses as seedAddresses,
+  cartLines,
+  demoUser,
+  productCommerceState,
+  products,
+  seedOrders,
+} from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 import { usePersistentState } from '../../lib/usePersistentState.js';
 import Account from './Account.jsx';
@@ -14,7 +21,7 @@ import { About, Assembly, Contact, Journal, RiderStories, Stores, Support, Warra
 import Footer from './Footer.jsx';
 import Header from './Header.jsx';
 import Home from './Home.jsx';
-import { BlogPage, BrandStory, Dealers, SupportHub, TestimonialsPage } from './LegacyEditorialPages.jsx';
+import { Dealers } from './LegacyEditorialPages.jsx';
 import ProductDetail from './ProductDetail.jsx';
 import Search from './Search.jsx';
 import Shop from './Shop.jsx';
@@ -40,6 +47,33 @@ const routePaths = {
 };
 
 const DEMO_OWNER_EMAIL = demoUser.email.toLowerCase();
+const routeTitleLabels = {
+  home: 'Performance bicycles',
+  shop: 'Shop',
+  build: 'Build your ride',
+  engineering: 'Engineering',
+  about: 'Our story',
+  contact: 'Contact',
+  warranty: 'Warranty',
+  assembly: 'Assembly guide',
+  stores: 'Stores',
+  dealers: 'Dealers',
+  support: 'Support',
+  journal: 'Journal',
+  stories: 'Rider stories',
+  search: 'Search',
+  auth: 'Sign in',
+  account: 'Account',
+  checkout: 'Checkout',
+  product: 'Product',
+};
+
+const categoryTitleLabels = {
+  all: 'Signature range',
+  mountain: 'Mountain bikes',
+  city: 'City bikes',
+  hybrid: 'Hybrid bikes',
+};
 
 function normalizedEmail(value) {
   return String(value || '').trim().toLowerCase();
@@ -115,13 +149,15 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     setCartOpen(false);
-    const label = route === 'home' ? 'Performance bicycles' : route.replace('-', ' ');
+    const label = route === 'shop'
+      ? categoryTitleLabels[filter] || routeTitleLabels.shop
+      : routeTitleLabels[route] || 'Page';
     document.title = `Finspeed — ${label.charAt(0).toUpperCase() + label.slice(1)}`;
     const focusFrame = window.requestAnimationFrame(() => {
-      if (document.activeElement === document.body) mainRef.current?.focus({ preventScroll: true });
+      mainRef.current?.focus({ preventScroll: true });
     });
     return () => window.cancelAnimationFrame(focusFrame);
-  }, [location.pathname, route]);
+  }, [filter, location.pathname, route]);
 
   React.useEffect(() => () => window.clearTimeout(toastTimer.current), []);
 
@@ -177,6 +213,13 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
   }
 
   function addToCart(id, quantity = 1) {
+    const commerce = productCommerceState(id);
+    if (!commerce.ready) {
+      setToast(commerce.note || 'Contact Finspeed to confirm this bicycle before ordering');
+      window.clearTimeout(toastTimer.current);
+      toastTimer.current = window.setTimeout(() => setToast(null), 3200);
+      return false;
+    }
     setCart((current) => {
       const existing = typeof current?.[id] === 'number' ? current[id] : 0;
       return { ...current, [id]: existing + quantity };
@@ -185,18 +228,26 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
     setToast(product ? `${product.name} added to cart` : 'Item added to cart');
     window.clearTimeout(toastTimer.current);
     toastTimer.current = window.setTimeout(() => setToast(null), 2200);
+    return true;
   }
 
   function buyNow(id, quantity = 1) {
-    addToCart(id, quantity);
+    if (!addToCart(id, quantity)) return;
     closeCart();
     navigate('/checkout');
   }
 
-  function addConfiguredToCart({ productId, unitPrice, configuration }) {
-    const fingerprint = ['base', 'brakes', 'suspension', 'gears', 'finish']
+  function addConfiguredToCart({ productId, unitPrice, configuration, fingerprint: suppliedFingerprint }) {
+    if (configuration?.commerce?.ready === false) {
+      setToast('Contact Finspeed to confirm this model before ordering');
+      window.clearTimeout(toastTimer.current);
+      toastTimer.current = window.setTimeout(() => setToast(null), 3200);
+      return;
+    }
+    const legacyFingerprint = ['base', 'brakes', 'suspension', 'gears', 'finish']
       .map((key) => configuration?.[key]?.id || 'standard')
       .join('-');
+    const fingerprint = suppliedFingerprint || configuration?.fingerprint || legacyFingerprint;
     const lineId = `configured:${productId}:${fingerprint}`;
     setCart((current) => {
       const existing = current?.[lineId];
@@ -238,7 +289,7 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
     });
   }
 
-  const shared = { onNav: nav };
+  const shared = { onNav: nav, theme };
 
   return (
     <div className={`store-app${route === 'home' ? ' store-app--home' : ''}`}>
@@ -262,16 +313,16 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
           <Route path="/build" element={<BuildRide {...shared} onAddConfigured={addConfiguredToCart} />} />
           <Route path="/products/:productId" element={<ProductRoute {...shared} onAdd={addToCart} onBuyNow={buyNow} onProduct={goProduct} />} />
           <Route path="/about" element={<About {...shared} />} />
-          <Route path="/brand-story" element={<BrandStory />} />
+          <Route path="/brand-story" element={<About {...shared} />} />
           <Route path="/engineering" element={<Engineering {...shared} />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route path="/blog" element={<Journal {...shared} />} />
+          <Route path="/testimonials" element={<RiderStories {...shared} />} />
           <Route path="/contact" element={<Contact {...shared} />} />
           <Route path="/warranty" element={<Warranty {...shared} />} />
           <Route path="/assembly" element={<Assembly {...shared} />} />
           <Route path="/stores" element={<Stores {...shared} />} />
           <Route path="/dealers" element={<Dealers />} />
-          <Route path="/support" element={<SupportHub />} />
+          <Route path="/support" element={<Support {...shared} />} />
           <Route path="/search" element={<Search {...shared} query={query} setQuery={setQuery} onAdd={addToCart} onProduct={goProduct} />} />
           <Route path="/sign-in" element={<Auth onAuth={signIn} onNav={nav} />} />
           <Route path="/account" element={user ? <Account user={user} orders={ownerOrders} deliveryAddresses={deliveryAddresses} {...shared} onProduct={goProduct} onSignOut={signOut} /> : <Navigate to="/sign-in" replace />} />
@@ -280,27 +331,28 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
         </Routes>
       </main>
 
-      {route !== 'auth' && route !== 'not-found' && (
+      {!['auth', 'account', 'checkout', 'not-found'].includes(route) && (
         <>
           <section className="store-newsletter-section" aria-label="Finspeed newsletter">
             <div className="store-page-shell store-newsletter-inner">
               <Newsletter
                 className="store-newsletter"
-                eyebrow="Join the network"
-                title="Be first to the next drop"
-                description="New launches, restocks and rider stories — straight to your inbox. No spam, ever."
+                eyebrow="Stay in touch"
+                title="Get the latest from Finspeed"
+                description="New launches, restocks and rider stories, straight to your inbox."
                 cta="Subscribe"
-                tone="light"
+                tone={theme === 'dark' ? 'dark' : 'light'}
               />
             </div>
           </section>
-          <Footer onNav={nav} tone="light" />
+          <Footer onNav={nav} tone={theme === 'dark' ? 'dark' : 'light'} />
         </>
       )}
 
       <CartDrawer
         open={cartOpen}
         items={cart}
+        theme={theme}
         onClose={closeCart}
         onQty={setQuantity}
         onRemove={removeItem}
@@ -331,7 +383,7 @@ function NotFound({ onHome }) {
   return (
     <section style={{ minHeight: '62vh', display: 'grid', placeItems: 'center', padding: 'var(--space-7)', textAlign: 'center' }}>
       <div>
-        <p className="fin-eyebrow">404 · Route not found</p>
+        <p className="fin-eyebrow">404 - Page not found</p>
         <h1 style={{ font: 'var(--fw-bold) var(--fs-4xl)/1 var(--font-display)', margin: 'var(--space-3) 0' }}>This trail ends here.</h1>
         <Button type="button" variant="primary" onClick={onHome}>Return home</Button>
       </div>

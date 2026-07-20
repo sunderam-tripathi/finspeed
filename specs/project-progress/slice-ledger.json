@@ -191,6 +191,12 @@
           "domain": "web",
           "title": "Premium editorial navigation and build journey",
           "status": "done"
+        },
+        {
+          "id": "WEB-035",
+          "domain": "web",
+          "title": "Comprehensive bespoke configurator",
+          "status": "active"
         }
       ]
     }

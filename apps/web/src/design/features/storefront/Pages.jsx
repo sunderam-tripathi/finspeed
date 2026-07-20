@@ -196,7 +196,7 @@ function Warranty({ onNav }) {
   useLucideIcons();
   const coverage = [
     ['shield-check','5-year frame warranty','Structural frame & fork against manufacturing defects, from date of purchase.'],
-    ['settings','1-year components','Drivetrain, brakes, wheels and fittings against defects in material or workmanship.'],
+    ['settings','1-year components','Gears, brakes, wheels and fittings against defects in material or workmanship.'],
     ['wrench','Free first service','One complimentary tune-up within 90 days — gears, brakes and bolt-torque check.'],
   ];
   const claim = [
@@ -207,10 +207,10 @@ function Warranty({ onNav }) {
   ];
   const faq = [
     { title:'What\'s covered under warranty?', content:'Manufacturing and material defects in the frame, fork and original components. The frame and fork carry 5 years of structural cover; fitted components carry 12 months.' },
-    { title:'What\'s not covered?', content:'Normal wear (tyres, brake pads, cables, grips), accident or impact damage, corrosion from neglect, unauthorised modifications, and damage from improper assembly or use beyond the cycle\'s intended terrain.' },
+    { title:'What\'s not covered?', content:'Normal wear (tyres, brake pads, cables, grips), accident or impact damage, corrosion from neglect, unsupported modifications, and damage from improper assembly or use beyond the cycle\'s intended terrain.' },
     { title:'How long does a claim take?', content:'Most claims are assessed within 2 working days of receiving photos and your proof of purchase. Approved replacement parts dispatch within 5 working days.' },
     { title:'Is transit damage covered?', content:'Yes — report any transit damage within 48 hours of delivery with photos and we\'ll replace the affected unit or part free of charge.' },
-    { title:'Does servicing affect my warranty?', content:'Keep to the recommended service intervals at any Finspeed store or authorised service centre and your warranty stays intact. Hold on to your service records.' },
+    { title:'Does servicing affect my warranty?', content:'Keep to the recommended service intervals at a Finspeed store or service centre and your warranty stays intact. Hold on to your service records.' },
   ];
   return (
     <div style={{ background:'var(--bg-page)' }}>
@@ -324,7 +324,7 @@ function Stores({ onNav }) {
   const toneFor = (t)=> t==='Flagship' ? 'brand' : t==='Service centre' ? 'neutral' : 'ink';
   return (
     <div style={{ background:'var(--bg-page)' }}>
-      <PageHead onNav={onNav} crumb="Find a store" eyebrow="Visit us" title="Find a store" intro="Test-ride the fleet, collect an order or book a free service at a Finspeed store or authorised dealer near you." />
+      <PageHead onNav={onNav} crumb="Find a store" eyebrow="Visit us" title="Find a store" intro="Test-ride the bikes, collect an order or book a service at a Finspeed store near you." />
       <div style={{ ...wrap, display:'grid', gridTemplateColumns:'1fr 1.1fr', gap:'var(--space-7)', alignItems:'start' }}>
         {/* list */}
         <div>

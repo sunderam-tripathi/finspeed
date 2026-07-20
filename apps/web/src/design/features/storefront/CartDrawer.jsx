@@ -1,14 +1,26 @@
+/* eslint-disable @next/next/no-img-element -- Theme-specific responsive product srcsets are resolved by the storefront media catalogue. */
 import React from 'react';
 import { QuantityStepper } from '../../ui/index.js';
-import { cartLines, productImage } from '../../data/storefront.js';
+import {
+  cartLines,
+  resolveProductImage,
+} from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
-function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onCheckout }) {
+function cartLinePreview(configuration, theme, productId) {
+  const preview = configuration?.preview;
+  const configured = preview?.[theme] || preview?.light || preview?.dark || preview;
+  if (configured?.src) return configured;
+  return resolveProductImage(productId, { theme, role: 'search', width: 480 });
+}
+
+function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onCheckout, theme = 'light' }) {
   const lines = cartLines(items);
   const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
   const count = lines.reduce((sum, line) => sum + line.quantity, 0);
   const drawerRef = React.useRef(null);
   const previousFocusRef = React.useRef(null);
+  const [announcement, setAnnouncement] = React.useState('');
 
   useLucideIcons([open, count]);
 
@@ -67,6 +79,16 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
     };
   }, [open, onClose]);
 
+  function updateQuantity(lineId, productName, quantity) {
+    onQty?.(lineId, quantity);
+    setAnnouncement(`${productName} quantity changed to ${quantity}.`);
+  }
+
+  function removeLine(lineId, productName) {
+    onRemove?.(lineId);
+    setAnnouncement(`${productName} removed from the preview cart.`);
+  }
+
   return (
     <>
       <div className={`store-cart-backdrop${open ? ' is-open' : ''}`} aria-hidden="true" onClick={onClose} />
@@ -79,6 +101,9 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
         aria-hidden={!open}
         inert={!open}
       >
+        <p className="commerce-live-region" role="status" aria-live="polite" aria-atomic="true">
+          {announcement}
+        </p>
         <header className="store-cart-header">
           <div>
             <p className="editorial-kicker">Your selection</p>
@@ -99,6 +124,7 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
           )}
 
           {lines.map(({ lineId, product, quantity, unitPrice, configuration }, index) => {
+            const preview = cartLinePreview(configuration, theme, product.id);
             const configuredSummary = configuration
               ? [
                 configuration.base?.wheels,
@@ -112,7 +138,15 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
               <article className="store-cart-item" key={lineId}>
                 <span className="store-cart-item__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 <button type="button" className="store-cart-item-image" aria-label={`View ${product.name}`} onClick={() => onProduct(product.id)}>
-                  <img src={productImage(product.id)} alt="" />
+                  <img
+                    src={preview.src}
+                    srcSet={preview.srcSet}
+                    sizes={preview.sizes || '116px'}
+                    style={preview.style}
+                    data-product-scale={preview.registration?.scale}
+                    data-product-baseline={preview.registration?.baseline}
+                    alt=""
+                  />
                 </button>
                 <div className="store-cart-item__content">
                   <div className="store-cart-item__heading">
@@ -120,7 +154,7 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
                       <h3>{product.name}</h3>
                       <p>{configuredSummary}</p>
                     </div>
-                    <button type="button" className="store-cart-remove" onClick={() => onRemove(lineId)} aria-label={`Remove ${product.name} from cart`}>
+                    <button type="button" className="store-cart-remove" onClick={() => removeLine(lineId, product.name)} aria-label={`Remove ${product.name} from cart`}>
                       <i data-lucide="trash-2" aria-hidden="true" />
                     </button>
                   </div>
@@ -130,7 +164,8 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
                       value={quantity}
                       min={1}
                       max={5}
-                      onChange={(value) => onQty(lineId, value)}
+                      label={product.name}
+                      onChange={(value) => updateQuantity(lineId, product.name, value)}
                       style={{ borderRadius: 0, background: 'transparent', borderColor: 'var(--editorial-line)' }}
                     />
                     <strong>₹{(unitPrice * quantity).toLocaleString('en-IN')}</strong>
@@ -147,13 +182,14 @@ function CartDrawer({ open, items, onClose, onQty, onRemove, onProduct, onChecko
               <span>Subtotal</span>
               <strong>₹{subtotal.toLocaleString('en-IN')}</strong>
             </div>
-            <p>Taxes included. Delivery is complimentary.</p>
+            <p>Indicative subtotal. Tax, delivery and final availability are confirmed by Finspeed.</p>
+            <p className="store-cart-preview-note">Preview only — checkout will not reserve a bicycle or collect payment.</p>
             <button type="button" className="editorial-cta editorial-cta--primary store-cart-checkout" onClick={onCheckout}>
-              Checkout <i data-lucide="arrow-right" aria-hidden="true" />
+              Preview checkout <i data-lucide="arrow-right" aria-hidden="true" />
             </button>
             <div className="store-cart-assurance">
-              <span><i data-lucide="truck" aria-hidden="true" /> Free India delivery</span>
-              <span><i data-lucide="shield-check" aria-hidden="true" /> 2-year frame warranty</span>
+              <span><i data-lucide="truck" aria-hidden="true" /> Confirm delivery</span>
+              <span><i data-lucide="shield-check" aria-hidden="true" /> Ask for warranty terms</span>
             </div>
           </footer>
         )}

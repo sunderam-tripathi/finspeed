@@ -1,0 +1,105 @@
+{
+  "status": "available",
+  "authorityTier": "B",
+  "provenanceStatus": "deterministic-exact-product-registration",
+  "role": "poster",
+  "variant": "sunset-marlin-700c-geared",
+  "canvasConformance": "reviewed-pilot-noncanonical",
+  "sourceSkuIds": [
+    "sunset-marlin-700c-geared"
+  ],
+  "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+  "assets": [
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "C09FB95080DEC8F00051DAE0BA712680DEA346A7A86EB5394B104F13C3C082D3",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 15.2083,
+          "rightSafetyPercent": 15.4167,
+          "topSafetyPercent": 6.875,
+          "baselinePercent": 74.6875,
+          "subjectWidthPercent": 69.375,
+          "subjectHeightPercent": 81.25
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "29D26FF6530746196050F5F518455D4D6A1A1335FB9644237714DAA76C850AC7",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 15.3125,
+          "rightSafetyPercent": 15.3125,
+          "topSafetyPercent": 7.0312,
+          "baselinePercent": 74.6875,
+          "subjectWidthPercent": 69.375,
+          "subjectHeightPercent": 80.9375
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "0F37D08995A9BBFFA1D62A093FFB61506098FBA100AB5BA6D4A1891B98DBFCF8",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 15.3125,
+          "rightSafetyPercent": 15.3125,
+          "topSafetyPercent": 7.0291,
+          "baselinePercent": 74.7891,
+          "subjectWidthPercent": 69.375,
+          "subjectHeightPercent": 80.9747
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "5804843ED42833D5D89AE9E3787682C8BFDA1610E007CBC367F133702080B9FC"
+    },
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "7C296F81247426F1DE7391E288C4B823F22C51B54D3DB095CCEB2D5D4819F3D2"
+    },
+    {
+      "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "8FDEED18AAC36B3C601A8C556F82F2DFA0D5D43FA8B526BFE0D5CD87469080B6"
+    }
+  ],
+  "layoutReview": {
+    "status": "known-deviation",
+    "reason": "The verified delivery contains only a tall three-quarter view. Forcing 84-percent subject width would clip governed product pixels, so revision 01 preserves the complete photograph at the largest safe scale."
+  }
+}

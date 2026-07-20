@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "productId": "sea-breeze",
+  "skuId": "sea-breeze-26-non-ibc",
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "registrationGroup": "sea-breeze-26-non-ibc-r01",
+  "canvasConformance": "canonical",
+  "subjectBounds": {
+    "sourceWidth": 1528,
+    "sourceHeight": 1029,
+    "scale": 1.78333103,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 8.0078,
+    "topSafetyPercent": 10.6934,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 83.9844,
+    "subjectHeightPercent": 77.2949
+  },
+  "landmarks": {
+    "rearAxle": {
+      "x": 0.235,
+      "y": 0.654
+    },
+    "frontAxle": {
+      "x": 0.763,
+      "y": 0.658
+    },
+    "rearContact": {
+      "x": 0.235,
+      "y": 0.88
+    },
+    "frontContact": {
+      "x": 0.763,
+      "y": 0.88
+    },
+    "bottomBracket": {
+      "x": 0.443,
+      "y": 0.675
+    },
+    "headTubeTop": {
+      "x": 0.668,
+      "y": 0.3
+    },
+    "headTubeBottom": {
+      "x": 0.689,
+      "y": 0.405
+    }
+  },
+  "measurementMethod": "Alpha-derived canonical subject registration; named component landmarks were reviewed against the accepted Sea Breeze side profile.",
+  "sourceNote": "The reviewed 26-inch IBC fit study controls 26-inch geometry; the second assisted edit removes only the frame-mounted carrier.",
+  "sourceAssets": [
+    {
+      "path": "apps/web/public/assets/products/upscaled/sea-breeze-1600.webp",
+      "sha256": "FFA1D17F7061916484410D750E09E56141C00DDA2515685BA9D08E5820C0A8F5"
+    },
+    {
+      "path": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-chroma-source.png",
+      "sha256": "64D2BB7050BE58479CB56070F9C80E97B1822B26BFD8DFF1AB62B6E63E6DF891"
+    },
+    {
+      "path": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-chroma-source.png",
+      "sha256": "A606BF24013C92548116711BFB6814ED92CD7A69D7CC1278D92CA22A865DD8F6"
+    }
+  ],
+  "acceptedCutout": {
+    "path": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/reviewed-cutout.png",
+    "sha256": "C9798F0F201C7A80814A21247492699767DE4471FE96F65523F2F0342CA36F2A"
+  }
+}

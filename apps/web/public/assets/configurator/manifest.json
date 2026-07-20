@@ -1,0 +1,2169 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": "1.0.0",
+  "contract": "specs/proofs/web/WEB-035/asset-contract.md",
+  "publicRoot": "apps/web/public",
+  "fallbackPolicy": "stock-only-with-explicit-missing-reason",
+  "pixelValidation": {
+    "decoder": "Pillow",
+    "alphaSubjectThreshold": 32,
+    "responsiveMetricTolerancePercent": 0.5
+  },
+  "canonical": {
+    "canvas": {
+      "width": 3072,
+      "height": 2048,
+      "aspectRatio": "3:2",
+      "colorSpace": "sRGB IEC61966-2.1"
+    },
+    "view": "side-r",
+    "subjectWidthPercent": {
+      "target": 84,
+      "tolerance": 2
+    },
+    "baselinePercent": {
+      "target": 88,
+      "tolerance": 1
+    },
+    "safetyPercent": {
+      "top": 7,
+      "left": 6,
+      "right": 6
+    },
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "roles": [
+      "backdrop",
+      "accessory-back",
+      "base",
+      "rear-patch",
+      "front-patch",
+      "finish-patch",
+      "accessory-front",
+      "shadow",
+      "poster",
+      "detail",
+      "knockout-mask"
+    ],
+    "requiredResponsiveWidths": [
+      480,
+      960,
+      1600
+    ],
+    "authoringTemplate": "configurator-masters/v1/{product-id}/side-r/{theme}/{role}/{variant}.png",
+    "browserTemplate": "/assets/configurator/v1/{product-id}/side-r/{theme}/{role}/{variant}/{width}.webp",
+    "logicalKeyTemplate": "{product-id}__side-r__{theme}__{role}__{variant}__r{revision}__w{width}.webp"
+  },
+  "requiredSelectionClasses": [
+    "fit",
+    "brakes",
+    "fork",
+    "drivetrain",
+    "finish",
+    "accessories"
+  ],
+  "provenanceCatalogs": {
+    "upscaled": {
+      "path": "/assets/asset-provenance-upscaled.json",
+      "authorityTier": "A",
+      "sourcePackage": "Finspeed-Upscaled-Final"
+    }
+  },
+  "sharedAssets": [
+    {
+      "id": "dark-studio-backdrop",
+      "theme": "dark",
+      "role": "backdrop",
+      "status": "available",
+      "authorityTier": "provisional",
+      "provenanceStatus": "pending-output-catalog",
+      "path": "/assets/products/dark-studio/shared-dark-studio-backdrop.webp",
+      "width": 1536,
+      "height": 1024
+    }
+  ],
+  "products": [
+    {
+      "productId": "bull-shark",
+      "sourceAlias": "01-raster-masters-4x/products/bull-shark/angle-1.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/bull-shark-480.webp", "width": 480, "height": 323 },
+            { "path": "/assets/products/upscaled/bull-shark-960.webp", "width": 960, "height": 645 },
+            { "path": "/assets/products/upscaled/bull-shark-1600.webp", "width": 1600, "height": 1075 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/bull-shark-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/bull-shark-transparent.webp", "width": 1600, "height": 1075 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/bull-shark-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "bull-shark-29",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "bull-shark-29"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "5A82196264A1241DEE9DC4AD86435E5082A6D0D6F068216D998AD155ED2DB335",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 8.125,
+                      "topSafetyPercent": 11.25,
+                      "baselinePercent": 87.5,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 76.5625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "4F76FD260630050DE8BA59784499AC78827C7D4F4D151E90015AE1CF2A2B48FE",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.125,
+                      "topSafetyPercent": 11.25,
+                      "baselinePercent": 87.6562,
+                      "subjectWidthPercent": 83.8542,
+                      "subjectHeightPercent": 76.7188
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "58B24ADB399D0EB9DD6BA9A3109FC409F0B5085B2A6022370A3588DEBD678045",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0625,
+                      "topSafetyPercent": 11.2465,
+                      "baselinePercent": 87.6289,
+                      "subjectWidthPercent": 83.9375,
+                      "subjectHeightPercent": 76.7573
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "AAB2CD17F237226E5BC1B3A6E6A27C9A86D1810122324FDB72039E32D4F65229"
+                },
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "35B634441302FE279882E97986E38D5DA7F770E7CC669FA633900D6C81403FF4"
+                },
+                {
+                  "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "E8867B04A177D7E4E0F1C7F60F29FBC32B1601DE3ABC41D4290B4CC06157C414"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "great-white-shark",
+      "sourceAlias": "01-raster-masters-4x/products/great-white/angle-1.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/great-white-shark-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/great-white-shark-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/great-white-shark-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/great-white-shark-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/great-white-shark-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/great-white-shark-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "great-white-shark-26",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "great-white-shark-26"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/light/poster/great-white-shark-26-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "E8DDA201C326E8EEEB3D8ADAD1A3E6D4095201B37680888DE9F1ACB1E0FBA903",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 11.875,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 75.9375
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/light/poster/great-white-shark-26-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "5E4049F095210A734F2F781B6E442B1AE7375798D36B7659446C853CB948E62F",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 11.875,
+                      "baselinePercent": 87.6562,
+                      "subjectWidthPercent": 84.0625,
+                      "subjectHeightPercent": 76.0938
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/light/poster/great-white-shark-26-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "334D04B3E59EEF65CBCB2E6B3824400DE8070F4E69291B8857B34AECC6CE0D8B",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 11.9963,
+                      "baselinePercent": 87.7226,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 76.0075
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/dark/poster/great-white-shark-26-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "21F395A1166B8263A06BD33D1508C28E4C599011324853BBB8D102383CBC03CF"
+                },
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/dark/poster/great-white-shark-26-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "208B29DB2FE4039ECA70E017C80C5CAE70915D5ED120CE961029B9724C563183"
+                },
+                {
+                  "path": "/assets/configurator/v1/great-white-shark/side-r/dark/poster/great-white-shark-26-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "DA3CF06A4827EB3259254B06C844C9A02416C4C3B1E725DE1BA86DCCF7E41FFF"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "hammerhead",
+      "sourceAlias": "01-raster-masters-4x/products/hammerhead/angle-3.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/hammerhead-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/hammerhead-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/hammerhead-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/hammerhead-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/hammerhead-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/hammerhead-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "hammerhead-24",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "hammerhead-24"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/light/poster/hammerhead-24-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "41588B367387403C315467542DEC5F03E9BD39E4777177D851A5A539FB081FAC",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 7.8125,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 80.0
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/light/poster/hammerhead-24-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "9391CA0DB1F4110998B9799ADDF0BA23863BEF9A73CD1E64F6E42CB37CD408FC",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 7.9687,
+                      "baselinePercent": 87.6562,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 80.0
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/light/poster/hammerhead-24-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "BF69A55A08D7DB692AE0FA6A7EB8937D58C3B172FD4FE4D982C673662853FD52",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0625,
+                      "topSafetyPercent": 8.06,
+                      "baselinePercent": 87.7226,
+                      "subjectWidthPercent": 83.9375,
+                      "subjectHeightPercent": 79.9438
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/dark/poster/hammerhead-24-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "BD417B7DBA6112E72AA59477319C1092254BADE289EE51C912C2F52D9A68DD10"
+                },
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/dark/poster/hammerhead-24-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "9C16202F450DD42A7B0954FE2A48FA171CFB2D01F5271BABF432E6F0303D321C"
+                },
+                {
+                  "path": "/assets/configurator/v1/hammerhead/side-r/dark/poster/hammerhead-24-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "D84F6219308C85AEC18A5BBF80022CA73270A392699577C6779499EE3A843252"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "lemon-shark",
+      "sourceAlias": "01-raster-masters-4x/products/lemon-shark/angle-3.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/lemon-shark-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/lemon-shark-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/lemon-shark-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/lemon-shark-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/lemon-shark-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/lemon-shark-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "lemon-shark-27-5",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "lemon-shark-27-5"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "E5CCE52418FC5723A7FC2695757C8D70DB63AE2DC878F0D61B0C86831342C3B3",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 13.125,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 75.0
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "FCF44025172A59B91FB5E794F38A31992C97A78DEF3A5D39459D828851118CB6",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 13.125,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 74.8438
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/light/poster/lemon-shark-27-5-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "DB8B3ACE31B97ED81E18FEB7A618B51C34A7D718075DD9FFE6BB3ECF4B8EB1D5",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 13.2146,
+                      "baselinePercent": 87.91,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 74.7891
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "37AAE88DD4761445886E7292ED9919E6A88CC967835E40E20085037F381649C3"
+                },
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "DBE874E51129D78C7D60D55DE3A8AD9C9BC528ABB8A3A7DF2D4E9AC70C30006B"
+                },
+                {
+                  "path": "/assets/configurator/v1/lemon-shark/side-r/dark/poster/lemon-shark-27-5-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "1FCA3F56DB1326734E99E66C9A00D6BEB637E119BA582A9847914F728F16D8E3"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "lightning-marlin",
+      "sourceAlias": "01-raster-masters-4x/products/lightning-marlin/angle-2.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/lightning-marlin-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/lightning-marlin-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/lightning-marlin-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/lightning-marlin-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/lightning-marlin-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/lightning-marlin-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "lightning-marlin-700c",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "lightning-marlin-700c"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "8C6F7E3AD13ACFED13ED4299CFE33C554FECDA289D588595E292F141FD323234",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 13.4375,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 74.375
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "0B6EE5B2F7B4433BA74EF57F0E8F6A509F1D41D0D9CC7B8A2507B21002391051",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 13.5937,
+                      "baselinePercent": 87.6562,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 74.375
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "2320C0D9D32668E790D58E0B3BFD21103228D665EDC99C1B3718B9BFDFCA9809",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 13.4958,
+                      "baselinePercent": 87.6289,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 74.508
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "BB41350593F496F29D9305692ED56448E5DC74FA1649C3A59F83B48D0C1CC7F7"
+                },
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "B0BB5C186B2018493D84AF766B1719EC40FA7F2B23E8807CA33AFF7CAF9AFFCD"
+                },
+                {
+                  "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "44E13E9DC5B376578F51ED4DF33E7000E521DDB9B28038DD3BAAA38788EB0B5F"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "mako-shark",
+      "sourceAlias": "01-raster-masters-4x/products/mako-shark/angle-2.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/mako-shark-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/mako-shark-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/mako-shark-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/mako-shark-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/mako-shark-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/mako-shark-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "mako-shark-27-5-geared",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "mako-shark-27-5-geared"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "A5D02C58DAFD22E40C166E8A7254AF16DB5B6C66C8DA42AB4573126A112DAD7D",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 87.5,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 77.5
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "ABA07EDB62E491221BD0BDE7BCC1A4BB1BE18B891ED50B26D59F1B56E3140944",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 87.5,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 77.6562
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "59A093A01C8D549EA28980AAC175C662209F6342F883B8CEDAA301295C5220C8",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 10.403,
+                      "baselinePercent": 87.4414,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 77.6007
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "876B41D6A9A750EF48C7F7EE5BEF1B8A4B8A879319AB78876A799AFAE4B0EFB7"
+                },
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "C8A9BD9B7588FEE5E7F67ECBCEEDF95CA3B594B33EBE99F7B0CA4177402F1C2A"
+                },
+                {
+                  "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "70E4432B03C1300468F327B2694BD5D2A023666873351D90F8438930ACCB8D2C"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "red-snapper",
+      "sourceAlias": "01-raster-masters-4x/products/red-snapper/side-clean.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/red-snapper-480.webp", "width": 480, "height": 322 },
+            { "path": "/assets/products/upscaled/red-snapper-960.webp", "width": 960, "height": 644 },
+            { "path": "/assets/products/upscaled/red-snapper-1600.webp", "width": 1600, "height": 1073 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/red-snapper-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/red-snapper-transparent.webp", "width": 1600, "height": 1073 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/red-snapper-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-source",
+              "role": "poster",
+              "variant": "red-snapper-24-non-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["red-snapper-24-non-ibc"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-24-non-ibc-r01.md",
+              "assets": [
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "47CB9431AF870C51BB6E4F25F04B6BEC719778E3B987A0EF537183BE9B11196A", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 7.8125, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 85.3125 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "2CAFCAE3FB0D363E2184CF7EE4FDE99B6C8B4A0596575E583D8F7B5B4F5B2E88", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 7.8125, "baselinePercent": 88.75, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 85.3125 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "8C20CCB663370D750898B362C38DBECDEF2892C63CA26B1EB4E010571C8CEBBC", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 7.7788, "baselinePercent": 88.7535, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 85.2858 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "E96E3FB07CE86594046CE0EF7537D289CA140A81053ED6A9E772E07CF278B795" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "744F5456F40ACC5E6185C306A35A6481E8CB0B9CD605F583DB3B77C5840D639E" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "F43AA213FEB54C8FE6956DB0B65D81044B843FDDE938245C0D1B773F444A5C6B" }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-variant-product-owner-review-required",
+              "role": "poster",
+              "variant": "red-snapper-24-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["red-snapper-24-ibc"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-24-ibc-r01.md",
+              "assets": [
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "CFF10770D707C4BB3622C868568E6160D1712D04226A087ADAE4255DEF209F9E", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 8.4375, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 84.6875 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "1AC41171F3A46E746D85FB30959CED2F6096716ECBF0BD018794BB83A69F4DA2", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 8.4375, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 84.5312 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "062FC958FE3E672E099BD1125DFE20977D24023B5AEA17FA50D5BDB61F02A2FF", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 8.5286, "baselinePercent": 88.7535, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 84.3486 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "22C46410BB3027584D2F8D696F1F48980D62EBA18FB903BF8C52051FB3BAAFB0" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "2DF627B902E70F4D1C7C37A9DF8C2408101240120622A89117D8569E14350CD8" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "51A40FAA2CA40D90475F788A7603A523B27F09C0E008F2B65A6D5DC3BFA233CB" }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-variant-product-owner-review-required",
+              "role": "poster",
+              "variant": "red-snapper-26-non-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["red-snapper-26-non-ibc"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-26-non-ibc-r01.md",
+              "assets": [
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "08A5F782B0276097F146A677055BA4B252DD71A00351A3118732CC01261B1A40", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 11.5625, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 80 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "864120FCD3C65CFEB2D07386F345F5BFA4C3F34D5CBEEA4AC254EB2914A7EBB7", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 11.5625, "baselinePercent": 88.9062, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 79.8438 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "8B1C494FD1244E9B743239060CC3E82A22D9D72E7A9F9E954B876DE27448F8B6", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 9, "rightSafetyPercent": 9, "topSafetyPercent": 11.5276, "baselinePercent": 88.8472, "subjectWidthPercent": 82, "subjectHeightPercent": 79.85 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "57E14C8F62923E7A094D3E440A78BD634D644A512D0FD4E9E14DD2E1D2E67D09" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "AE2B19663C20950158AF47EAC2C2F636D9F002D31CCCD7D679AFB9B780C6023F" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "6E8DE08294CFA255D75A1122880969F42EE1740A06E006572A2F919C62225FFC" }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-variant-product-owner-review-required",
+              "role": "poster",
+              "variant": "red-snapper-26-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["red-snapper-26-ibc"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-26-ibc-r01.md",
+              "assets": [
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "6E19A3C5936436D327BB2C0223BEA8DDE1892E2852CDB23678C19FB11AE05505", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 12.8125, "baselinePercent": 89.0625, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 79.0625 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "9FCF9879A481D67EB813135B390C5AA5637D080BE796ECEE368D9B8D5A8E5F67", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 12.8125, "baselinePercent": 88.9062, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 79.0625 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "9867DACDB5DEE5CF9B1CFE20884D7D28E3474B86686F17FC98945F6995BB8F0D", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 12.8397, "baselinePercent": 88.8472, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 78.9128 } } },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "1211F44C7DC0FCAB13C91B70A52814381E1CF1A68C828B6A9E6913D7EA43FEFE" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "83E8B6FA9C87BA315E549F0C81308193E40259F7DD199DE408B02181E15A479F" },
+                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "FB65240B8B73CCE8A8346BF2630156C15C5970E7F8DD8B548F7C06BAB7C271AA" }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "sea-breeze",
+      "sourceAlias": "01-raster-masters-4x/products/sea-breeze/angle-1.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/sea-breeze-480.webp", "width": 480, "height": 322 },
+            { "path": "/assets/products/upscaled/sea-breeze-960.webp", "width": 960, "height": 644 },
+            { "path": "/assets/products/upscaled/sea-breeze-1600.webp", "width": 1600, "height": 1073 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/sea-breeze-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/sea-breeze-transparent.webp", "width": 1600, "height": 1073 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/sea-breeze-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-variant-reviewed",
+              "role": "poster",
+              "variant": "sea-breeze-24-non-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "sea-breeze-24-non-ibc"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/sea-breeze-24-non-ibc-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "12F2BCCEB4502F19CC7EE968B0BE528BBE998304C808B1EFD87290B5697C81A2",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 88.125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 77.8125
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "AF28062BB9CCDDD0EF71044A8676F2A047BEC252647F4A7E57E4B966E794AB61",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 84.0625,
+                      "subjectHeightPercent": 77.6562
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "4020D57244E35EE1FBBAC1D1A7EF1077FA0AFDAD4582BEFD7392A8E5BDF9F60A",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8,
+                      "rightSafetyPercent": 8,
+                      "topSafetyPercent": 10.2156,
+                      "baselinePercent": 88.0037,
+                      "subjectWidthPercent": 84,
+                      "subjectHeightPercent": 77.7882
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "ABF3A3DA8593378B5601367DB8A7D770BAE74AA80506D5C2EAEDE7224A243D8A"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "915B1CBA268411E9024B22B889C4E3E8749713DE46B0BA9235AE01CAD8E6BFE1"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "F3E7C12F2DFCBF136B3F6D4FA1FE3419FCC0F4EDD060D5C881AA6604746ECF14"
+                }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-verified-product-registration",
+              "role": "poster",
+              "variant": "sea-breeze-24-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "sea-breeze-24-ibc"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/sea-breeze-remaining-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "3E647B2B6847019E5AF105885CF2B1119E725A94F4C74E9A597D235B87CE0306",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.0,
+                      "baselinePercent": 88.125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 78.125
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "D75B3A636C24B2B31DA107543DAD1F13EA6221BAA870DAAE441CA2D0442A44E0",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.0,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 84.0625,
+                      "subjectHeightPercent": 77.9688
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "DB91CC7190CAEC3BFC720F0E18BFA3EAFF5B760B0F477CD0E2909EB104563226",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 10.1218,
+                      "baselinePercent": 88.0037,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 77.8819
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "AD6E57F609057010915C2C55CDD5B1DC825899733C970F906C7343D0B592948D"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "382B8357AFAD212896DFCF3ED33884AF87DA0B5B4FF189C2E3E2E53778995731"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "0921FFF7F2C070A9CF13ED163FBD0147FF3650D812C7600166C358E69EE300AC"
+                }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-carrier-removal-reviewed",
+              "role": "poster",
+              "variant": "sea-breeze-26-non-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "sea-breeze-26-non-ibc"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/sea-breeze-26-non-ibc-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "55C763DC487F50F5ABC86407065116F661807D603A6EAA826E66AB91DEF95A07",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.625,
+                      "baselinePercent": 88.125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 77.5
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "BED0C363CE11471DA1E38639EB976E27DA0D9A26BA05EF429E2ED1EA8AA1FF2A",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 10.625,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 77.3438
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "45A6C292EC9C917C4B6CE0CAFFC1E46B0A9A1AFD2D2FB2AC417F9F820B94AF8D",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 10.6842,
+                      "baselinePercent": 88.0037,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 77.3196
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "1512BF59535E3E6359161ED07B1F2BDEA2E6942652F500560DF1FAEF15D00066"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "4A956381C02D72B02EB7E303A280034753839404A3ED11159D6FE4097C7E0DA4"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "CF23ADC858FE6EDD3F380EBF0C5A57328C5CBBCF2601FAEE1739167D3DF481BB"
+                }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-wheel-fit-variant-reviewed",
+              "role": "poster",
+              "variant": "sea-breeze-26-ibc",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "sea-breeze-26-ibc"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/sea-breeze-26-ibc-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "3E3DBF41A53E5E596D6249565D453197CBE61AF670FCCA00678C1EEB77BB5377",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.625,
+                      "baselinePercent": 88.125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 77.5
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "C1C4234624DEDC8ABEF3EF6DA8E3F8EC5F3C0164208671DFAB4900D0297F29D4",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.7812,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 84.0625,
+                      "subjectHeightPercent": 77.1875
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "CDECF34AA4D3BC3D5E05B89B413E9C872D41CAFAE1F0924C6102B807A8419DA8",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 10.8716,
+                      "baselinePercent": 88.0037,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 77.1321
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "5EAD40017B3E9C8348249FB7E96C8A3C8CD8EF13B4BF8FE0599D04A027B5A0D1"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "11A3E788611CCBDBF982E7D10923E7557C25A075F6D5EEF3C67C6422AE049387"
+                },
+                {
+                  "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "3D9964552CDA1754365D7F145E4CB0BCF5065FA6D6A3FF6CA8BF567F5714D940"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "shark-blue",
+      "sourceAlias": "01-raster-masters-4x/products/shark-blue/angle-1.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/shark-blue-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/shark-blue-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/shark-blue-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/shark-blue-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/shark-blue-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/shark-blue-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "shark-blue-26-geared",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": [
+                "shark-blue-26-geared"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "7C308294D308D40DDF4CC91EB352A12B9DB07BA820E46CBEB647EA213B46DC12",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 12.5,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 75.625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "C919B9BC491D52D0E2B8DD0D4748C972F3C3FC2530F714A3589F8ED44A87983F",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 12.3438,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 75.625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "FE500CB7B0D514D121EC49F01370D378F0E3ED72FA4B3E129D59CA6B6117A695",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0,
+                      "rightSafetyPercent": 8.0,
+                      "topSafetyPercent": 12.4649,
+                      "baselinePercent": 87.8163,
+                      "subjectWidthPercent": 84.0,
+                      "subjectHeightPercent": 75.5389
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "C8EAFA4F689DFB36D38AC6CEE3B045A8B170098F44BD40A2CAD8E3D668E39FBC"
+                },
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "58F34C71A55824D063E9C949BA86B740EF12ED68929B3F48D1A5B4CDD854E6C2"
+                },
+                {
+                  "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "7FD37A0DEED7F5B9579CDD59ADEA4CC000F68BFF8CC191761DFBAD24063CE382"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "sunset-marlin",
+      "sourceAlias": "01-raster-masters-4x/products/sunset-marlin/angle-1.png",
+      "sourceNote": "Closest available side view; the delivery does not contain a true side profile.",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/sunset-marlin-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/sunset-marlin-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/sunset-marlin-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/sunset-marlin-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/sunset-marlin-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/sunset-marlin-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "B",
+              "provenanceStatus": "deterministic-exact-product-registration",
+              "role": "poster",
+              "variant": "sunset-marlin-700c-geared",
+              "canvasConformance": "reviewed-pilot-noncanonical",
+              "sourceSkuIds": [
+                "sunset-marlin-700c-geared"
+              ],
+              "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "C09FB95080DEC8F00051DAE0BA712680DEA346A7A86EB5394B104F13C3C082D3",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 15.2083,
+                      "rightSafetyPercent": 15.4167,
+                      "topSafetyPercent": 6.875,
+                      "baselinePercent": 74.6875,
+                      "subjectWidthPercent": 69.375,
+                      "subjectHeightPercent": 81.25
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "29D26FF6530746196050F5F518455D4D6A1A1335FB9644237714DAA76C850AC7",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 15.3125,
+                      "rightSafetyPercent": 15.3125,
+                      "topSafetyPercent": 7.0312,
+                      "baselinePercent": 74.6875,
+                      "subjectWidthPercent": 69.375,
+                      "subjectHeightPercent": 80.9375
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/light/poster/sunset-marlin-700c-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "0F37D08995A9BBFFA1D62A093FFB61506098FBA100AB5BA6D4A1891B98DBFCF8",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 15.3125,
+                      "rightSafetyPercent": 15.3125,
+                      "topSafetyPercent": 7.0291,
+                      "baselinePercent": 74.7891,
+                      "subjectWidthPercent": 69.375,
+                      "subjectHeightPercent": 80.9747
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "5804843ED42833D5D89AE9E3787682C8BFDA1610E007CBC367F133702080B9FC"
+                },
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "7C296F81247426F1DE7391E288C4B823F22C51B54D3DB095CCEB2D5D4819F3D2"
+                },
+                {
+                  "path": "/assets/configurator/v1/sunset-marlin/side-r/dark/poster/sunset-marlin-700c-geared-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "8FDEED18AAC36B3C601A8C556F82F2DFA0D5D43FA8B526BFE0D5CD87469080B6"
+                }
+              ],
+              "layoutReview": {
+                "status": "known-deviation",
+                "reason": "The verified delivery contains only a tall three-quarter view. Forcing 84-percent subject width would clip governed product pixels, so revision 01 preserves the complete photograph at the largest safe scale."
+              }
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    },
+    {
+      "productId": "tiger-shark",
+      "sourceAlias": "01-raster-masters-4x/products/tiger-shark/angle-3.png",
+      "stock": {
+        "light": {
+          "status": "available",
+          "authorityTier": "A",
+          "provenanceCatalog": "upscaled",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/upscaled/tiger-shark-480.webp", "width": 480, "height": 320 },
+            { "path": "/assets/products/upscaled/tiger-shark-960.webp", "width": 960, "height": 640 },
+            { "path": "/assets/products/upscaled/tiger-shark-1600.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkCutout": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "base",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "sourceAsset": "/assets/products/upscaled/tiger-shark-1600.webp",
+          "assets": [
+            { "path": "/assets/products/dark-cutouts/tiger-shark-transparent.webp", "width": 1600, "height": 1067 }
+          ]
+        },
+        "darkPoster": {
+          "status": "available",
+          "authorityTier": "provisional",
+          "provenanceStatus": "pending-output-catalog",
+          "role": "poster",
+          "variant": "stock",
+          "canvasConformance": "legacy-stock",
+          "assets": [
+            { "path": "/assets/products/dark-studio-v2/tiger-shark-studio.webp", "width": 1536, "height": 1024 }
+          ]
+        }
+      },
+      "selectionDependent": {
+        "fit": {
+          "status": "available",
+          "families": [
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-variant-product-owner-review-required",
+              "role": "poster",
+              "variant": "tiger-shark-24",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["tiger-shark-24"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/tiger-shark-fit-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-24-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "A780ED4B0053E0D8736011D0AAE7254D9593DFA54584C8994B6EC6C6AB5AC87B",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 88.125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 77.8125
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-24-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "C94B488DB8EBD0A39BC3E1C558FA4BDC6CE1B7F03EDAF4F48466FF6EDC7A1E09",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 10.3125,
+                      "baselinePercent": 87.9688,
+                      "subjectWidthPercent": 84.0625,
+                      "subjectHeightPercent": 77.6562
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-24-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "A047480DBE944E46A80579E2E91A2DFD2C6140394B3F9CF1FE283C8A7470E5D5",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8,
+                      "rightSafetyPercent": 8.0625,
+                      "topSafetyPercent": 10.3093,
+                      "baselinePercent": 87.91,
+                      "subjectWidthPercent": 83.9375,
+                      "subjectHeightPercent": 77.6945
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-24-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "8553E18434E12687C1208CD8032B4D4E66CD747C3EC2A68D7B1E73BBB5FDA4CA"
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-24-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "383589B7B4874968C1164D997F42886F2F5EE7920BBB3B3BADAD79D3A2703B3A"
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-24-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "63B0DB27FAC1B3DF653CA3138AAA11255F563D9902A8A8EC94426451DD5D38D6"
+                }
+              ]
+            },
+            {
+              "status": "available",
+              "authorityTier": "C",
+              "provenanceStatus": "ai-assisted-background-replacement-product-owner-review-required",
+              "role": "poster",
+              "variant": "tiger-shark-26",
+              "canvasConformance": "canonical",
+              "sourceSkuIds": ["tiger-shark-26"],
+              "generationRecord": "specs/proofs/web/WEB-035/ai-generation/tiger-shark-fit-r01.md",
+              "assets": [
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-26-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "C787870152D29A6F652540BA66D0F8D4B16A7212424B1A4B5C5C0EFD97325428",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 7.9167,
+                      "rightSafetyPercent": 7.9167,
+                      "topSafetyPercent": 11.25,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 84.1667,
+                      "subjectHeightPercent": 76.875
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-26-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "D8E2638CF489E66611899DABE8EBBEADDF89A6F3B357277A43870CE3D3E10325",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.0208,
+                      "rightSafetyPercent": 8.0208,
+                      "topSafetyPercent": 11.4062,
+                      "baselinePercent": 87.8125,
+                      "subjectWidthPercent": 83.9583,
+                      "subjectHeightPercent": 76.5625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/light/poster/tiger-shark-26-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "086E793D442A2E2B99B69D4E4B495F91BDADE78C9944B449BFB729786C72E16A",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8,
+                      "rightSafetyPercent": 8.0625,
+                      "topSafetyPercent": 11.4339,
+                      "baselinePercent": 87.7226,
+                      "subjectWidthPercent": 83.9375,
+                      "subjectHeightPercent": 76.5698
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-26-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "F6F41402336F18D15C185FC8ECC5152DCCB7061714EC4833EF23CC5A09A67EE2"
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-26-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "6BF36C035071B55F7D5CB9DF86CC66C365B751408C0B9E13278D4612A2399A38"
+                },
+                {
+                  "path": "/assets/configurator/v1/tiger-shark/side-r/dark/poster/tiger-shark-26-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "D29871A11EB2466E0CA8702817915CC373BD1F4E27F9C164ECB7C6C4906A3877"
+                }
+              ]
+            }
+          ]
+        },
+        "brakes": { "status": "missing", "assets": [] },
+        "fork": { "status": "missing", "assets": [] },
+        "drivetrain": { "status": "missing", "assets": [] },
+        "finish": { "status": "missing", "assets": [] },
+        "accessories": { "status": "missing", "assets": [] }
+      }
+    }
+  ]
+}

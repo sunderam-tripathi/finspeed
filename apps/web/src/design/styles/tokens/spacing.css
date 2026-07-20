@@ -66,7 +66,10 @@
   /* Shared editorial shell geometry */
   --editorial-header-height: 92px;
   --editorial-shell-gutter: clamp(28px, 3.2vw, 52px);
-  --editorial-section-gutter: clamp(24px, 4vw, 64px);
+  /* One content rhythm for hero copy, editorial sections, and product detail.
+     The header stays slightly tighter so its controls remain visually anchored. */
+  --editorial-content-gutter: clamp(24px, 4.2vw, 64px);
+  --editorial-section-gutter: var(--editorial-content-gutter);
   --editorial-reading-measure: 410px;
 }
 

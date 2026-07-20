@@ -11,9 +11,14 @@ test('premium footer exposes real destinations and contact actions', async ({ pa
   await expect(footer.getByRole('link', { name: 'Finspeed home' })).toHaveAttribute('href', '/');
   await expect(footer.getByRole('link', { name: 'Mountain' })).toHaveAttribute('href', '/shop?category=mountain');
   await expect(footer.getByRole('link', { name: 'Find a store' })).toHaveAttribute('href', '/stores');
-  await expect(footer.getByRole('link', { name: 'Distributors' })).toHaveAttribute('href', '/distributor');
+  await expect(footer.getByRole('link', { name: 'Rider support' })).toHaveAttribute('href', '/support');
   await expect(footer.getByRole('link', { name: 'WhatsApp' })).toHaveAttribute('href', 'https://wa.me/919650608982');
   await expect(footer.getByRole('link', { name: 'Email' })).toHaveAttribute('href', 'mailto:support@finspeed.online');
+  await expect(footer.getByRole('link', { name: 'Privacy enquiries' })).toHaveAttribute(
+    'href',
+    /^mailto:support@finspeed\.online\?/,
+  );
+  await expect(footer.getByRole('heading', { name: 'Confirm the details that matter.' })).toBeVisible();
 
   const hrefs = await footer.locator('a').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
   expect(hrefs.every((href) => Boolean(href) && href !== '#')).toBe(true);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../../ui/index.js';
-import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
+import { products, resolveProductImage } from '../../data/storefront.js';
 
 const terrains = [
   {
@@ -30,9 +30,9 @@ const terrains = [
 ];
 
 const signatureEdit = [
-  { id: 'mako-shark', line: 'Trail authority', sequence: '01' },
-  { id: 'red-snapper', line: 'Everyday clarity', sequence: '02' },
-  { id: 'lightning-marlin', line: 'Versatile speed', sequence: '03' },
+  { id: 'mako-shark', line: 'Made for the mountains', sequence: '01' },
+  { id: 'red-snapper', line: 'Made for city life', sequence: '02' },
+  { id: 'lightning-marlin', line: 'Ready for more roads', sequence: '03' },
 ];
 
 function Home({ theme, onNav, onProduct }) {
@@ -66,12 +66,12 @@ function Home({ theme, onNav, onProduct }) {
 
         <div className="store-trail-layout">
           <div className="store-trail-copy">
-            <p className="store-trail-eyebrow">Engineered for exploration</p>
+            <p className="store-trail-eyebrow">Made to go further</p>
             <h1 id="trail-hero-title" className="store-trail-title">Ride<br />Beyond<br />Boundaries</h1>
             <div className="store-trail-rule" aria-hidden="true" />
             <p className="store-trail-description">
-              Engineered for exploration. Built for performance.<br />
-              For every trail, every turn, every you.
+              From everyday streets to weekend trails,<br />
+              choose a ride that feels ready for more.
             </p>
             <div className="store-trail-commerce">
               <Button
@@ -110,32 +110,37 @@ function Home({ theme, onNav, onProduct }) {
 
       <section className="home-edit" aria-labelledby="home-edit-title">
         <header className="home-edit__intro">
-          <p className="editorial-kicker">The signature edit</p>
-          <h2 id="home-edit-title">Less range. More reason.</h2>
-          <p>Three distinct ways to ride, each developed around a clear purpose. Start with intent—not a wall of product cards.</p>
+          <p className="editorial-kicker">Three ways to ride</p>
+          <h2 id="home-edit-title">Where will yours take you?</h2>
+          <p>Mountain trails, city streets, or a little of both. Find the Finspeed that feels right for you.</p>
         </header>
 
         <div className="home-edit__chapters">
-          {chapters.map(({ product, line, sequence }, index) => (
-            <article key={product.id} className={`home-bike-story${index % 2 ? ' home-bike-story--reverse' : ''}`}>
-              <button type="button" className="home-bike-story__visual" onClick={() => onProduct(product.id)} aria-label={`Explore ${product.name}`}>
-                <span>{sequence}</span>
-                <img
-                  src={productImage(product.id, 1600)}
-                  srcSet={productImageSrcSet(product.id)}
-                  sizes="(max-width: 900px) 100vw, 62vw"
-                  alt={`${product.name} bicycle in profile`}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-              <div className="home-bike-story__copy">
+          {chapters.map(({ product, line, sequence }, index) => {
+            const visual = resolveProductImage(product.id, { theme, role: 'feature', width: 1600 });
+            return (
+              <article key={product.id} className={`home-bike-story${index % 2 ? ' home-bike-story--reverse' : ''}`}>
+                <button type="button" className="home-bike-story__visual" onClick={() => onProduct(product.id)} aria-label={`Explore ${product.name}`}>
+                  <span>{sequence}</span>
+                  <img
+                    src={visual.src}
+                    srcSet={visual.srcSet}
+                    sizes={visual.sizes}
+                    style={visual.style}
+                    data-product-scale={visual.registration.scale}
+                    data-product-baseline={visual.registration.baseline}
+                    alt={`${product.name} bicycle in profile`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+                <div className="home-bike-story__copy">
                 <p className="editorial-kicker">{line} · {product.series}</p>
                 <h3>{product.name}</h3>
                 <p className="home-bike-story__description">{product.desc}</p>
                 <dl>
                   <div><dt>Wheel</dt><dd>{product.wheels}</dd></div>
-                  <div><dt>Drive</dt><dd>{product.speed}</dd></div>
+                  <div><dt>Gears</dt><dd>{product.speed}</dd></div>
                   <div><dt>Brakes</dt><dd>{product.brakes}</dd></div>
                 </dl>
                 <p className="home-bike-story__price">From ₹{product.price.toLocaleString('en-IN')}</p>
@@ -147,42 +152,46 @@ function Home({ theme, onNav, onProduct }) {
                     See {product.tag} range <i data-lucide="arrow-right" aria-hidden="true" />
                   </button>
                 </div>
-              </div>
-            </article>
-          ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      <section className="home-bespoke" aria-labelledby="home-bespoke-title">
-        <div className="home-bespoke__copy">
-          <p className="editorial-kicker">Bespoke ride studio</p>
-          <h2 id="home-bespoke-title">One frame. Your spec.</h2>
-          <p>Choose the braking, suspension, gearing, and finish around the way you actually ride. Every combination is reviewed before the order is finalised.</p>
-          <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('build')}>
-            Build your ride <i data-lucide="arrow-right" aria-hidden="true" />
-          </button>
-        </div>
-        <div className="home-bespoke__details" aria-label="Bicycle engineering details">
-          <figure>
-            <img src="/assets/campaign/build-detail-brakes-ai.webp" alt="Close view of a Finspeed bicycle disc brake" loading="lazy" />
-            <figcaption>Stop stronger</figcaption>
-          </figure>
-          <figure>
-            <img src="/assets/campaign/build-detail-suspension-ai.webp" alt="Close view of a Finspeed bicycle front suspension" loading="lazy" />
-            <figcaption>Smooth control</figcaption>
-          </figure>
-          <figure>
-            <img src="/assets/campaign/build-detail-drivetrain-ai.webp" alt="Close view of a Finspeed bicycle drivetrain" loading="lazy" />
-            <figcaption>Shift precise</figcaption>
-          </figure>
+      <section className="home-city-story" aria-labelledby="home-city-story-title">
+        <img
+          className="home-city-story__image"
+          src={light
+            ? '/assets/home/red-snapper-everyday-architecture-light-v1.webp'
+            : '/assets/home/red-snapper-everyday-architecture-v1.webp'}
+          alt="Red Snapper city bicycle parked outside a warm brick-and-stone residence"
+          loading="lazy"
+          decoding="async"
+        />
+        <span className="home-city-story__shade" aria-hidden="true" />
+        <div className="home-city-story__inner">
+          <div className="home-city-story__copy">
+            <p className="editorial-kicker">Made for the everyday</p>
+            <h2 id="home-city-story-title">Your city. Your pace.</h2>
+            <p>Simple, considered bicycles for the roads you return to every day.</p>
+            <div className="home-city-story__actions">
+              <button type="button" className="editorial-text-link" onClick={() => onProduct('red-snapper')}>
+                Find your Finspeed <i data-lucide="arrow-right" aria-hidden="true" />
+              </button>
+              <button type="button" className="editorial-text-link" onClick={() => onNav('shop', 'city')}>
+                Explore city bikes <i data-lucide="arrow-right" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="home-engineering-story" aria-labelledby="home-engineering-title">
         <div>
           <p className="editorial-kicker">Our engineering</p>
-          <h2 id="home-engineering-title">Confidence is designed in.</h2>
-          <p>High-tensile frames, controlled braking, and component choices built around real roads and trails.</p>
+          <h2 id="home-engineering-title">Built to feel right from the first ride.</h2>
+          <p>Strong frames, steady braking and practical parts for real roads, rough patches and weekend trails.</p>
         </div>
         <button type="button" className="editorial-text-link" onClick={() => onNav('engineering')}>
           See how we build <i data-lucide="arrow-right" aria-hidden="true" />

@@ -74,11 +74,21 @@ test('downloadable receipt includes the configured unit total and governed owner
 
   assert.match(receipt, /Mako Shark × 2 — INR 24,900/);
   assert.match(receipt, /Brakes: Hydraulic disc/);
-  assert.match(receipt, /Warranty: 2-year frame warranty\./);
-  assert.match(receipt, /Service: Two complimentary services within the first six months\./);
+  assert.match(receipt, /Warranty: current terms, eligibility and exclusions are confirmed by Finspeed\./);
+  assert.match(receipt, /Service: scheduled service eligibility is confirmed before handover\./);
   assert.match(receipt, /support@finspeed\.online/);
   assert.match(receipt, /WhatsApp \+91 96506 08982/);
   assert.equal(receiptFilename('FS 90/001'), 'finspeed-fs-90-001-summary.txt');
+});
+
+test('preview summaries cannot be mistaken for live order receipts', () => {
+  const receipt = createOrderReceipt(configuredOrder, catalogue, {
+    name: 'Arjun Mehta',
+    email: 'arjun@example.com',
+    preview: true,
+  });
+
+  assert.match(receipt, /SAMPLE ORDER SUMMARY — NOT A LIVE ORDER/);
 });
 
 test('checkout productId lines preserve configuration, quantity, and unit pricing', () => {

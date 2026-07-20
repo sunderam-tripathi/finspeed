@@ -25,6 +25,7 @@ const configuredOrder = {
 async function prepare(page: Page) {
   await page.addInitScript((order) => {
     window.localStorage.setItem('finspeed-consent', 'denied');
+    window.localStorage.setItem('finspeed-theme', 'dark');
     window.localStorage.setItem('finspeed.user', JSON.stringify({
       name: 'Arjun Mehta',
       email: 'arjun.mehta@email.com',
@@ -40,20 +41,29 @@ test.describe('storefront owner account', () => {
     await prepare(page);
     await page.goto('/account');
 
+    await expect(page.getByRole('note', { name: 'Sample owner account' })).toContainText('demonstration data');
+
     const orderRow = page.getByRole('button', { name: /Order FS900001/i });
+    await expect(orderRow.locator('button')).toHaveCount(0);
+    await expect(orderRow.locator('.account-product-thumb img')).toHaveAttribute(
+      'src',
+      /(?:dark-studio|\/dark\/)/,
+    );
     await expect(orderRow).toContainText('Mako Shark ×2');
     await expect(orderRow).toContainText('Includes a configured build');
     await expect(orderRow).toContainText('₹24,900');
     await orderRow.click();
 
-    await expect(page.getByRole('heading', { name: 'Order FS900001' })).toBeVisible();
+    const orderHeading = page.getByRole('heading', { name: 'Order FS900001' });
+    await expect(orderHeading).toBeVisible();
+    await expect(orderHeading).toBeFocused();
     await expect(page.getByText('Mako frame · 27.5"')).toBeVisible();
     await expect(page.getByText('Hydraulic disc')).toBeVisible();
     await expect(page.getByText('Front suspension')).toBeVisible();
     await expect(page.getByText('21 speed')).toBeVisible();
     await expect(page.getByText('Mint silver')).toBeVisible();
-    await expect(page.getByText('2-year frame warranty')).toBeVisible();
-    await expect(page.getByText('Two complimentary services in the first six months')).toBeVisible();
+    await expect(page.getByText('Warranty terms confirmed by Finspeed')).toBeVisible();
+    await expect(page.getByText('Service eligibility confirmed before handover')).toBeVisible();
     await expect(page.getByRole('link', { name: 'support@finspeed.online' })).toHaveAttribute(
       'href',
       'mailto:support@finspeed.online',
@@ -64,9 +74,12 @@ test.describe('storefront owner account', () => {
     );
 
     const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('button', { name: 'Download summary' }).click();
+    await page.getByRole('button', { name: 'Download sample summary' }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBe('finspeed-fs900001-summary.txt');
+
+    await page.getByRole('button', { name: 'All orders' }).click();
+    await expect(orderRow).toBeFocused();
   });
 
   test('supports roving keyboard navigation across account sections', async ({ page }) => {

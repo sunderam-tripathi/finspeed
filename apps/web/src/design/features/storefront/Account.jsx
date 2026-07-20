@@ -1,8 +1,12 @@
 // Finspeed storefront — account, order history, and ownership details.
+/* eslint-disable @next/next/no-img-element -- Theme-specific responsive product srcsets are resolved by the storefront media catalogue. */
 import React from 'react';
-import Image from 'next/image';
 import { Badge, Breadcrumb, Button, EmptyState } from '../../ui/index.js';
-import { productImage, products, trackingStages } from '../../data/storefront.js';
+import {
+  products,
+  resolveProductImage,
+  trackingStages,
+} from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 import { createOrderReceipt, normalizeOrder, receiptFilename } from './account-orders.mjs';
 
@@ -24,8 +28,8 @@ function statusFor(step = 0) {
   return { tone: 'neutral', label: 'Processing' };
 }
 
-function downloadOrderSummary(order, user) {
-  const receipt = createOrderReceipt(order, products, user);
+function downloadOrderSummary(order, user, previewMode) {
+  const receipt = createOrderReceipt(order, products, { ...user, preview: previewMode });
   const url = URL.createObjectURL(new Blob([receipt], { type: 'text/plain;charset=utf-8' }));
   const link = document.createElement('a');
   link.href = url;
@@ -36,19 +40,25 @@ function downloadOrderSummary(order, user) {
   window.setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-function ProductThumb({ line, compact = false, onProduct }) {
+function ProductThumb({ line, compact = false, onProduct, theme = 'light' }) {
+  const visual = line.product
+    ? resolveProductImage(line.product.id, { theme, role: 'search', width: compact ? 480 : 960 })
+    : null;
   const content = line.product ? (
-    <Image
-      src={productImage(line.product.id, compact ? 480 : 960)}
+    <img
+      src={visual.src}
+      srcSet={visual.srcSet}
       alt=""
-      fill
       sizes={compact ? '70px' : '112px'}
+      style={visual.style}
+      data-product-scale={visual.registration.scale}
+      data-product-baseline={visual.registration.baseline}
     />
   ) : (
     <i data-lucide="bike" aria-hidden="true" />
   );
 
-  if (!line.product || !onProduct) {
+  if (compact || !line.product || !onProduct) {
     return <span className={`account-product-thumb${compact ? ' is-compact' : ''}`}>{content}</span>;
   }
 
@@ -64,17 +74,17 @@ function ProductThumb({ line, compact = false, onProduct }) {
   );
 }
 
-function OrderRow({ order, onOpen }) {
+function OrderRow({ order, onOpen, theme, buttonRef }) {
   const status = statusFor(order.step);
   return (
-    <button type="button" className="account-order-row" onClick={onOpen}>
+    <button ref={buttonRef} type="button" className="account-order-row" onClick={onOpen}>
       <span className="account-order-row__meta">
         <span className="account-order-row__number">Order {order.no}</span>
         <span>Placed {order.date} · {order.eta}</span>
       </span>
       <span className="account-order-row__status"><Badge tone={status.tone} dot>{status.label}</Badge></span>
       <span className="account-order-row__products" aria-hidden="true">
-        {order.items.slice(0, 3).map((line) => <ProductThumb key={line.lineId} line={line} compact />)}
+        {order.items.slice(0, 3).map((line) => <ProductThumb key={line.lineId} line={line} compact theme={theme} />)}
       </span>
       <span className="account-order-row__summary">
         <span>
@@ -90,12 +100,12 @@ function OrderRow({ order, onOpen }) {
   );
 }
 
-function Tracking({ step = 0 }) {
+function Tracking({ step = 0, previewMode = true }) {
   const safeStep = Math.max(0, Math.min(step, trackingStages.length - 1));
   return (
     <section className="account-tracking" aria-labelledby="tracking-title">
       <header>
-        <p className="account-kicker">Live status</p>
+        <p className="account-kicker">{previewMode ? 'Sample status' : 'Live status'}</p>
         <h3 id="tracking-title">Tracking</h3>
       </header>
       <ol style={{ '--tracking-progress': `${(safeStep / (trackingStages.length - 1)) * 100}%` }}>
@@ -113,7 +123,7 @@ function Tracking({ step = 0 }) {
   );
 }
 
-function OrderDetail({ order, user, onBack, onNav, onProduct }) {
+function OrderDetail({ order, user, onBack, onNav, onProduct, theme, previewMode, headingRef }) {
   const status = statusFor(order.step);
   return (
     <article className="account-order-detail">
@@ -123,14 +133,14 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
 
       <header className="account-order-detail__header">
         <div>
-          <p className="account-kicker">Ownership record</p>
-          <h2>Order {order.no}</h2>
+          <p className="account-kicker">{previewMode ? 'Sample ownership record' : 'Ownership record'}</p>
+          <h2 ref={headingRef} tabIndex={-1}>Order {order.no}</h2>
           <p>Placed {order.date} · {order.eta}</p>
         </div>
         <Badge tone={status.tone} dot>{status.label}</Badge>
       </header>
 
-      <Tracking step={order.step} />
+      <Tracking step={order.step} previewMode={previewMode} />
 
       <div className="account-order-detail__grid">
         <section className="account-order-items" aria-labelledby="order-items-title">
@@ -140,7 +150,7 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
           </header>
           {order.items.map((line) => (
             <article className="account-order-item" key={line.lineId}>
-              <ProductThumb line={line} onProduct={onProduct} />
+              <ProductThumb line={line} onProduct={onProduct} theme={theme} />
               <div className="account-order-item__copy">
                 <div className="account-order-item__title">
                   <div>
@@ -167,8 +177,8 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
           <p className="account-kicker">Order summary</p>
           <div className="account-order-summary__total"><span>Total</span><strong>{inr(order.total)}</strong></div>
           <ul>
-            <li><i data-lucide="shield-check" aria-hidden="true" /> 2-year frame warranty</li>
-            <li><i data-lucide="wrench" aria-hidden="true" /> Two complimentary services in the first six months</li>
+            <li><i data-lucide="shield-check" aria-hidden="true" /> Warranty terms confirmed by Finspeed</li>
+            <li><i data-lucide="wrench" aria-hidden="true" /> Service eligibility confirmed before handover</li>
           </ul>
           <div className="account-order-actions">
             <Button
@@ -176,9 +186,9 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
               variant="dark"
               full
               iconLeft={<i data-lucide="download" aria-hidden="true" />}
-              onClick={() => downloadOrderSummary(order, user)}
+              onClick={() => downloadOrderSummary(order, user, previewMode)}
             >
-              Download summary
+              Download {previewMode ? 'sample ' : ''}summary
             </Button>
             <Button
               className="account-action-button"
@@ -187,7 +197,7 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
               iconLeft={<i data-lucide="printer" aria-hidden="true" />}
               onClick={() => window.print()}
             >
-              Print order
+              Print {previewMode ? 'sample ' : ''}order
             </Button>
             <Button
               className="account-action-button"
@@ -213,10 +223,24 @@ function OrderDetail({ order, user, onBack, onNav, onProduct }) {
   );
 }
 
-function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, onSignOut }) {
+function Account({
+  user,
+  orders = [],
+  deliveryAddresses = [],
+  onNav,
+  onProduct,
+  onSignOut,
+  theme = 'light',
+  previewMode = true,
+}) {
   const [tab, setTab] = React.useState('orders');
   const [openOrderNo, setOpenOrderNo] = React.useState(null);
+  const [announcement, setAnnouncement] = React.useState('');
   const tabRefs = React.useRef({});
+  const orderButtonRefs = React.useRef({});
+  const detailHeadingRef = React.useRef(null);
+  const returnToOrderNoRef = React.useRef(null);
+  const shouldRestoreOrderFocusRef = React.useRef(false);
   const normalizedOrders = React.useMemo(
     () => orders.map((order) => normalizeOrder(order, products)),
     [orders],
@@ -225,10 +249,39 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
   const initials = (user?.name || 'Rider').split(' ').map((word) => word[0]).slice(0, 2).join('');
   useLucideIcons([tab, openOrderNo, normalizedOrders.length]);
 
+  React.useEffect(() => {
+    if (!openOrder) return undefined;
+    const frame = window.requestAnimationFrame(() => detailHeadingRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [openOrder]);
+
+  React.useEffect(() => {
+    if (openOrderNo !== null || !shouldRestoreOrderFocusRef.current) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      orderButtonRefs.current[returnToOrderNoRef.current]?.focus();
+      shouldRestoreOrderFocusRef.current = false;
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [openOrderNo]);
+
   function selectTab(nextTab, moveFocus = false) {
     setTab(nextTab);
     setOpenOrderNo(null);
+    const nextLabel = ACCOUNT_TABS.find((item) => item.value === nextTab)?.label || nextTab;
+    setAnnouncement(`${nextLabel} preview section selected.`);
     if (moveFocus) tabRefs.current[nextTab]?.focus();
+  }
+
+  function openOrderDetail(order) {
+    returnToOrderNoRef.current = order.no;
+    setOpenOrderNo(order.no);
+    setAnnouncement(`Opened sample order ${order.no}.`);
+  }
+
+  function closeOrderDetail() {
+    shouldRestoreOrderFocusRef.current = true;
+    setOpenOrderNo(null);
+    setAnnouncement('Returned to the sample order list.');
   }
 
   function handleTabKeyDown(event, index) {
@@ -245,14 +298,22 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
 
   return (
     <div className="account-page">
+      <p className="commerce-live-region" role="status" aria-live="polite" aria-atomic="true">{announcement}</p>
       <div className="account-shell">
         <div className="account-breadcrumb">
           <Breadcrumb items={[{ label: 'Home', onClick: () => onNav?.('home') }, { label: 'My account' }]} />
         </div>
 
+        {previewMode && (
+          <aside className="account-preview-banner" role="note" aria-label="Sample owner account">
+            <i data-lucide="info" aria-hidden="true" />
+            <p><strong>Sample owner account.</strong> Orders, addresses and tracking below are demonstration data stored in this browser, not live Finspeed records.</p>
+          </aside>
+        )}
+
         <header className="account-hero">
           <div className="account-hero__intro">
-            <p className="account-kicker">Owners / Account</p>
+            <p className="account-kicker">Owners / {previewMode ? 'Preview account' : 'Account'}</p>
             <h1>Your rides,<br />kept in one place.</h1>
           </div>
           <div className="account-identity">
@@ -261,7 +322,7 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
               <strong>{user?.name || 'My account'}</strong>
               <small>Member since {user?.since || '2024'}</small>
             </div>
-            <Button variant="ghost" disabled={!onSignOut} onClick={onSignOut} iconLeft={<i data-lucide="log-out" aria-hidden="true" />}>Sign out</Button>
+            <Button variant="ghost" disabled={!onSignOut} onClick={onSignOut} iconLeft={<i data-lucide="log-out" aria-hidden="true" />}>{previewMode ? 'Exit preview' : 'Sign out'}</Button>
           </div>
         </header>
 
@@ -297,9 +358,12 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
               <OrderDetail
                 order={openOrder}
                 user={user}
-                onBack={() => setOpenOrderNo(null)}
+                onBack={closeOrderDetail}
                 onNav={onNav}
                 onProduct={onProduct}
+                theme={theme}
+                previewMode={previewMode}
+                headingRef={detailHeadingRef}
               />
             </section>
           ) : normalizedOrders.length === 0 ? (
@@ -326,12 +390,23 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
               tabIndex={0}
             >
               <header>
-                <div><p className="account-kicker">Order history</p><h2 id="orders-title">Your rides</h2></div>
-                <p>{normalizedOrders.length} {normalizedOrders.length === 1 ? 'order' : 'orders'} on record</p>
+                <div><p className="account-kicker">{previewMode ? 'Sample order history' : 'Order history'}</p><h2 id="orders-title">Your rides</h2></div>
+                <p>
+                  {normalizedOrders.length}{' '}
+                  {previewMode
+                    ? `${normalizedOrders.length === 1 ? 'sample order' : 'sample orders'} shown for this preview`
+                    : `${normalizedOrders.length === 1 ? 'order' : 'orders'} on record`}
+                </p>
               </header>
               <div className="account-orders__list">
                 {normalizedOrders.map((order, index) => (
-                  <OrderRow key={order.no || index} order={order} onOpen={() => setOpenOrderNo(order.no)} />
+                  <OrderRow
+                    key={order.no || index}
+                    order={order}
+                    theme={theme}
+                    buttonRef={(node) => { orderButtonRefs.current[order.no] = node; }}
+                    onOpen={() => openOrderDetail(order)}
+                  />
                 ))}
               </div>
             </section>
@@ -346,8 +421,8 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
               tabIndex={0}
             >
               <header>
-                <div><p className="account-kicker">Delivery details</p><h2 id="delivery-title">Addresses on file</h2></div>
-                <p>For your security, address changes are confirmed by rider support before the next dispatch.</p>
+                <div><p className="account-kicker">{previewMode ? 'Sample delivery details' : 'Delivery details'}</p><h2 id="delivery-title">Addresses on file</h2></div>
+                <p>{previewMode ? 'These demonstration addresses show how delivery details will be organised.' : 'For your security, address changes are confirmed by rider support before the next dispatch.'}</p>
               </header>
               <div className="account-addresses">
                 {deliveryAddresses.map((address, index) => (
@@ -380,8 +455,8 @@ function Account({ user, orders = [], deliveryAddresses = [], onNav, onProduct, 
               tabIndex={0}
             >
               <header>
-                <div><p className="account-kicker">Rider profile</p><h2 id="profile-title">Personal details</h2></div>
-                <p>Your verified details are shown here. Rider support handles changes so order and warranty records remain connected.</p>
+                <div><p className="account-kicker">{previewMode ? 'Preview rider profile' : 'Rider profile'}</p><h2 id="profile-title">Personal details</h2></div>
+                <p>{previewMode ? 'These details personalise this browser-only preview and are not a verified Finspeed profile.' : 'Your verified details are shown here. Rider support handles changes so order and warranty records remain connected.'}</p>
               </header>
               <dl>
                 <div><dt>Full name</dt><dd>{user?.name || 'Not provided'}</dd></div>

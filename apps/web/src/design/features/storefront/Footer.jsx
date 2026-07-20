@@ -20,14 +20,21 @@ const footerColumns = [
     ],
   },
   {
-    heading: 'Visit & Owners',
+    heading: 'Visit & Support',
     items: [
       { label: 'Find a store', href: '/stores', route: 'stores' },
       { label: 'Our story', href: '/about', route: 'about' },
       { label: 'Contact', href: '/contact', route: 'contact' },
-      { label: 'Distributors', href: '/distributor' },
+      { label: 'Rider support', href: '/support', route: 'support' },
     ],
   },
+];
+
+const guidanceLinks = [
+  { label: 'Warranty summary', href: '/warranty', route: 'warranty' },
+  { label: 'Delivery & returns questions', href: 'mailto:support@finspeed.online?subject=Finspeed%20delivery%20and%20returns' },
+  { label: 'Privacy enquiries', href: 'mailto:support@finspeed.online?subject=Finspeed%20privacy%20enquiry' },
+  { label: 'Order terms questions', href: 'mailto:support@finspeed.online?subject=Finspeed%20order%20terms' },
 ];
 
 function shouldUseClientNavigation(event) {
@@ -62,7 +69,7 @@ function Footer({ onNav, tone = 'light' }) {
             <img src={dark ? '/assets/logos/finspeed-wordmark-dark.svg' : '/assets/logos/finspeed-wordmark-light.svg'} alt="Finspeed" />
           </a>
           <p className="store-footer-brand__statement">
-            We build cycles for dreamers who seek adventure and push their limits. Beyond limits, beyond boundaries.
+            A focused range of bicycles for everyday streets, mixed routes and trails—supported from Greater Noida.
           </p>
           <nav className="store-footer-contact" aria-label="Contact Finspeed">
             <a href="https://wa.me/919650608982" target="_blank" rel="noreferrer">
@@ -92,9 +99,22 @@ function Footer({ onNav, tone = 'light' }) {
         ))}
       </div>
 
+      <section className="store-footer-guidance" aria-labelledby="footer-buying-guidance">
+        <div>
+          <p className="store-footer-guidance__eyebrow">Before you order</p>
+          <h2 id="footer-buying-guidance">Confirm the details that matter.</h2>
+          <p>Ask Finspeed to confirm the final specification, price, availability, delivery, returns and warranty terms for your bicycle before relying on them.</p>
+        </div>
+        <nav aria-label="Buying and policy guidance">
+          {guidanceLinks.map((item) => (
+            <a key={item.label} href={item.href} onClick={(event) => navigate(event, item.route)}>{item.label}</a>
+          ))}
+        </nav>
+      </section>
+
       <div className="store-footer-bottom">
-        <span>Ride Beyond Boundaries</span>
-        <span>&copy; 2026 Finspeed &middot; MK Electric &middot; Greater Noida</span>
+        <span>Finspeed bicycles</span>
+        <span>&copy; 2026 Finspeed &middot; Greater Noida</span>
       </div>
     </footer>
   );

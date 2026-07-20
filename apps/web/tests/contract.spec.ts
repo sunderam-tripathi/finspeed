@@ -256,6 +256,86 @@ test.describe('SCN-001 site shell contract', () => {
     await expect(menu).toBeHidden();
   });
 
+  test('editorial menu preserves its hovered journey while the pointer enters the feature pane', async ({ page }) => {
+    await page.goto('/build');
+    await page.getByRole('button', { name: 'Menu', exact: true }).click();
+
+    const menu = page.getByRole('dialog', { name: 'Finspeed menu' });
+    const engineering = menu.getByRole('button', { name: '03 Our Engineering' });
+
+    await engineering.hover();
+    await expect(engineering).toHaveClass(/is-active/);
+    await expect(menu.getByText('Built around the rider.')).toBeVisible();
+
+    const itemBox = await engineering.boundingBox();
+    const featureBox = await menu.locator('.editorial-menu__feature').boundingBox();
+    expect(itemBox).not.toBeNull();
+    expect(featureBox).not.toBeNull();
+
+    const pointerY = itemBox!.y + itemBox!.height / 2;
+    await page.mouse.move(itemBox!.x + itemBox!.width - 4, pointerY);
+    await page.mouse.move(featureBox!.x + 120, pointerY, { steps: 24 });
+    await page.waitForTimeout(180);
+
+    await expect(engineering).toHaveClass(/is-active/);
+    await expect(menu.getByText('Built around the rider.')).toBeVisible();
+    await expect(menu.getByRole('img', { name: 'Finspeed Shark Blue performance bicycle' })).toBeVisible();
+  });
+
+  test('editorial menu keeps the complete product stage inside compressed desktop viewports', async ({ page }) => {
+    for (const viewport of [
+      { width: 1920, height: 1140 },
+      { width: 1536, height: 912 },
+      { width: 1280, height: 720 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
+      await page.getByRole('button', { name: 'Menu', exact: true }).click();
+
+      const menu = page.getByRole('dialog', { name: 'Finspeed menu' });
+      await expect(menu).toBeVisible();
+      await page.waitForTimeout(450);
+
+      const geometry = await menu.evaluate((element) => {
+        const imageWell = element.querySelector('.editorial-menu__image-well');
+        const image = imageWell?.querySelector('img');
+        const owners = element.querySelector('.editorial-menu__owners');
+        const primaryItems = [...element.querySelectorAll('.editorial-menu__item')];
+
+        if (!imageWell || !image || !owners || primaryItems.length !== 4) return null;
+
+        const box = (node: Element) => {
+          const rect = node.getBoundingClientRect();
+          return {
+            top: rect.top,
+            right: rect.right,
+            bottom: rect.bottom,
+            left: rect.left,
+          };
+        };
+
+        return {
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+          well: box(imageWell),
+          image: box(image),
+          owners: box(owners),
+          items: primaryItems.map(box),
+        };
+      });
+
+      expect(geometry).not.toBeNull();
+      expect(geometry!.image.left).toBeGreaterThanOrEqual(geometry!.well.left - 1);
+      expect(geometry!.image.right).toBeLessThanOrEqual(geometry!.well.right + 1);
+      expect(geometry!.image.top).toBeGreaterThanOrEqual(geometry!.well.top - 1);
+      expect(geometry!.image.bottom).toBeLessThanOrEqual(geometry!.well.bottom + 1);
+      expect(geometry!.owners.bottom).toBeLessThanOrEqual(geometry!.viewport.height);
+      expect(Math.max(...geometry!.items.map((item) => item.bottom))).toBeLessThanOrEqual(geometry!.viewport.height);
+
+      await page.keyboard.press('Escape');
+      await expect(menu).toBeHidden();
+    }
+  });
+
   test('bespoke build advances through compatible component choices', async ({ page }) => {
     await page.goto('/build');
     await expect(page.getByRole('heading', { level: 1, name: 'Mako Shark' })).toBeVisible();

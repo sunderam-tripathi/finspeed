@@ -33,7 +33,7 @@
 .design-runtime input:focus-visible,
 .design-runtime select:focus-visible,
 .design-runtime textarea:focus-visible {
-  outline: 3px solid var(--cyan-100);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 

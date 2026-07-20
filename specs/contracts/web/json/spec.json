@@ -864,6 +864,33 @@
         "package-lock.json",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-035",
+      "title": "Comprehensive bespoke configurator",
+      "done_definition": [
+        "All eleven Finspeed model families and catalogued physical SKUs are represented by a versioned, authority-aware configuration contract",
+        "Build Your Ride provides a responsive seven-stage flow with deterministic compatibility, pricing, migration, visual resolution, review, and cart identity",
+        "Unverified combinations remain explicitly unavailable and the interface explains automatic selection repairs",
+        "The visual pipeline uses verified product masters plus a documented canonical canvas, provenance, and catalog-accurate variant policy",
+        "Desktop, tablet, mobile, light, dark, keyboard, accessibility, focused tests, production build, and cart handoff checks pass"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-035.md",
+        "specs/proofs/web/WEB-035/**",
+        "specs/references/**",
+        "specs/working-memory/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "AGENTS/**",
+        "tools/**",
+        "package.json",
+        "package-lock.json",
+        "design-qa.md"
+      ]
     }
   ]
 }

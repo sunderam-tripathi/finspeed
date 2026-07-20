@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element -- native picture sources and blend modes preserve the art direction */
 import React from 'react';
+import { resolveProductImage } from '../../data/storefront.js';
 
 const engineeringChapters = [
   {
     number: '01',
     kicker: 'Frame integrity',
-    title: 'Strength without excess.',
-    copy: 'The frame sets the character of the ride. High-tensile construction, deliberate tube placement, and balanced geometry create a platform that feels composed on broken roads and changing trails.',
-    image: '/assets/campaign/build-detail-frame-ai.webp',
+    title: 'Steady on rough roads.',
+    copy: 'A strong steel frame keeps the ride steady on broken roads, while balanced proportions make the bike easy to handle.',
+    region: 'frame',
     alt: 'Close study of the Mako Shark head tube and frame junctions',
     facts: [
       ['Material', 'High-tensile steel'],
@@ -18,8 +19,8 @@ const engineeringChapters = [
     number: '02',
     kicker: 'Braking control',
     title: 'Confidence at your fingertips.',
-    copy: 'Disc-brake architecture delivers predictable control when the surface changes. Choose the stopping response and maintenance profile that suits the way you ride.',
-    image: '/assets/campaign/build-detail-brakes-ai.webp',
+    copy: 'Disc brakes give you steady stopping power in dry, wet and dusty conditions.',
+    region: 'brakes',
     alt: 'Close study of the Mako Shark front disc brake and caliper',
     facts: [
       ['Platform', 'Disc brake'],
@@ -30,8 +31,8 @@ const engineeringChapters = [
     number: '03',
     kicker: 'Suspension response',
     title: 'Control the rough.',
-    copy: 'The front end is tuned to keep the tyre connected and the steering calm. Select suspension for rougher routes or a rigid setup for direct feedback and familiar roads.',
-    image: '/assets/campaign/build-detail-suspension-ai.webp',
+    copy: 'Front suspension helps the tyre stay connected when the route turns rough, while rigid forks keep familiar roads simple and direct.',
+    region: 'suspension',
     alt: 'Close study of the Mako Shark front suspension fork and tyre',
     facts: [
       ['Control', 'Front suspension'],
@@ -40,10 +41,10 @@ const engineeringChapters = [
   },
   {
     number: '04',
-    kicker: 'Drivetrain range',
+    kicker: 'Gear range',
     title: 'Ready for every gradient.',
-    copy: 'A broad gear range makes climbs, commutes, and quick changes of pace feel natural. The drivetrain can be specified for versatility or stripped back for low-maintenance simplicity.',
-    image: '/assets/campaign/build-detail-drivetrain-ai.webp',
+    copy: 'Choose 21 gears for climbs and changing pace, or single speed for simple, low-maintenance riding.',
+    region: 'drivetrain',
     alt: 'Close study of the Mako Shark rear cassette, derailleur, and chain',
     facts: [
       ['Range', '21-speed'],
@@ -52,26 +53,35 @@ const engineeringChapters = [
   },
 ];
 
-function Engineering({ onNav }) {
+function Engineering({ onNav, theme }) {
+  const makoVisual = React.useMemo(
+    () => resolveProductImage('mako-shark', { theme, role: 'engineering', width: 1600 }),
+    [theme],
+  );
+
   return (
     <div className="engineering-page">
       <section className="engineering-hero" aria-labelledby="engineering-title">
-        <picture className="engineering-hero__media">
-          <source media="(max-width: 720px)" srcSet="/assets/campaign/mako-shark-hero-v4-mobile.webp" />
+        <div className="engineering-hero__media">
           <img
-            src="/assets/campaign/mako-shark-hero-v4.webp"
-            alt="Finspeed Mako Shark bicycle poised on a dark mountain trail"
+            src={makoVisual.src}
+            srcSet={makoVisual.srcSet}
+            sizes={makoVisual.sizes}
+            style={makoVisual.style}
+            data-product-scale={makoVisual.registration.scale}
+            data-product-baseline={makoVisual.registration.baseline}
+            alt="Finspeed Mako Shark bicycle in a clean side profile"
             fetchPriority="high"
           />
-        </picture>
+        </div>
         <span className="engineering-hero__shade" aria-hidden="true" />
 
         <div className="engineering-hero__content">
-          <p className="engineering-hero__kicker">Precision engineering</p>
-          <h1 id="engineering-title">Built like<br />a predator.</h1>
+          <p className="engineering-hero__kicker">Our engineering</p>
+          <h1 id="engineering-title">Steady on rough roads.<br />Confident in every turn.</h1>
           <span className="engineering-hero__rule" aria-hidden="true" />
           <p className="engineering-hero__body">
-            High-tensile frames. Disc-brake control. Fin-tuned geometry&mdash;every Finspeed is engineered to go beyond.
+            Strong frames, steady brakes and practical parts help every Finspeed feel ready from the first ride.
           </p>
           <div className="engineering-hero__actions">
             <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('build')}>
@@ -89,29 +99,38 @@ function Engineering({ onNav }) {
           <li><span>03</span>Disc brakes</li>
           <li><span>04</span>21-speed range</li>
         </ul>
+        <p className="engineering-hero__product-note">Mako Shark shown. Equipment varies by model.</p>
       </section>
 
       <section className="engineering-intro" aria-labelledby="engineering-intro-title">
         <div>
-          <p className="editorial-kicker">Built around the rider</p>
-          <h2 id="engineering-intro-title">Every detail<br />earns its place.</h2>
+          <p className="editorial-kicker">Built around your ride</p>
+          <h2 id="engineering-intro-title">Comfort, control<br />and confidence.</h2>
         </div>
         <div className="engineering-intro__statement">
           <p>
-            A Finspeed is not assembled from a feature checklist. Frame, fork, brakes, and drivetrain are considered together, then tuned around how and where you ride.
+            Frame, fork, brakes and gears are chosen around real riding: rough roads, traffic, climbs, errands and weekend trails.
           </p>
           <button type="button" className="editorial-text-link" onClick={() => onNav('build')}>
-            Start your specification <i data-lucide="arrow-right" aria-hidden="true" />
+            Start your build <i data-lucide="arrow-right" aria-hidden="true" />
           </button>
         </div>
       </section>
 
       <section className="engineering-chapters" aria-label="Finspeed engineering principles">
-        {engineeringChapters.map(({ number, kicker, title, copy, image, alt, facts }, index) => (
+        {engineeringChapters.map(({ number, kicker, title, copy, region, alt, facts }, index) => (
           <article key={number} className={`engineering-chapter${index % 2 ? ' engineering-chapter--reverse' : ''}`}>
-            <div className="engineering-chapter__media">
+            <div className="engineering-chapter__media" data-region={region}>
               <span className="engineering-chapter__number" aria-hidden="true">{number}</span>
-              <img src={image} alt={alt} loading="lazy" decoding="async" />
+              <img
+                className="engineering-chapter__product"
+                src={makoVisual.src}
+                srcSet={makoVisual.srcSet}
+                sizes="(max-width: 900px) 100vw, 60vw"
+                alt={alt}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className="engineering-chapter__copy">
               <p className="editorial-kicker">{kicker}</p>
@@ -132,10 +151,10 @@ function Engineering({ onNav }) {
 
       <section className="engineering-configure" aria-labelledby="engineering-configure-title">
         <div className="engineering-configure__copy">
-          <p className="editorial-kicker">Engineering you can choose</p>
-          <h2 id="engineering-configure-title">One frame.<br />Your specification.</h2>
+          <p className="editorial-kicker">Make it yours</p>
+          <h2 id="engineering-configure-title">Choose the setup<br />that suits your ride.</h2>
           <p>
-            Shape the brake feel, suspension response, gearing, and finish around your route. Every choice stays grounded in a compatible Finspeed build.
+            Shape the brakes, suspension, gears and finish around your route.
           </p>
           <div className="engineering-configure__actions">
             <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('build')}>
@@ -149,9 +168,12 @@ function Engineering({ onNav }) {
 
         <div className="engineering-configure__bike">
           <img
-            src="/assets/products/upscaled/mako-shark-1600.webp"
-            srcSet="/assets/products/upscaled/mako-shark-480.webp 480w, /assets/products/upscaled/mako-shark-960.webp 960w, /assets/products/upscaled/mako-shark-1600.webp 1600w"
-            sizes="(max-width: 900px) 100vw, 58vw"
+            src={makoVisual.src}
+            srcSet={makoVisual.srcSet}
+            sizes={makoVisual.sizes}
+            style={makoVisual.style}
+            data-product-scale={makoVisual.registration.scale}
+            data-product-baseline={makoVisual.registration.baseline}
             alt="Finspeed Mako Shark bicycle shown in clean side profile"
             loading="lazy"
             decoding="async"

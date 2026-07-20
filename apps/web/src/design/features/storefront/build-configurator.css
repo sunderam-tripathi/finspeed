@@ -1,0 +1,1471 @@
+/* ============================================================
+   Finspeed — comprehensive ride configurator
+
+   This file intentionally owns only the `.configurator-*` namespace. It can
+   be imported after the existing editorial styles without changing legacy
+   `.build-studio-*` screens. The composition keeps the controls and product
+   photograph on one warm-paper / carbon-studio system in both themes.
+   ============================================================ */
+
+.configurator-page {
+  --configurator-canvas: var(--porcelain-50, #faf8f6);
+  --configurator-panel: var(--porcelain-100, #f8f6f2);
+  --configurator-panel-strong: var(--porcelain-200, #f7f3ef);
+  --configurator-stage: var(--build-canvas, #f1ece7);
+  --configurator-ink: var(--editorial-ink, #101215);
+  --configurator-muted: var(--editorial-muted, #5e6267);
+  --configurator-line: var(--editorial-line, #d8d5cf);
+  --configurator-line-strong: var(--porcelain-line-strong, #c8c4bf);
+  --configurator-accent: var(--editorial-cyan, #19b9dd);
+  --configurator-accent-strong: var(--editorial-accent-600, #066b87);
+  --configurator-on-accent: var(--editorial-on-accent, #071014);
+  --configurator-success: var(--success, #0b7046);
+  --configurator-warning: #9a5d13;
+  --configurator-danger: var(--danger, #b83b34);
+  --configurator-control-gutter: clamp(24px, 3.5vw, 56px);
+  --configurator-stage-gutter: clamp(20px, 4vw, 72px);
+  --configurator-header-offset: var(--editorial-header-height, 92px);
+  --configurator-focus: 0 0 0 3px color-mix(in srgb, var(--configurator-accent) 38%, transparent);
+
+  min-height: calc(100svh - var(--configurator-header-offset));
+  overflow-x: clip;
+  background: var(--configurator-canvas);
+  color: var(--configurator-ink);
+  font-family: var(--font-body);
+}
+
+.configurator-page,
+.configurator-page *,
+.configurator-page *::before,
+.configurator-page *::after {
+  box-sizing: border-box;
+}
+
+.configurator-page button,
+.configurator-page input,
+.configurator-page select,
+.configurator-page textarea {
+  font: inherit;
+}
+
+.configurator-shell {
+  display: grid;
+  grid-template-columns: minmax(360px, 40%) minmax(0, 60%);
+  grid-template-areas: "controls stage";
+  align-items: start;
+  width: 100%;
+  min-height: calc(100svh - var(--configurator-header-offset));
+  border-bottom: 1px solid var(--configurator-line);
+}
+
+/* ------------------------------------------------------------
+   Control column
+   ------------------------------------------------------------ */
+
+.configurator-controls {
+  grid-area: controls;
+  min-width: 0;
+  min-height: calc(100svh - var(--configurator-header-offset));
+  padding: clamp(32px, 4.2vw, 68px) var(--configurator-control-gutter) 48px;
+  border-right: 1px solid var(--configurator-line);
+  background: var(--configurator-panel);
+}
+
+/* On desktop the configurator is a product workspace, not a long form. Keep
+   the bicycle and the primary action in view while the denser option column
+   scrolls independently. The grid cell still occupies one viewport, so the
+   editorial sections below remain part of the normal page flow. */
+@media (min-width: 901px) {
+  .configurator-controls {
+    position: sticky;
+    top: var(--configurator-header-offset);
+    height: calc(100svh - var(--configurator-header-offset));
+    min-height: min(580px, calc(100svh - var(--configurator-header-offset)));
+    max-height: 920px;
+    padding-bottom: 18px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--configurator-line-strong) transparent;
+    scrollbar-width: thin;
+  }
+
+  .configurator-controls::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .configurator-controls::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .configurator-controls::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--configurator-line-strong);
+  }
+
+  .configurator-bottom-action {
+    position: sticky;
+    z-index: 4;
+    bottom: -18px;
+    margin-inline: calc(var(--configurator-control-gutter) * -1);
+    padding: 14px var(--configurator-control-gutter) 18px;
+    border-top: 1px solid var(--configurator-line);
+    background: color-mix(in srgb, var(--configurator-panel) 96%, transparent);
+    box-shadow: 0 -14px 30px color-mix(in srgb, var(--configurator-ink) 7%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
+
+.configurator-controls__header {
+  display: grid;
+  gap: 12px;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.configurator-eyebrow {
+  margin: 0;
+  color: var(--configurator-accent-strong);
+  font: var(--text-editorial-kicker, 600 0.8125rem/1.25 var(--font-mono));
+  letter-spacing: var(--tracking-wider, 0.12em);
+  text-transform: uppercase;
+}
+
+.configurator-title {
+  max-width: 13ch;
+  margin: 0;
+  color: var(--configurator-ink);
+  font: var(--fw-bold, 700) clamp(2.35rem, 4.6vw, 4.75rem)/0.94 var(--font-display);
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.configurator-subtitle {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--configurator-muted);
+  font: var(--text-editorial-body, 400 0.9375rem/1.6 var(--font-body));
+}
+
+.configurator-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 0 0;
+  color: var(--configurator-muted);
+  font-size: var(--fs-sm, 0.875rem);
+}
+
+.configurator-price strong {
+  color: var(--configurator-ink);
+  font: var(--text-editorial-price, 600 1.375rem/1.1 var(--font-mono));
+}
+
+/* Seven-stage progress remains usable in the narrow 40% control column. */
+.configurator-progress {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0;
+  max-width: 100%;
+  margin: 0 calc(var(--configurator-control-gutter) * -0.18) 28px;
+  padding: 0 calc(var(--configurator-control-gutter) * 0.18);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  scroll-snap-type: inline proximity;
+  border-bottom: 1px solid var(--configurator-line);
+}
+
+.configurator-progress::-webkit-scrollbar {
+  display: none;
+}
+
+.configurator-progress__item,
+.configurator-progress-item {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 7px;
+  min-width: 0;
+  min-height: 66px;
+  padding: 0 8px 13px 0;
+  scroll-snap-align: start;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--configurator-muted);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--dur-base, 200ms) var(--ease-out), border-color var(--dur-base, 200ms) var(--ease-out);
+}
+
+.configurator-progress__item::before,
+.configurator-progress-item::before {
+  content: attr(data-step);
+  font: 500 0.6875rem/1 var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+.configurator-progress__item > span,
+.configurator-progress-item > span {
+  overflow: hidden;
+  font: 500 0.6875rem/1.1 var(--font-body);
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.configurator-progress__item:hover,
+.configurator-progress-item:hover {
+  color: var(--configurator-ink);
+}
+
+.configurator-progress__item.is-complete,
+.configurator-progress-item.is-complete {
+  color: var(--configurator-accent-strong);
+}
+
+.configurator-progress__item.is-active,
+.configurator-progress__item[aria-current="step"],
+.configurator-progress-item.is-active,
+.configurator-progress-item[aria-current="step"] {
+  border-bottom-color: var(--configurator-accent);
+  color: var(--configurator-accent-strong);
+}
+
+.configurator-progress__item:disabled,
+.configurator-progress-item:disabled {
+  color: color-mix(in srgb, var(--configurator-muted) 55%, transparent);
+  cursor: not-allowed;
+}
+
+.configurator-step-count {
+  display: none;
+  margin: 0 0 12px;
+  color: var(--configurator-accent-strong);
+  font: 600 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.configurator-panel {
+  min-width: 0;
+}
+
+.configurator-panel[hidden] {
+  display: none;
+}
+
+.configurator-panel__header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.configurator-panel__header h2,
+.configurator-panel__title {
+  margin: 0;
+  color: var(--configurator-ink);
+  font: 600 clamp(1.55rem, 2.2vw, 2.2rem)/1.08 var(--font-display);
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.configurator-panel__header p,
+.configurator-panel__description {
+  max-width: 54ch;
+  margin: 0;
+  color: var(--configurator-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.configurator-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.configurator-fieldset + .configurator-fieldset {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--configurator-line);
+}
+
+.configurator-fieldset > legend {
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0;
+  color: var(--configurator-accent-strong);
+  font: 600 0.75rem/1.3 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.configurator-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.configurator-options--single {
+  grid-template-columns: 1fr;
+}
+
+.configurator-options--compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.configurator-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 88px;
+  padding: 16px;
+  border: 1px solid var(--configurator-line);
+  background: color-mix(in srgb, var(--configurator-panel-strong) 68%, transparent);
+  color: var(--configurator-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--dur-base, 200ms) var(--ease-out), background-color var(--dur-base, 200ms) var(--ease-out), color var(--dur-base, 200ms) var(--ease-out);
+}
+
+label.configurator-option {
+  cursor: pointer;
+}
+
+.configurator-option:hover:not(.is-disabled):not(:disabled) {
+  border-color: var(--configurator-accent-strong);
+  background: color-mix(in srgb, var(--configurator-accent) 6%, var(--configurator-panel-strong));
+}
+
+.configurator-option.is-selected,
+.configurator-option[aria-checked="true"],
+.configurator-option:has(input:checked) {
+  border-color: var(--configurator-accent-strong);
+  background: color-mix(in srgb, var(--configurator-accent) 9%, var(--configurator-panel-strong));
+  box-shadow: inset 0 -2px 0 var(--configurator-accent);
+}
+
+.configurator-option.is-disabled,
+.configurator-option:disabled,
+.configurator-option:has(input:disabled) {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.configurator-option input[type="radio"],
+.configurator-option input[type="checkbox"] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.configurator-option__indicator {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border: 1px solid var(--configurator-muted);
+  border-radius: 50%;
+  background: transparent;
+}
+
+.configurator-option__indicator::after {
+  width: 10px;
+  height: 10px;
+  border-radius: inherit;
+  background: var(--configurator-accent);
+  content: "";
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity var(--dur-fast, 120ms) var(--ease-out), transform var(--dur-fast, 120ms) var(--ease-out);
+}
+
+.configurator-option.is-selected .configurator-option__indicator::after,
+.configurator-option[aria-checked="true"] .configurator-option__indicator::after,
+.configurator-option:has(input:checked) .configurator-option__indicator::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.configurator-option--check .configurator-option__indicator {
+  border-radius: 2px;
+}
+
+.configurator-option__copy {
+  min-width: 0;
+}
+
+.configurator-option__copy strong,
+.configurator-option__title {
+  display: block;
+  color: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.configurator-option__copy small,
+.configurator-option__description {
+  display: block;
+  margin-top: 5px;
+  color: var(--configurator-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.configurator-option__price,
+.configurator-option__meta {
+  color: var(--configurator-ink);
+  font: 500 0.75rem/1.2 var(--font-mono);
+  white-space: nowrap;
+}
+
+.configurator-option__swatch {
+  width: 26px;
+  height: 26px;
+  border: 4px solid var(--configurator-panel);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--configurator-line-strong);
+}
+
+.configurator-option__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  color: var(--configurator-success);
+  font: 500 0.6875rem/1.2 var(--font-mono);
+  text-transform: uppercase;
+}
+
+.configurator-option__status::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+/* Compatibility and state-change messages */
+.configurator-notice,
+.configurator-compatibility {
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1fr);
+  gap: 13px;
+  max-width: 58ch;
+  margin: 20px 0 0;
+  color: var(--configurator-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.configurator-notice::before,
+.configurator-compatibility::before {
+  width: 3px;
+  min-height: 100%;
+  background: var(--configurator-accent);
+  content: "";
+}
+
+.configurator-notice > *,
+.configurator-compatibility > * {
+  margin: 0;
+}
+
+.configurator-notice[data-tone="success"]::before {
+  background: var(--configurator-success);
+}
+
+.configurator-notice[data-tone="warning"] {
+  color: var(--configurator-warning);
+}
+
+.configurator-notice[data-tone="warning"]::before {
+  background: var(--configurator-warning);
+}
+
+.configurator-notice[data-tone="danger"] {
+  color: var(--configurator-danger);
+}
+
+.configurator-notice[data-tone="danger"]::before {
+  background: var(--configurator-danger);
+}
+
+.configurator-auto-change {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--configurator-warning) 48%, var(--configurator-line));
+  background: color-mix(in srgb, var(--configurator-warning) 7%, var(--configurator-panel));
+  color: var(--configurator-ink);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.configurator-auto-change button {
+  flex: 0 0 auto;
+  min-height: 28px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--configurator-accent-strong);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------
+   Review and action areas
+   ------------------------------------------------------------ */
+
+.configurator-review {
+  display: grid;
+  gap: 0;
+  margin-top: 6px;
+  border-top: 1px solid var(--configurator-line);
+}
+
+.configurator-review__row {
+  display: grid;
+  grid-template-columns: minmax(96px, 0.65fr) minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: baseline;
+  min-height: 52px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--configurator-line);
+}
+
+.configurator-review__row dt,
+.configurator-review__label {
+  color: var(--configurator-muted);
+  font: 500 0.6875rem/1.2 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.configurator-review__row dd {
+  display: contents;
+  margin: 0;
+}
+
+.configurator-review__value {
+  min-width: 0;
+  color: var(--configurator-ink);
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.configurator-review__price {
+  color: var(--configurator-ink);
+  font: 500 0.75rem/1 var(--font-mono);
+  white-space: nowrap;
+}
+
+.configurator-review__edit {
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--configurator-accent);
+  background: transparent;
+  color: var(--configurator-accent-strong);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.configurator-review__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 0 0;
+}
+
+.configurator-review__total span {
+  color: var(--configurator-muted);
+  font-size: 0.8125rem;
+}
+
+.configurator-review__total strong {
+  color: var(--configurator-ink);
+  font: 600 clamp(1.35rem, 2vw, 1.75rem)/1 var(--font-mono);
+}
+
+.configurator-actions,
+.configurator-bottom-action {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(132px, 0.85fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.configurator-actions > :only-child,
+.configurator-bottom-action > :only-child {
+  grid-column: 1 / -1;
+}
+
+.configurator-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 18px;
+  border: 1px solid var(--configurator-accent);
+  background: transparent;
+  color: var(--configurator-accent-strong);
+  font: 600 0.75rem/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.configurator-action--primary {
+  border-color: var(--configurator-accent);
+  background: var(--configurator-accent);
+  color: var(--configurator-on-accent);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+.configurator-action:hover:not(:disabled) {
+  border-color: var(--configurator-accent-strong);
+  background: var(--configurator-accent-strong);
+  color: var(--configurator-panel);
+}
+
+.configurator-action:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.configurator-saved-status {
+  min-height: 1.2em;
+  margin: 12px 0 0;
+  color: var(--configurator-success);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+/* ------------------------------------------------------------
+   Sticky product stage
+   ------------------------------------------------------------ */
+
+.configurator-stage {
+  position: sticky;
+  top: var(--configurator-header-offset);
+  z-index: var(--z-base, 0);
+  grid-area: stage;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  width: 100%;
+  min-width: 0;
+  height: calc(100svh - var(--configurator-header-offset));
+  min-height: min(580px, calc(100svh - var(--configurator-header-offset)));
+  max-height: 920px;
+  padding: clamp(20px, 3vw, 48px) var(--configurator-stage-gutter) clamp(18px, 2.5vw, 38px);
+  overflow: visible;
+  background: var(--configurator-stage);
+}
+
+.configurator-stage__frame,
+.configurator-stage-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: visible;
+}
+
+.configurator-stage__frame::after,
+.configurator-stage-frame::after {
+  position: absolute;
+  z-index: 0;
+  bottom: 7%;
+  left: 12%;
+  width: 76%;
+  height: 8%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(18, 21, 24, 0.16) 0%, rgba(18, 21, 24, 0) 72%);
+  content: "";
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.configurator-stage picture,
+.configurator-stage__picture {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.configurator-stage img,
+.configurator-stage__bike,
+.configurator-bike-preview {
+  display: block;
+  width: min(100%, 1120px);
+  max-width: 1040px;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  transform-origin: center;
+  mix-blend-mode: multiply;
+  filter: none;
+  transition: opacity 180ms var(--ease-out), filter 180ms var(--ease-out);
+}
+
+.configurator-stage img.is-loading,
+.configurator-stage__bike.is-loading,
+.configurator-bike-preview.is-loading {
+  opacity: 0.38;
+}
+
+.configurator-stage__layer-stack {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.configurator-stage__layer-stack > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.configurator-stage__loading {
+  position: absolute;
+  inset: auto 0 20px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  color: var(--configurator-muted);
+  font: 500 0.6875rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.configurator-stage__meta,
+.configurator-stage-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: end;
+  min-width: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--configurator-line);
+}
+
+.configurator-stage__meta > div,
+.configurator-stage-meta > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.configurator-stage__meta > div:nth-child(2),
+.configurator-stage-meta > div:nth-child(2) {
+  text-align: center;
+}
+
+.configurator-stage__meta > div:last-child,
+.configurator-stage-meta > div:last-child {
+  text-align: right;
+}
+
+.configurator-stage__meta span,
+.configurator-stage-meta span {
+  color: var(--configurator-muted);
+  font: 500 0.625rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.configurator-stage__meta strong,
+.configurator-stage-meta strong {
+  overflow: hidden;
+  color: var(--configurator-ink);
+  font: 500 0.75rem/1.3 var(--font-mono);
+  text-overflow: ellipsis;
+}
+
+.configurator-stage__note {
+  max-width: 72ch;
+  margin: 10px 0 0;
+  color: var(--configurator-muted);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+.configurator-stage__identity {
+  min-width: 0;
+}
+
+.configurator-stage__identity strong {
+  display: block;
+  overflow: hidden;
+  color: var(--configurator-ink);
+  font: 600 clamp(1.15rem, 1.8vw, 1.65rem)/1.05 var(--font-display);
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.configurator-stage__identity span {
+  display: block;
+  margin-top: 6px;
+  color: var(--configurator-muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.configurator-stage__specs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 18px;
+  margin: 0;
+}
+
+.configurator-stage__specs > div {
+  display: grid;
+  gap: 4px;
+  min-width: 56px;
+}
+
+.configurator-stage__specs dt {
+  color: var(--configurator-muted);
+  font: 500 0.625rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.configurator-stage__specs dd {
+  margin: 0;
+  color: var(--configurator-ink);
+  font: 500 0.75rem/1.2 var(--font-mono);
+}
+
+.configurator-stage__badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding: 8px 10px;
+  border: 1px solid var(--configurator-line);
+  background: color-mix(in srgb, var(--configurator-panel) 88%, transparent);
+  color: var(--configurator-muted);
+  font: 500 0.6875rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Prevent an intrinsic image canvas or a compositing layer from widening the
+   grid. The bike always fits by containment; it is never scaled beyond the
+   stage and no wheel/handlebar can be clipped by a fixed transform. */
+.configurator-controls > *,
+.configurator-stage > *,
+.configurator-stage picture,
+.configurator-stage img,
+.configurator-stage canvas,
+.configurator-stage svg {
+  min-width: 0;
+  max-inline-size: 100%;
+}
+
+.configurator-stage canvas,
+.configurator-stage svg {
+  max-block-size: 100%;
+}
+
+.configurator-mobile-action {
+  display: none;
+}
+
+/* The detail strip is cropped from the exact selected SKU rather than from
+   unrelated, light-only macro photographs. Each crop stays registered to the
+   same product and switches with both the model and the active theme. */
+.configurator-page .build-detail-strip {
+  background: var(--configurator-canvas);
+}
+
+.configurator-page .build-detail-card {
+  background: var(--configurator-stage);
+  isolation: isolate;
+}
+
+.configurator-page .build-detail-card__product {
+  position: absolute;
+  z-index: 0;
+  width: 220%;
+  max-width: none;
+  height: 220%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  opacity: 1;
+  filter: none;
+  mix-blend-mode: multiply;
+}
+
+.configurator-page .build-detail-card[data-region="brakes"] .build-detail-card__product {
+  top: -93%;
+  left: -137%;
+}
+
+.configurator-page .build-detail-card[data-region="suspension"] .build-detail-card__product {
+  top: -60%;
+  left: -126%;
+}
+
+.configurator-page .build-detail-card[data-region="drivetrain"] .build-detail-card__product {
+  top: -104%;
+  left: -60%;
+}
+
+.configurator-page .build-detail-card[data-region="frame"] .build-detail-card__product {
+  top: -49%;
+  left: -93%;
+}
+
+[data-theme="dark"] .configurator-page .build-detail-card__product {
+  mix-blend-mode: normal;
+}
+
+/* ------------------------------------------------------------
+   Dark studio — the layout remains identical; only the materials change.
+   ------------------------------------------------------------ */
+
+[data-theme="dark"] .configurator-page,
+.fin-dark .configurator-page {
+  --configurator-canvas: #08090b;
+  --configurator-panel: #0b0d0f;
+  --configurator-panel-strong: #101317;
+  --configurator-stage: #000;
+  --configurator-ink: var(--editorial-dark-text, #f7f5f1);
+  --configurator-muted: var(--editorial-dark-muted, #aeb3b6);
+  --configurator-line: var(--editorial-dark-border, rgba(238, 239, 236, 0.14));
+  --configurator-line-strong: rgba(238, 239, 236, 0.22);
+  --configurator-accent: var(--editorial-accent-500, #55c9e7);
+  --configurator-accent-strong: var(--editorial-accent-300, #8adff0);
+  --configurator-on-accent: #071014;
+  --configurator-success: #7fd0a4;
+  --configurator-warning: #f2b76e;
+  --configurator-danger: #ff8d86;
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .configurator-stage img,
+[data-theme="dark"] .configurator-stage__bike,
+[data-theme="dark"] .configurator-bike-preview,
+.fin-dark .configurator-stage img,
+.fin-dark .configurator-stage__bike,
+.fin-dark .configurator-bike-preview {
+  mix-blend-mode: normal;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+[data-theme="dark"] .configurator-stage[data-theme-tone="dark"],
+.fin-dark .configurator-stage[data-theme-tone="dark"] {
+  background:
+    radial-gradient(75% 58% at 54% 66%, rgba(85, 201, 231, 0.08), transparent 66%),
+    linear-gradient(180deg, #050607 0%, #07090b 54%, #020303 100%);
+}
+
+[data-theme="dark"] .configurator-stage__frame::after,
+[data-theme="dark"] .configurator-stage-frame::after,
+.fin-dark .configurator-stage__frame::after,
+.fin-dark .configurator-stage-frame::after {
+  background: radial-gradient(ellipse, rgba(79, 163, 192, 0.2) 0%, rgba(0, 0, 0, 0) 72%);
+}
+
+[data-theme="dark"] .configurator-option,
+.fin-dark .configurator-option {
+  background: rgba(255, 255, 255, 0.018);
+}
+
+[data-theme="dark"] .configurator-option:hover:not(.is-disabled):not(:disabled),
+[data-theme="dark"] .configurator-option.is-selected,
+[data-theme="dark"] .configurator-option[aria-checked="true"],
+[data-theme="dark"] .configurator-option:has(input:checked),
+.fin-dark .configurator-option:hover:not(.is-disabled):not(:disabled),
+.fin-dark .configurator-option.is-selected,
+.fin-dark .configurator-option[aria-checked="true"],
+.fin-dark .configurator-option:has(input:checked) {
+  background: rgba(85, 201, 231, 0.075);
+}
+
+/* ------------------------------------------------------------
+   Tablet
+   ------------------------------------------------------------ */
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .configurator-shell {
+    grid-template-columns: minmax(350px, 44%) minmax(0, 56%);
+  }
+
+  .configurator-controls {
+    padding-inline: clamp(24px, 3vw, 38px);
+  }
+
+  .configurator-options {
+    grid-template-columns: 1fr;
+  }
+
+  .configurator-options--compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .configurator-stage {
+    min-height: 540px;
+    padding-inline: clamp(18px, 3vw, 38px);
+  }
+}
+
+/* ------------------------------------------------------------
+   Stacked tablet / mobile. The photograph is a compact sticky viewport;
+   controls scroll beneath it and the total/continue affordance stays visible.
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+  .configurator-page {
+    --configurator-header-offset: var(--editorial-header-height, 80px);
+    overflow-x: hidden;
+  }
+
+  .configurator-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "stage"
+      "controls";
+    min-height: 0;
+  }
+
+  .configurator-stage {
+    top: var(--configurator-header-offset);
+    z-index: var(--z-sticky, 100);
+    grid-template-rows: minmax(0, 1fr) auto;
+    height: clamp(330px, 46svh, 470px);
+    min-height: 0;
+    max-height: none;
+    padding: 14px clamp(18px, 5vw, 42px) 12px;
+    border-bottom: 1px solid var(--configurator-line);
+  }
+
+  .configurator-stage__frame::after,
+  .configurator-stage-frame::after {
+    bottom: 2%;
+  }
+
+  .configurator-stage__meta,
+  .configurator-stage-meta {
+    padding-top: 10px;
+  }
+
+  .configurator-stage__note {
+    display: none;
+  }
+
+  .configurator-stage__specs {
+    gap: 6px 14px;
+  }
+
+  .configurator-controls {
+    min-height: 0;
+    padding: 34px clamp(22px, 5vw, 46px) calc(108px + env(safe-area-inset-bottom));
+    border-right: 0;
+  }
+
+  .configurator-title {
+    font-size: clamp(2.25rem, 8vw, 4rem);
+  }
+
+  .configurator-progress {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  .configurator-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .configurator-bottom-action {
+    position: sticky;
+    z-index: calc(var(--z-sticky, 100) + 1);
+    bottom: 0;
+    margin: 28px clamp(-46px, -5vw, -22px) calc(-108px - env(safe-area-inset-bottom));
+    padding: 12px clamp(22px, 5vw, 46px) calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--configurator-line);
+    background: color-mix(in srgb, var(--configurator-panel) 94%, transparent);
+    box-shadow: 0 -12px 28px rgba(10, 14, 18, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .configurator-mobile-action {
+    position: fixed;
+    z-index: calc(var(--z-overlay, 1000) - 1);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    min-height: 76px;
+    padding: 10px clamp(18px, 5vw, 42px) calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--configurator-line);
+    background: color-mix(in srgb, var(--configurator-panel) 94%, transparent);
+    box-shadow: 0 -12px 28px rgba(10, 14, 18, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .configurator-mobile-action__total {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .configurator-mobile-action__total span {
+    color: var(--configurator-muted);
+    font-size: 0.6875rem;
+  }
+
+  .configurator-mobile-action__total strong {
+    overflow: hidden;
+    color: var(--configurator-ink);
+    font: 600 1rem/1 var(--font-mono);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .configurator-mobile-action .configurator-action {
+    min-width: 156px;
+  }
+}
+
+@media (max-width: 600px) {
+  .configurator-page {
+    --configurator-header-offset: var(--editorial-header-height, 72px);
+  }
+
+  .configurator-stage {
+    height: clamp(260px, 38svh, 360px);
+    padding: 10px 14px 8px;
+  }
+
+  .configurator-stage__meta,
+  .configurator-stage-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding-top: 8px;
+  }
+
+  .configurator-stage__meta > div:nth-child(2),
+  .configurator-stage-meta > div:nth-child(2) {
+    text-align: right;
+  }
+
+  .configurator-stage__meta > div:nth-child(3),
+  .configurator-stage-meta > div:nth-child(3) {
+    display: none;
+  }
+
+  .configurator-stage__identity strong {
+    font-size: 1rem;
+  }
+
+  .configurator-stage__identity span {
+    display: none;
+  }
+
+  .configurator-stage__specs > div:nth-child(n + 3) {
+    display: none;
+  }
+
+  .configurator-stage__badge {
+    padding: 6px 8px;
+    font-size: 0.625rem;
+  }
+
+  .configurator-controls {
+    padding: 26px 20px calc(102px + env(safe-area-inset-bottom));
+  }
+
+  .configurator-controls__header {
+    margin-bottom: 20px;
+  }
+
+  .configurator-title {
+    max-width: none;
+    font-size: clamp(2rem, 12vw, 3.15rem);
+  }
+
+  .configurator-subtitle {
+    font-size: 0.8125rem;
+  }
+
+  .configurator-progress {
+    display: none;
+  }
+
+  .configurator-step-count {
+    display: block;
+  }
+
+  .configurator-panel__header h2,
+  .configurator-panel__title {
+    font-size: 1.55rem;
+  }
+
+  .configurator-options,
+  .configurator-options--compact {
+    grid-template-columns: 1fr;
+  }
+
+  .configurator-option {
+    min-height: 76px;
+    padding: 14px;
+  }
+
+  .configurator-review__row {
+    grid-template-columns: minmax(82px, 0.6fr) minmax(0, 1fr);
+  }
+
+  .configurator-review__price {
+    grid-column: 2;
+  }
+
+  .configurator-actions,
+  .configurator-bottom-action {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  }
+
+  .configurator-bottom-action {
+    margin-right: -20px;
+    margin-bottom: calc(-102px - env(safe-area-inset-bottom));
+    margin-left: -20px;
+    padding-inline: 20px;
+  }
+
+  .configurator-action {
+    min-height: 52px;
+  }
+
+  .configurator-mobile-action {
+    min-height: 72px;
+    padding-inline: 16px;
+  }
+
+  .configurator-mobile-action .configurator-action {
+    min-width: 142px;
+    min-height: 48px;
+    padding-inline: 14px;
+  }
+
+  .configurator-page .build-detail-card__product {
+    width: 200%;
+    height: 200%;
+  }
+
+  .configurator-page .build-detail-card[data-region="brakes"] .build-detail-card__product {
+    top: -80%;
+    left: -120%;
+  }
+
+  .configurator-page .build-detail-card[data-region="suspension"] .build-detail-card__product {
+    top: -50%;
+    left: -110%;
+  }
+
+  .configurator-page .build-detail-card[data-region="drivetrain"] .build-detail-card__product {
+    top: -90%;
+    left: -52%;
+  }
+
+  .configurator-page .build-detail-card[data-region="frame"] .build-detail-card__product {
+    top: -42%;
+    left: -80%;
+  }
+
+  .configurator-auto-change {
+    display: grid;
+  }
+}
+
+/* Compact-height desktop and tablet: preserve a complete bicycle instead of
+   forcing the fixed desktop minimum and clipping the wheels below the fold. */
+@media (min-width: 901px) and (max-height: 760px) {
+  .configurator-stage {
+    height: calc(100svh - var(--configurator-header-offset));
+    min-height: 0;
+    padding-block: 14px;
+  }
+
+  .configurator-controls {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+    height: calc(100svh - var(--configurator-header-offset));
+    padding-block: 20px 24px;
+    overflow: hidden;
+  }
+
+  .configurator-controls__header {
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+
+  .configurator-title {
+    font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+  }
+
+  .configurator-subtitle {
+    display: none;
+  }
+
+  .configurator-progress {
+    margin-bottom: 14px;
+  }
+
+  .configurator-progress__item,
+  .configurator-progress-item {
+    min-height: 52px;
+    gap: 5px;
+    padding-bottom: 9px;
+  }
+
+  .configurator-panel__header {
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+
+  .configurator-panel {
+    min-height: 0;
+    margin-right: -8px;
+    padding-right: 8px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--configurator-line-strong) transparent;
+    scrollbar-width: thin;
+  }
+
+  .configurator-options {
+    gap: 8px;
+  }
+
+  .configurator-option {
+    min-height: 74px;
+    gap: 9px;
+    padding: 12px;
+  }
+
+  .configurator-option__copy small,
+  .configurator-option__description {
+    margin-top: 3px;
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .configurator-notice,
+  .configurator-compatibility {
+    margin-top: 12px;
+  }
+
+  .configurator-actions,
+  .configurator-bottom-action {
+    margin-top: 16px;
+  }
+
+  .configurator-action {
+    min-height: 48px;
+  }
+
+  .configurator-saved-status {
+    margin-top: 8px;
+  }
+
+  .configurator-stage__meta,
+  .configurator-stage-meta {
+    padding-top: 10px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Keyboard, forced colors, and reduced motion
+   ------------------------------------------------------------ */
+
+.configurator-page :is(button, a, input, select, textarea):focus-visible,
+.configurator-option:focus-visible,
+.configurator-option:has(input:focus-visible) {
+  outline: 2px solid var(--configurator-accent-strong);
+  outline-offset: 3px;
+  box-shadow: var(--configurator-focus);
+}
+
+.configurator-progress__item:focus-visible,
+.configurator-progress-item:focus-visible {
+  outline-offset: -2px;
+}
+
+@media (forced-colors: active) {
+  .configurator-option.is-selected,
+  .configurator-option[aria-checked="true"],
+  .configurator-option:has(input:checked),
+  .configurator-progress__item.is-active,
+  .configurator-progress__item[aria-current="step"],
+  .configurator-progress-item.is-active,
+  .configurator-progress-item[aria-current="step"] {
+    border-color: Highlight;
+  }
+
+  .configurator-option__indicator::after,
+  .configurator-notice::before,
+  .configurator-compatibility::before {
+    background: Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .configurator-page *,
+  .configurator-page *::before,
+  .configurator-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

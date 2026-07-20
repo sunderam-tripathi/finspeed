@@ -3,8 +3,19 @@ import React from 'react';
 /**
  * Finspeed QuantityStepper — − / value / + control for cart quantities.
  */
-export function QuantityStepper({ value = 1, min = 1, max = 99, onChange, style = {}, ...rest }) {
-  const set = (next) => { const v = Math.max(min, Math.min(max, next)); onChange && onChange(v); };
+export function QuantityStepper({
+  value = 1,
+  min = 1,
+  max = 99,
+  onChange,
+  label = 'item',
+  style = {},
+  ...rest
+}) {
+  const set = (next) => {
+    const v = Math.max(min, Math.min(max, next));
+    onChange?.(v);
+  };
   const btn = {
     width: 40, height: 44,
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -14,6 +25,8 @@ export function QuantityStepper({ value = 1, min = 1, max = 99, onChange, style 
   };
   return (
     <div
+      role="group"
+      aria-label={`${label} quantity`}
       style={{
         display: 'inline-flex', alignItems: 'center',
         border: 'var(--border-width) solid var(--border-strong)',
@@ -22,7 +35,7 @@ export function QuantityStepper({ value = 1, min = 1, max = 99, onChange, style 
       }}
       {...rest}
     >
-      <button type="button" aria-label="Decrease" style={{ ...btn, opacity: value <= min ? 0.35 : 1 }}
+      <button type="button" aria-label={`Decrease ${label} quantity`} style={{ ...btn, opacity: value <= min ? 0.35 : 1 }}
         onClick={() => set(value - 1)} disabled={value <= min}
         onMouseEnter={(e) => { if (value > min) e.currentTarget.style.color = 'var(--brand-strong)'; }}
         onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-strong)'; }}>−</button>
@@ -33,8 +46,8 @@ export function QuantityStepper({ value = 1, min = 1, max = 99, onChange, style 
         borderLeft: 'var(--border-width) solid var(--border-subtle)',
         borderRight: 'var(--border-width) solid var(--border-subtle)',
         padding: '0 8px', height: 44, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-      }}>{value}</span>
-      <button type="button" aria-label="Increase" style={{ ...btn, opacity: value >= max ? 0.35 : 1 }}
+      }} role="status" aria-live="polite" aria-atomic="true" aria-label={`${label} quantity ${value}`}>{value}</span>
+      <button type="button" aria-label={`Increase ${label} quantity`} style={{ ...btn, opacity: value >= max ? 0.35 : 1 }}
         onClick={() => set(value + 1)} disabled={value >= max}
         onMouseEnter={(e) => { if (value < max) e.currentTarget.style.color = 'var(--brand-strong)'; }}
         onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-strong)'; }}>+</button>

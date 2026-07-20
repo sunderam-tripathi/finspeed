@@ -1,0 +1,795 @@
+/**
+ * Finspeed Build Your Ride domain model.
+ *
+ * The configurator keeps build choices aligned with the products Finspeed can
+ * sell and support today. The data is versioned so saved builds remain stable.
+ */
+
+export const CONFIGURATOR_SCHEMA_VERSION = 2;
+
+export const CONFIGURATOR_STEPS = Object.freeze([
+  { id: 'ride-type', label: 'Ride type', shortLabel: 'Ride', eyebrow: 'How do you ride?' },
+  { id: 'model', label: 'Choose bicycle', shortLabel: 'Bicycle', eyebrow: 'Choose your bicycle' },
+  { id: 'fit', label: 'Fit & wheels', shortLabel: 'Fit', eyebrow: 'Choose your fit' },
+  { id: 'ride-setup', label: 'Ride setup', shortLabel: 'Setup', eyebrow: 'Included ride setup' },
+  { id: 'finish', label: 'Finish', shortLabel: 'Finish', eyebrow: 'Your finish' },
+  { id: 'accessories', label: 'Add-ons', shortLabel: 'Extras', eyebrow: 'Included equipment' },
+  { id: 'review', label: 'Review', shortLabel: 'Review', eyebrow: 'Review your build' },
+]);
+
+export const CONFIGURATOR_AUTHORITY = Object.freeze({
+  catalog: 'finspeed-catalog-2024-25',
+  pricing: 'finspeed-distributor-consolidated-pricing-2024-25',
+  assets: 'WEB-031-verified-product-assets',
+  storefront: 'current-storefront-provisional',
+  needsValidation: 'needs-product-validation',
+});
+
+const RIDE_TYPES = Object.freeze([
+  {
+    id: 'mountain',
+    label: 'Mountain',
+    copy: 'Broad tyres and confident geometry for trails, rough roads, and mixed terrain.',
+  },
+  {
+    id: 'city',
+    label: 'City',
+    copy: 'Straightforward everyday bicycles for commutes, errands, and familiar roads.',
+  },
+  {
+    id: 'hybrid',
+    label: 'Hybrid',
+    copy: 'Fast 700C bicycles that combine road efficiency with everyday control.',
+  },
+]);
+
+const CATALOG_FINISH = Object.freeze({
+  id: 'catalog-finish',
+  label: 'Catalog finish',
+  copy: 'The finish shown for this model.',
+  status: 'included',
+  authority: CONFIGURATOR_AUTHORITY.assets,
+});
+
+const SETUPS = Object.freeze({
+  urbanPower: {
+    brakes: { id: 'power-brake', label: 'Power brake', status: 'included' },
+    fork: { id: 'rigid-fork', label: 'Rigid fork', status: 'included' },
+    drivetrain: { id: 'single-speed', label: 'Single speed', status: 'included' },
+  },
+  streetSingle: {
+    brakes: { id: 'power-brake', label: 'Power brake', status: 'provisional' },
+    fork: { id: 'rigid-fork', label: 'Rigid fork', status: 'included' },
+    drivetrain: { id: 'single-speed', label: 'Single speed', status: 'included' },
+  },
+  trailSingle: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'included' },
+    fork: { id: 'front-suspension', label: 'Front suspension', status: 'included' },
+    drivetrain: { id: 'single-speed', label: 'Single speed', status: 'included' },
+  },
+  bigWheelSingle: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'included' },
+    fork: { id: 'rigid-fork', label: 'Rigid fork', status: 'provisional' },
+    drivetrain: { id: 'single-speed', label: 'Single speed', status: 'included' },
+  },
+  bullCurrent: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'included' },
+    fork: { id: 'front-suspension', label: 'Front suspension', status: 'provisional' },
+    drivetrain: { id: '21-speed', label: '21-speed (3 x 7)', status: 'provisional' },
+  },
+  hybridSingle: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'provisional' },
+    fork: { id: 'front-suspension', label: 'Front suspension', status: 'included' },
+    drivetrain: { id: 'single-speed', label: 'Single speed', status: 'included' },
+  },
+  hybridGeared: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'provisional' },
+    fork: { id: 'rigid-fork', label: 'Rigid fork', status: 'included' },
+    drivetrain: { id: '21-speed', label: '21-speed (3 x 7)', status: 'included' },
+  },
+  gearedElite: {
+    brakes: { id: 'disc-brake', label: 'Disc brakes', status: 'included' },
+    fork: { id: 'front-suspension', label: 'Front suspension', status: 'included' },
+    drivetrain: { id: '21-speed', label: '21-speed (3 x 7)', status: 'included' },
+  },
+});
+
+function model({
+  id,
+  name,
+  rideType,
+  series,
+  copy,
+  defaultSkuId,
+  setup,
+  validationStatus = 'catalog-audited',
+  validationNote = '',
+}) {
+  return {
+    id,
+    name,
+    rideType,
+    series,
+    copy,
+    defaultSkuId,
+    setup,
+    finish: CATALOG_FINISH,
+    authority: {
+      identity: CONFIGURATOR_AUTHORITY.catalog,
+      image: CONFIGURATOR_AUTHORITY.assets,
+      status: validationStatus,
+      note: validationNote,
+    },
+  };
+}
+
+const MODELS = Object.freeze([
+  model({
+    id: 'mako-shark',
+    name: 'Mako Shark',
+    rideType: 'mountain',
+    series: 'Geared Elite',
+    copy: 'A confident trail bike with front suspension, disc brakes and 21 gears.',
+    defaultSkuId: 'mako-shark-27-5-geared',
+    setup: SETUPS.gearedElite,
+  }),
+  model({
+    id: 'shark-blue',
+    name: 'Shark Blue',
+    rideType: 'mountain',
+    series: 'Geared Elite',
+    copy: 'A versatile 26-inch bike for rough roads and weekend trails.',
+    defaultSkuId: 'shark-blue-26-geared',
+    setup: SETUPS.gearedElite,
+  }),
+  model({
+    id: 'bull-shark',
+    name: 'Bull Shark',
+    rideType: 'mountain',
+    series: 'Big Wheel',
+    copy: 'A big-wheel bike for rough trails, broken roads and steady control.',
+    defaultSkuId: 'bull-shark-29',
+    setup: SETUPS.bullCurrent,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact gear setup before ordering.',
+  }),
+  model({
+    id: 'lemon-shark',
+    name: 'Lemon Shark',
+    rideType: 'mountain',
+    series: 'Big Wheel',
+    copy: 'A nimble 27.5-inch bike with wide tyres for confident grip.',
+    defaultSkuId: 'lemon-shark-27-5',
+    setup: SETUPS.bigWheelSingle,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the fork setup before ordering.',
+  }),
+  model({
+    id: 'tiger-shark',
+    name: 'Tiger Shark',
+    rideType: 'mountain',
+    series: 'Tiger',
+    copy: 'A capable trail bike with wide tyres, front suspension and disc brakes.',
+    defaultSkuId: 'tiger-shark-26',
+    setup: SETUPS.trailSingle,
+  }),
+  model({
+    id: 'red-snapper',
+    name: 'Red Snapper',
+    rideType: 'city',
+    series: 'Urban',
+    copy: 'An easy city bike for daily commutes, errands and familiar roads.',
+    defaultSkuId: 'red-snapper-24-non-ibc',
+    setup: SETUPS.urbanPower,
+  }),
+  model({
+    id: 'sea-breeze',
+    name: 'Sea Breeze',
+    rideType: 'city',
+    series: 'Urban',
+    copy: 'A comfortable step-through city bike for everyday errands.',
+    defaultSkuId: 'sea-breeze-24-non-ibc',
+    setup: SETUPS.urbanPower,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact brake setup before ordering.',
+  }),
+  model({
+    id: 'hammerhead',
+    name: 'Hammerhead',
+    rideType: 'city',
+    series: 'Street',
+    copy: 'A tough, simple city bike for everyday movement.',
+    defaultSkuId: 'hammerhead-24',
+    setup: SETUPS.streetSingle,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact brake setup before ordering.',
+  }),
+  model({
+    id: 'great-white-shark',
+    name: 'Great White Shark',
+    rideType: 'city',
+    series: 'Street',
+    copy: 'A strong city bike with wide tyres for a planted feel.',
+    defaultSkuId: 'great-white-shark-26',
+    setup: SETUPS.streetSingle,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact brake setup before ordering.',
+  }),
+  model({
+    id: 'lightning-marlin',
+    name: 'Lightning Marlin',
+    rideType: 'hybrid',
+    series: 'Hybrid',
+    copy: 'A quick 700C bike for smooth roads, rough patches and daily rides.',
+    defaultSkuId: 'lightning-marlin-700c',
+    setup: SETUPS.hybridSingle,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact brake setup before ordering.',
+  }),
+  model({
+    id: 'sunset-marlin',
+    name: 'Sunset Marlin',
+    rideType: 'hybrid',
+    series: 'Hybrid',
+    copy: 'A faster 700C bike with 21 gears for longer city rides.',
+    defaultSkuId: 'sunset-marlin-700c-geared',
+    setup: SETUPS.hybridGeared,
+    validationStatus: 'provisional-specification',
+    validationNote: 'Contact us to confirm the exact brake setup before ordering.',
+  }),
+]);
+
+function sku({
+  id,
+  modelId,
+  wheel,
+  variantLabel,
+  retailPrice,
+  carrier = false,
+  rim = null,
+  visualMatch = 'model-exact',
+  visualNote = '',
+  visualAssetKey = null,
+}) {
+  return {
+    id,
+    modelId,
+    wheel,
+    variantLabel,
+    retailPrice,
+    carrier,
+    rim,
+    authority: {
+      variant: CONFIGURATOR_AUTHORITY.pricing,
+      price: CONFIGURATOR_AUTHORITY.pricing,
+      status: 'catalog-audited-provisional',
+    },
+    visual: {
+      match: visualMatch,
+      note: visualNote,
+      assetKey: visualAssetKey,
+    },
+  };
+}
+
+const SKUS = Object.freeze([
+  sku({ id: 'red-snapper-24-non-ibc', modelId: 'red-snapper', wheel: '24-inch', variantLabel: '24-inch, non-IBC', retailPrice: 4800, visualMatch: 'model-exact', visualNote: 'Canonical deterministic derivative of the verified 24-inch non-IBC Red Snapper product photograph.', visualAssetKey: 'red-snapper-24-non-ibc' }),
+  sku({ id: 'red-snapper-24-ibc', modelId: 'red-snapper', wheel: '24-inch', variantLabel: '24-inch, IBC carrier', retailPrice: 5000, carrier: true, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'red-snapper-24-ibc' }),
+  sku({ id: 'red-snapper-26-non-ibc', modelId: 'red-snapper', wheel: '26-inch', variantLabel: '26-inch, non-IBC', retailPrice: 5000, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'red-snapper-26-non-ibc' }),
+  sku({ id: 'red-snapper-26-ibc', modelId: 'red-snapper', wheel: '26-inch', variantLabel: '26-inch, IBC carrier', retailPrice: 5500, carrier: true, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'red-snapper-26-ibc' }),
+
+  sku({ id: 'sea-breeze-24-non-ibc', modelId: 'sea-breeze', wheel: '24-inch', variantLabel: '24-inch, non-IBC', retailPrice: 4800, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'sea-breeze-24-non-ibc' }),
+  sku({ id: 'sea-breeze-24-ibc', modelId: 'sea-breeze', wheel: '24-inch', variantLabel: '24-inch, IBC carrier', retailPrice: 5000, carrier: true, visualMatch: 'carrier-state-exact-wheel-reference', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'sea-breeze-24-ibc' }),
+  sku({ id: 'sea-breeze-26-non-ibc', modelId: 'sea-breeze', wheel: '26-inch', variantLabel: '26-inch, non-IBC', retailPrice: 5000, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'sea-breeze-26-non-ibc' }),
+  sku({ id: 'sea-breeze-26-ibc', modelId: 'sea-breeze', wheel: '26-inch', variantLabel: '26-inch, IBC carrier', retailPrice: 5500, carrier: true, visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'sea-breeze-26-ibc' }),
+
+  sku({ id: 'hammerhead-24', modelId: 'hammerhead', wheel: '24-inch', variantLabel: '24-inch', retailPrice: 6000, rim: 'Steel rim', visualAssetKey: 'hammerhead-24' }),
+  sku({ id: 'great-white-shark-26', modelId: 'great-white-shark', wheel: '26-inch', variantLabel: '26-inch', retailPrice: 6300, visualAssetKey: 'great-white-shark-26' }),
+  sku({ id: 'tiger-shark-24', modelId: 'tiger-shark', wheel: '24-inch', variantLabel: '24-inch', retailPrice: 6500, rim: 'Single-walled rim', visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'tiger-shark-24' }),
+  sku({ id: 'tiger-shark-26', modelId: 'tiger-shark', wheel: '26-inch', variantLabel: '26-inch', retailPrice: 7700, rim: 'Double-walled rim', visualMatch: 'ai-assisted-catalog-variant', visualNote: 'Contact us to confirm this exact setup before ordering.', visualAssetKey: 'tiger-shark-26' }),
+  sku({ id: 'lemon-shark-27-5', modelId: 'lemon-shark', wheel: '27.5-inch', variantLabel: '27.5-inch', retailPrice: 8700, rim: 'Double-walled rim', visualAssetKey: 'lemon-shark-27-5' }),
+  sku({ id: 'lightning-marlin-700c', modelId: 'lightning-marlin', wheel: '700C', variantLabel: '700C, single speed', retailPrice: 9500, rim: 'Double-walled rim', visualAssetKey: 'lightning-marlin-700c' }),
+  sku({ id: 'bull-shark-29', modelId: 'bull-shark', wheel: '29-inch', variantLabel: '29-inch', retailPrice: 9500, visualMatch: 'identity-conflict', visualNote: 'Current verified photography and the catalog presentation require a final product-identity check.', visualAssetKey: 'bull-shark-29' }),
+  sku({ id: 'shark-blue-26-geared', modelId: 'shark-blue', wheel: '26-inch', variantLabel: '26-inch, geared', retailPrice: 9700, rim: 'Double-walled rim', visualAssetKey: 'shark-blue-26-geared' }),
+  sku({ id: 'mako-shark-27-5-geared', modelId: 'mako-shark', wheel: '27.5-inch', variantLabel: '27.5-inch, geared', retailPrice: 10100, rim: 'Double-walled rim', visualAssetKey: 'mako-shark-27-5-geared' }),
+  sku({ id: 'sunset-marlin-700c-geared', modelId: 'sunset-marlin', wheel: '700C', variantLabel: '700C, geared', retailPrice: 10500, visualAssetKey: 'sunset-marlin-700c-geared' }),
+]);
+
+const MODEL_BY_ID = new Map(MODELS.map((item) => [item.id, item]));
+const SKU_BY_ID = new Map(SKUS.map((item) => [item.id, item]));
+const RIDE_TYPE_BY_ID = new Map(RIDE_TYPES.map((item) => [item.id, item]));
+
+const DEFAULT_MODEL_ID = 'mako-shark';
+
+export const configuratorCatalog = Object.freeze({
+  schemaVersion: CONFIGURATOR_SCHEMA_VERSION,
+  authority: CONFIGURATOR_AUTHORITY,
+  stages: CONFIGURATOR_STEPS,
+  rideTypes: RIDE_TYPES,
+  models: MODELS,
+  skus: SKUS,
+});
+
+export const configuratorBasePriceByModel = Object.freeze(Object.fromEntries(
+  MODELS.map(({ id }) => {
+    const prices = SKUS
+      .filter(({ modelId, retailPrice }) => modelId === id && Number.isFinite(retailPrice))
+      .map(({ retailPrice }) => retailPrice);
+    return [id, prices.length ? Math.min(...prices) : null];
+  }),
+));
+
+export function configuratorBasePrice(modelId) {
+  return Object.hasOwn(configuratorBasePriceByModel, modelId)
+    ? configuratorBasePriceByModel[modelId]
+    : null;
+}
+
+function canonicalFromModel(modelItem, skuItem = null) {
+  const resolvedSku = skuItem || SKU_BY_ID.get(modelItem.defaultSkuId);
+  const includedAccessories = resolvedSku.carrier ? ['ibc-carrier'] : [];
+  return {
+    version: CONFIGURATOR_SCHEMA_VERSION,
+    rideType: modelItem.rideType,
+    modelId: modelItem.id,
+    skuId: resolvedSku.id,
+    fit: {
+      wheel: resolvedSku.wheel,
+      frameSize: null,
+    },
+    components: {
+      brakes: modelItem.setup.brakes.id,
+      fork: modelItem.setup.fork.id,
+      drivetrain: modelItem.setup.drivetrain.id,
+    },
+    finish: CATALOG_FINISH.id,
+    accessories: includedAccessories,
+  };
+}
+
+function legacyModelId(value) {
+  const base = value?.base;
+  if (base === 'mako') return 'mako-shark';
+  if (base === 'bull') return 'bull-shark';
+  if (MODEL_BY_ID.has(base)) return base;
+  if (MODEL_BY_ID.has(value?.productId)) return value.productId;
+  if (MODEL_BY_ID.has(value?.model)) return value.model;
+  return null;
+}
+
+export function migrateBuild(value) {
+  const candidate = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+  if (Number(candidate.version) === CONFIGURATOR_SCHEMA_VERSION) {
+    return {
+      version: CONFIGURATOR_SCHEMA_VERSION,
+      rideType: candidate.rideType,
+      modelId: candidate.modelId,
+      skuId: candidate.skuId,
+      fit: candidate.fit && typeof candidate.fit === 'object' ? { ...candidate.fit } : {},
+      components: candidate.components && typeof candidate.components === 'object' ? { ...candidate.components } : {},
+      finish: candidate.finish,
+      accessories: Array.isArray(candidate.accessories) ? [...candidate.accessories] : [],
+    };
+  }
+
+  const modelId = legacyModelId(candidate) || DEFAULT_MODEL_ID;
+  const modelItem = MODEL_BY_ID.get(modelId) || MODEL_BY_ID.get(DEFAULT_MODEL_ID);
+  const base = canonicalFromModel(modelItem);
+  const legacyBrakes = candidate.brakes === 'power' ? base.components.brakes : candidate.brakes;
+  const legacyFork = candidate.suspension === 'front' ? base.components.fork : candidate.suspension;
+  const legacyDrivetrain = candidate.gears === '21' ? base.components.drivetrain : candidate.gears;
+  return {
+    ...base,
+    rideType: RIDE_TYPE_BY_ID.has(candidate.rideType) ? candidate.rideType : base.rideType,
+    modelId,
+    skuId: SKU_BY_ID.has(candidate.skuId) ? candidate.skuId : base.skuId,
+    fit: {
+      ...base.fit,
+      ...(candidate.fit && typeof candidate.fit === 'object' ? candidate.fit : {}),
+    },
+    components: {
+      ...base.components,
+      brakes: legacyBrakes || candidate.components?.brakes || base.components.brakes,
+      fork: legacyFork || candidate.components?.fork || base.components.fork,
+      drivetrain: legacyDrivetrain || candidate.components?.drivetrain || base.components.drivetrain,
+    },
+    // Legacy finish names were design concepts, not sale finishes.
+    finish: CATALOG_FINISH.id,
+    accessories: Array.isArray(candidate.accessories) ? [...candidate.accessories] : base.accessories,
+  };
+}
+
+function issue(code, message, field, severity = 'info') {
+  return { code, message, field, severity };
+}
+
+function setupIssues(candidate, canonical, modelItem) {
+  const issues = [];
+  const requested = candidate.components || {};
+  const labels = { brakes: 'brakes', fork: 'fork', drivetrain: 'gears' };
+  for (const key of Object.keys(labels)) {
+    if (requested[key] && requested[key] !== canonical.components[key]) {
+      issues.push(issue(
+        `unsupported-${key}`,
+        `${labels[key]} was reset to the setup available for ${modelItem.name}.`,
+        `components.${key}`,
+        'warning',
+      ));
+    }
+  }
+  return issues;
+}
+
+export function resolveBuild(value, changedField = null) {
+  const candidate = migrateBuild(value);
+  const issues = [];
+
+  let rideType = RIDE_TYPE_BY_ID.has(candidate.rideType) ? candidate.rideType : null;
+  if (!rideType && candidate.rideType) {
+    issues.push(issue('invalid-ride-type', 'Ride type was changed to the closest available option.', 'rideType', 'warning'));
+  }
+
+  let modelItem = MODEL_BY_ID.get(candidate.modelId);
+  const changedRideType = changedField === 'rideType' || changedField === 'ride-type';
+  if (changedRideType && rideType && modelItem?.rideType !== rideType) modelItem = null;
+
+  if (!modelItem) {
+    const preferredRideType = rideType || MODEL_BY_ID.get(DEFAULT_MODEL_ID).rideType;
+    modelItem = MODELS.find((item) => item.rideType === preferredRideType) || MODEL_BY_ID.get(DEFAULT_MODEL_ID);
+    issues.push(issue('model-reset', `Bicycle was reset to ${modelItem.name} for the selected ride type.`, 'modelId'));
+  }
+
+  if (rideType && rideType !== modelItem.rideType) {
+    issues.push(issue('ride-type-aligned', `Ride type was aligned with ${modelItem.name}.`, 'rideType'));
+  }
+  rideType = modelItem.rideType;
+
+  let skuItem = SKU_BY_ID.get(candidate.skuId);
+  if (!skuItem || skuItem.modelId !== modelItem.id) {
+    const wheelMatch = SKUS.find((item) => item.modelId === modelItem.id && item.wheel === candidate.fit?.wheel);
+    skuItem = wheelMatch || SKU_BY_ID.get(modelItem.defaultSkuId);
+    if (candidate.skuId) {
+      issues.push(issue('sku-reset', `Variant was reset to ${skuItem.variantLabel} for ${modelItem.name}.`, 'skuId'));
+    }
+  }
+
+  const build = canonicalFromModel(modelItem, skuItem);
+  issues.push(...setupIssues(candidate, build, modelItem));
+
+  if (candidate.finish && candidate.finish !== CATALOG_FINISH.id) {
+    issues.push(issue('finish-reset', 'Finish was reset to the option shown for this model.', 'finish', 'warning'));
+  }
+
+  const allowedAccessories = new Set(build.accessories);
+  const unsupportedAccessories = (candidate.accessories || []).filter((item) => !allowedAccessories.has(item));
+  if (unsupportedAccessories.length) {
+    issues.push(issue('accessories-reset', 'Unavailable add-ons were removed from this build.', 'accessories', 'warning'));
+  }
+
+  if (modelItem.authority.status !== 'catalog-audited') {
+    issues.push(issue('provisional-model-specification', modelItem.authority.note, 'modelId'));
+  }
+  if (skuItem.visual.match === 'identity-conflict') {
+    issues.push(issue(
+      'product-identity-confirmation-required',
+      skuItem.visual.note || 'Contact us to confirm this exact model before ordering.',
+      'skuId',
+      'critical',
+    ));
+  } else if (skuItem.visual.match !== 'model-exact') {
+    issues.push(issue('visual-reference-only', 'Contact us to confirm this exact setup before ordering.', 'skuId'));
+  }
+
+  const visualStateId = [
+    `v${CONFIGURATOR_SCHEMA_VERSION}`,
+    build.modelId,
+    build.skuId,
+    build.components.brakes,
+    build.components.fork,
+    build.components.drivetrain,
+    build.finish,
+    [...build.accessories].sort().join('+') || 'none',
+  ].join('__');
+
+  const identityConfirmationRequired = issues.some(({ code }) => code === 'product-identity-confirmation-required');
+  const resolved = {
+    build,
+    model: modelItem,
+    sku: skuItem,
+    rideType: RIDE_TYPE_BY_ID.get(rideType),
+    price: skuItem.retailPrice,
+    priceAuthority: skuItem.authority.price,
+    commerceReady: Number.isFinite(skuItem.retailPrice) && !identityConfirmationRequired,
+    identityConfirmationRequired,
+    commerceStatus: identityConfirmationRequired ? 'identity-confirmation-required' : 'ready',
+    issues,
+    changedField,
+    visualStateId,
+  };
+
+  resolved.options = Object.fromEntries(
+    CONFIGURATOR_STEPS.map(({ id }) => [id, optionsForStage(id, resolved)]),
+  );
+  return resolved;
+}
+
+export function createDefaultBuild(overrides = {}) {
+  const candidate = overrides && typeof overrides === 'object' ? overrides : {};
+  const requestedModel = MODEL_BY_ID.get(candidate.modelId);
+  const requestedRide = RIDE_TYPE_BY_ID.has(candidate.rideType) ? candidate.rideType : null;
+  const baseModel = requestedModel
+    || (requestedRide ? MODELS.find((item) => item.rideType === requestedRide) : null)
+    || MODEL_BY_ID.get(DEFAULT_MODEL_ID);
+  return resolveBuild({ ...canonicalFromModel(baseModel), ...candidate }).build;
+}
+
+function resolvedInput(value) {
+  return value?.build && value?.model && value?.sku ? value : resolveBuild(value);
+}
+
+function selectedOption(option, selectedId) {
+  return { ...option, selected: option.id === selectedId };
+}
+
+export function optionsForStage(stageId, value) {
+  const resolved = resolvedInput(value);
+  const { build, model: modelItem, sku: skuItem } = resolved;
+
+  switch (stageId) {
+    case 'ride-type':
+      return RIDE_TYPES.map((item) => selectedOption({ ...item, available: true }, build.rideType));
+    case 'model':
+      return MODELS
+        .filter((item) => item.rideType === build.rideType)
+        .map((item) => selectedOption({
+          id: item.id,
+          label: item.name,
+          copy: item.copy,
+          series: item.series,
+          available: true,
+          status: item.authority.status,
+        }, build.modelId));
+    case 'fit':
+      return SKUS
+        .filter((item) => item.modelId === modelItem.id)
+        .map((item) => selectedOption({
+          id: item.id,
+          label: item.variantLabel,
+          copy: [item.rim, item.carrier ? 'Rear carrier included' : 'No rear carrier'].filter(Boolean).join(' · '),
+          wheel: item.wheel,
+          price: item.retailPrice,
+          available: true,
+          status: item.authority.status,
+          visualMatch: item.visual.match,
+        }, build.skuId));
+    case 'ride-setup':
+      return [
+        { group: 'brakes', ...modelItem.setup.brakes },
+        { group: 'fork', ...modelItem.setup.fork },
+        { group: 'gears', ...modelItem.setup.drivetrain },
+      ].map((item) => ({
+        ...item,
+        copy: item.status === 'provisional' ? 'Included with this bicycle; confirm before ordering.' : 'Included with this bicycle.',
+        selected: true,
+        available: true,
+        locked: true,
+      }));
+    case 'finish':
+      return [{
+        ...CATALOG_FINISH,
+        selected: true,
+        available: true,
+        locked: true,
+        modelId: modelItem.id,
+      }];
+    case 'accessories':
+      return skuItem.carrier
+        ? [{
+          id: 'ibc-carrier',
+          label: 'IBC frame-mounted carrier',
+          copy: 'Included with this setup.',
+          selected: true,
+          included: true,
+          available: true,
+          locked: true,
+        }]
+        : [{
+          id: 'none',
+          label: 'No add-ons selected',
+          copy: 'No extra equipment is included with this setup.',
+          selected: true,
+          included: true,
+          available: true,
+          locked: true,
+        }];
+    case 'review':
+      return [];
+    default:
+      return [];
+  }
+}
+
+export function selectBuildOption(value, stageId, optionId) {
+  const resolved = resolveBuild(value);
+  const next = { ...resolved.build };
+
+  if (stageId === 'ride-type' && RIDE_TYPE_BY_ID.has(optionId)) {
+    const nextModel = MODELS.find((item) => item.rideType === optionId);
+    return resolveBuild(canonicalFromModel(nextModel), 'rideType').build;
+  }
+
+  if (stageId === 'model' && MODEL_BY_ID.has(optionId)) {
+    return resolveBuild(canonicalFromModel(MODEL_BY_ID.get(optionId)), 'modelId').build;
+  }
+
+  if (stageId === 'fit') {
+    const nextSku = SKU_BY_ID.get(optionId);
+    if (nextSku?.modelId === next.modelId) {
+      return resolveBuild({ ...next, skuId: nextSku.id, fit: { ...next.fit, wheel: nextSku.wheel } }, 'skuId').build;
+    }
+  }
+
+  // Setup, finish, and included-equipment options are locked to what Finspeed
+  // can currently sell and support.
+  return resolved.build;
+}
+
+export function formatConfiguratorPrice(value) {
+  return Number.isFinite(value) ? `₹${Number(value).toLocaleString('en-IN')}` : 'Price on request';
+}
+
+export function configurationSummary(value) {
+  const resolved = resolvedInput(value);
+  const { build, model: modelItem, sku: skuItem } = resolved;
+  const accessories = build.accessories.includes('ibc-carrier')
+    ? ['IBC frame-mounted carrier']
+    : [];
+  const rows = [
+    { id: 'bicycle', label: 'Bicycle', value: modelItem.name },
+    { id: 'fit', label: 'Fit & wheels', value: skuItem.variantLabel },
+    { id: 'brakes', label: 'Brakes', value: modelItem.setup.brakes.label, status: modelItem.setup.brakes.status },
+    { id: 'fork', label: 'Fork', value: modelItem.setup.fork.label, status: modelItem.setup.fork.status },
+    { id: 'drivetrain', label: 'Gears', value: modelItem.setup.drivetrain.label, status: modelItem.setup.drivetrain.status },
+    { id: 'finish', label: 'Finish', value: CATALOG_FINISH.label },
+    { id: 'equipment', label: 'Included equipment', value: accessories.join(', ') || 'No add-ons selected' },
+  ];
+  const componentText = [modelItem.setup.brakes.label, modelItem.setup.fork.label, modelItem.setup.drivetrain.label]
+    .join(', ');
+  return {
+    title: modelItem.name,
+    variant: skuItem.variantLabel,
+    price: resolved.price,
+    priceLabel: formatConfiguratorPrice(resolved.price),
+    rows,
+    items: rows,
+    includedAccessories: accessories,
+    sentence: `${modelItem.name}, ${skuItem.variantLabel}, with ${componentText}.`,
+    alt: visualAlt(resolved),
+    authority: {
+      price: resolved.priceAuthority,
+      modelStatus: modelItem.authority.status,
+      visualMatch: skuItem.visual.match,
+    },
+  };
+}
+
+function visualAlt(resolved) {
+  const { build, model: modelItem, sku: skuItem } = resolved;
+  const selected = `Selected build: ${modelItem.name}, ${skuItem.variantLabel}`;
+  if (skuItem.visual.match !== 'model-exact') {
+    return `Finspeed ${modelItem.name} reference image. ${selected}.`;
+  }
+  const carrier = build.accessories.includes('ibc-carrier') ? ' with IBC carrier' : '';
+  return `Finspeed ${modelItem.name} ${skuItem.variantLabel}${carrier}, shown in side profile.`;
+}
+
+function lightSrcSet(modelId) {
+  return [480, 960, 1600]
+    .map((width) => `/assets/products/upscaled/${modelId}-${width}.webp ${width}w`)
+    .join(', ');
+}
+
+function customVisualSrcSet(root, assetKey) {
+  return [480, 960, 1600]
+    .map((width) => `${root}/${assetKey}-r01-w${width}.webp ${width}w`)
+    .join(', ');
+}
+
+export function configuratorVisual(value, theme = 'light') {
+  const resolved = resolvedInput(value);
+  const dark = theme === 'dark';
+  const customAssetKey = resolved.sku.visual.assetKey;
+  const customRoot = customAssetKey
+    ? `/assets/configurator/v1/${resolved.model.id}/side-r/${dark ? 'dark' : 'light'}/poster`
+    : null;
+  const src = customRoot
+    ? `${customRoot}/${customAssetKey}-r01-w1600.webp`
+    : dark
+      ? `/assets/products/dark-studio-v2/${resolved.model.id}-studio.webp`
+      : `/assets/products/upscaled/${resolved.model.id}-1600.webp`;
+  const srcSet = customRoot
+    ? customVisualSrcSet(customRoot, customAssetKey)
+    : dark
+      ? undefined
+      : lightSrcSet(resolved.model.id);
+  return {
+    id: `${resolved.visualStateId}__${dark ? 'dark' : 'light'}`,
+    visualStateId: resolved.visualStateId,
+    productId: resolved.model.id,
+    skuId: resolved.sku.id,
+    theme: dark ? 'dark' : 'light',
+    src,
+    srcSet,
+    sizes: '(max-width: 900px) 100vw, 60vw',
+    alt: visualAlt(resolved),
+    fidelity: resolved.sku.visual.match,
+    note: resolved.sku.visual.note,
+    authority: CONFIGURATOR_AUTHORITY.assets,
+    layers: [{ id: 'base', role: 'base', src }],
+  };
+}
+
+function cartPreviewVisual(value, theme) {
+  const visual = configuratorVisual(value, theme);
+  return {
+    id: visual.id,
+    visualStateId: visual.visualStateId,
+    productId: visual.productId,
+    skuId: visual.skuId,
+    theme: visual.theme,
+    src: visual.src,
+    srcSet: visual.srcSet,
+    sizes: visual.sizes,
+    alt: visual.alt,
+    fidelity: visual.fidelity,
+  };
+}
+
+/**
+ * Canonical, theme-paired product imagery persisted with a configured cart
+ * line. Storing both variants lets the cart and checkout follow the active
+ * site theme without recomputing a possibly newer catalog state.
+ */
+export function configuredCartPreview(value) {
+  const resolved = resolvedInput(value);
+  return {
+    visualStateId: resolved.visualStateId,
+    productId: resolved.model.id,
+    skuId: resolved.sku.id,
+    light: cartPreviewVisual(resolved, 'light'),
+    dark: cartPreviewVisual(resolved, 'dark'),
+  };
+}
+
+function canonicalFingerprintPayload(value) {
+  const { build } = resolvedInput(value);
+  return JSON.stringify({
+    version: CONFIGURATOR_SCHEMA_VERSION,
+    modelId: build.modelId,
+    skuId: build.skuId,
+    fit: {
+      wheel: build.fit.wheel,
+      frameSize: build.fit.frameSize || null,
+    },
+    components: {
+      brakes: build.components.brakes,
+      fork: build.components.fork,
+      drivetrain: build.components.drivetrain,
+    },
+    finish: build.finish,
+    accessories: [...build.accessories].sort(),
+  });
+}
+
+function fnv1a(value) {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(36).padStart(7, '0');
+}
+
+export function configuredCartFingerprint(value) {
+  return `fsc${CONFIGURATOR_SCHEMA_VERSION}-${fnv1a(canonicalFingerprintPayload(value))}`;
+}

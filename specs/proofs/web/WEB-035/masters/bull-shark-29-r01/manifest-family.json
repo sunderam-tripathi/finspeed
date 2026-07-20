@@ -1,0 +1,101 @@
+{
+  "status": "available",
+  "authorityTier": "B",
+  "provenanceStatus": "deterministic-exact-product-registration",
+  "role": "poster",
+  "variant": "bull-shark-29",
+  "canvasConformance": "canonical",
+  "sourceSkuIds": [
+    "bull-shark-29"
+  ],
+  "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+  "assets": [
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "5A82196264A1241DEE9DC4AD86435E5082A6D0D6F068216D998AD155ED2DB335",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 7.9167,
+          "rightSafetyPercent": 8.125,
+          "topSafetyPercent": 11.25,
+          "baselinePercent": 87.5,
+          "subjectWidthPercent": 83.9583,
+          "subjectHeightPercent": 76.5625
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "4F76FD260630050DE8BA59784499AC78827C7D4F4D151E90015AE1CF2A2B48FE",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 8.0208,
+          "rightSafetyPercent": 8.125,
+          "topSafetyPercent": 11.25,
+          "baselinePercent": 87.6562,
+          "subjectWidthPercent": 83.8542,
+          "subjectHeightPercent": 76.7188
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "58B24ADB399D0EB9DD6BA9A3109FC409F0B5085B2A6022370A3588DEBD678045",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 8.0,
+          "rightSafetyPercent": 8.0625,
+          "topSafetyPercent": 11.2465,
+          "baselinePercent": 87.6289,
+          "subjectWidthPercent": 83.9375,
+          "subjectHeightPercent": 76.7573
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "AAB2CD17F237226E5BC1B3A6E6A27C9A86D1810122324FDB72039E32D4F65229"
+    },
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "35B634441302FE279882E97986E38D5DA7F770E7CC669FA633900D6C81403FF4"
+    },
+    {
+      "path": "/assets/configurator/v1/bull-shark/side-r/dark/poster/bull-shark-29-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "E8867B04A177D7E4E0F1C7F60F29FBC32B1601DE3ABC41D4290B4CC06157C414"
+    }
+  ]
+}

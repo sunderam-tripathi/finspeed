@@ -8,6 +8,7 @@
 @import "../design/features/storefront/responsive.css";
 @import "../design/features/storefront/footer-newsletter.css";
 @import "../design/features/storefront/editorial-navigation.css";
+@import "../design/features/storefront/build-configurator.css";
 @import "../design/features/storefront/checkout-cart-editorial.css";
 @import "../design/features/storefront/account.css";
 @import "../design/features/storefront/home-editorial.css";
@@ -16,6 +17,7 @@
 @import "../design/features/storefront/engineering.css";
 @import "../design/features/storefront/editorial-pages.css";
 @import "../design/features/storefront/legacy-editorial.css";
+@import "../design/features/storefront/dark-theme.css";
 @import "../design/features/distributor/responsive.css";
 
 :root {

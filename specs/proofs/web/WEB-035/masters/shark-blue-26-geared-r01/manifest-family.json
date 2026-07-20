@@ -1,0 +1,101 @@
+{
+  "status": "available",
+  "authorityTier": "B",
+  "provenanceStatus": "deterministic-exact-product-registration",
+  "role": "poster",
+  "variant": "shark-blue-26-geared",
+  "canvasConformance": "canonical",
+  "sourceSkuIds": [
+    "shark-blue-26-geared"
+  ],
+  "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/singletons-r01.md",
+  "assets": [
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "7C308294D308D40DDF4CC91EB352A12B9DB07BA820E46CBEB647EA213B46DC12",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 7.9167,
+          "rightSafetyPercent": 7.9167,
+          "topSafetyPercent": 12.5,
+          "baselinePercent": 87.8125,
+          "subjectWidthPercent": 84.1667,
+          "subjectHeightPercent": 75.625
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "C919B9BC491D52D0E2B8DD0D4748C972F3C3FC2530F714A3589F8ED44A87983F",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 8.0208,
+          "rightSafetyPercent": 8.0208,
+          "topSafetyPercent": 12.3438,
+          "baselinePercent": 87.8125,
+          "subjectWidthPercent": 83.9583,
+          "subjectHeightPercent": 75.625
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/light/poster/shark-blue-26-geared-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "light",
+      "alphaMode": "transparent",
+      "sha256": "FE500CB7B0D514D121EC49F01370D378F0E3ED72FA4B3E129D59CA6B6117A695",
+      "pixelMetrics": {
+        "subjectThreshold": 32,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "subjectBounds": {
+          "leftSafetyPercent": 8.0,
+          "rightSafetyPercent": 8.0,
+          "topSafetyPercent": 12.4649,
+          "baselinePercent": 87.8163,
+          "subjectWidthPercent": 84.0,
+          "subjectHeightPercent": 75.5389
+        }
+      }
+    },
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w480.webp",
+      "width": 480,
+      "height": 320,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "C8EAFA4F689DFB36D38AC6CEE3B045A8B170098F44BD40A2CAD8E3D668E39FBC"
+    },
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w960.webp",
+      "width": 960,
+      "height": 640,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "58F34C71A55824D063E9C949BA86B740EF12ED68929B3F48D1A5B4CDD854E6C2"
+    },
+    {
+      "path": "/assets/configurator/v1/shark-blue/side-r/dark/poster/shark-blue-26-geared-r01-w1600.webp",
+      "width": 1600,
+      "height": 1067,
+      "theme": "dark",
+      "alphaMode": "opaque",
+      "sha256": "7FD37A0DEED7F5B9579CDD59ADEA4CC000F68BFF8CC191761DFBAD24063CE382"
+    }
+  ]
+}

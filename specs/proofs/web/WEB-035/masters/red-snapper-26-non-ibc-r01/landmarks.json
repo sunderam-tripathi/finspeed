@@ -1,0 +1,27 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "skuId": "red-snapper-26-non-ibc",
+  "subjectBounds": {
+    "leftSafetyPercent": 8.9844,
+    "rightSafetyPercent": 9.0169,
+    "topSafetyPercent": 11.5723,
+    "baselinePercent": 88.65,
+    "subjectWidthPercent": 81.9987,
+    "subjectHeightPercent": 79.834
+  },
+  "landmarks": {
+    "rearContact": {
+      "x": 0.2732,
+      "y": 0.8865
+    },
+    "frontContact": {
+      "x": 0.7356,
+      "y": 0.8865
+    }
+  },
+  "measurementStatus": "contact-line-registered; remaining component landmarks require product-owner metrology"
+}

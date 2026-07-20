@@ -1,7 +1,9 @@
 import React from 'react';
-import { ArrowRight, createIcons, Moon, Sun, User } from 'lucide';
+import { ArrowRight, createIcons, Moon, Sun, User, X } from 'lucide';
+import { resolveProductImage } from '../../data/storefront.js';
 
-const menuIcons = { ArrowRight, Moon, Sun, User };
+const menuIcons = { ArrowRight, Moon, Sun, User, X };
+const MENU_HOVER_INTENT_MS = 240;
 
 const menuItems = [
   { id: 'bikes', number: '01', label: 'The Bikes', route: 'shop' },
@@ -13,46 +15,46 @@ const menuItems = [
 const menuContext = {
   bikes: {
     eyebrow: 'Eleven bikes. Three ways to ride.',
-    body: 'A tightly edited range for mountain, city, and hybrid riding. Compare by intent, then go deeper on the model that feels right.',
+    body: 'Choose where you ride: mountain trails, city streets or a little of both. Meet the bikes made for it.',
     links: [
       ['Explore all bikes', 'shop'],
       ['Mountain collection', 'shop', 'mountain'],
       ['City collection', 'shop', 'city'],
     ],
-    image: '/assets/products/upscaled/bull-shark-1600.webp',
+    productId: 'bull-shark',
     imageAlt: 'Finspeed Bull Shark mountain bicycle',
   },
   build: {
-    eyebrow: 'One frame. Your spec.',
-    body: 'Tailor every detail to your ride. Choose components, dial in your fit, and build a bike that is uniquely yours. Saved automatically as you go.',
+    eyebrow: 'Make it yours.',
+    body: 'Choose your bike, size, brakes, gears and finish. We will help you create a ride that feels made for you.',
     links: [
-      ['Open the ride studio', 'build'],
-      ['Explore the complete range', 'shop'],
-      ['See our engineering', 'engineering'],
+      ['Start a new build', 'build'],
+      ['Resume saved build', 'build'],
+      ['Compare saved builds', 'build'],
     ],
-    image: '/assets/products/cutouts/mako-shark-side-transparent.png',
+    productId: 'mako-shark',
     imageAlt: 'Finspeed Mako Shark bicycle in profile',
   },
   engineering: {
     eyebrow: 'Built around the rider.',
-    body: 'See how geometry, material, braking, and drivetrain choices become a ride that feels assured from the first turn.',
+    body: 'See how strong frames, dependable brakes and carefully chosen parts make every Finspeed feel stable and comfortable from the first ride.',
     links: [
-      ['Our design principles', 'engineering'],
+      ['How we build our bikes', 'engineering'],
       ['Assembly guide', 'assembly'],
       ['Warranty standards', 'warranty'],
     ],
-    image: '/assets/products/upscaled/shark-blue-1600.webp',
+    productId: 'shark-blue',
     imageAlt: 'Finspeed Shark Blue performance bicycle',
   },
   visit: {
     eyebrow: 'Meet the bikes in person.',
-    body: 'Find an authorised Finspeed store, speak with a ride specialist, and choose the right frame and setup with confidence.',
+    body: 'Visit a Finspeed store, speak with a ride specialist, and choose the right frame and setup with confidence.',
     links: [
       ['Find a store', 'stores'],
       ['Talk to Finspeed', 'contact'],
       ['Owner support', 'support'],
     ],
-    image: '/assets/products/upscaled/red-snapper-1600.webp',
+    productId: 'red-snapper',
     imageAlt: 'Finspeed Red Snapper city bicycle',
   },
 };
@@ -66,16 +68,45 @@ function defaultMenuItem(route) {
 
 function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, onThemeToggle }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [activeItem, setActiveItem] = React.useState(() => defaultMenuItem(route));
+  const [previewItem, setPreviewItem] = React.useState(null);
   const menuButtonRef = React.useRef(null);
   const dialogRef = React.useRef(null);
+  const previewTimerRef = React.useRef(null);
   const isDark = theme === 'dark';
+  const routeItem = defaultMenuItem(route);
+  const activeItem = previewItem || routeItem;
   const context = menuContext[activeItem];
+  const menuVisual = React.useMemo(
+    () => resolveProductImage(context.productId, { theme, role: 'menu', width: 1600 }),
+    [context.productId, theme],
+  );
+
+  const clearPreviewTimer = React.useCallback(() => {
+    if (previewTimerRef.current === null) return;
+    window.clearTimeout(previewTimerRef.current);
+    previewTimerRef.current = null;
+  }, []);
+
+  const schedulePreview = React.useCallback((itemId) => {
+    clearPreviewTimer();
+    previewTimerRef.current = window.setTimeout(() => {
+      setPreviewItem(itemId);
+      previewTimerRef.current = null;
+    }, MENU_HOVER_INTENT_MS);
+  }, [clearPreviewTimer]);
+
+  const selectPreview = React.useCallback((itemId) => {
+    clearPreviewTimer();
+    setPreviewItem(itemId);
+  }, [clearPreviewTimer]);
 
   React.useEffect(() => {
-    setActiveItem(defaultMenuItem(route));
+    clearPreviewTimer();
+    setPreviewItem(null);
     setMenuOpen(false);
-  }, [route]);
+  }, [clearPreviewTimer, route]);
+
+  React.useEffect(() => () => clearPreviewTimer(), [clearPreviewTimer]);
 
   React.useEffect(() => {
     if (menuOpen) createIcons({ icons: menuIcons });
@@ -104,6 +135,8 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
         event.preventDefault();
+        clearPreviewTimer();
+        setPreviewItem(null);
         setMenuOpen(false);
         window.requestAnimationFrame(() => menuButtonRef.current?.focus());
         return;
@@ -133,9 +166,17 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
       });
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [menuOpen]);
+  }, [clearPreviewTimer, menuOpen]);
+
+  function toggleMenu() {
+    clearPreviewTimer();
+    setPreviewItem(null);
+    setMenuOpen((open) => !open);
+  }
 
   function go(destination, category) {
+    clearPreviewTimer();
+    setPreviewItem(null);
     setMenuOpen(false);
     onNav(destination, category);
   }
@@ -150,7 +191,7 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
           aria-label={menuOpen ? 'Close' : 'Menu'}
           aria-expanded={menuOpen}
           aria-controls="editorial-navigation"
-          onClick={() => setMenuOpen((open) => !open)}
+          onClick={toggleMenu}
         >
           <i data-lucide="menu" aria-hidden="true" />
           <span>Menu</span>
@@ -182,8 +223,20 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
           aria-modal="true"
           aria-label="Finspeed menu"
         >
+          <button
+            type="button"
+            className="editorial-menu__close"
+            aria-label="Close menu"
+            onClick={toggleMenu}
+          >
+            <i data-lucide="x" aria-hidden="true" />
+          </button>
+
           <div className="editorial-menu__primary">
-            <nav aria-label="Main navigation" className="editorial-menu__index">
+            <nav
+              aria-label="Main navigation"
+              className="editorial-menu__index"
+            >
               {menuItems.map((item) => (
                 <button
                   key={item.id}
@@ -191,8 +244,8 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
                   data-menu-primary={activeItem === item.id ? 'true' : undefined}
                   className={`editorial-menu__item${activeItem === item.id ? ' is-active' : ''}`}
                   aria-current={defaultMenuItem(route) === item.id ? 'page' : undefined}
-                  onMouseEnter={() => setActiveItem(item.id)}
-                  onFocus={() => setActiveItem(item.id)}
+                  onPointerEnter={() => schedulePreview(item.id)}
+                  onFocus={() => selectPreview(item.id)}
                   onClick={() => go(item.route)}
                 >
                   <span className="editorial-menu__number">{item.number}</span>
@@ -211,7 +264,10 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
             </div>
           </div>
 
-          <aside className="editorial-menu__feature" aria-live="polite">
+          <aside
+            className="editorial-menu__feature"
+            aria-live="polite"
+          >
             <div className="editorial-menu__feature-copy">
               <p className="editorial-menu__eyebrow">{context.eyebrow}</p>
               <p className="editorial-menu__body">{context.body}</p>
@@ -226,7 +282,15 @@ function Header({ cartCount, theme, route, onNav, onCart, onAccount, onSearch, o
             </div>
 
             <div className="editorial-menu__image-well">
-              <img src={context.image} alt={context.imageAlt} />
+              <img
+                src={menuVisual.src}
+                srcSet={menuVisual.srcSet}
+                sizes={menuVisual.sizes}
+                style={menuVisual.style}
+                data-product-scale={menuVisual.registration.scale}
+                data-product-baseline={menuVisual.registration.baseline}
+                alt={context.imageAlt}
+              />
             </div>
 
             <div className="editorial-menu__owners">

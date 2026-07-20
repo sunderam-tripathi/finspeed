@@ -1,10 +1,21 @@
 // Finspeed storefront — premium editorial checkout
+/* eslint-disable @next/next/no-img-element -- Theme-specific responsive product srcsets are resolved by the storefront media catalogue. */
 import React from 'react';
 import { Breadcrumb } from '../../ui/index.js';
-import { cartLines, productImage } from '../../data/storefront.js';
+import {
+  cartLines,
+  resolveProductImage,
+} from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
-function Checkout({ items, onNav, onProduct, onPlaced }) {
+function checkoutLinePreview(configuration, theme, productId) {
+  const preview = configuration?.preview;
+  const configured = preview?.[theme] || preview?.light || preview?.dark || preview;
+  if (configured?.src) return configured;
+  return resolveProductImage(productId, { theme, role: 'search', width: 480 });
+}
+
+function Checkout({ items, onNav, onProduct, onPlaced, theme = 'light', checkoutMode = 'preview' }) {
   const lines = cartLines(items);
   const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
   const count = lines.reduce((sum, line) => sum + line.quantity, 0);
@@ -12,29 +23,45 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
   const [placed, setPlaced] = React.useState(false);
   const [pay, setPay] = React.useState('cod');
   const paymentRefs = React.useRef([]);
+  const outcomeHeadingRef = React.useRef(null);
   const paymentKeys = ['cod', 'upi'];
-  const [orderNo] = React.useState(() => `FS${Math.floor(100000 + Math.random() * 900000)}`);
+  const liveCheckout = checkoutMode === 'live' && typeof onPlaced === 'function';
+  const [orderNo] = React.useState(() => (
+    liveCheckout ? `FS${Math.floor(100000 + Math.random() * 900000)}` : null
+  ));
   const inr = (amount) => `₹${amount.toLocaleString('en-IN')}`;
 
   useLucideIcons();
 
+  React.useEffect(() => {
+    if (!placed) return undefined;
+    const frame = window.requestAnimationFrame(() => outcomeHeadingRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [placed]);
+
   if (placed) {
     return (
-      <section className="store-checkout-outcome" aria-labelledby="checkout-confirmed-title">
+      <section className="store-checkout-outcome" aria-labelledby="checkout-outcome-title" aria-live="polite" aria-atomic="true">
         <div className="store-checkout-outcome__mark" aria-hidden="true">
           <i data-lucide="check" />
         </div>
-        <p className="editorial-kicker">Order {orderNo}</p>
-        <h1 id="checkout-confirmed-title">Order confirmed</h1>
+        <p className="editorial-kicker">{liveCheckout ? `Order ${orderNo}` : 'Interactive preview complete'}</p>
+        <h1 id="checkout-outcome-title" ref={outcomeHeadingRef} tabIndex={-1}>
+          {liveCheckout ? 'Order confirmed' : 'No order was placed'}
+        </h1>
         <p className="store-checkout-outcome__copy">
-          Your Finspeed is reserved. We’ll send the order details and delivery updates to the email you provided.
+          {liveCheckout
+            ? 'Your Finspeed is reserved. We’ll send the order details and delivery updates to the email you provided.'
+            : 'You have completed the storefront demonstration. Your details stayed in this browser; no bicycle was reserved, no payment was collected and no order was created.'}
         </p>
         <div className="store-checkout-outcome__actions">
-          <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('account')}>
-            Track order <i data-lucide="map-pin" aria-hidden="true" />
-          </button>
+          {liveCheckout && (
+            <button type="button" className="editorial-cta editorial-cta--primary" onClick={() => onNav('account')}>
+              Track order <i data-lucide="map-pin" aria-hidden="true" />
+            </button>
+          )}
           <button type="button" className="editorial-cta editorial-cta--secondary" onClick={() => onNav('shop')}>
-            Continue shopping <i data-lucide="arrow-right" aria-hidden="true" />
+            {liveCheckout ? 'Continue shopping' : 'Return to the bikes'} <i data-lucide="arrow-right" aria-hidden="true" />
           </button>
         </div>
       </section>
@@ -95,7 +122,7 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
       ownerEmail: customer.email.toLowerCase(),
       total,
     };
-    onPlaced?.(order);
+    if (liveCheckout) onPlaced(order);
   }
 
   function selectPayment(key, index, moveFocus = false) {
@@ -151,10 +178,14 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
 
         <header className="store-checkout-heading">
           <div>
-            <p className="editorial-kicker">Secure checkout · {count} {count === 1 ? 'cycle' : 'cycles'}</p>
-            <h1>Complete your ride</h1>
+            <p className="editorial-kicker">{liveCheckout ? 'Secure checkout' : 'Checkout preview'} · {count} {count === 1 ? 'cycle' : 'cycles'}</p>
+            <h1>{liveCheckout ? 'Complete your ride' : 'Review your ride'}</h1>
           </div>
-          <p>Delivery is free across India. Your frame is covered for two years.</p>
+          <p>
+            {liveCheckout
+              ? 'We will confirm delivery, warranty terms and final availability before handover.'
+              : 'Explore the complete checkout flow without creating an order, reserving stock or sending payment.'}
+          </p>
         </header>
 
         <form className="store-checkout-layout store-checkout-form" onSubmit={place}>
@@ -178,7 +209,11 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
             </CheckoutSection>
 
             <CheckoutSection number="03" title="Payment">
-              <p className="store-checkout-section__intro">Pay at handover after you have checked your cycle.</p>
+              <p className="store-checkout-section__intro">
+                {liveCheckout
+                  ? 'Pay at handover after you have checked your cycle.'
+                  : 'Choose a preferred handover method for this preview. No payment details are collected.'}
+              </p>
               <div className="store-payment-options" role="radiogroup" aria-label="Payment method">
                 {paymentOption('cod', 'Cash on delivery', 'Pay when your cycle arrives', 'banknote', 0)}
                 {paymentOption('upi', 'UPI on delivery', 'Scan and pay at handover', 'smartphone', 1)}
@@ -194,6 +229,7 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
 
             <div className="store-checkout-summary__items">
               {lines.map(({ lineId, product, quantity, unitPrice, configuration }) => {
+                const preview = checkoutLinePreview(configuration, theme, product.id);
                 const configuredSummary = configuration
                   ? [
                     configuration.base?.wheels,
@@ -206,7 +242,15 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
                 return (
                   <article className="store-checkout-item" key={lineId}>
                     <button type="button" className="store-checkout-item__image" aria-label={`View ${product.name}`} onClick={() => onProduct(product.id)}>
-                      <img src={productImage(product.id)} alt="" />
+                      <img
+                        src={preview.src}
+                        srcSet={preview.srcSet}
+                        sizes={preview.sizes || '82px'}
+                        style={preview.style}
+                        data-product-scale={preview.registration?.scale}
+                        data-product-baseline={preview.registration?.baseline}
+                        alt=""
+                      />
                       <span aria-hidden="true">{quantity}</span>
                     </button>
                     <div className="store-checkout-item__copy">
@@ -221,19 +265,21 @@ function Checkout({ items, onNav, onProduct, onPlaced }) {
 
             <dl className="store-checkout-totals">
               <OrderSummaryRow label="Subtotal" value={inr(subtotal)} />
-              <OrderSummaryRow label="Shipping" value="Free" accent />
+              <OrderSummaryRow label="Shipping" value="To be confirmed" />
               <div className="store-checkout-totals__grand">
-                <dt>Total</dt>
+                <dt>Indicative total</dt>
                 <dd>{inr(total)}</dd>
               </div>
             </dl>
 
             <button type="submit" className="editorial-cta editorial-cta--primary store-checkout-submit">
-              Place order <i data-lucide="lock" aria-hidden="true" />
+              {liveCheckout ? 'Place order' : 'Complete preview'} <i data-lucide={liveCheckout ? 'lock' : 'check-circle'} aria-hidden="true" />
             </button>
             <p className="store-checkout-assurance">
-              <i data-lucide="shield-check" aria-hidden="true" />
-              Free delivery across India · 2-year frame warranty
+              <i data-lucide={liveCheckout ? 'shield-check' : 'info'} aria-hidden="true" />
+              {liveCheckout
+                ? 'Delivery, warranty and final availability confirmed before handover'
+                : 'Preview only · no reservation, payment or order submission'}
             </p>
           </aside>
         </form>

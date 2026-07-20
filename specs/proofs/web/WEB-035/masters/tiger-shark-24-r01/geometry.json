@@ -1,0 +1,61 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "assetKey": "tiger-shark-24",
+  "subjectBounds": {
+    "sourceWidth": 1536,
+    "sourceHeight": 1024,
+    "scale": 2.064,
+    "pasteX": -43,
+    "pasteY": -33,
+    "left": 245,
+    "top": 211,
+    "right": 2825,
+    "bottom": 1802,
+    "leftSafetyPercent": 7.9753,
+    "rightSafetyPercent": 8.0404,
+    "topSafetyPercent": 10.3027,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 83.9844,
+    "subjectHeightPercent": 77.6855
+  },
+  "registration": {
+    "targetSubjectWidthPercent": 84.0,
+    "targetBaselinePercent": 88.0,
+    "alphaSubjectThreshold": 32
+  },
+  "landmarks": {
+    "rearAxle": {
+      "x": 0.224,
+      "y": 0.643
+    },
+    "frontAxle": {
+      "x": 0.779,
+      "y": 0.643
+    },
+    "rearContact": {
+      "x": 0.224,
+      "y": 0.88
+    },
+    "frontContact": {
+      "x": 0.779,
+      "y": 0.88
+    },
+    "bottomBracket": {
+      "x": 0.469,
+      "y": 0.668
+    },
+    "headTubeTop": {
+      "x": 0.686,
+      "y": 0.269
+    },
+    "headTubeBottom": {
+      "x": 0.706,
+      "y": 0.365
+    }
+  },
+  "measurementMethod": "Manual landmark review on the normalized 3072x2048 poster; alpha-derived subject bounds are recorded above."
+}

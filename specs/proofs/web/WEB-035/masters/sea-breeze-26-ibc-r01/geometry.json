@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "productId": "sea-breeze",
+  "skuId": "sea-breeze-26-ibc",
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "registrationGroup": "sea-breeze-26-ibc-r01",
+  "canvasConformance": "canonical",
+  "subjectBounds": {
+    "sourceWidth": 1530,
+    "sourceHeight": 1028,
+    "scale": 1.78086957,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 7.9753,
+    "rightSafetyPercent": 7.9753,
+    "topSafetyPercent": 10.8398,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 84.0495,
+    "subjectHeightPercent": 77.1484
+  },
+  "landmarks": {
+    "rearAxle": {
+      "x": 0.235,
+      "y": 0.654
+    },
+    "frontAxle": {
+      "x": 0.763,
+      "y": 0.658
+    },
+    "rearContact": {
+      "x": 0.235,
+      "y": 0.88
+    },
+    "frontContact": {
+      "x": 0.763,
+      "y": 0.88
+    },
+    "bottomBracket": {
+      "x": 0.443,
+      "y": 0.675
+    },
+    "headTubeTop": {
+      "x": 0.668,
+      "y": 0.3
+    },
+    "headTubeBottom": {
+      "x": 0.689,
+      "y": 0.405
+    }
+  },
+  "measurementMethod": "Alpha-derived canonical subject registration; named component landmarks were reviewed against the accepted Sea Breeze side profile.",
+  "sourceNote": "The governed 24-inch IBC photograph controls identity and equipment; a tightly constrained assisted edit creates the catalogued 26-inch wheel-and-frame fit.",
+  "sourceAssets": [
+    {
+      "path": "apps/web/public/assets/products/upscaled/sea-breeze-1600.webp",
+      "sha256": "FFA1D17F7061916484410D750E09E56141C00DDA2515685BA9D08E5820C0A8F5"
+    },
+    {
+      "path": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-chroma-source.png",
+      "sha256": "64D2BB7050BE58479CB56070F9C80E97B1822B26BFD8DFF1AB62B6E63E6DF891"
+    }
+  ],
+  "acceptedCutout": {
+    "path": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/reviewed-cutout.png",
+    "sha256": "C21ACFC85950730573DF656D7281F53B4D43C3C9646642C73C620B87EB72C6B8"
+  }
+}

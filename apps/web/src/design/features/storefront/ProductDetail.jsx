@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- native responsive sources preserve the governed product masters */
 import React from 'react';
 import { Breadcrumb, QuantityStepper } from '../../ui/index.js';
-import { productImage, productImageSrcSet, products } from '../../data/storefront.js';
+import { products, resolveProductImage } from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 const categoryLabels = {
@@ -17,13 +17,18 @@ function formatPrice(value) {
   return `₹${value.toLocaleString('en-IN')}`;
 }
 
-function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }) {
+function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint, theme }) {
   const product = products.find((item) => item.id === id) || products[0];
+  const heroVisual = React.useMemo(
+    () => resolveProductImage(product.id, { theme, role: 'hero', width: 1600 }),
+    [product.id, theme],
+  );
   const [quantity, setQuantity] = React.useState(1);
   const [notifyEmail, setNotifyEmail] = React.useState('');
   const [notifyStatus, setNotifyStatus] = React.useState('idle');
   const [notifyFeedback, setNotifyFeedback] = React.useState('');
   const soldOut = product.stock === 0;
+  const requiresConfirmation = heroVisual.commerce.requiresConfirmation;
   const lowStock = product.stock > 0 && product.stock <= 3;
   const category = categoryLabels[product.tag] || product.tag;
   const related = products.filter((item) => item.tag === product.tag && item.id !== product.id).slice(0, 3);
@@ -37,7 +42,7 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
     ['Series', product.series],
     ['Category', category],
     ['Wheel size', product.wheels],
-    ['Drivetrain', product.speed],
+    ['Gears', product.speed],
     ['Braking system', product.brakes],
   ];
 
@@ -121,9 +126,12 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
           </div>
           <div className="product-editorial-stage__image">
             <img
-              src={productImage(product.id, 1600)}
-              srcSet={productImageSrcSet(product.id)}
-              sizes="(max-width: 900px) 100vw, 60vw"
+              src={heroVisual.src}
+              srcSet={heroVisual.srcSet}
+              sizes={heroVisual.sizes}
+              style={heroVisual.style}
+              data-product-scale={heroVisual.registration.scale}
+              data-product-baseline={heroVisual.registration.baseline}
               alt={`Finspeed ${product.name} bicycle in side profile`}
               decoding="async"
               fetchPriority="high"
@@ -131,7 +139,7 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
           </div>
           <dl className="product-editorial-stage__specs" aria-label={`${product.name} key specifications`}>
             <div><dt>Wheels</dt><dd>{product.wheels}</dd></div>
-            <div><dt>Drive</dt><dd>{product.speed}</dd></div>
+            <div><dt>Gears</dt><dd>{product.speed}</dd></div>
             <div><dt>Brakes</dt><dd>{product.brakes}</dd></div>
             <div><dt>Category</dt><dd>{category}</dd></div>
           </dl>
@@ -141,14 +149,11 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
           <p className="editorial-kicker">{product.series}</p>
           <h1 id="product-title">{product.name}</h1>
           <p className="product-editorial-subtitle">{product.sub}</p>
-          <p className="product-editorial-rating" aria-label={`${product.rating} out of 5 from ${product.reviews} rider reviews`}>
-            <strong>{product.rating.toFixed(1)}</strong> / 5 <span>·</span> {product.reviews} rider reviews
-          </p>
-
           <div className="product-editorial-price">
+            <span className="product-editorial-price-prefix">From</span>
             <strong>{formatPrice(product.price)}</strong>
-            {product.mrp ? <span>List {formatPrice(product.mrp)}</span> : null}
           </div>
+          <p className="product-editorial-price-note">Final price and availability are confirmed before your order.</p>
           <p className="product-editorial-description">{product.desc}</p>
 
           <button type="button" className="product-editorial-fit-link editorial-text-link" onClick={() => onNav('stores')}>
@@ -157,7 +162,9 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
           </button>
 
           <div className="product-editorial-purchase">
-            {soldOut ? (
+            {requiresConfirmation ? (
+              <ProductConfirmation product={product} note={heroVisual.commerce.note} onContact={() => onNav('contact')} />
+            ) : soldOut ? (
               <AvailabilityForm
                 product={product}
                 email={notifyEmail}
@@ -183,6 +190,7 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
                       value={quantity}
                       min={1}
                       max={Math.min(5, product.stock || 5)}
+                      label={product.name}
                       onChange={setQuantity}
                     />
                   </div>
@@ -202,7 +210,7 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
       <section className="product-editorial-specification" aria-labelledby="product-specification-title">
         <div className="product-editorial-specification__intro">
           <p className="editorial-kicker">The essentials</p>
-          <h2 id="product-specification-title">The specification,<br />without the noise.</h2>
+          <h2 id="product-specification-title">Everything you need to know.</h2>
           <p>{product.desc}</p>
         </div>
         <dl className="product-editorial-specification__table">
@@ -229,7 +237,7 @@ function ProductDetail({ id, onAdd, onNav, onProduct, onBuyNow, notifyEndpoint }
           </div>
           <div className="product-editorial-related__grid">
             {related.map((item, index) => (
-              <RelatedProduct key={item.id} product={item} sequence={index + 1} onProduct={onProduct} />
+              <RelatedProduct key={item.id} product={item} sequence={index + 1} onProduct={onProduct} theme={theme} />
             ))}
           </div>
         </section>
@@ -291,20 +299,41 @@ function AvailabilityForm({ product, email, setEmail, endpoint, validEmail, mail
   );
 }
 
-function RelatedProduct({ product, sequence, onProduct }) {
+function ProductConfirmation({ product, note, onContact }) {
+  return (
+    <div className="product-confirmation" role="note">
+      <div>
+        <span className="product-confirmation__status" aria-hidden="true" />
+        <div>
+          <strong>Confirm this model before ordering</strong>
+          <p>{note || `We are confirming the current ${product.name} specification and product identity.`}</p>
+        </div>
+      </div>
+      <button type="button" className="editorial-cta editorial-cta--primary" onClick={onContact}>
+        Talk to Finspeed <i data-lucide="message-circle" aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
+
+function RelatedProduct({ product, sequence, onProduct, theme }) {
+  const visual = resolveProductImage(product.id, { theme, role: 'related', width: 960 });
   return (
     <button
       type="button"
       className="product-editorial-related__item"
       onClick={() => onProduct(product.id)}
-      aria-label={`View ${product.name}, ${formatPrice(product.price)}`}
+      aria-label={`View ${product.name}, from ${formatPrice(product.price)}`}
     >
       <span className="product-editorial-related__sequence" aria-hidden="true">{String(sequence).padStart(2, '0')}</span>
       <span className="product-editorial-related__image">
         <img
-          src={productImage(product.id, 960)}
-          srcSet={productImageSrcSet(product.id)}
-          sizes="(max-width: 700px) 82vw, 31vw"
+          src={visual.src}
+          srcSet={visual.srcSet}
+          sizes={visual.sizes}
+          style={visual.style}
+          data-product-scale={visual.registration.scale}
+          data-product-baseline={visual.registration.baseline}
           alt=""
           loading="lazy"
           decoding="async"
@@ -313,7 +342,7 @@ function RelatedProduct({ product, sequence, onProduct }) {
       <span className="product-editorial-related__copy">
         <small>{product.series}</small>
         <strong>{product.name}</strong>
-        <span>{formatPrice(product.price)} <i data-lucide="arrow-right" aria-hidden="true" /></span>
+        <span>From {formatPrice(product.price)} <i data-lucide="arrow-right" aria-hidden="true" /></span>
       </span>
     </button>
   );

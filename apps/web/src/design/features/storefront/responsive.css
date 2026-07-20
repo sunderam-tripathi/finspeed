@@ -83,7 +83,7 @@
   isolation: isolate;
   height: clamp(600px, calc(100svh - 240px), 760px);
   overflow: hidden;
-  background: #edf4f6;
+  background: var(--porcelain-300);
 }
 
 .store-trail-background,
@@ -97,7 +97,7 @@
 .store-trail-background {
   z-index: -3;
   overflow: hidden;
-  background: #edf4f6;
+  background: var(--porcelain-300);
 }
 
 .store-trail-background img {
@@ -108,20 +108,26 @@
   width: auto;
   max-width: none;
   height: 120%;
+  filter: sepia(0.1) saturate(0.88) hue-rotate(-7deg) brightness(0.99) contrast(0.96);
   transform: translateY(-50%);
 }
 
 .store-trail-shade {
   z-index: -2;
   background:
-    linear-gradient(90deg, #f6f9fa 0%, rgba(246, 249, 250, 0.97) 18%, rgba(246, 249, 250, 0.82) 38%, rgba(246, 249, 250, 0.18) 60%, transparent 76%),
-    linear-gradient(0deg, rgba(223, 231, 234, 0.22) 0%, transparent 34%);
+    linear-gradient(90deg, #f8f6f2 0%, rgba(248, 246, 242, 0.98) 16%, rgba(248, 246, 242, 0.9) 30%, rgba(247, 243, 239, 0.6) 44%, rgba(247, 242, 236, 0.18) 60%, transparent 74%),
+    linear-gradient(0deg, rgba(241, 235, 230, 0.46) 0%, rgba(241, 235, 230, 0.12) 38%, transparent 62%),
+    linear-gradient(180deg, rgba(255, 242, 222, 0.1), rgba(239, 226, 214, 0.08));
 }
 
 [data-theme="dark"] .store-home,
 [data-theme="dark"] .store-trail-hero,
 [data-theme="dark"] .store-trail-background {
   background: #020508;
+}
+
+[data-theme="dark"] .store-trail-background img {
+  filter: none;
 }
 
 [data-theme="dark"] .store-trail-shade {
@@ -137,7 +143,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 0 clamp(28px, 5vw, 80px);
+  padding: 0 var(--editorial-content-gutter);
 }
 
 .store-trail-copy {
@@ -291,7 +297,7 @@
   align-items: center;
   gap: 16px;
   min-width: 0;
-  padding: 0 clamp(38px, 5vw, 78px);
+  padding: 0 var(--editorial-content-gutter);
   overflow: hidden;
   color: var(--ink-900);
   text-align: left;
@@ -319,7 +325,7 @@
 }
 
 .store-terrain-overlay {
-  background: linear-gradient(90deg, rgba(247, 250, 251, 0.74), rgba(247, 250, 251, 0.12) 66%, rgba(247, 250, 251, 0.03));
+  background: linear-gradient(90deg, rgba(248, 246, 242, 0.78), rgba(248, 244, 238, 0.16) 66%, rgba(248, 244, 238, 0.04));
 }
 
 [data-theme="dark"] .store-trail-eyebrow {
@@ -610,8 +616,8 @@
 
   .store-trail-shade {
     background:
-      linear-gradient(180deg, rgba(246, 249, 250, 0.98) 0%, rgba(246, 249, 250, 0.9) 38%, rgba(246, 249, 250, 0.22) 58%, rgba(246, 249, 250, 0.02) 100%),
-      linear-gradient(90deg, rgba(246, 249, 250, 0.18), rgba(246, 249, 250, 0.02));
+      linear-gradient(180deg, rgba(248, 246, 242, 0.98) 0%, rgba(248, 246, 242, 0.9) 38%, rgba(247, 242, 236, 0.24) 58%, rgba(247, 242, 236, 0.03) 100%),
+      linear-gradient(90deg, rgba(248, 243, 237, 0.22), rgba(248, 243, 237, 0.03));
   }
 
   [data-theme="dark"] .store-trail-shade {

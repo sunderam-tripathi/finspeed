@@ -1,0 +1,140 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "productId": "lightning-marlin",
+  "skuId": "lightning-marlin-700c",
+  "sourceAlias": "01-raster-masters-4x/products/lightning-marlin/angle-2.png",
+  "sourceNote": "",
+  "sourceAssets": {
+    "lightCutout": "apps/web/public/assets/products/dark-cutouts/lightning-marlin-transparent.webp",
+    "darkStudio": "apps/web/public/assets/products/dark-studio-v2/lightning-marlin-studio.webp",
+    "darkBackdrop": "apps/web/public/assets/products/dark-studio/shared-dark-studio-backdrop.webp"
+  },
+  "registration": {
+    "targetSubjectWidthPercent": 84.0,
+    "targetBaselinePercent": 88.0,
+    "minimumTopSafetyPercent": 7.0,
+    "alphaSubjectThreshold": 32
+  },
+  "lightSubjectBounds": {
+    "sourceWidth": 1600,
+    "sourceHeight": 1067,
+    "scale": 2.02549451,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 7.9753,
+    "rightSafetyPercent": 7.9753,
+    "topSafetyPercent": 13.5254,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 84.0495,
+    "subjectHeightPercent": 74.4629
+  },
+  "darkSubjectBounds": {
+    "sourceWidth": 1536,
+    "sourceHeight": 1024,
+    "scale": 2.10989011,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 7.9753,
+    "rightSafetyPercent": 7.9753,
+    "topSafetyPercent": 13.5254,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 84.0495,
+    "subjectHeightPercent": 74.4629
+  },
+  "canvasConformance": "canonical",
+  "assets": {
+    "light": [
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "8C6F7E3AD13ACFED13ED4299CFE33C554FECDA289D588595E292F141FD323234",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 7.9167,
+            "rightSafetyPercent": 7.9167,
+            "topSafetyPercent": 13.4375,
+            "baselinePercent": 87.8125,
+            "subjectWidthPercent": 84.1667,
+            "subjectHeightPercent": 74.375
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "0B6EE5B2F7B4433BA74EF57F0E8F6A509F1D41D0D9CC7B8A2507B21002391051",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0208,
+            "rightSafetyPercent": 8.0208,
+            "topSafetyPercent": 13.5937,
+            "baselinePercent": 87.6562,
+            "subjectWidthPercent": 83.9583,
+            "subjectHeightPercent": 74.375
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/light/poster/lightning-marlin-700c-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "2320C0D9D32668E790D58E0B3BFD21103228D665EDC99C1B3718B9BFDFCA9809",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0,
+            "rightSafetyPercent": 8.0,
+            "topSafetyPercent": 13.4958,
+            "baselinePercent": 87.6289,
+            "subjectWidthPercent": 84.0,
+            "subjectHeightPercent": 74.508
+          }
+        }
+      }
+    ],
+    "dark": [
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "BB41350593F496F29D9305692ED56448E5DC74FA1649C3A59F83B48D0C1CC7F7"
+      },
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "B0BB5C186B2018493D84AF766B1719EC40FA7F2B23E8807CA33AFF7CAF9AFFCD"
+      },
+      {
+        "path": "/assets/configurator/v1/lightning-marlin/side-r/dark/poster/lightning-marlin-700c-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "44E13E9DC5B376578F51ED4DF33E7000E521DDB9B28038DD3BAAA38788EB0B5F"
+      }
+    ]
+  }
+}

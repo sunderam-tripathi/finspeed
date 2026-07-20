@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "productId": "sea-breeze",
+  "skuId": "sea-breeze-24-non-ibc",
+  "theme": "dark",
+  "view": "side-r",
+  "canvas": { "width": 3072, "height": 2048 },
+  "registrationGroup": "sea-breeze-24-non-ibc-r01",
+  "subjectBounds": {
+    "x": 0.0801,
+    "y": 0.1084,
+    "width": 0.8398,
+    "height": 0.7715,
+    "baseline": 0.8799
+  },
+  "landmarks": {
+    "rearAxle": { "x": 0.235, "y": 0.654 },
+    "frontAxle": { "x": 0.763, "y": 0.658 },
+    "rearContact": { "x": 0.235, "y": 0.88 },
+    "frontContact": { "x": 0.763, "y": 0.88 },
+    "bottomBracket": { "x": 0.443, "y": 0.675 },
+    "headTubeTop": { "x": 0.668, "y": 0.3 },
+    "headTubeBottom": { "x": 0.689, "y": 0.405 }
+  },
+  "measurementMethod": "Manual landmark review on the normalized 3072x2048 poster; subject bounds use a 50-RGB-distance threshold from the measured #020204 studio edge tone.",
+  "masks": {}
+}

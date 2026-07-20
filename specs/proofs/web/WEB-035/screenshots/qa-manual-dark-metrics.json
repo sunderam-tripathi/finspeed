@@ -1,0 +1,87 @@
+[
+  {
+    "bodyBg": "rgb(5, 5, 9)",
+    "h1": "",
+    "headerHeight": null,
+    "horizontalOverflow": 0,
+    "imageCount": 0,
+    "imgs": [],
+    "label": "shop-dark-desktop-manual",
+    "mainBg": "rgb(10, 14, 18)",
+    "theme": "dark",
+    "title": "Finspeed — Ride Beyond Boundaries",
+    "url": "/shop",
+    "viewport": {
+      "h": 900,
+      "w": 1440
+    }
+  },
+  {
+    "bodyBg": "rgb(5, 5, 9)",
+    "h1": "",
+    "headerHeight": null,
+    "horizontalOverflow": 0,
+    "imageCount": 0,
+    "imgs": [],
+    "label": "product-mako-dark-desktop-manual",
+    "mainBg": "rgb(10, 14, 18)",
+    "theme": "dark",
+    "title": "Finspeed — Ride Beyond Boundaries",
+    "url": "/products/mako-shark",
+    "viewport": {
+      "h": 900,
+      "w": 1440
+    }
+  },
+  {
+    "bodyBg": "rgb(5, 5, 9)",
+    "h1": "",
+    "headerHeight": null,
+    "horizontalOverflow": 0,
+    "imageCount": 0,
+    "imgs": [],
+    "label": "build-dark-desktop-manual",
+    "mainBg": "rgb(10, 14, 18)",
+    "theme": "dark",
+    "title": "Finspeed — Ride Beyond Boundaries",
+    "url": "/build",
+    "viewport": {
+      "h": 900,
+      "w": 1440
+    }
+  },
+  {
+    "bodyBg": "rgb(5, 5, 9)",
+    "h1": "",
+    "headerHeight": null,
+    "horizontalOverflow": 0,
+    "imageCount": 0,
+    "imgs": [],
+    "label": "engineering-dark-desktop-manual",
+    "mainBg": "rgb(10, 14, 18)",
+    "theme": "dark",
+    "title": "Finspeed — Ride Beyond Boundaries",
+    "url": "/engineering",
+    "viewport": {
+      "h": 900,
+      "w": 1440
+    }
+  },
+  {
+    "bodyBg": "rgb(5, 5, 9)",
+    "h1": "",
+    "headerHeight": null,
+    "horizontalOverflow": 0,
+    "imageCount": 0,
+    "imgs": [],
+    "label": "stores-dark-desktop-manual",
+    "mainBg": "rgb(10, 14, 18)",
+    "theme": "dark",
+    "title": "Finspeed — Ride Beyond Boundaries",
+    "url": "/stores",
+    "viewport": {
+      "h": 900,
+      "w": 1440
+    }
+  }
+]

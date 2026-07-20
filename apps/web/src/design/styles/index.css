@@ -7,6 +7,7 @@
 @import url('../features/storefront/footer-newsletter.css');
 @import url('../features/storefront/responsive.css');
 @import url('../features/storefront/editorial-navigation.css');
+@import url('../features/storefront/build-configurator.css');
 @import url('../features/storefront/checkout-cart-editorial.css');
 @import url('../features/storefront/home-editorial.css');
 @import url('../features/storefront/search-editorial.css');
@@ -15,4 +16,5 @@
 @import url('../features/storefront/editorial-pages.css');
 @import url('../features/storefront/legacy-editorial.css');
 @import url('../features/storefront/account.css');
+@import url('../features/storefront/dark-theme.css');
 @import url('../features/distributor/responsive.css');

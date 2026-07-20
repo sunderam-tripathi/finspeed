@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "productId": "sea-breeze",
+  "patchOperation": "append-to-selectionDependent.fit.families",
+  "families": [
+    {
+      "status": "available",
+      "authorityTier": "B",
+      "provenanceStatus": "deterministic-verified-product-registration",
+      "role": "poster",
+      "variant": "sea-breeze-24-ibc",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "sea-breeze-24-ibc"
+      ],
+      "generationRecord": "specs/proofs/web/WEB-035/asset-normalization/sea-breeze-remaining-r01.md",
+      "assets": [
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "3E647B2B6847019E5AF105885CF2B1119E725A94F4C74E9A597D235B87CE0306",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 7.9167,
+              "rightSafetyPercent": 7.9167,
+              "topSafetyPercent": 10.0,
+              "baselinePercent": 88.125,
+              "subjectWidthPercent": 84.1667,
+              "subjectHeightPercent": 78.125
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "D75B3A636C24B2B31DA107543DAD1F13EA6221BAA870DAAE441CA2D0442A44E0",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0208,
+              "rightSafetyPercent": 7.9167,
+              "topSafetyPercent": 10.0,
+              "baselinePercent": 87.9688,
+              "subjectWidthPercent": 84.0625,
+              "subjectHeightPercent": 77.9688
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-24-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "DB91CC7190CAEC3BFC720F0E18BFA3EAFF5B760B0F477CD0E2909EB104563226",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0,
+              "rightSafetyPercent": 8.0,
+              "topSafetyPercent": 10.1218,
+              "baselinePercent": 88.0037,
+              "subjectWidthPercent": 84.0,
+              "subjectHeightPercent": 77.8819
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "AD6E57F609057010915C2C55CDD5B1DC825899733C970F906C7343D0B592948D"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "382B8357AFAD212896DFCF3ED33884AF87DA0B5B4FF189C2E3E2E53778995731"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-24-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "0921FFF7F2C070A9CF13ED163FBD0147FF3650D812C7600166C358E69EE300AC"
+        }
+      ]
+    },
+    {
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-carrier-removal-reviewed",
+      "role": "poster",
+      "variant": "sea-breeze-26-non-ibc",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "sea-breeze-26-non-ibc"
+      ],
+      "generationRecord": "specs/proofs/web/WEB-035/ai-generation/sea-breeze-26-non-ibc-r01.md",
+      "assets": [
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "55C763DC487F50F5ABC86407065116F661807D603A6EAA826E66AB91DEF95A07",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 7.9167,
+              "rightSafetyPercent": 7.9167,
+              "topSafetyPercent": 10.625,
+              "baselinePercent": 88.125,
+              "subjectWidthPercent": 84.1667,
+              "subjectHeightPercent": 77.5
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "BED0C363CE11471DA1E38639EB976E27DA0D9A26BA05EF429E2ED1EA8AA1FF2A",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0208,
+              "rightSafetyPercent": 8.0208,
+              "topSafetyPercent": 10.625,
+              "baselinePercent": 87.9688,
+              "subjectWidthPercent": 83.9583,
+              "subjectHeightPercent": 77.3438
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-non-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "45A6C292EC9C917C4B6CE0CAFFC1E46B0A9A1AFD2D2FB2AC417F9F820B94AF8D",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0,
+              "rightSafetyPercent": 8.0,
+              "topSafetyPercent": 10.6842,
+              "baselinePercent": 88.0037,
+              "subjectWidthPercent": 84.0,
+              "subjectHeightPercent": 77.3196
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "1512BF59535E3E6359161ED07B1F2BDEA2E6942652F500560DF1FAEF15D00066"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "4A956381C02D72B02EB7E303A280034753839404A3ED11159D6FE4097C7E0DA4"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-non-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "CF23ADC858FE6EDD3F380EBF0C5A57328C5CBBCF2601FAEE1739167D3DF481BB"
+        }
+      ]
+    },
+    {
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-wheel-fit-variant-reviewed",
+      "role": "poster",
+      "variant": "sea-breeze-26-ibc",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "sea-breeze-26-ibc"
+      ],
+      "generationRecord": "specs/proofs/web/WEB-035/ai-generation/sea-breeze-26-ibc-r01.md",
+      "assets": [
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "3E3DBF41A53E5E596D6249565D453197CBE61AF670FCCA00678C1EEB77BB5377",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 7.9167,
+              "rightSafetyPercent": 7.9167,
+              "topSafetyPercent": 10.625,
+              "baselinePercent": 88.125,
+              "subjectWidthPercent": 84.1667,
+              "subjectHeightPercent": 77.5
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "C1C4234624DEDC8ABEF3EF6DA8E3F8EC5F3C0164208671DFAB4900D0297F29D4",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0208,
+              "rightSafetyPercent": 7.9167,
+              "topSafetyPercent": 10.7812,
+              "baselinePercent": 87.9688,
+              "subjectWidthPercent": 84.0625,
+              "subjectHeightPercent": 77.1875
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/light/poster/sea-breeze-26-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "light",
+          "alphaMode": "transparent",
+          "sha256": "CDECF34AA4D3BC3D5E05B89B413E9C872D41CAFAE1F0924C6102B807A8419DA8",
+          "pixelMetrics": {
+            "subjectThreshold": 32,
+            "alphaMin": 0,
+            "alphaMax": 255,
+            "subjectBounds": {
+              "leftSafetyPercent": 8.0,
+              "rightSafetyPercent": 8.0,
+              "topSafetyPercent": 10.8716,
+              "baselinePercent": 88.0037,
+              "subjectWidthPercent": 84.0,
+              "subjectHeightPercent": 77.1321
+            }
+          }
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w480.webp",
+          "width": 480,
+          "height": 320,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "5EAD40017B3E9C8348249FB7E96C8A3C8CD8EF13B4BF8FE0599D04A027B5A0D1"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w960.webp",
+          "width": 960,
+          "height": 640,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "11A3E788611CCBDBF982E7D10923E7557C25A075F6D5EEF3C67C6422AE049387"
+        },
+        {
+          "path": "/assets/configurator/v1/sea-breeze/side-r/dark/poster/sea-breeze-26-ibc-r01-w1600.webp",
+          "width": 1600,
+          "height": 1067,
+          "theme": "dark",
+          "alphaMode": "opaque",
+          "sha256": "3D9964552CDA1754365D7F145E4CB0BCF5065FA6D6A3FF6CA8BF567F5714D940"
+        }
+      ]
+    }
+  ],
+  "geometryReview": [
+    {
+      "skuId": "sea-breeze-24-ibc",
+      "authorityTier": "B",
+      "assisted": false,
+      "subjectBounds": {
+        "sourceWidth": 1600,
+        "sourceHeight": 1073,
+        "scale": 1.7650342,
+        "registrationMode": "canonical-width",
+        "leftSafetyPercent": 8.0078,
+        "rightSafetyPercent": 7.9753,
+        "topSafetyPercent": 10.0586,
+        "baselinePercent": 87.9883,
+        "subjectWidthPercent": 84.0169,
+        "subjectHeightPercent": 77.9297
+      }
+    },
+    {
+      "skuId": "sea-breeze-26-non-ibc",
+      "authorityTier": "C",
+      "assisted": true,
+      "subjectBounds": {
+        "sourceWidth": 1528,
+        "sourceHeight": 1029,
+        "scale": 1.78333103,
+        "registrationMode": "canonical-width",
+        "leftSafetyPercent": 8.0078,
+        "rightSafetyPercent": 8.0078,
+        "topSafetyPercent": 10.6934,
+        "baselinePercent": 87.9883,
+        "subjectWidthPercent": 83.9844,
+        "subjectHeightPercent": 77.2949
+      }
+    },
+    {
+      "skuId": "sea-breeze-26-ibc",
+      "authorityTier": "C",
+      "assisted": true,
+      "subjectBounds": {
+        "sourceWidth": 1530,
+        "sourceHeight": 1028,
+        "scale": 1.78086957,
+        "registrationMode": "canonical-width",
+        "leftSafetyPercent": 7.9753,
+        "rightSafetyPercent": 7.9753,
+        "topSafetyPercent": 10.8398,
+        "baselinePercent": 87.9883,
+        "subjectWidthPercent": 84.0495,
+        "subjectHeightPercent": 77.1484
+      }
+    }
+  ]
+}

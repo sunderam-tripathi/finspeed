@@ -1,0 +1,140 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "productId": "mako-shark",
+  "skuId": "mako-shark-27-5-geared",
+  "sourceAlias": "01-raster-masters-4x/products/mako-shark/angle-2.png",
+  "sourceNote": "",
+  "sourceAssets": {
+    "lightCutout": "apps/web/public/assets/products/dark-cutouts/mako-shark-transparent.webp",
+    "darkStudio": "apps/web/public/assets/products/dark-studio-v2/mako-shark-studio.webp",
+    "darkBackdrop": "apps/web/public/assets/products/dark-studio/shared-dark-studio-backdrop.webp"
+  },
+  "registration": {
+    "targetSubjectWidthPercent": 84.0,
+    "targetBaselinePercent": 88.0,
+    "minimumTopSafetyPercent": 7.0,
+    "alphaSubjectThreshold": 32
+  },
+  "lightSubjectBounds": {
+    "sourceWidth": 1600,
+    "sourceHeight": 1067,
+    "scale": 1.90441328,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 8.0078,
+    "topSafetyPercent": 10.4004,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 83.9844,
+    "subjectHeightPercent": 77.5879
+  },
+  "darkSubjectBounds": {
+    "sourceWidth": 1536,
+    "sourceHeight": 1024,
+    "scale": 1.98376383,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 7.9753,
+    "topSafetyPercent": 10.4492,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 84.0169,
+    "subjectHeightPercent": 77.5391
+  },
+  "canvasConformance": "canonical",
+  "assets": {
+    "light": [
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "A5D02C58DAFD22E40C166E8A7254AF16DB5B6C66C8DA42AB4573126A112DAD7D",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 7.9167,
+            "rightSafetyPercent": 7.9167,
+            "topSafetyPercent": 10.3125,
+            "baselinePercent": 87.5,
+            "subjectWidthPercent": 84.1667,
+            "subjectHeightPercent": 77.5
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "ABA07EDB62E491221BD0BDE7BCC1A4BB1BE18B891ED50B26D59F1B56E3140944",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0208,
+            "rightSafetyPercent": 8.0208,
+            "topSafetyPercent": 10.3125,
+            "baselinePercent": 87.5,
+            "subjectWidthPercent": 83.9583,
+            "subjectHeightPercent": 77.6562
+          }
+        }
+      },
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "light",
+        "alphaMode": "transparent",
+        "sha256": "59A093A01C8D549EA28980AAC175C662209F6342F883B8CEDAA301295C5220C8",
+        "pixelMetrics": {
+          "subjectThreshold": 32,
+          "alphaMin": 0,
+          "alphaMax": 255,
+          "subjectBounds": {
+            "leftSafetyPercent": 8.0,
+            "rightSafetyPercent": 8.0,
+            "topSafetyPercent": 10.403,
+            "baselinePercent": 87.4414,
+            "subjectWidthPercent": 84.0,
+            "subjectHeightPercent": 77.6007
+          }
+        }
+      }
+    ],
+    "dark": [
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w480.webp",
+        "width": 480,
+        "height": 320,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "876B41D6A9A750EF48C7F7EE5BEF1B8A4B8A879319AB78876A799AFAE4B0EFB7"
+      },
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w960.webp",
+        "width": 960,
+        "height": 640,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "C8A9BD9B7588FEE5E7F67ECBCEEDF95CA3B594B33EBE99F7B0CA4177402F1C2A"
+      },
+      {
+        "path": "/assets/configurator/v1/mako-shark/side-r/dark/poster/mako-shark-27-5-geared-r01-w1600.webp",
+        "width": 1600,
+        "height": 1067,
+        "theme": "dark",
+        "alphaMode": "opaque",
+        "sha256": "70E4432B03C1300468F327B2694BD5D2A023666873351D90F8438930ACCB8D2C"
+      }
+    ]
+  }
+}

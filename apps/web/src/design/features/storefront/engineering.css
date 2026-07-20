@@ -1,10 +1,14 @@
 .engineering-page {
-  --engineering-ink: #0b1015;
   --engineering-paper: var(--porcelain-100);
   --engineering-paper-deep: var(--porcelain-300);
   --engineering-line: var(--porcelain-line);
   --engineering-text: var(--editorial-ink-900);
   --engineering-muted: var(--editorial-muted-600);
+  --engineering-hero-paper: var(--porcelain-200);
+  --engineering-hero-text: var(--editorial-ink-900);
+  --engineering-hero-muted: var(--editorial-muted-600);
+  --engineering-hero-line: var(--porcelain-line-strong);
+  --engineering-hero-rail: color-mix(in srgb, var(--porcelain-50) 88%, transparent);
   overflow: hidden;
   background: var(--engineering-paper);
   color: var(--engineering-text);
@@ -19,30 +23,43 @@
   position: relative;
   min-height: min(820px, calc(100svh - var(--editorial-header-height)));
   overflow: hidden;
-  background: var(--engineering-ink);
-  color: #fff;
+  background: var(--engineering-hero-paper);
+  color: var(--engineering-hero-text);
   isolation: isolate;
 }
 
 .engineering-hero__media,
-.engineering-hero__media img,
 .engineering-hero__shade {
   position: absolute;
   inset: 0;
 }
 
+.engineering-hero__media {
+  z-index: 0;
+  display: grid;
+  place-items: center end;
+  padding: 24px 2.5vw 104px 38vw;
+  box-sizing: border-box;
+}
+
 .engineering-hero__media img {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  max-width: none;
+  object-fit: contain;
+  object-position: var(--product-visual-position, 50% 50%);
+  mix-blend-mode: multiply;
+  transform: translate(var(--product-visual-translate-x, 0), var(--product-visual-translate-y, 0)) scale(var(--product-visual-scale, 1));
+  transform-origin: var(--product-visual-origin, 50% 88%);
 }
 
 .engineering-hero__shade {
   z-index: 1;
   background:
-    linear-gradient(90deg, rgba(4, 8, 12, 0.94) 0%, rgba(4, 8, 12, 0.76) 27%, rgba(4, 8, 12, 0.18) 55%, rgba(4, 8, 12, 0.05) 100%),
-    linear-gradient(0deg, rgba(4, 8, 12, 0.76) 0%, rgba(4, 8, 12, 0) 34%);
+    linear-gradient(90deg, var(--engineering-hero-paper) 0%, var(--engineering-hero-paper) 30%, color-mix(in srgb, var(--engineering-hero-paper) 88%, transparent) 42%, transparent 66%),
+    linear-gradient(0deg, color-mix(in srgb, var(--engineering-hero-paper) 82%, transparent) 0%, transparent 30%);
+  pointer-events: none;
 }
 
 .engineering-hero__content {
@@ -83,7 +100,7 @@
 .engineering-hero__body {
   max-width: 525px;
   margin: 0;
-  color: #d2d7db;
+  color: var(--engineering-hero-muted);
   font: 400 clamp(16px, 1.2vw, 19px)/1.65 var(--font-body);
 }
 
@@ -109,7 +126,7 @@
   border: 0;
   border-bottom: 1px solid var(--editorial-accent-300);
   background: transparent;
-  color: #fff;
+  color: var(--engineering-hero-text);
   font: 500 14px/1 var(--font-body) !important;
   cursor: pointer;
 }
@@ -130,8 +147,8 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0;
   padding: 0 clamp(28px, 5.4vw, 86px);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(5, 10, 14, 0.76);
+  border-top: 1px solid var(--engineering-hero-line);
+  background: var(--engineering-hero-rail);
   list-style: none;
   backdrop-filter: blur(12px);
 }
@@ -142,8 +159,8 @@
   gap: 16px;
   min-height: 88px;
   padding: 0 26px;
-  border-right: 1px solid rgba(255, 255, 255, 0.14);
-  color: #eef1f2;
+  border-right: 1px solid var(--engineering-hero-line);
+  color: var(--engineering-hero-text);
   font: 500 12px/1.25 var(--font-mono);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -159,6 +176,18 @@
 
 .engineering-hero__specs span {
   color: var(--editorial-accent-300);
+}
+
+.engineering-hero__product-note {
+  position: absolute;
+  z-index: 2;
+  right: clamp(28px, 5.4vw, 86px);
+  bottom: 106px;
+  margin: 0;
+  color: var(--engineering-hero-muted);
+  font: 500 10px/1.35 var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .engineering-intro {
@@ -229,17 +258,45 @@
   overflow: hidden;
   border-right: 1px solid var(--engineering-line);
   background: var(--engineering-paper-deep);
+  isolation: isolate;
 }
 
-.engineering-chapter__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.engineering-chapter__media .engineering-chapter__product {
+  position: absolute;
+  z-index: 0;
+  width: 210%;
+  max-width: none;
+  height: 210%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  filter: none;
+  mix-blend-mode: multiply;
   transition: transform 500ms var(--ease-out);
 }
 
-.engineering-chapter:hover .engineering-chapter__media img {
+.engineering-chapter:hover .engineering-chapter__product {
   transform: scale(1.018);
+}
+
+.engineering-chapter__media[data-region="frame"] .engineering-chapter__product {
+  top: -46%;
+  left: -80%;
+}
+
+.engineering-chapter__media[data-region="brakes"] .engineering-chapter__product {
+  top: -90%;
+  left: -126%;
+}
+
+.engineering-chapter__media[data-region="suspension"] .engineering-chapter__product {
+  top: -60%;
+  left: -116%;
+}
+
+.engineering-chapter__media[data-region="drivetrain"] .engineering-chapter__product {
+  top: -98%;
+  left: -50%;
 }
 
 .engineering-chapter__number {
@@ -315,7 +372,7 @@
   display: grid;
   grid-template-columns: minmax(390px, 0.75fr) minmax(0, 1.25fr);
   min-height: 700px;
-  background: var(--build-canvas);
+  background: var(--engineering-paper-deep);
   border-bottom: 1px solid var(--engineering-line);
 }
 
@@ -351,22 +408,40 @@
   place-items: center;
   min-width: 0;
   overflow: hidden;
+  background: var(--engineering-paper-deep);
 }
 
 .engineering-configure__bike img {
-  width: min(1040px, 115%);
+  width: 100%;
   max-width: none;
-  height: auto;
+  height: 100%;
+  max-height: 680px;
+  object-fit: contain;
+  object-position: var(--product-visual-position, 50% 50%);
   mix-blend-mode: multiply;
-  transform: translateX(-3%);
+  transform: translate(var(--product-visual-translate-x, 0), var(--product-visual-translate-y, 0)) scale(var(--product-visual-scale, 1));
+  transform-origin: var(--product-visual-origin, 50% 88%);
 }
 
 [data-theme="dark"] .engineering-page {
-  --engineering-paper: var(--porcelain-100);
-  --engineering-paper-deep: var(--porcelain-300);
-  --engineering-line: var(--porcelain-line);
-  --engineering-text: var(--editorial-ink-900);
-  --engineering-muted: var(--editorial-muted-600);
+  --engineering-hero-paper: #000;
+  --engineering-hero-text: var(--editorial-dark-text);
+  --engineering-hero-muted: var(--editorial-dark-muted);
+  --engineering-hero-line: var(--editorial-dark-border);
+  --engineering-hero-rail: rgba(5, 7, 9, 0.9);
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .engineering-hero__media img,
+[data-theme="dark"] .engineering-chapter__product,
+[data-theme="dark"] .engineering-configure__bike img {
+  mix-blend-mode: normal;
+}
+
+[data-theme="dark"] .engineering-hero__shade {
+  background:
+    linear-gradient(90deg, #000 0%, #000 31%, rgba(0, 0, 0, 0.88) 43%, rgba(0, 0, 0, 0.14) 68%, transparent 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.82) 0%, transparent 32%);
 }
 
 @media (max-width: 1100px) {
@@ -407,8 +482,8 @@
     min-height: 760px;
   }
 
-  .engineering-hero__media img {
-    object-position: 64% center;
+  .engineering-hero__media {
+    padding: 36px 0 122px 34vw;
   }
 
   .engineering-hero__shade {
@@ -428,7 +503,7 @@
 
   .engineering-hero__specs li {
     min-height: 54px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    border-bottom: 1px solid var(--engineering-hero-line);
   }
 
   .engineering-hero__specs li:nth-child(2) {
@@ -484,8 +559,9 @@
   }
 
   .engineering-configure__bike img {
-    width: min(920px, 120%);
-    transform: none;
+    width: 100%;
+    max-height: 520px;
+    transform: translate(var(--product-visual-translate-x, 0), var(--product-visual-translate-y, 0)) scale(var(--product-visual-scale, 1));
   }
 }
 
@@ -498,16 +574,29 @@
     object-position: center top;
   }
 
+  .engineering-hero__media {
+    inset: 0 0 auto;
+    height: 330px;
+    padding: 18px 8px 0;
+  }
+
   .engineering-hero__shade {
     background:
-      linear-gradient(0deg, rgba(4, 8, 12, 0.98) 0%, rgba(4, 8, 12, 0.88) 50%, rgba(4, 8, 12, 0.2) 100%),
-      linear-gradient(90deg, rgba(4, 8, 12, 0.65) 0%, rgba(4, 8, 12, 0.04) 100%);
+      linear-gradient(0deg, var(--engineering-hero-paper) 0%, var(--engineering-hero-paper) 55%, color-mix(in srgb, var(--engineering-hero-paper) 20%, transparent) 100%);
+  }
+
+  [data-theme="dark"] .engineering-hero__shade {
+    background: linear-gradient(0deg, #000 0%, #000 54%, rgba(0, 0, 0, 0.12) 100%);
   }
 
   .engineering-hero__content {
     justify-content: flex-end;
     width: 100%;
     padding: 250px 20px 172px;
+  }
+
+  .engineering-hero__product-note {
+    display: none;
   }
 
   .engineering-hero h1 {
@@ -571,6 +660,31 @@
     min-height: 310px;
   }
 
+  .engineering-chapter__media .engineering-chapter__product {
+    width: 200%;
+    height: 200%;
+  }
+
+  .engineering-chapter__media[data-region="frame"] .engineering-chapter__product {
+    top: -42%;
+    left: -72%;
+  }
+
+  .engineering-chapter__media[data-region="brakes"] .engineering-chapter__product {
+    top: -80%;
+    left: -114%;
+  }
+
+  .engineering-chapter__media[data-region="suspension"] .engineering-chapter__product {
+    top: -52%;
+    left: -104%;
+  }
+
+  .engineering-chapter__media[data-region="drivetrain"] .engineering-chapter__product {
+    top: -88%;
+    left: -44%;
+  }
+
   .engineering-chapter__number {
     top: 18px;
     left: 18px;
@@ -626,12 +740,13 @@
   }
 
   .engineering-configure__bike img {
-    width: 130%;
+    width: 100%;
+    max-height: 330px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .engineering-chapter__media img {
+  .engineering-chapter__product {
     transition: none;
   }
 }

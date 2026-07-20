@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "productId": "sea-breeze",
+  "skuId": "sea-breeze-24-ibc",
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "registrationGroup": "sea-breeze-24-ibc-r01",
+  "canvasConformance": "canonical",
+  "subjectBounds": {
+    "sourceWidth": 1600,
+    "sourceHeight": 1073,
+    "scale": 1.7650342,
+    "registrationMode": "canonical-width",
+    "leftSafetyPercent": 8.0078,
+    "rightSafetyPercent": 7.9753,
+    "topSafetyPercent": 10.0586,
+    "baselinePercent": 87.9883,
+    "subjectWidthPercent": 84.0169,
+    "subjectHeightPercent": 77.9297
+  },
+  "landmarks": {
+    "rearAxle": {
+      "x": 0.235,
+      "y": 0.654
+    },
+    "frontAxle": {
+      "x": 0.763,
+      "y": 0.658
+    },
+    "rearContact": {
+      "x": 0.235,
+      "y": 0.88
+    },
+    "frontContact": {
+      "x": 0.763,
+      "y": 0.88
+    },
+    "bottomBracket": {
+      "x": 0.443,
+      "y": 0.675
+    },
+    "headTubeTop": {
+      "x": 0.668,
+      "y": 0.3
+    },
+    "headTubeBottom": {
+      "x": 0.689,
+      "y": 0.405
+    }
+  },
+  "measurementMethod": "Alpha-derived canonical subject registration; named component landmarks were reviewed against the accepted Sea Breeze side profile.",
+  "sourceNote": "Deterministic registration of the governed Sea Breeze IBC photograph. The 24-inch mapping follows the accepted WEB-035 Sea Breeze proof and catalog.",
+  "sourceAssets": [
+    {
+      "path": "apps/web/public/assets/products/upscaled/sea-breeze-1600.webp",
+      "sha256": "FFA1D17F7061916484410D750E09E56141C00DDA2515685BA9D08E5820C0A8F5"
+    },
+    {
+      "path": "apps/web/public/assets/products/dark-cutouts/sea-breeze-transparent.webp",
+      "sha256": "4C64C24FAA74CCC4B098F1AE9190CEEC705A0442ACEF3AB83A875D0C130E91F5"
+    }
+  ],
+  "acceptedCutout": {
+    "path": "apps/web/public/assets/products/dark-cutouts/sea-breeze-transparent.webp",
+    "sha256": "4C64C24FAA74CCC4B098F1AE9190CEEC705A0442ACEF3AB83A875D0C130E91F5"
+  }
+}
