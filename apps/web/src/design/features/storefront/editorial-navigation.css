@@ -119,6 +119,10 @@
 }
 
 .editorial-header__build {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 48px;
   padding: 0;
   font: 500 14px/1 var(--font-body) !important;
@@ -127,10 +131,13 @@
 }
 
 .editorial-header__build::after {
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  left: 0;
   display: block;
   width: 0;
   height: 1px;
-  margin-top: 7px;
   background: var(--editorial-cyan);
   content: '';
   transition: width 180ms ease;
