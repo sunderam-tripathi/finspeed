@@ -48,17 +48,45 @@
    Verified by removing both `.next` and `next-env.d.ts` locally: the build regenerates the
    file against the build-mode path and the typecheck then passes. This is also the only
    point at which CI verifies the production build.
+7. Base the first-push fallback on the merge-base with `origin/main`, not the root commit.
+   Step 5 made the all-zero `before` sha take the fallback path, but the fallback linted
+   from the repository root — the entire history, 80 non-merge commits — and 30 legacy
+   commits predate the conventional-commit + slice-ID convention. Net effect: the first
+   push of every new branch was red (runs 30175379989 and 30175493102, 2026-07-25 UTC,
+   both failing only "Commit message lint"), while their `pull_request` twins (30175389163,
+   30175500903) passed because that path lints `base.sha..head.sha`. The step now fetches
+   `origin/main` and uses `git merge-base HEAD origin/main`, so a first push lints exactly
+   the commits new to the branch — the same range the pull-request path checks. Legacy
+   history stays exempt, which is deliberate: those commits are immutable without a rewrite.
 
 ## Execution Checklist
 - [x] Guard passes on a clean checkout; still fails locally when working memory is absent.
 - [x] `tsc --noEmit` clean (was 5 errors in `contract.spec.ts`).
 - [x] `npm run lint -w web` — 0 errors, 37 warnings.
 - [x] `npm run test:unit -w web` — 24/24.
-- [ ] Workflow verified green on a pull request.
+- [x] Workflow verified green on a pull request (runs 30175389163, 30175500903, 2026-07-25).
+- [x] First-push fallback lints only branch-new commits — local repro: old root-commit base
+      exits 5 with the identical 30-commit failing set CI reported; merge-base base exits 0
+      (`specs/proofs/repo/REPO-003/artefacts/`).
+- [ ] Workflow verified green on the first push of a new branch (exercises the merge-base
+      fallback in a real all-zero `before` run).
 - [ ] Telemetry refreshed.
 - [ ] Slice parked.
+
+## Progress Log
+- 2026-07-25 — Guard un-blocked (steps 1–6) merged to `main` via PR #2; first real CI signal.
+- 2026-07-26 — First pushes of `feat/web-035-product-true-configurator` and
+  `chore/web-036-proof-close` went red on "Commit message lint" only (runs 30175379989,
+  30175493102). Diagnosed the root-commit fallback as the cause; PR twins green at the same
+  SHAs. Implemented step 7 on `fix/ci-first-push-commit-lint`; captured failing-run logs,
+  local old-vs-new repro (failing sets identical to CI, 30/30), and refreshed telemetry.
+  Repro note: the local clone was shallow (25 graft points), which initially hid the legacy
+  history and made the old fallback look green locally; unshallowed with
+  `git fetch --unshallow` so local linting runs on the graph CI sees.
 
 ## Artefact References
 - Guard behaviour: `tools/spec/verify-active-slice.mjs`.
 - Workflow: `.github/workflows/guard.yml`.
+- First-push lint proof bundle: `specs/proofs/repo/REPO-003/` (failed-run logs, old/new
+  fallback repro, failing-set comparison, telemetry logs).
 - Deployment risk note: see Risks above; unchanged in this slice by design.

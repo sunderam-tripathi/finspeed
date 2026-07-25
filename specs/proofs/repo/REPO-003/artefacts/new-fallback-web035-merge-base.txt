@@ -1,0 +1,6 @@
+# repro (full history, post-unshallow): NEW fallback BASE=$(git merge-base HEAD origin/main)
+# branch feat/web-035-product-true-configurator — BASE=b790a0956e868493f3288f9106382614e55480ab  HEAD=990544b5c457a14bf9fe800b8ee94c7c073388f3
+Commit 990544b5c457a14bf9fe800b8ee94c7c073388f3: OK
+Commit b45257e4d6418c6c246cbffd86a4459020d571c8: OK
+All commit messages look good
+# exit=0

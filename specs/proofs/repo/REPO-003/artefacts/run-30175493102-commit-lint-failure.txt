@@ -1,0 +1,94 @@
+guard	Commit message lint	﻿2026-07-25T21:23:33.3922625Z ##[group]Run BASE="$BASE_SHA"
+guard	Commit message lint	2026-07-25T21:23:33.3923270Z ^[[36;1mBASE="$BASE_SHA"^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3923646Z ^[[36;1m# A new branch reports an all-zero "before" sha rather than an empty one.^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3924178Z ^[[36;1mif [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3924886Z ^[[36;1m  BASE=$(git rev-list --max-parents=0 HEAD | head -n 1)^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3925217Z ^[[36;1mfi^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3925556Z ^[[36;1mnode tools/spec/verify-commit-range.mjs --base "$BASE" --head "$HEAD_SHA"^[[0m
+guard	Commit message lint	2026-07-25T21:23:33.3972390Z shell: /usr/bin/bash -e {0}
+guard	Commit message lint	2026-07-25T21:23:33.3972854Z env:
+guard	Commit message lint	2026-07-25T21:23:33.3973166Z   BASE_SHA: 0000000000000000000000000000000000000000
+guard	Commit message lint	2026-07-25T21:23:33.3973509Z   HEAD_SHA: 847187f1b4b421832dea4ed23d5e220ce7133f2a
+guard	Commit message lint	2026-07-25T21:23:33.3973802Z ##[endgroup]
+guard	Commit message lint	2026-07-25T21:23:33.7008005Z Commit 847187f1b4b421832dea4ed23d5e220ce7133f2a: OK
+guard	Commit message lint	2026-07-25T21:23:33.7010517Z Commit 674293634979f409dcc74171cc55924eaea5a1f0: OK
+guard	Commit message lint	2026-07-25T21:23:33.7011498Z Commit a41bd8cd115ea38bed9424d09050a43f62a86c14: OK
+guard	Commit message lint	2026-07-25T21:23:33.7012225Z Commit 888c61219dfcb7b4c4e5942e93f5cab9749e2ea0: OK
+guard	Commit message lint	2026-07-25T21:23:33.7013197Z Commit 6698fca9768192baf4f757e466142fcba326a64e: OK
+guard	Commit message lint	2026-07-25T21:23:33.7013937Z Commit b03dd9b310bd68f5f73731441380fdb9e732939b: OK
+guard	Commit message lint	2026-07-25T21:23:33.7014644Z Commit abbd1629fe4da3166378e93218a1dcdc704c6a4e: OK
+guard	Commit message lint	2026-07-25T21:23:33.7015908Z Commit a401e6d2d5730b01801d2e9566df2370c1bc6847: No slice ID pattern (e.g., ABC-123) found in commit message
+guard	Commit message lint	2026-07-25T21:23:33.7017480Z Commit 590d9e821976beabd99fd9b29006f07dbd9a092a: No slice ID pattern (e.g., ABC-123) found in commit message
+guard	Commit message lint	2026-07-25T21:23:33.7019073Z Commit 6d252fb305ff34931868777b6622473fa6586150: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7020717Z Commit 0647d0f925066def91fcb5f77ecac08b475ee7ec: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7022353Z Commit 84f83455737086a66826a419c38da67822b34171: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7024188Z Commit 53887c2a5197a4072f8b7abbf189581f805b88f1: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7025813Z Commit 937fe7191bcea6b6daf4f02ead1082346ad63488: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7027398Z Commit c852496f55551062cd3e384ac41b7a297f0b9927: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7029050Z Commit 886110c4773c05418b5a6650d38f49591f5e2cc1: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7030634Z Commit a971b2b173bce786dadee68a787ebb02468800bb: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7032405Z Commit bcbfea1cee5f2281903f3d90414bc8d75335e7aa: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7034487Z Commit 13c560cf6db050111ad1c402dd58922fba9eb708: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7035934Z Commit 948f0ba3d2626b11edafa92cf6da639679d8db68: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7037497Z Commit 361c13651ad04ea84b721f311254b280dabf799f: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7038994Z Commit 654702582a299e80175cff4106db501f8dd8c289: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7040458Z Commit f9fcedd63c7b9e200a17a8a0c2e0839a72c371a2: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7042136Z Commit 6a11a306ae5598fde6adbff2eb224f08836a0912: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7044057Z Commit df4972687e5ecf4aaf9bc76510016e3c17e8b958: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7045692Z Commit 55d3e4daafe50221edf8e9d745f49aa9ceccb7c5: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7047015Z Commit 4617536c728ab0d0211104813b81893a4d51e8d8: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7047916Z Commit 2bd41e9ddfb0c9415fec06e5c65030f8703d2a91: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7048963Z Commit 9907c433d1fc8fbec50d1e2f6f831635528811df: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7049873Z Commit e09aa7327c8b44a2ae3d741686e8d0a3ece625d8: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7050791Z Commit 3c8c7a8a058ca71c62bad008cb4f5eeb66bee922: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7051703Z Commit 410775fb39c516a821d754cfbe07c8f12130d592: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7052633Z Commit 42f411a382d0995624aaea9c67f562e514e09f02: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7054020Z Commit 7651b5388bad88100b387841b0a7f364cba150de: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7054931Z Commit 934821c15ab5bf5ec85baece5cc049165cf6cf93: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7055846Z Commit ae17d7ccbd883c5b85b3dd07a143310c99d60a44: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7056757Z Commit 6d293a7a26b2452754b0ebbbe7803ec4724daca3: Missing conventional commit prefix (e.g., "docs(scope): message")
+guard	Commit message lint	2026-07-25T21:23:33.7057385Z Commit e9829b47d3e4e59b004e2a2099e26dce4bfd4f16: OK
+guard	Commit message lint	2026-07-25T21:23:33.7057798Z Commit fc3abf8595da352000d923af11e56bf3e8e99e74: OK
+guard	Commit message lint	2026-07-25T21:23:33.7058204Z Commit ccaea649388dfbc8f65e930151f572fc49aa2146: OK
+guard	Commit message lint	2026-07-25T21:23:33.7058583Z Commit 5c305831a1c6187f4559399d8d4c825e83d09d18: OK
+guard	Commit message lint	2026-07-25T21:23:33.7058964Z Commit 23dacfb7bf9d93c2916e46af52a40f250fe6a9d8: OK
+guard	Commit message lint	2026-07-25T21:23:33.7059384Z Commit f019672618958f29090ed632581c358489a74c0d: OK
+guard	Commit message lint	2026-07-25T21:23:33.7059766Z Commit 2fcb1bb1f849cbcb8493bd81a41cac1d7476a5fd: OK
+guard	Commit message lint	2026-07-25T21:23:33.7060158Z Commit f966bc8dc70064c70dea0a2f3ed5c330d6711229: OK
+guard	Commit message lint	2026-07-25T21:23:33.7060552Z Commit 52de3e8120ae4a47c1584ea3370fe9cb41640cd9: OK
+guard	Commit message lint	2026-07-25T21:23:33.7060937Z Commit 6f51669ee15fcdb6d4fdcef0d87f93c87899bc0b: OK
+guard	Commit message lint	2026-07-25T21:23:33.7061332Z Commit 6316e52c8c201cb7d48b6fef12847fa94cb541f1: OK
+guard	Commit message lint	2026-07-25T21:23:33.7061713Z Commit 625d5b0fcf31d366f5eb5665257f7d55ceb13eb3: OK
+guard	Commit message lint	2026-07-25T21:23:33.7062433Z Commit 6dacc9e8d376fe195d48bd598160704190242d39: OK
+guard	Commit message lint	2026-07-25T21:23:33.7063095Z Commit b804d915c03f2857dd74bb1ee4fa72f4617dfa98: OK
+guard	Commit message lint	2026-07-25T21:23:33.7063598Z Commit e125fb58f5c30d5e93f653dfcbec02683f84f3ad: OK
+guard	Commit message lint	2026-07-25T21:23:33.7063985Z Commit d70145711ca49c26d115bfdb60dc904201bab2e5: OK
+guard	Commit message lint	2026-07-25T21:23:33.7064373Z Commit 44d943aa51b1adb7c99fbf39d30f8a8991324417: OK
+guard	Commit message lint	2026-07-25T21:23:33.7064755Z Commit c23b29ad648445c31dafc94012604ce2d34b7cff: OK
+guard	Commit message lint	2026-07-25T21:23:33.7065143Z Commit 01d4c73c1bc5c65ec3ee9b0076e4b7b0d6317c59: OK
+guard	Commit message lint	2026-07-25T21:23:33.7065518Z Commit 3de632165cb514f9549b7d0740e03e9c08409d03: OK
+guard	Commit message lint	2026-07-25T21:23:33.7066063Z Commit e679c34f8d412c4190a2fa3d964479ef246bd2da: OK
+guard	Commit message lint	2026-07-25T21:23:33.7066795Z Commit 9906907477561c9a030c5f31707407cecb77f23a: OK
+guard	Commit message lint	2026-07-25T21:23:33.7067473Z Commit 8e8cb8207ce26565c0777b8b5cb8efabe54a1329: OK
+guard	Commit message lint	2026-07-25T21:23:33.7068016Z Commit b14c48c56d3dbf2bbbd2989de362747921aa8668: OK
+guard	Commit message lint	2026-07-25T21:23:33.7068400Z Commit 73e29dbe231f1649db99874c50df904f182000fd: OK
+guard	Commit message lint	2026-07-25T21:23:33.7068780Z Commit fdcd193ce17a3e3548f429903b7fef181a508605: OK
+guard	Commit message lint	2026-07-25T21:23:33.7069170Z Commit 66243b56b5bfc9c7e99d2bf7ebf6cfe86994d494: OK
+guard	Commit message lint	2026-07-25T21:23:33.7069564Z Commit ca34ffed190a097079bb9e45c8cc0d17e63d1037: OK
+guard	Commit message lint	2026-07-25T21:23:33.7069988Z Commit 12913ea7a095a6f6ff6ea07f635356e7116bb2dd: OK
+guard	Commit message lint	2026-07-25T21:23:33.7070443Z Commit c1a974d0fcca74147c416fcc261070f7650bb831: OK
+guard	Commit message lint	2026-07-25T21:23:33.7071082Z Commit message verification failed (30 commits).
+guard	Commit message lint	2026-07-25T21:23:33.7071480Z Commit 73c241a34e30a11f8830e78e2899a780c0aa5dff: OK
+guard	Commit message lint	2026-07-25T21:23:33.7071882Z Commit f005f4c872490fcd1ada35ed2d5bd2fc091d491c: OK
+guard	Commit message lint	2026-07-25T21:23:33.7072287Z Commit 62682fa918c01068e158af1504987c04ddc7506b: OK
+guard	Commit message lint	2026-07-25T21:23:33.7073044Z Commit 50c19d082e69d66f37f3ef044808be0a431133c5: OK
+guard	Commit message lint	2026-07-25T21:23:33.7073442Z Commit 8e88ee2d9d79a85966ae001d9ce5731ba63d7d04: OK
+guard	Commit message lint	2026-07-25T21:23:33.7073824Z Commit 6e12a05a7317f6667542748c938b443cbb1496e0: OK
+guard	Commit message lint	2026-07-25T21:23:33.7074199Z Commit 0334c1126c6e1e1d26b986c450e0fc296e322eb6: OK
+guard	Commit message lint	2026-07-25T21:23:33.7074575Z Commit 9189cc2e630c05b60ea09588b9df71367616ee42: OK
+guard	Commit message lint	2026-07-25T21:23:33.7074961Z Commit d40056a971abf1751184ee0648b916cffe378eca: OK
+guard	Commit message lint	2026-07-25T21:23:33.7075342Z Commit cc0f1e153397038fdd2afc939b18a9eb47531fef: OK
+guard	Commit message lint	2026-07-25T21:23:33.7075728Z Commit 2180adb42a4bdd1acf56f9aa84d2be78aeb048bc: OK
+guard	Commit message lint	2026-07-25T21:23:33.7076115Z Commit 3bf3650c3c0428148215fd854c44a412511c5a1f: OK
+guard	Commit message lint	2026-07-25T21:23:33.7076505Z Commit e942290fbbe96df00f9a27d677b29ccb546912c4: OK
+guard	Commit message lint	2026-07-25T21:23:33.7087673Z ##[error]Process completed with exit code 5.
