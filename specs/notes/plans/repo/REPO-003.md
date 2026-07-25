@@ -32,6 +32,15 @@
    tests had no runner entry point and were executed only by hand.
 4. Insert lint, typecheck and unit-test steps into `.github/workflows/guard.yml` ahead of the
    Playwright run.
+5. Fix the commit-range lint, which failed on the first run that ever reached it. Two latent
+   REPO-002 defects, both unobservable while the guard died first:
+   - On `pull_request` events `GITHUB_SHA` is GitHub's synthetic `Merge <sha> into <sha>`
+     commit. It has no author to hold to the convention and cannot be rewritten, so linting
+     it can only fail. `verify-commit-range.mjs` now passes `--no-merges`, and the workflow
+     lints `pull_request.head.sha` rather than the merge ref.
+   - A push creating a new branch reports an all-zero `before` sha, not an empty one, so the
+     workflow's `-z` fallback never triggered and the range would have been invalid. Now
+     treated as absent.
 
 ## Execution Checklist
 - [x] Guard passes on a clean checkout; still fails locally when working memory is absent.
