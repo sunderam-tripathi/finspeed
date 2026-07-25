@@ -33,6 +33,12 @@ jobs:
             BASE=$(git rev-list --max-parents=0 HEAD | head -n 1)
           fi
           node tools/spec/verify-commit-range.mjs --base "$BASE" --head "$GITHUB_SHA"
+      - name: Lint
+        run: npm run lint -w web
+      - name: Typecheck
+        run: npm run typecheck -w web
+      - name: Run web unit tests
+        run: npm run test:unit -w web
       - name: Install Playwright browsers
         working-directory: apps/web
         run: npx playwright install --with-deps chromium

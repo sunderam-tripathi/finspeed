@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test:unit": "node --test \"src/design/data/*.test.mjs\"",
     "test": "playwright test"
   },
   "dependencies": {
