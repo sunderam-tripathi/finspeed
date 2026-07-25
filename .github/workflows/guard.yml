@@ -61,7 +61,14 @@ jobs:
 
   deploy-web:
     needs: guard
-    if: github.ref == 'refs/heads/main'
+    # Opt-in. No Vercel secrets are configured, so this job would fail on every
+    # push to main rather than deploy anything. It is also unguarded: the
+    # Production environment has no protection rules, so once VERCEL_TOKEN
+    # exists this deploys straight to production with no approval. Set the
+    # repository variable ENABLE_PRODUCTION_DEPLOY=true to arm it, and add a
+    # required reviewer on the Production environment first. Which host this
+    # should target — Vercel or Amplify — is still undecided.
+    if: github.ref == 'refs/heads/main' && vars.ENABLE_PRODUCTION_DEPLOY == 'true'
     runs-on: ubuntu-latest
     environment: production
     steps:
