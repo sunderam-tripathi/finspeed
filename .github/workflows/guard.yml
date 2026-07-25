@@ -37,6 +37,12 @@ jobs:
           node tools/spec/verify-commit-range.mjs --base "$BASE" --head "$HEAD_SHA"
       - name: Lint
         run: npm run lint -w web
+      # Must precede Typecheck. next-env.d.ts is gitignored and carries the
+      # ambient declarations for SVG imports, so on a clean checkout tsc cannot
+      # resolve them until a build regenerates it. Also the only place CI
+      # verifies the production build at all.
+      - name: Build web app
+        run: npm run build -w web
       - name: Typecheck
         run: npm run typecheck -w web
       - name: Run web unit tests

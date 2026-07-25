@@ -41,6 +41,13 @@
    - A push creating a new branch reports an all-zero `before` sha, not an empty one, so the
      workflow's `-z` fallback never triggered and the range would have been invalid. Now
      treated as absent.
+6. Add a production build step ahead of the typecheck. `next-env.d.ts` is gitignored by the
+   create-next-app default and holds the ambient declarations for SVG imports, so on a clean
+   checkout `tsc` cannot resolve `@/assets/brand/*.svg` until a build regenerates it. It
+   cannot simply be committed — it imports `./.next/types/routes.d.ts`, a build artefact.
+   Verified by removing both `.next` and `next-env.d.ts` locally: the build regenerates the
+   file against the build-mode path and the typecheck then passes. This is also the only
+   point at which CI verifies the production build.
 
 ## Execution Checklist
 - [x] Guard passes on a clean checkout; still fails locally when working memory is absent.
