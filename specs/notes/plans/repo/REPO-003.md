@@ -68,9 +68,10 @@
 - [x] First-push fallback lints only branch-new commits — local repro: old root-commit base
       exits 5 with the identical 30-commit failing set CI reported; merge-base base exits 0
       (`specs/proofs/repo/REPO-003/artefacts/`).
-- [ ] Workflow verified green on the first push of a new branch (exercises the merge-base
-      fallback in a real all-zero `before` run).
-- [ ] Telemetry refreshed.
+- [x] Workflow verified green on the first push of a new branch (run 30176201286: real
+      all-zero `before`, merge-base fallback linted only the branch-new commit, all steps
+      green).
+- [x] Telemetry refreshed.
 - [ ] Slice parked.
 
 ## Progress Log
@@ -83,6 +84,10 @@
   Repro note: the local clone was shallow (25 graft points), which initially hid the legacy
   history and made the old fallback look green locally; unshallowed with
   `git fetch --unshallow` so local linting runs on the graph CI sees.
+- 2026-07-26 — Run 30176201286, the first push of `fix/ci-first-push-commit-lint` (real
+  all-zero `before`), green end to end: merge-base fallback fetched `origin/main` and
+  linted exactly the one branch-new commit (`run-first-push-pass.txt`). Remaining for
+  close-out: decide the ledger done-flip and the deploy-web protection question (Risks).
 
 ## Artefact References
 - Guard behaviour: `tools/spec/verify-active-slice.mjs`.

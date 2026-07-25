@@ -1,0 +1,23 @@
+# Guard run 30176201286 — first push of fix/ci-first-push-commit-lint (event: push, before=all zeros)
+# https://github.com/sunderam-tripathi/finspeed/actions/runs/30176201286
+# Overall conclusion: success (all steps green). Commit message lint step log:
+guard	Commit message lint	﻿2026-07-25T21:45:32.4932238Z ##[group]Run BASE="$BASE_SHA"
+guard	Commit message lint	2026-07-25T21:45:32.4932579Z ^[[36;1mBASE="$BASE_SHA"^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4932986Z ^[[36;1m# A new branch reports an all-zero "before" sha rather than an empty^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4933761Z ^[[36;1m# one. Falling back to the root commit linted the entire history, and^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4934250Z ^[[36;1m# the legacy commits that predate the convention turned every first^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4934727Z ^[[36;1m# push of a branch red. Lint only what is new to the branch instead.^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4935206Z ^[[36;1mif [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4935630Z ^[[36;1m  git fetch --no-tags origin main^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4935942Z ^[[36;1m  BASE=$(git merge-base HEAD origin/main)^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4936254Z ^[[36;1mfi^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4936586Z ^[[36;1mnode tools/spec/verify-commit-range.mjs --base "$BASE" --head "$HEAD_SHA"^[[0m
+guard	Commit message lint	2026-07-25T21:45:32.4983160Z shell: /usr/bin/bash -e {0}
+guard	Commit message lint	2026-07-25T21:45:32.4983466Z env:
+guard	Commit message lint	2026-07-25T21:45:32.4983697Z   BASE_SHA: 0000000000000000000000000000000000000000
+guard	Commit message lint	2026-07-25T21:45:32.4984067Z   HEAD_SHA: b87f5aa56deb059e89ebb480920e0feda4f68dfe
+guard	Commit message lint	2026-07-25T21:45:32.4984374Z ##[endgroup]
+guard	Commit message lint	2026-07-25T21:45:32.8147864Z From https://github.com/sunderam-tripathi/finspeed
+guard	Commit message lint	2026-07-25T21:45:32.8148504Z  * branch            main       -> FETCH_HEAD
+guard	Commit message lint	2026-07-25T21:45:32.8631535Z Commit b87f5aa56deb059e89ebb480920e0feda4f68dfe: OK
+guard	Commit message lint	2026-07-25T21:45:32.8633174Z All commit messages look good

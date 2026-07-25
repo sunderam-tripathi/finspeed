@@ -42,9 +42,10 @@ without a rewrite.
 - `artefacts/failing-set-comparison.txt` — failing-SHA sets extracted from the CI
   logs vs the local repro: IDENTICAL for both runs (30/30), proving the repro
   exercises the same range CI did.
-- `artefacts/run-first-push-pass.txt` — guard run on the first push of
-  `fix/ci-first-push-commit-lint`, a real all-zero `before` event exercising the
-  new merge-base path end to end. (Added after the push; see RESULT.)
+- `artefacts/run-first-push-pass.txt` — run 30176201286, the first push of
+  `fix/ci-first-push-commit-lint`: a real all-zero `before` event. The step log
+  shows `BASE_SHA` all zeros, the fetch of `origin/main`, and the merge-base
+  path linting exactly the one branch-new commit; the whole workflow is green.
 
 Repro environment note: the local clone was shallow (25 graft points in
 `.git/shallow`), which hid the legacy history and initially made the old fallback
@@ -63,4 +64,6 @@ linted ranges.
 - `artefacts/progress.txt`
 
 RESULT: PASS (local repro + failing-run evidence; failing sets identical to CI).
-RESULT: CI first-push verification PENDING — updated after the fix branch is pushed.
+RESULT: PASS (CI) — run 30176201286, the first push of the fix branch (all-zero
+`before`), completed success with the merge-base fallback linting only the
+branch-new commit.
