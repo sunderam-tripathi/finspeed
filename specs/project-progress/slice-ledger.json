@@ -203,6 +203,12 @@
           "domain": "web",
           "title": "Comprehensive bespoke configurator",
           "status": "active"
+        },
+        {
+          "id": "WEB-036",
+          "domain": "web",
+          "title": "Distributor portal access gate and consent fail-closed",
+          "status": "active"
         }
       ]
     }

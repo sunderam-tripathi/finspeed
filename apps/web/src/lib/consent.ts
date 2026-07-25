@@ -25,11 +25,25 @@ function readStored(): ConsentState {
   return memoryConsent;
 }
 
+function syncAnalyticsConsent() {
+  setConsent(memoryConsent === 'granted');
+}
+
+// Apply the stored decision as soon as this module loads on the client.
+// The analytics module defaults to denied, so without this a returning
+// visitor who accepted would be silently untracked — and a decision made in
+// another tab would never reach this one.
+if (typeof window !== 'undefined') {
+  readStored();
+  syncAnalyticsConsent();
+}
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
 
   const syncStoredConsent = () => {
     readStored();
+    syncAnalyticsConsent();
     listener();
   };
   window.addEventListener('storage', syncStoredConsent);

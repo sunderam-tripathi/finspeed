@@ -46,7 +46,9 @@ type AnalyticsPayload = {
 
 const dataLayer: Array<{ event: EventName; payload: AnalyticsPayload }> = [];
 
-let consentGranted = true;
+// Fail closed: nothing reaches the data layer until a stored or freshly given
+// consent decision is applied through setConsent().
+let consentGranted = false;
 
 export function setConsent(granted: boolean) {
   consentGranted = granted;
