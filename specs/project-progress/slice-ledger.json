@@ -208,7 +208,7 @@
           "id": "WEB-036",
           "domain": "web",
           "title": "Distributor portal access gate and consent fail-closed",
-          "status": "active"
+          "status": "done"
         }
       ]
     }
