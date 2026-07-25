@@ -1,0 +1,44 @@
+
+> web@0.1.0 test:unit
+> node --test "src/design/data/*.test.mjs"
+
+(node:39280) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/SunderamTripathi/OneDrive%20-%20Archetype%20Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/src/design/data/configurator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ catalog exposes seven stages, eleven models, and eighteen physical SKUs (1.841ms)
+✔ model base-price authority resolves the lowest catalogued physical SKU without storefront duplication (0.295ms)
+✔ all SKUs resolve to a real model and an audited retail price (3.5693ms)
+✔ legacy builds migrate while recognised custom choices are preserved honestly (0.3176ms)
+✔ ride type, model, and fit selections cascade deterministically (0.7951ms)
+✔ Red Snapper and Sea Breeze separate wheel fit from carrier choice while retaining all four physical SKUs (0.5715ms)
+✔ uncatalogued finish and accessories cannot survive normalization (0.268ms)
+✔ setup, finish, and add-ons are real choices and custom selections survive normalization (12.5916ms)
+✔ non-Mako custom setup and finish choices disclose and use selection-dependent visual coverage (0.9147ms)
+✔ returning every custom choice to the catalog setup restores direct commerce (0.3051ms)
+✔ summary, visual resolver, and fingerprint use the canonical build (0.5103ms)
+✔ the governed Mako Shark matrix changes the preview for every build selection (14.3604ms)
+✔ all products resolve every selectable configuration to distinct, complete responsive theme assets (604.4144ms)
+✔ each single-SKU model resolves its own canonical light and dark visual family (0.8052ms)
+✔ the reviewed Red Snapper 24 IBC pilot resolves theme-matched responsive imagery (0.1773ms)
+✔ all four Sea Breeze fit choices resolve distinct exhaustive theme pairs (0.2879ms)
+✔ Tiger Shark 24-inch and 26-inch fit choices resolve distinct exhaustive theme pairs (0.3452ms)
+✔ configured cart preview freezes canonical light and dark assets for the selected SKU (0.173ms)
+✔ critical identity conflict blocks commerce while noncritical provisional specifications remain honest and orderable (0.1153ms)
+(node:20004) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/SunderamTripathi/OneDrive%20-%20Archetype%20Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/src/design/data/storefront.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ every storefront product resolves to a canonical light set and an edge-black dark studio (5.4672ms)
+✔ accuracy-reviewed dark relights use their approved v3/v4 webp files while the remaining products retain v2 (1.0819ms)
+✔ theme-specific registration normalizes rendered subject bounds instead of forcing equal numeric scales (3.255ms)
+✔ product commerce authority blocks identity-conflicted Bull Shark while audited models remain available (0.3466ms)
+✔ requested display widths snap to the canonical 480, 960, and 1600 posters (0.2813ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 787.7122

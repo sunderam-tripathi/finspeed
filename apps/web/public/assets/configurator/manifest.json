@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractVersion": "1.0.0",
+  "contractVersion": "2.0.0",
   "contract": "specs/proofs/web/WEB-035/asset-contract.md",
   "publicRoot": "apps/web/public",
   "fallbackPolicy": "stock-only-with-explicit-missing-reason",
@@ -22,11 +22,11 @@
       "tolerance": 2
     },
     "baselinePercent": {
-      "target": 88,
+      "target": 94,
       "tolerance": 1
     },
     "safetyPercent": {
-      "top": 7,
+      "top": 6,
       "left": 6,
       "right": 6
     },
@@ -97,9 +97,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/bull-shark-480.webp", "width": 480, "height": 323 },
-            { "path": "/assets/products/upscaled/bull-shark-960.webp", "width": 960, "height": 645 },
-            { "path": "/assets/products/upscaled/bull-shark-1600.webp", "width": 1600, "height": 1075 }
+            {
+              "path": "/assets/products/upscaled/bull-shark-480.webp",
+              "width": 480,
+              "height": 323
+            },
+            {
+              "path": "/assets/products/upscaled/bull-shark-960.webp",
+              "width": 960,
+              "height": 645
+            },
+            {
+              "path": "/assets/products/upscaled/bull-shark-1600.webp",
+              "width": 1600,
+              "height": 1075
+            }
           ]
         },
         "darkCutout": {
@@ -111,7 +123,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/bull-shark-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/bull-shark-transparent.webp", "width": 1600, "height": 1075 }
+            {
+              "path": "/assets/products/dark-cutouts/bull-shark-transparent.webp",
+              "width": 1600,
+              "height": 1075
+            }
           ]
         },
         "darkPoster": {
@@ -122,14 +138,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/bull-shark-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/bull-shark-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -233,11 +255,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "bull-shark-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -252,9 +294,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/great-white-shark-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/great-white-shark-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/great-white-shark-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/great-white-shark-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/great-white-shark-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/great-white-shark-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -266,7 +320,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/great-white-shark-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/great-white-shark-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/great-white-shark-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -277,14 +335,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/great-white-shark-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/great-white-shark-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -388,11 +452,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "great-white-shark-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -407,9 +491,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/hammerhead-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/hammerhead-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/hammerhead-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/hammerhead-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/hammerhead-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/hammerhead-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -421,7 +517,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/hammerhead-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/hammerhead-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/hammerhead-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -432,14 +532,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/hammerhead-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/hammerhead-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -543,11 +649,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "hammerhead-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -562,9 +688,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/lemon-shark-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/lemon-shark-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/lemon-shark-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/lemon-shark-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/lemon-shark-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/lemon-shark-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -576,7 +714,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/lemon-shark-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/lemon-shark-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/lemon-shark-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -587,14 +729,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/lemon-shark-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/lemon-shark-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -698,11 +846,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "lemon-shark-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -717,9 +885,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/lightning-marlin-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/lightning-marlin-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/lightning-marlin-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/lightning-marlin-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/lightning-marlin-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/lightning-marlin-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -731,7 +911,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/lightning-marlin-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/lightning-marlin-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/lightning-marlin-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -742,14 +926,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/lightning-marlin-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/lightning-marlin-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -853,11 +1043,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "lightning-marlin-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -872,9 +1082,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/mako-shark-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/mako-shark-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/mako-shark-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/mako-shark-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/mako-shark-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/mako-shark-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -886,7 +1108,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/mako-shark-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/mako-shark-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/mako-shark-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -897,14 +1123,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/mako-shark-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/mako-shark-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "mako-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -1008,11 +1240,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "mako-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "mako-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "mako-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "mako-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "mako-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -1027,9 +1279,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/red-snapper-480.webp", "width": 480, "height": 322 },
-            { "path": "/assets/products/upscaled/red-snapper-960.webp", "width": 960, "height": 644 },
-            { "path": "/assets/products/upscaled/red-snapper-1600.webp", "width": 1600, "height": 1073 }
+            {
+              "path": "/assets/products/upscaled/red-snapper-480.webp",
+              "width": 480,
+              "height": 322
+            },
+            {
+              "path": "/assets/products/upscaled/red-snapper-960.webp",
+              "width": 960,
+              "height": 644
+            },
+            {
+              "path": "/assets/products/upscaled/red-snapper-1600.webp",
+              "width": 1600,
+              "height": 1073
+            }
           ]
         },
         "darkCutout": {
@@ -1041,7 +1305,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/red-snapper-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/red-snapper-transparent.webp", "width": 1600, "height": 1073 }
+            {
+              "path": "/assets/products/dark-cutouts/red-snapper-transparent.webp",
+              "width": 1600,
+              "height": 1073
+            }
           ]
         },
         "darkPoster": {
@@ -1052,14 +1320,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v4/red-snapper-studio-v4.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v4/red-snapper-studio-v4.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -1067,15 +1341,98 @@
               "role": "poster",
               "variant": "red-snapper-24-non-ibc",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["red-snapper-24-non-ibc"],
+              "sourceSkuIds": [
+                "red-snapper-24-non-ibc"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-24-non-ibc-r01.md",
               "assets": [
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "47CB9431AF870C51BB6E4F25F04B6BEC719778E3B987A0EF537183BE9B11196A", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 7.8125, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 85.3125 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "2CAFCAE3FB0D363E2184CF7EE4FDE99B6C8B4A0596575E583D8F7B5B4F5B2E88", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 7.8125, "baselinePercent": 88.75, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 85.3125 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "8C20CCB663370D750898B362C38DBECDEF2892C63CA26B1EB4E010571C8CEBBC", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 7.7788, "baselinePercent": 88.7535, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 85.2858 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "E96E3FB07CE86594046CE0EF7537D289CA140A81053ED6A9E772E07CF278B795" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "744F5456F40ACC5E6185C306A35A6481E8CB0B9CD605F583DB3B77C5840D639E" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "F43AA213FEB54C8FE6956DB0B65D81044B843FDDE938245C0D1B773F444A5C6B" }
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "47CB9431AF870C51BB6E4F25F04B6BEC719778E3B987A0EF537183BE9B11196A",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 8.9583,
+                      "topSafetyPercent": 7.8125,
+                      "baselinePercent": 88.75,
+                      "subjectWidthPercent": 82.0833,
+                      "subjectHeightPercent": 85.3125
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "2CAFCAE3FB0D363E2184CF7EE4FDE99B6C8B4A0596575E583D8F7B5B4F5B2E88",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 9.0625,
+                      "topSafetyPercent": 7.8125,
+                      "baselinePercent": 88.75,
+                      "subjectWidthPercent": 81.9792,
+                      "subjectHeightPercent": 85.3125
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "8C20CCB663370D750898B362C38DBECDEF2892C63CA26B1EB4E010571C8CEBBC",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9375,
+                      "rightSafetyPercent": 9,
+                      "topSafetyPercent": 7.7788,
+                      "baselinePercent": 88.7535,
+                      "subjectWidthPercent": 82.0625,
+                      "subjectHeightPercent": 85.2858
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "E96E3FB07CE86594046CE0EF7537D289CA140A81053ED6A9E772E07CF278B795"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "744F5456F40ACC5E6185C306A35A6481E8CB0B9CD605F583DB3B77C5840D639E"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "F43AA213FEB54C8FE6956DB0B65D81044B843FDDE938245C0D1B773F444A5C6B"
+                }
               ]
             },
             {
@@ -1085,15 +1442,98 @@
               "role": "poster",
               "variant": "red-snapper-24-ibc",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["red-snapper-24-ibc"],
+              "sourceSkuIds": [
+                "red-snapper-24-ibc"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-24-ibc-r01.md",
               "assets": [
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "CFF10770D707C4BB3622C868568E6160D1712D04226A087ADAE4255DEF209F9E", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 8.4375, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 84.6875 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "1AC41171F3A46E746D85FB30959CED2F6096716ECBF0BD018794BB83A69F4DA2", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 8.4375, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 84.5312 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "062FC958FE3E672E099BD1125DFE20977D24023B5AEA17FA50D5BDB61F02A2FF", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 8.5286, "baselinePercent": 88.7535, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 84.3486 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "22C46410BB3027584D2F8D696F1F48980D62EBA18FB903BF8C52051FB3BAAFB0" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "2DF627B902E70F4D1C7C37A9DF8C2408101240120622A89117D8569E14350CD8" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "51A40FAA2CA40D90475F788A7603A523B27F09C0E008F2B65A6D5DC3BFA233CB" }
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "CFF10770D707C4BB3622C868568E6160D1712D04226A087ADAE4255DEF209F9E",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 8.9583,
+                      "topSafetyPercent": 8.4375,
+                      "baselinePercent": 88.75,
+                      "subjectWidthPercent": 82.0833,
+                      "subjectHeightPercent": 84.6875
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "1AC41171F3A46E746D85FB30959CED2F6096716ECBF0BD018794BB83A69F4DA2",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 8.9583,
+                      "topSafetyPercent": 8.4375,
+                      "baselinePercent": 88.75,
+                      "subjectWidthPercent": 82.0833,
+                      "subjectHeightPercent": 84.5312
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "062FC958FE3E672E099BD1125DFE20977D24023B5AEA17FA50D5BDB61F02A2FF",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9375,
+                      "rightSafetyPercent": 9,
+                      "topSafetyPercent": 8.5286,
+                      "baselinePercent": 88.7535,
+                      "subjectWidthPercent": 82.0625,
+                      "subjectHeightPercent": 84.3486
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "22C46410BB3027584D2F8D696F1F48980D62EBA18FB903BF8C52051FB3BAAFB0"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "2DF627B902E70F4D1C7C37A9DF8C2408101240120622A89117D8569E14350CD8"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "51A40FAA2CA40D90475F788A7603A523B27F09C0E008F2B65A6D5DC3BFA233CB"
+                }
               ]
             },
             {
@@ -1103,15 +1543,98 @@
               "role": "poster",
               "variant": "red-snapper-26-non-ibc",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["red-snapper-26-non-ibc"],
+              "sourceSkuIds": [
+                "red-snapper-26-non-ibc"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-26-non-ibc-r01.md",
               "assets": [
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "08A5F782B0276097F146A677055BA4B252DD71A00351A3118732CC01261B1A40", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 11.5625, "baselinePercent": 88.75, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 80 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "864120FCD3C65CFEB2D07386F345F5BFA4C3F34D5CBEEA4AC254EB2914A7EBB7", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 11.5625, "baselinePercent": 88.9062, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 79.8438 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "8B1C494FD1244E9B743239060CC3E82A22D9D72E7A9F9E954B876DE27448F8B6", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 9, "rightSafetyPercent": 9, "topSafetyPercent": 11.5276, "baselinePercent": 88.8472, "subjectWidthPercent": 82, "subjectHeightPercent": 79.85 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "57E14C8F62923E7A094D3E440A78BD634D644A512D0FD4E9E14DD2E1D2E67D09" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "AE2B19663C20950158AF47EAC2C2F636D9F002D31CCCD7D679AFB9B780C6023F" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "6E8DE08294CFA255D75A1122880969F42EE1740A06E006572A2F919C62225FFC" }
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "08A5F782B0276097F146A677055BA4B252DD71A00351A3118732CC01261B1A40",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 8.9583,
+                      "topSafetyPercent": 11.5625,
+                      "baselinePercent": 88.75,
+                      "subjectWidthPercent": 82.0833,
+                      "subjectHeightPercent": 80
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "864120FCD3C65CFEB2D07386F345F5BFA4C3F34D5CBEEA4AC254EB2914A7EBB7",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 9.0625,
+                      "topSafetyPercent": 11.5625,
+                      "baselinePercent": 88.9062,
+                      "subjectWidthPercent": 81.9792,
+                      "subjectHeightPercent": 79.8438
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "8B1C494FD1244E9B743239060CC3E82A22D9D72E7A9F9E954B876DE27448F8B6",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 9,
+                      "rightSafetyPercent": 9,
+                      "topSafetyPercent": 11.5276,
+                      "baselinePercent": 88.8472,
+                      "subjectWidthPercent": 82,
+                      "subjectHeightPercent": 79.85
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "57E14C8F62923E7A094D3E440A78BD634D644A512D0FD4E9E14DD2E1D2E67D09"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "AE2B19663C20950158AF47EAC2C2F636D9F002D31CCCD7D679AFB9B780C6023F"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-non-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "6E8DE08294CFA255D75A1122880969F42EE1740A06E006572A2F919C62225FFC"
+                }
               ]
             },
             {
@@ -1121,24 +1644,127 @@
               "role": "poster",
               "variant": "red-snapper-26-ibc",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["red-snapper-26-ibc"],
+              "sourceSkuIds": [
+                "red-snapper-26-ibc"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/red-snapper-26-ibc-r01.md",
               "assets": [
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "light", "alphaMode": "transparent", "sha256": "6E19A3C5936436D327BB2C0223BEA8DDE1892E2852CDB23678C19FB11AE05505", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 8.9583, "topSafetyPercent": 12.8125, "baselinePercent": 89.0625, "subjectWidthPercent": 82.0833, "subjectHeightPercent": 79.0625 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "light", "alphaMode": "transparent", "sha256": "9FCF9879A481D67EB813135B390C5AA5637D080BE796ECEE368D9B8D5A8E5F67", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9583, "rightSafetyPercent": 9.0625, "topSafetyPercent": 12.8125, "baselinePercent": 88.9062, "subjectWidthPercent": 81.9792, "subjectHeightPercent": 79.0625 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "light", "alphaMode": "transparent", "sha256": "9867DACDB5DEE5CF9B1CFE20884D7D28E3474B86686F17FC98945F6995BB8F0D", "pixelMetrics": { "subjectThreshold": 32, "alphaMin": 0, "alphaMax": 255, "subjectBounds": { "leftSafetyPercent": 8.9375, "rightSafetyPercent": 9, "topSafetyPercent": 12.8397, "baselinePercent": 88.8472, "subjectWidthPercent": 82.0625, "subjectHeightPercent": 78.9128 } } },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w480.webp", "width": 480, "height": 320, "theme": "dark", "alphaMode": "opaque", "sha256": "1211F44C7DC0FCAB13C91B70A52814381E1CF1A68C828B6A9E6913D7EA43FEFE" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w960.webp", "width": 960, "height": 640, "theme": "dark", "alphaMode": "opaque", "sha256": "83E8B6FA9C87BA315E549F0C81308193E40259F7DD199DE408B02181E15A479F" },
-                { "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w1600.webp", "width": 1600, "height": 1067, "theme": "dark", "alphaMode": "opaque", "sha256": "FB65240B8B73CCE8A8346BF2630156C15C5970E7F8DD8B548F7C06BAB7C271AA" }
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "6E19A3C5936436D327BB2C0223BEA8DDE1892E2852CDB23678C19FB11AE05505",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 8.9583,
+                      "topSafetyPercent": 12.8125,
+                      "baselinePercent": 89.0625,
+                      "subjectWidthPercent": 82.0833,
+                      "subjectHeightPercent": 79.0625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "9FCF9879A481D67EB813135B390C5AA5637D080BE796ECEE368D9B8D5A8E5F67",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9583,
+                      "rightSafetyPercent": 9.0625,
+                      "topSafetyPercent": 12.8125,
+                      "baselinePercent": 88.9062,
+                      "subjectWidthPercent": 81.9792,
+                      "subjectHeightPercent": 79.0625
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-26-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "light",
+                  "alphaMode": "transparent",
+                  "sha256": "9867DACDB5DEE5CF9B1CFE20884D7D28E3474B86686F17FC98945F6995BB8F0D",
+                  "pixelMetrics": {
+                    "subjectThreshold": 32,
+                    "alphaMin": 0,
+                    "alphaMax": 255,
+                    "subjectBounds": {
+                      "leftSafetyPercent": 8.9375,
+                      "rightSafetyPercent": 9,
+                      "topSafetyPercent": 12.8397,
+                      "baselinePercent": 88.8472,
+                      "subjectWidthPercent": 82.0625,
+                      "subjectHeightPercent": 78.9128
+                    }
+                  }
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w480.webp",
+                  "width": 480,
+                  "height": 320,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "1211F44C7DC0FCAB13C91B70A52814381E1CF1A68C828B6A9E6913D7EA43FEFE"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w960.webp",
+                  "width": 960,
+                  "height": 640,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "83E8B6FA9C87BA315E549F0C81308193E40259F7DD199DE408B02181E15A479F"
+                },
+                {
+                  "path": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-26-ibc-r01-w1600.webp",
+                  "width": 1600,
+                  "height": 1067,
+                  "theme": "dark",
+                  "alphaMode": "opaque",
+                  "sha256": "FB65240B8B73CCE8A8346BF2630156C15C5970E7F8DD8B548F7C06BAB7C271AA"
+                }
               ]
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "red-snapper-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -1153,9 +1779,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/sea-breeze-480.webp", "width": 480, "height": 322 },
-            { "path": "/assets/products/upscaled/sea-breeze-960.webp", "width": 960, "height": 644 },
-            { "path": "/assets/products/upscaled/sea-breeze-1600.webp", "width": 1600, "height": 1073 }
+            {
+              "path": "/assets/products/upscaled/sea-breeze-480.webp",
+              "width": 480,
+              "height": 322
+            },
+            {
+              "path": "/assets/products/upscaled/sea-breeze-960.webp",
+              "width": 960,
+              "height": 644
+            },
+            {
+              "path": "/assets/products/upscaled/sea-breeze-1600.webp",
+              "width": 1600,
+              "height": 1073
+            }
           ]
         },
         "darkCutout": {
@@ -1167,7 +1805,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/sea-breeze-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/sea-breeze-transparent.webp", "width": 1600, "height": 1073 }
+            {
+              "path": "/assets/products/dark-cutouts/sea-breeze-transparent.webp",
+              "width": 1600,
+              "height": 1073
+            }
           ]
         },
         "darkPoster": {
@@ -1178,14 +1820,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/sea-breeze-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/sea-breeze-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "authorityTier": "C",
               "provenanceStatus": "ai-assisted-variant-reviewed",
@@ -1591,11 +2239,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "sea-breeze-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -1610,9 +2278,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/shark-blue-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/shark-blue-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/shark-blue-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/shark-blue-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/shark-blue-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/shark-blue-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -1624,7 +2304,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/shark-blue-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/shark-blue-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/shark-blue-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -1635,14 +2319,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/shark-blue-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/shark-blue-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -1746,11 +2436,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "shark-blue-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -1766,9 +2476,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/sunset-marlin-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/sunset-marlin-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/sunset-marlin-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/sunset-marlin-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/sunset-marlin-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/sunset-marlin-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -1780,7 +2502,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/sunset-marlin-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/sunset-marlin-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/sunset-marlin-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -1791,14 +2517,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/sunset-marlin-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/sunset-marlin-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "B",
@@ -1906,11 +2638,31 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "sunset-marlin-exhaustive-r01",
+          "assets": []
+        }
       }
     },
     {
@@ -1925,9 +2677,21 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/upscaled/tiger-shark-480.webp", "width": 480, "height": 320 },
-            { "path": "/assets/products/upscaled/tiger-shark-960.webp", "width": 960, "height": 640 },
-            { "path": "/assets/products/upscaled/tiger-shark-1600.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/upscaled/tiger-shark-480.webp",
+              "width": 480,
+              "height": 320
+            },
+            {
+              "path": "/assets/products/upscaled/tiger-shark-960.webp",
+              "width": 960,
+              "height": 640
+            },
+            {
+              "path": "/assets/products/upscaled/tiger-shark-1600.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkCutout": {
@@ -1939,7 +2703,11 @@
           "canvasConformance": "legacy-stock",
           "sourceAsset": "/assets/products/upscaled/tiger-shark-1600.webp",
           "assets": [
-            { "path": "/assets/products/dark-cutouts/tiger-shark-transparent.webp", "width": 1600, "height": 1067 }
+            {
+              "path": "/assets/products/dark-cutouts/tiger-shark-transparent.webp",
+              "width": 1600,
+              "height": 1067
+            }
           ]
         },
         "darkPoster": {
@@ -1950,14 +2718,20 @@
           "variant": "stock",
           "canvasConformance": "legacy-stock",
           "assets": [
-            { "path": "/assets/products/dark-studio-v2/tiger-shark-studio.webp", "width": 1536, "height": 1024 }
+            {
+              "path": "/assets/products/dark-studio-v2/tiger-shark-studio.webp",
+              "width": 1536,
+              "height": 1024
+            }
           ]
         }
       },
       "selectionDependent": {
         "fit": {
           "status": "available",
-          "families": [
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": [],
+          "stockFamilies": [
             {
               "status": "available",
               "authorityTier": "C",
@@ -1965,7 +2739,9 @@
               "role": "poster",
               "variant": "tiger-shark-24",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["tiger-shark-24"],
+              "sourceSkuIds": [
+                "tiger-shark-24"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/tiger-shark-fit-r01.md",
               "assets": [
                 {
@@ -2064,7 +2840,9 @@
               "role": "poster",
               "variant": "tiger-shark-26",
               "canvasConformance": "canonical",
-              "sourceSkuIds": ["tiger-shark-26"],
+              "sourceSkuIds": [
+                "tiger-shark-26"
+              ],
               "generationRecord": "specs/proofs/web/WEB-035/ai-generation/tiger-shark-fit-r01.md",
               "assets": [
                 {
@@ -2158,11 +2936,580 @@
             }
           ]
         },
-        "brakes": { "status": "missing", "assets": [] },
-        "fork": { "status": "missing", "assets": [] },
-        "drivetrain": { "status": "missing", "assets": [] },
-        "finish": { "status": "missing", "assets": [] },
-        "accessories": { "status": "missing", "assets": [] }
+        "brakes": {
+          "status": "available",
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": []
+        },
+        "fork": {
+          "status": "available",
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": []
+        },
+        "drivetrain": {
+          "status": "available",
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": []
+        },
+        "finish": {
+          "status": "available",
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": []
+        },
+        "accessories": {
+          "status": "available",
+          "matrixId": "tiger-shark-exhaustive-r01",
+          "assets": []
+        }
+      }
+    }
+  ],
+  "visualMatrices": [
+    {
+      "id": "mako-exhaustive-r01",
+      "productId": "mako-shark",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "mako-shark-27-5-geared"
+      ],
+      "inventoryPath": "/assets/configurator/v1/mako-shark/side-r/matrix/mako-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/mako-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "shark-blue-exhaustive-r01",
+      "productId": "shark-blue",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "shark-blue-26-geared"
+      ],
+      "inventoryPath": "/assets/configurator/v1/shark-blue/side-r/matrix/shark-blue-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "bull-shark-exhaustive-r01",
+      "productId": "bull-shark",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "bull-shark-29"
+      ],
+      "inventoryPath": "/assets/configurator/v1/bull-shark/side-r/matrix/bull-shark-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "lemon-shark-exhaustive-r01",
+      "productId": "lemon-shark",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "lemon-shark-27-5"
+      ],
+      "inventoryPath": "/assets/configurator/v1/lemon-shark/side-r/matrix/lemon-shark-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "tiger-shark-exhaustive-r01",
+      "productId": "tiger-shark",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "tiger-shark-24",
+        "tiger-shark-26"
+      ],
+      "inventoryPath": "/assets/configurator/v1/tiger-shark/side-r/matrix/tiger-shark-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "fit": [
+          "24-inch",
+          "26-inch"
+        ],
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "red-snapper-exhaustive-r01",
+      "productId": "red-snapper",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "red-snapper-24-non-ibc",
+        "red-snapper-24-ibc",
+        "red-snapper-26-non-ibc",
+        "red-snapper-26-ibc"
+      ],
+      "inventoryPath": "/assets/configurator/v1/red-snapper/side-r/matrix/red-snapper-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "fit": [
+          "24-inch",
+          "26-inch"
+        ],
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "sea-breeze-exhaustive-r01",
+      "productId": "sea-breeze",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "sea-breeze-24-non-ibc",
+        "sea-breeze-24-ibc",
+        "sea-breeze-26-non-ibc",
+        "sea-breeze-26-ibc"
+      ],
+      "inventoryPath": "/assets/configurator/v1/sea-breeze/side-r/matrix/sea-breeze-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "fit": [
+          "24-inch",
+          "26-inch"
+        ],
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "sunset-marlin-exhaustive-r01",
+      "productId": "sunset-marlin",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "sunset-marlin-700c-geared"
+      ],
+      "inventoryPath": "/assets/configurator/v1/sunset-marlin/side-r/matrix/sunset-marlin-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "great-white-shark-exhaustive-r01",
+      "productId": "great-white-shark",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "great-white-shark-26"
+      ],
+      "inventoryPath": "/assets/configurator/v1/great-white-shark/side-r/matrix/great-white-shark-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "lightning-marlin-exhaustive-r01",
+      "productId": "lightning-marlin",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "lightning-marlin-700c"
+      ],
+      "inventoryPath": "/assets/configurator/v1/lightning-marlin/side-r/matrix/lightning-marlin-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
+      }
+    },
+    {
+      "id": "hammerhead-exhaustive-r01",
+      "productId": "hammerhead",
+      "status": "available",
+      "authorityTier": "C",
+      "provenanceStatus": "ai-assisted-exhaustive-component-preview-product-owner-review-required",
+      "role": "poster",
+      "canvasConformance": "canonical",
+      "sourceSkuIds": [
+        "hammerhead-24"
+      ],
+      "inventoryPath": "/assets/configurator/v1/hammerhead/side-r/matrix/hammerhead-exhaustive-r01.inventory.json",
+      "generationRecord": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/generation-record.json",
+      "dimensions": {
+        "brakes": [
+          "power-brake",
+          "disc-brake"
+        ],
+        "fork": [
+          "rigid-fork",
+          "front-suspension"
+        ],
+        "drivetrain": [
+          "single-speed",
+          "21-speed"
+        ],
+        "finish": [
+          "catalog-finish",
+          "graphite-request",
+          "deep-blue-request",
+          "signal-red-request",
+          "pearl-silver-request"
+        ],
+        "accessories": [
+          "none",
+          "ibc-carrier"
+        ],
+        "themes": [
+          "light",
+          "dark"
+        ],
+        "widths": [
+          480,
+          960,
+          1600
+        ]
       }
     }
   ]

@@ -47,6 +47,32 @@
 
 - None required for this scale correction.
 
+## WEB-035 Mako Shark exhaustive configurator matrix addendum
+
+### Comparison target
+
+- Route checked: `/build`, Build Your Ride wizard.
+- Product identity: Mako Shark side-right configurator preview.
+- Matrix proof: `specs/proofs/web/WEB-035/mako-exhaustive-r01/mako-exhaustive-catalog-contact-sheet.jpg`.
+- Live wizard proof: `specs/proofs/web/WEB-035/mako-exhaustive-r01/build-wizard-mako-matrix-final.png`.
+- Generated inventory: `apps/web/public/assets/configurator/v1/mako-shark/side-r/matrix/mako-exhaustive-r01.inventory.json`.
+
+### Findings
+
+- The Mako Shark wizard is now selection-driven rather than static.
+- Setup choices expose brake, fork, and drivetrain alternatives; Finish exposes five finish states; Extras exposes no add-ons and IBC carrier.
+- The selected image resolves through the generated matrix. A verified live state resolved to `mako-power-front-single-red-carrier-r01-w960.webp` after selecting Power brake, Front suspension, Single speed, Signal red, and IBC frame-mounted carrier.
+- The matrix covers 80 combinations: 2 brakes x 2 forks x 2 drivetrains x 5 finishes x 2 carrier states, with light and dark responsive assets generated for each.
+- Validation confirmed all referenced assets exist, image hashes match the manifest inventory, responsive sources resolve, and the runtime resolver maps matrix states correctly.
+
+### Verification
+
+- `node --test apps\web\src\design\data\configurator.test.mjs` passed.
+- `node scripts\validate-configurator-assets.mjs` passed.
+- `npm run build -w web` passed.
+
+final result: passed
+
 ## WEB-035 homepage city-story theme-pair addendum
 
 ### Comparison target
@@ -131,5 +157,31 @@ final result: passed
 1. Before: `onMouseLeave` on the left navigation and `onBlur` on each row immediately cleared preview state; moving toward the feature pane restored the route-default content.
 2. Fix: latch the last established preview for the lifetime of the open menu, introduce cancellable hover intent, and clear only pending intent when the pointer exits the navigation or enters the feature pane.
 3. After: the selected journey remains stable throughout left-to-right cursor travel, while deliberate row changes and close/reopen behavior still work.
+
+final result: passed
+
+## WEB-035 close-out gates and catalog-visual correction addendum (2026-07-26)
+
+### Comparison target
+
+- Route checked: `/build` default state plus the catalog surfaces asserted by `apps/web/tests/contract.spec.ts` and `apps/web/tests/product-detail-editorial.spec.ts`.
+- Gate evidence: `specs/proofs/web/WEB-035/close-out-gates-2026-07-26/`.
+- Same-day captures: `light-build-tablet-2026-07-26.png`, `dark-build-tablet-2026-07-26.png` (768 x 1024), `light-build-mobile-2026-07-26.png`, `dark-build-mobile-2026-07-26.png` (375 x 812), all visually inspected.
+
+### Findings
+
+- P0 resolved: the exhaustive matrix pass had redirected every catalog surface and untouched configurator default to AI-assisted matrix renders. The shop grid, product detail pages, editorial menu, engineering hero, build detail crops, and the configurator base state now serve the governed Tier A stock photography again, while every deviating selection still resolves through the exhaustive matrix.
+- Manifest governance restored: the eighteen per-SKU stock poster registrations (hashes, pixel metrics, generation records) are back in the manifest as `stockFamilies`; the validator hash-verifies all 108 stock assets and enforces exactly 36 stock-shadowed themed catalog states alongside 2,204 runtime-matched themed matrix states.
+- Spec repairs: one array-form `toContainText` assertion that could never match a single panel, and one unscoped disclosure lookup that broke under the now-duplicated Bull Shark identity note (blocking alert plus honest preview caption), were tightened.
+- Default-state preview verified live in both themes: the resolver returned `mako-shark-27-5-geared-r01-w1600.webp` from the light and dark poster roots during the capture run.
+
+### Verification
+
+- `npm run lint -w web` passed with 0 errors.
+- `npm run typecheck -w web` passed.
+- `npm run test:unit -w web` passed 24/24.
+- `node scripts/validate-configurator-assets.mjs` passed across 6,884 files.
+- `npm run test -w web` passed 68/68.
+- `npm run build -w web` passed.
 
 final result: passed

@@ -1,0 +1,18 @@
+(node:42504) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/SunderamTripathi/OneDrive%20-%20Archetype%20Consulting/_Archive/Documents/Finspeed/upstream-finspeed/apps/web/src/design/data/configurator.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\SunderamTripathi\OneDrive - Archetype Consulting\_Archive\Documents\Finspeed\upstream-finspeed\apps\web\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Configurator asset validation PASSED
+- products: 11
+- existing assets checked: 6884
+- Tier A assets verified against SHA-256 provenance: 33
+- explicit missing selection classes: 0
+- runtime resolver states matched to manifest: 2276
+- exhaustive themed matrix states matched by runtime: 2204
+- themed catalog states keeping governed stock posters: 36
+- governed stock poster assets verified: 108
+- exhaustive selectable matrix states: 1120
+- exhaustive responsive theme assets: 6720
+- custom visual families pixel-checked: 1120
+- custom assets with hash-bound pixel metrics: 6720
+- disclosed non-canonical pilot families: 0

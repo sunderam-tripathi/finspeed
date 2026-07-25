@@ -1,0 +1,27 @@
+{
+  "canvas": {
+    "width": 3072,
+    "height": 2048
+  },
+  "view": "side-r",
+  "skuId": "mako-shark-27-5-geared__fork-rigid",
+  "subjectBounds": {
+    "leftSafetyPercent": 9.0495,
+    "rightSafetyPercent": 8.9844,
+    "topSafetyPercent": 13.7207,
+    "baselinePercent": 88.65,
+    "subjectWidthPercent": 81.9661,
+    "subjectHeightPercent": 75.1953
+  },
+  "landmarks": {
+    "rearContact": {
+      "x": 0.2732,
+      "y": 0.8865
+    },
+    "frontContact": {
+      "x": 0.7356,
+      "y": 0.8865
+    }
+  },
+  "measurementStatus": "contact-line-registered; remaining component landmarks require product-owner metrology"
+}
