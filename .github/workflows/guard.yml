@@ -31,10 +31,14 @@ jobs:
         run: |
           BASE="$BASE_SHA"
           # A new branch reports an all-zero "before" sha rather than an empty
-          # one. Falling back to the root commit linted the entire history, and
-          # the legacy commits that predate the convention turned every first
-          # push of a branch red. Lint only what is new to the branch instead.
-          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          # one, and a force-push can report a "before" that no ref reaches any
+          # more, so the checkout never fetched it. Falling back to the root
+          # commit linted the entire history, and the legacy commits that
+          # predate the convention turned every first push of a branch red.
+          # Whenever the reported base is unusable, lint what is new to the
+          # branch relative to main instead.
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+            || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
             git fetch --no-tags origin main
             BASE=$(git merge-base HEAD origin/main)
           fi

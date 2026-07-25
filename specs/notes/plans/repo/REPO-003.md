@@ -58,19 +58,33 @@
    `origin/main` and uses `git merge-base HEAD origin/main`, so a first push lints exactly
    the commits new to the branch — the same range the pull-request path checks. Legacy
    history stays exempt, which is deliberate: those commits are immutable without a rewrite.
+   Hardened after a first-principles sweep of the base cases: a force-push can report a
+   `before` that no ref reaches any more, so the checkout never fetched it and the verifier
+   crashed on the missing object instead of returning a verdict. The condition now treats
+   empty, all-zero, and locally-absent bases alike and routes them all to the merge-base
+   fallback. Remaining sub-case, deliberate: a branch sharing no history with main fails
+   loudly at `git merge-base` — no meaningful lint base exists, and loud is the correct
+   signal.
 
 ## Execution Checklist
 - [x] Guard passes on a clean checkout; still fails locally when working memory is absent.
 - [x] `tsc --noEmit` clean (was 5 errors in `contract.spec.ts`).
 - [x] `npm run lint -w web` — 0 errors, 37 warnings.
 - [x] `npm run test:unit -w web` — 24/24.
-- [x] Workflow verified green on a pull request (runs 30175389163, 30175500903, 2026-07-25).
+- [x] Workflow verified green on a pull request (runs 30175389163, 30175500903, 2026-07-25
+      — pre-fix twins; the lint's pull_request path lints `base.sha..head.sha` and is
+      untouched by steps 5/7). A PR-event run containing this branch awaits PR creation.
 - [x] First-push fallback lints only branch-new commits — local repro: old root-commit base
       exits 5 with the identical 30-commit failing set CI reported; merge-base base exits 0
       (`specs/proofs/repo/REPO-003/artefacts/`).
 - [x] Workflow verified green on the first push of a new branch (run 30176201286: real
       all-zero `before`, merge-base fallback linted only the branch-new commit, all steps
       green).
+- [x] Unusable-base classes all routed to the fallback — crash repro on an unreachable
+      `before` (old code: exit 1, an infrastructure crash rather than a lint verdict) and
+      per-class condition routing (empty/zeros/unreachable → fallback, reachable → reported
+      base) in `unreachable-base-crash.txt` / `hardened-condition-routing.txt`.
+- [ ] Hardened step revalidated live (normal-path push run; captured post-push).
 - [x] Telemetry refreshed.
 - [ ] Slice parked.
 
@@ -88,6 +102,11 @@
   all-zero `before`), green end to end: merge-base fallback fetched `origin/main` and
   linted exactly the one branch-new commit (`run-first-push-pass.txt`). Remaining for
   close-out: decide the ledger done-flip and the deploy-web protection question (Risks).
+- 2026-07-26 — First-principles sweep of the lint base cases (no-corners pass): verified
+  run 30176414181 took the normal path (`BASE_SHA=b87f5aa`, linted exactly `a14b873`);
+  found and closed the unreachable-`before` (force-push) crash by widening the fallback
+  condition to any unusable base; recorded execution-discipline adherence in the proof
+  README and the residual orphan-branch behaviour in step 7.
 
 ## Artefact References
 - Guard behaviour: `tools/spec/verify-active-slice.mjs`.

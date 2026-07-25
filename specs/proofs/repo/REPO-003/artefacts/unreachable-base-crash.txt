@@ -1,0 +1,12 @@
+# repro: pre-hardening behaviour when 'before' is not fetchable (any history-rewriting force-push).
+# The verifier does not return a lint verdict — it crashes on the missing object:
+# node tools/spec/verify-commit-range.mjs --base 1111111111111111111111111111111111111111 --head HEAD
+fatal: Invalid revision range 1111111111111111111111111111111111111111..HEAD
+node:internal/errors:985
+  const err = new Error(message);
+              ^
+
+Error: Command failed: git rev-list --no-merges 1111111111111111111111111111111111111111..HEAD
+fatal: Invalid revision range 1111111111111111111111111111111111111111..HEAD
+
+# exit=1 (neither 0=pass nor 5=lint-fail: an infrastructure crash, red for reasons unrelated to the pushed commits)

@@ -20,11 +20,14 @@ Observed failures (both 2026-07-25 UTC, failing only "Commit message lint"):
 
 ## Fix
 
-When `BASE` is empty or all zeros, fetch `origin/main` and use
-`git merge-base HEAD origin/main` as the lint base, so a first push lints exactly
+When `BASE` is unusable — empty, all zeros (branch creation), or not present
+locally (a force-push rewrote it away) — fetch `origin/main` and use
+`git merge-base HEAD origin/main` as the lint base, so the push lints exactly
 the commits new to the branch — the same range the `pull_request` path checks
 (`base.sha..head.sha`). Legacy history stays exempt by design; it is immutable
-without a rewrite.
+without a rewrite. A branch sharing no history with main fails loudly at
+`git merge-base`: no meaningful base exists there, and loud is the correct
+signal.
 
 ## Verification
 
@@ -42,6 +45,15 @@ without a rewrite.
 - `artefacts/failing-set-comparison.txt` — failing-SHA sets extracted from the CI
   logs vs the local repro: IDENTICAL for both runs (30/30), proving the repro
   exercises the same range CI did.
+- `artefacts/unreachable-base-crash.txt` — pre-hardening: a `before` that no
+  ref reaches (any history-rewriting force-push) crashed the verifier — exit 1,
+  no lint verdict at all. `artefacts/hardened-condition-routing.txt` — the
+  hardened condition evaluated per base class (empty/zeros/unreachable route to
+  the fallback, a reachable base is used as reported) plus an end-to-end
+  fallback run exiting 0.
+- `artefacts/run-normal-push-pass.txt` — normal-path push run of the hardened
+  step: a non-zero, reachable `before` used as reported, linting only the newly
+  pushed commits. (Added after the push; see RESULT.)
 - `artefacts/run-first-push-pass.txt` — run 30176201286, the first push of
   `fix/ci-first-push-commit-lint`: a real all-zero `before` event. The step log
   shows `BASE_SHA` all zeros, the fetch of `origin/main`, and the merge-base
@@ -58,6 +70,28 @@ evidence for a workflow file is the failing production runs (above) and the
 passing production run after the fix, plus the deterministic local repro of the
 linted ranges.
 
+## Execution-discipline adherence (AGENTS.md)
+
+1. Governance refresh — `spec:slice-index` + `spec:progress` run after each
+   deliverable; logs in `artefacts/slice-index.txt`, `artefacts/progress.txt`;
+   no drift errors at any commit.
+2. Lint/test sweep — no application code touched; the authoritative sweep for a
+   workflow change is the workflow itself: the full guard suite (lint, build,
+   typecheck, unit, Playwright contract, reference validation) ran green on
+   every push of this branch (runs 30176201286, 30176414181, and the
+   post-hardening run in RESULT). The changed lint logic is covered by the
+   deterministic node/bash repros in this bundle.
+3. Slice lifecycle — REPO-003 active for every edit and commit; parked to IDLE
+   only with a clean tree and pushes recorded.
+4. Artefact curation — every file under `artefacts/` is referenced in this
+   README exactly once; no unreferenced captures.
+5. Parallel guard prep — hooks only re-verify (scope guard, commit-msg) and add
+   no new work at commit time.
+6. Session runtime ledger — no dev servers or parity stack required
+   (CI-configuration slice; rationale in the parity note above);
+   `dev-processes.json` stayed empty.
+7. Privileged command queueing — no privileged commands used.
+
 ## Telemetry
 
 - `artefacts/slice-index.txt`
@@ -67,3 +101,5 @@ RESULT: PASS (local repro + failing-run evidence; failing sets identical to CI).
 RESULT: PASS (CI) — run 30176201286, the first push of the fix branch (all-zero
 `before`), completed success with the merge-base fallback linting only the
 branch-new commit.
+RESULT: hardening revalidation PENDING — normal-path run after this push;
+updated on completion.
