@@ -54,7 +54,12 @@ export default function DistributorApp() {
   const [toast, setToast] = React.useState(null);
   const [justPlaced, setJustPlaced] = React.useState(null);
   const toastTimer = React.useRef(null);
-  const signedOut = normalizedPath === '/distributor/sign-in';
+  // The portal is gated on an in-session sign-in rather than on the current
+  // path, so a deep link cannot render dealer pricing to a visitor who never
+  // signed in. A reload returns to the sign-in screen by design.
+  const [authenticated, setAuthenticated] = React.useState(false);
+  const atSignIn = normalizedPath === '/distributor/sign-in';
+  const signedOut = !authenticated;
 
   useLucideIcons();
 
@@ -147,8 +152,11 @@ export default function DistributorApp() {
   }
 
   if (signedOut) {
-    return <Auth onEnter={() => navigate('/distributor')} />;
+    if (!atSignIn) return <Navigate to="/distributor/sign-in" replace />;
+    return <Auth onEnter={() => { setAuthenticated(true); navigate('/distributor'); }} />;
   }
+
+  if (atSignIn) return <Navigate to="/distributor" replace />;
 
   const [title, subtitle] = headings[route];
   const orderCount = Object.keys(order).length;
@@ -156,7 +164,7 @@ export default function DistributorApp() {
 
   return (
     <div className="dist-app-shell" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-page)' }}>
-      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => navigate('/distributor/sign-in')} />
+      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => { setAuthenticated(false); navigate('/distributor/sign-in'); }} />
       <div className="dist-main" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <Topbar title={title} subtitle={subtitle} query={query} onSearch={setQuery} />
         <div className="dist-route-body" style={{ flex: 1, minWidth: 0 }}>

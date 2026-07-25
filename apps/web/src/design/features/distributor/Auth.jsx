@@ -79,8 +79,8 @@ function DistAuth({ onEnter }) {
               <h1 style={{ font:'var(--fw-bold) var(--fs-3xl)/1 var(--font-display)', letterSpacing:'-0.02em', color:'var(--ink-900)', margin:'0 0 var(--space-2)' }}>Distributor sign in</h1>
               <p style={{ font:'var(--text-body-sm)', color:'var(--text-muted)', margin:'0 0 var(--space-6)' }}>Access pricing, order builder and invoices.</p>
               <form onSubmit={submit} style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)' }}>
-                <Input label="Dealer ID or email" placeholder="ravi@ravistores.in" defaultValue="ravi@ravistores.in" autoComplete="username" required iconLeft={<i data-lucide="building-2" style={{width:17,height:17}}></i>} />
-                <Input label="Password" type="password" placeholder="••••••••" defaultValue="password" autoComplete="current-password" required iconLeft={<i data-lucide="lock" style={{width:17,height:17}}></i>} />
+                <Input label="Dealer ID or email" placeholder="ravi@ravistores.in" autoComplete="username" required iconLeft={<i data-lucide="building-2" style={{width:17,height:17}}></i>} />
+                <Input label="Password" type="password" placeholder="••••••••" autoComplete="current-password" required iconLeft={<i data-lucide="lock" style={{width:17,height:17}}></i>} />
                 <div className="dist-auth-options" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'calc(-1 * var(--space-1))' }}>
                   <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', font:'var(--fw-regular) var(--fs-sm)/1 var(--font-body)', color:'var(--text-body)' }}>
                     <input type="checkbox" defaultChecked style={{ accentColor:'var(--brand)', width:16, height:16 }} /> Keep me signed in
@@ -91,6 +91,10 @@ function DistAuth({ onEnter }) {
                   <Button type="submit" variant="primary" size="lg" full iconRight={<i data-lucide="arrow-right" style={{width:18,height:18}}></i>}>Enter portal</Button>
                 </div>
               </form>
+              <p style={{ display:'flex', gap:8, alignItems:'flex-start', font:'var(--fw-regular) var(--fs-xs)/1.5 var(--font-body)', color:'var(--text-faint)', margin:'var(--space-4) 0 0' }}>
+                <i data-lucide="info" style={{ width:15, height:15, marginTop:2, flex:'none' }}></i>
+                Preview only. Credentials are not verified and no live dealer account is opened. The portal shows sample pricing and orders that stay in this browser.
+              </p>
             </React.Fragment>
           ) : (
             <React.Fragment>
