@@ -25,6 +25,12 @@
           "domain": "repo",
           "title": "CI commit message lint",
           "status": "done"
+        },
+        {
+          "id": "REPO-003",
+          "domain": "repo",
+          "title": "Unblock the guard workflow and restore CI checks",
+          "status": "active"
         }
       ]
     },

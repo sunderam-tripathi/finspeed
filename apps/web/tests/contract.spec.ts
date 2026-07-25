@@ -494,8 +494,8 @@ test.describe('SCN-001 site shell contract', () => {
       'frame',
     ]);
 
-    const naturalWidths = await detailImages.evaluateAll(async (images) => Promise.all(
-      images.map(async (image) => {
+    const naturalWidths = await detailImages.evaluateAll(async (nodes) => Promise.all(
+      (nodes as HTMLImageElement[]).map(async (image) => {
         await image.decode();
         return image.naturalWidth;
       }),
@@ -521,8 +521,8 @@ test.describe('SCN-001 site shell contract', () => {
     expect(new Set(chapterSources)).toEqual(new Set([
       '/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp',
     ]));
-    await expect.poll(async () => chapterImages.evaluateAll((images) => (
-      images.every((image) => image.complete && image.naturalWidth >= 640)
+    await expect.poll(async () => chapterImages.evaluateAll((nodes) => (
+      (nodes as HTMLImageElement[]).every((image) => image.complete && image.naturalWidth >= 640)
     ))).toBe(true);
 
     await page.getByRole('button', { name: 'Explore the bikes' }).click();

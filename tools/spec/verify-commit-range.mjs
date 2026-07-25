@@ -34,7 +34,11 @@ function getMessagesFromGit(baseSha, headSha) {
   if (!baseSha) {
     baseSha = execSync(`git rev-parse ${headSha}^`, { encoding: 'utf8' }).trim();
   }
-  const list = execSync(`git rev-list ${baseSha}..${headSha}`, { encoding: 'utf8' }).trim();
+  // --no-merges: GitHub synthesises a "Merge <sha> into <sha>" commit for every
+  // pull_request event and checks it out as GITHUB_SHA. It has no author to hold
+  // to the convention and no way to be rewritten, so linting it can only ever fail.
+  // The same applies to merge commits produced by a merge-commit strategy.
+  const list = execSync(`git rev-list --no-merges ${baseSha}..${headSha}`, { encoding: 'utf8' }).trim();
   if (!list) return [];
   const commits = list.split(/\r?\n/).filter(Boolean);
   return commits.map(sha => {

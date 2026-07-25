@@ -27,12 +27,26 @@ jobs:
       - name: Commit message lint
         env:
           BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
         run: |
           BASE="$BASE_SHA"
-          if [ -z "$BASE" ]; then
+          # A new branch reports an all-zero "before" sha rather than an empty one.
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
             BASE=$(git rev-list --max-parents=0 HEAD | head -n 1)
           fi
-          node tools/spec/verify-commit-range.mjs --base "$BASE" --head "$GITHUB_SHA"
+          node tools/spec/verify-commit-range.mjs --base "$BASE" --head "$HEAD_SHA"
+      - name: Lint
+        run: npm run lint -w web
+      # Must precede Typecheck. next-env.d.ts is gitignored and carries the
+      # ambient declarations for SVG imports, so on a clean checkout tsc cannot
+      # resolve them until a build regenerates it. Also the only place CI
+      # verifies the production build at all.
+      - name: Build web app
+        run: npm run build -w web
+      - name: Typecheck
+        run: npm run typecheck -w web
+      - name: Run web unit tests
+        run: npm run test:unit -w web
       - name: Install Playwright browsers
         working-directory: apps/web
         run: npx playwright install --with-deps chromium
@@ -47,7 +61,14 @@ jobs:
 
   deploy-web:
     needs: guard
-    if: github.ref == 'refs/heads/main'
+    # Opt-in. No Vercel secrets are configured, so this job would fail on every
+    # push to main rather than deploy anything. It is also unguarded: the
+    # Production environment has no protection rules, so once VERCEL_TOKEN
+    # exists this deploys straight to production with no approval. Set the
+    # repository variable ENABLE_PRODUCTION_DEPLOY=true to arm it, and add a
+    # required reviewer on the Production environment first. Which host this
+    # should target — Vercel or Amplify — is still undecided.
+    if: github.ref == 'refs/heads/main' && vars.ENABLE_PRODUCTION_DEPLOY == 'true'
     runs-on: ubuntu-latest
     environment: production
     steps:

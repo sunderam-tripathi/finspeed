@@ -47,8 +47,20 @@ function getChangedFilesForMode() {
 
 function main() {
   if (!existsSync(ACTIVE_PATH)) {
-    console.error('Guard: missing active-slice.json');
-    process.exit(1);
+    // specs/working-memory/ is gitignored, so the file only ever exists on a
+    // developer's machine. Locally its absence is a real error — the slice
+    // discipline depends on it. In CI it is expected, and failing there makes
+    // the guard unconditionally red, which is how it came to be routed around.
+    // Scope on a pull request is the reviewer's call; CI's value is the checks
+    // below it. This matches loadActiveSlice() in lib/commit-message.js, which
+    // already treats a missing file as IDLE.
+    const mode = process.env.VERIFY_MODE || '';
+    if (mode === 'pre-commit' || mode === 'pre-push') {
+      console.error('Guard: missing active-slice.json');
+      process.exit(1);
+    }
+    console.log('Guard: no active-slice.json (expected in CI) — scope check skipped');
+    return;
   }
   const active = JSON.parse(readFileSync(ACTIVE_PATH, 'utf8'));
   const files = getChangedFilesForMode();
