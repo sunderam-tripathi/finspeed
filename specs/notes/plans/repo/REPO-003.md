@@ -84,7 +84,9 @@
       `before` (old code: exit 1, an infrastructure crash rather than a lint verdict) and
       per-class condition routing (empty/zeros/unreachable → fallback, reachable → reported
       base) in `unreachable-base-crash.txt` / `hardened-condition-routing.txt`.
-- [ ] Hardened step revalidated live (normal-path push run; captured post-push).
+- [x] Hardened step revalidated live — run 30177048496 (push of 925964f): reachable
+      `before` used as reported, no fallback taken, only the pushed commit linted, all
+      steps green (`run-normal-push-pass.txt`).
 - [x] Telemetry refreshed.
 - [ ] Slice parked.
 
@@ -107,6 +109,11 @@
   found and closed the unreachable-`before` (force-push) crash by widening the fallback
   condition to any unusable base; recorded execution-discipline adherence in the proof
   README and the residual orphan-branch behaviour in step 7.
+- 2026-07-26 — Run 30177048496 (hardened step's own push, reachable `before`): fallback
+  correctly skipped, only the pushed commit linted, workflow green
+  (`run-normal-push-pass.txt`). The capture commit's own push run repeats that same
+  normal path; it is verified before parking but deliberately not re-captured — that is
+  where the capture-run regress terminates.
 
 ## Artefact References
 - Guard behaviour: `tools/spec/verify-active-slice.mjs`.

@@ -51,9 +51,9 @@ signal.
   hardened condition evaluated per base class (empty/zeros/unreachable route to
   the fallback, a reachable base is used as reported) plus an end-to-end
   fallback run exiting 0.
-- `artefacts/run-normal-push-pass.txt` — normal-path push run of the hardened
-  step: a non-zero, reachable `before` used as reported, linting only the newly
-  pushed commits. (Added after the push; see RESULT.)
+- `artefacts/run-normal-push-pass.txt` — run 30177048496, the push of the
+  hardened step itself: a non-zero, reachable `before` used as reported (no
+  fetch, no fallback), linting only the newly pushed commit; workflow green.
 - `artefacts/run-first-push-pass.txt` — run 30176201286, the first push of
   `fix/ci-first-push-commit-lint`: a real all-zero `before` event. The step log
   shows `BASE_SHA` all zeros, the fetch of `origin/main`, and the merge-base
@@ -101,5 +101,8 @@ RESULT: PASS (local repro + failing-run evidence; failing sets identical to CI).
 RESULT: PASS (CI) — run 30176201286, the first push of the fix branch (all-zero
 `before`), completed success with the merge-base fallback linting only the
 branch-new commit.
-RESULT: hardening revalidation PENDING — normal-path run after this push;
-updated on completion.
+RESULT: PASS (CI) — run 30177048496, the hardened step's own push (reachable
+`before`, normal path): fallback correctly skipped, only the pushed commit
+linted, workflow green. The capture commit after it revalidates the same
+normal path once more; its run is cited in the plan progress log rather than
+re-captured here, which is where the capture-run regress terminates.
