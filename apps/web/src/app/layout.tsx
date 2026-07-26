@@ -19,6 +19,7 @@ const hind = Hind({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.finspeed.online'),
   title: 'Finspeed — Ride Beyond Boundaries',
   description: 'Finspeed performance bicycles and distributor ordering portal.'
 };

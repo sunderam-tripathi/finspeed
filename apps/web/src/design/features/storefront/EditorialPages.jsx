@@ -180,6 +180,16 @@ function Stores({ onNav, theme = 'light' }) {
           })}
         </div>
       </section>
+
+      <section className="editorial-page-cta">
+        <div>
+          <p className="editorial-kicker">Plan your visit</p>
+          <h2>Search locations, services and test rides.</h2>
+        </div>
+        <button type="button" className="editorial-cta editorial-cta--secondary" onClick={() => onNav('dealers')}>
+          Open the dealer locator <i data-lucide="arrow-right" aria-hidden="true" />
+        </button>
+      </section>
     </article>
   );
 }
