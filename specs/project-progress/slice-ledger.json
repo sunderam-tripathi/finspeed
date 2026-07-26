@@ -220,7 +220,7 @@
           "id": "WEB-037",
           "domain": "web",
           "title": "Production UAT - live redesign build",
-          "status": "active"
+          "status": "done"
         }
       ]
     }
