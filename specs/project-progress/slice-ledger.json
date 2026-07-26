@@ -215,6 +215,12 @@
           "domain": "web",
           "title": "Distributor portal access gate and consent fail-closed",
           "status": "done"
+        },
+        {
+          "id": "WEB-037",
+          "domain": "web",
+          "title": "Production UAT - live redesign build",
+          "status": "active"
         }
       ]
     }

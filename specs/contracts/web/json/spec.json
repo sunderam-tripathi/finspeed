@@ -455,7 +455,7 @@
     },
     {
       "id": "WEB-020",
-      "title": "Production UAT — core journeys",
+      "title": "Production UAT \u2014 core journeys",
       "done_definition": [
         "Production UAT for home, dealer locator, and support hub completed against SCN-001/004/008",
         "Headed Playwright + manual runs captured as artefacts",
@@ -478,7 +478,7 @@
     },
     {
       "id": "WEB-021",
-      "title": "Production UAT — catalog & content",
+      "title": "Production UAT \u2014 catalog & content",
       "done_definition": [
         "Production UAT for catalog, model detail, brand story, testimonials, and blog completed against SCN-002/003/005/006/007",
         "Accessibility/performance spot checks recorded",
@@ -889,6 +889,26 @@
         "tools/**",
         "package.json",
         "package-lock.json",
+        "design-qa.md"
+      ]
+    },
+    {
+      "id": "WEB-037",
+      "title": "Production UAT - live redesign build",
+      "done_definition": [
+        "Scripted production UAT executed against www.finspeed.online covering the storefront, configurator, dealer locator, distributor gate, consent behaviour, and content routes at desktop and mobile in both themes",
+        "Per-journey UX and aesthetics scores (1-5) recorded with typed, severity-rated issues per the UAT quality model",
+        "Consent fail-closed verified in production: no analytics events before a decision and a stored denial honoured on reload",
+        "Findings triaged into follow-up slices or explicitly accepted; no application code changed in this slice",
+        "Proof bundle with results JSON, screenshots, and driver script committed"
+      ],
+      "allow": [
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-037.md",
+        "specs/proofs/web/WEB-037/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
         "design-qa.md"
       ]
     }

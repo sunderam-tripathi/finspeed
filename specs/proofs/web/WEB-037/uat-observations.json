@@ -1,0 +1,458 @@
+{
+  "base": "https://www.finspeed.online",
+  "started": "2026-07-26T09:20:54.357Z",
+  "journeys": [
+    {
+      "id": "consent",
+      "name": "Consent fails closed and stored denial survives reload",
+      "checks": [
+        {
+          "name": "no analytics events before a consent decision",
+          "ok": true,
+          "detail": "dataLayer=null"
+        },
+        {
+          "name": "consent banner present and declinable",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "denial persisted to storage",
+          "ok": true,
+          "detail": "{\"finspeed-consent\":\"denied\"}"
+        },
+        {
+          "name": "banner does not reappear after stored denial",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "stored denial keeps analytics silent after reload",
+          "ok": true,
+          "detail": "dataLayer=null"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/consent-banner-dealers-desktop.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "home",
+      "name": "Home orients a first-time visitor",
+      "checks": [
+        {
+          "name": "primary CTA \"Find your ride\" visible",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "home: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/home-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "menu",
+      "name": "Editorial menu exposes the four journeys",
+      "checks": [
+        {
+          "name": "menu journey \"The Bikes\" present",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "menu journey \"Build Your Ride\" present",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "menu journey \"Our Engineering\" present",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "menu journey \"Visit Finspeed\" present",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "Escape closes the menu",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/menu-open-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard reaches interactive elements with visible focus",
+      "checks": [
+        {
+          "name": "tab order reaches interactive elements",
+          "ok": true,
+          "detail": "button[Finspeed home] > button > button[Search] > button[Cart] > button > button"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/keyboard-focus-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "shop",
+      "name": "Catalog presents governed product imagery",
+      "checks": [
+        {
+          "name": "first product uses configurator v1 poster path",
+          "ok": true,
+          "detail": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp"
+        },
+        {
+          "name": "first product image decodes",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "shop: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/shop-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "product-detail",
+      "name": "Product detail uses the governed stock master",
+      "checks": [
+        {
+          "name": "bull-shark hero is the stock poster",
+          "ok": true,
+          "detail": "/assets/configurator/v1/bull-shark/side-r/light/poster/bull-shark-29-r01-w1600.webp"
+        },
+        {
+          "name": "hero image decodes",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/product-bull-shark-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "configurator-stock",
+      "name": "Configurator resolves the verified catalog build",
+      "checks": [
+        {
+          "name": "default preview is the governed Mako stock poster",
+          "ok": true,
+          "detail": "/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp"
+        },
+        {
+          "name": "seven-stage progress rail present",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "Red Snapper 24-inch prices at ₹4,800",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "ride setup exposes six component radios",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "IBC catalog state resolves the governed SKU poster",
+          "ok": true,
+          "detail": "/assets/configurator/v1/red-snapper/side-r/light/poster/red-snapper-24-ibc-r01-w1600.webp"
+        },
+        {
+          "name": "IBC build prices at ₹5,000",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "review reaches a purchasable verified build",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/build-default-desktop-light.png",
+        "screenshots/build-review-stock-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "configurator-custom",
+      "name": "Custom choices become an honest build request",
+      "checks": [
+        {
+          "name": "custom build shows request CTA instead of cart",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "cart CTA absent for custom request",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/build-review-custom-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "search",
+      "name": "Search returns catalog results",
+      "checks": [
+        {
+          "name": "search page renders results region",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/search-shark-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "distributor-gate",
+      "name": "Distributor portal gates unauthenticated access",
+      "checks": [
+        {
+          "name": "/distributor redirects to sign-in",
+          "ok": true,
+          "detail": "https://www.finspeed.online/distributor/sign-in"
+        },
+        {
+          "name": "/distributor/price-list redirects to sign-in",
+          "ok": true,
+          "detail": "https://www.finspeed.online/distributor/sign-in"
+        },
+        {
+          "name": "/distributor/orders redirects to sign-in",
+          "ok": true,
+          "detail": "https://www.finspeed.online/distributor/sign-in"
+        },
+        {
+          "name": "sign-in states credentials are not verified",
+          "ok": false,
+          "detail": ""
+        },
+        {
+          "name": "no dealer pricing leaks before sign-in",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/distributor-sign-in-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "dealers",
+      "name": "/dealers renders its journey",
+      "checks": [
+        {
+          "name": "/dealers renders content",
+          "ok": false,
+          "detail": "chars=999"
+        },
+        {
+          "name": "dealers: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/dealers-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "support",
+      "name": "/support renders its journey",
+      "checks": [
+        {
+          "name": "/support renders content",
+          "ok": true,
+          "detail": "chars=793"
+        },
+        {
+          "name": "support: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/support-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "brand-story",
+      "name": "/brand-story renders its journey",
+      "checks": [
+        {
+          "name": "/brand-story renders content",
+          "ok": true,
+          "detail": "chars=914"
+        },
+        {
+          "name": "brand-story: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/brand-story-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "testimonials",
+      "name": "/testimonials renders its journey",
+      "checks": [
+        {
+          "name": "/testimonials renders content",
+          "ok": true,
+          "detail": "chars=912"
+        },
+        {
+          "name": "testimonials: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/testimonials-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "blog",
+      "name": "/blog renders its journey",
+      "checks": [
+        {
+          "name": "/blog renders content",
+          "ok": true,
+          "detail": "chars=1010"
+        },
+        {
+          "name": "blog: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=1440 innerWidth=1440"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/blog-desktop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "dark-theme",
+      "name": "Dark theme holds across home and configurator",
+      "checks": [
+        {
+          "name": "dark theme persists across navigation",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "dark preview uses the dark stock poster",
+          "ok": false,
+          "detail": "/assets/configurator/v1/red-snapper/side-r/dark/poster/red-snapper-24-power-rigid-single-blue-carrier-r01-w1600.webp"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/home-desktop-dark.png",
+        "screenshots/build-default-desktop-dark.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "mobile-home",
+      "name": "/ at 390px",
+      "checks": [
+        {
+          "name": "mobile-home: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=390 innerWidth=390"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/mobile-home-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "mobile-shop",
+      "name": "/shop at 390px",
+      "checks": [
+        {
+          "name": "mobile-shop: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=390 innerWidth=390"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/mobile-shop-light.png"
+      ],
+      "notes": []
+    },
+    {
+      "id": "mobile-build",
+      "name": "/build at 390px",
+      "checks": [
+        {
+          "name": "mobile-build: no horizontal scroll",
+          "ok": true,
+          "detail": "scrollWidth=390 innerWidth=390"
+        }
+      ],
+      "consoleErrors": [],
+      "screenshots": [
+        "screenshots/mobile-build-light.png"
+      ],
+      "notes": []
+    }
+  ],
+  "finished": "2026-07-26T09:22:26.443Z"
+}
