@@ -20,9 +20,9 @@
 - Workflow YAML parses; `jobs` contains exactly `guard` (python `yaml.safe_load`).
 - `npm run spec:plan-lint -- specs/notes/plans/repo/REPO-004.md` — Plan lint OK.
 - `npm run spec:validate-references` — exit 0.
-- Green `guard` run on this branch's pull request: recorded in
-  `artefacts/` once the PR run completes (required by branch protection before
-  merge, so the merge itself is the enforcement).
+- Green `guard` runs on this branch (PR event and push event) executed the
+  edited workflow end to end: runs 30195473969 and 30195464195
+  (`artefacts/run-30195473969-guard-pass.txt`).
 
 ## Context
 
@@ -31,4 +31,4 @@ The 2026-07-26 WEB-035/036 merges deployed to production through the Amplify
 Branch protection (PR + `guard` + admins) was added the same day; this slice
 makes the written record match that machinery.
 
-final result: pending PR guard run; all local checks passed
+final result: passed

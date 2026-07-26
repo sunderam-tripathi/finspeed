@@ -44,10 +44,10 @@
 - [x] `deploy-web` removed; workflow comment documents the real release path.
 - [x] `specs/runbooks/repo/release.md` written and referenced from the workflow.
 - [x] Charter GCP-era claims corrected to the AWS reality.
-- [ ] Workflow proven by a green `guard` run on this branch's pull request.
-- [ ] Proof artefacts captured under `specs/proofs/repo/REPO-004/`.
-- [ ] Telemetry refreshed.
-- [ ] Slice parked.
+- [x] Workflow proven by a green `guard` run on this branch's pull request.
+- [x] Proof artefacts captured under `specs/proofs/repo/REPO-004/`.
+- [x] Telemetry refreshed.
+- [x] Slice parked.
 
 ## Follow-ups (not in this slice)
 - Full template-debt sweep of AGENTS.md and charter modules (docker parity stack is
