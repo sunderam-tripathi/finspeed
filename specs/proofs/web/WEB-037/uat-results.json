@@ -1,0 +1,75 @@
+{
+  "slice": "WEB-037",
+  "target": "https://www.finspeed.online",
+  "executed": "2026-07-26",
+  "method": "Scripted chromium sweep (uat-driver.mjs) with human visual review of captures; scores per specs/references/handoff/_shared/tests/uat-ux-aesthetics.md",
+  "observations": "uat-observations.json (19 journeys, 48 objective checks, 45 pass; the 3 recorded failures are adjudicated below)",
+  "consoleErrors": 0,
+  "journeys": [
+    { "id": "consent", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Fail-closed verified live: dataLayer empty before decision, denial persisted (finspeed-consent=denied), banner absent and analytics silent after reload." },
+    { "id": "home", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Hero, dominant CTA, ride-type cards; first-time orientation immediate." },
+    { "id": "menu", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Four journeys, product stage, Escape closes." },
+    { "id": "keyboard", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "Tab reaches header controls with visible focus ring." },
+    { "id": "shop", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Filter tabs, editorial features, governed stock photography (mako-shark-27-5-geared poster live)." },
+    { "id": "product-detail", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Bull Shark serves the verified stock poster (bull-shark-29-r01) with identity honesty." },
+    { "id": "configurator-stock", "ux": 5, "aesthetics": 4, "verdict": "Pass", "notes": "Full seven-stage flow correct with live prices (4,800 -> 5,000) and governed SKU posters; see ISS-3/ISS-4." },
+    { "id": "configurator-custom", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Deep-blue request shows amber price qualifier and Request CTA; cart correctly withheld." },
+    { "id": "search", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "Query returns catalog results." },
+    { "id": "distributor-gate", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "All three portal routes redirect to sign-in; verbatim 'Preview only. Credentials are not verified...' notice; no pricing leak. Driver's landmark-scoped text check was the only failure - see ISS-5." },
+    { "id": "dealers", "ux": 2, "aesthetics": 4, "verdict": "Needs major rework", "notes": "Renders the editorial Visit Finspeed page, not the tested dealer locator - see ISS-1/ISS-2." },
+    { "id": "support", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "" },
+    { "id": "brand-story", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "" },
+    { "id": "testimonials", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "" },
+    { "id": "blog", "ux": 4, "aesthetics": 4, "verdict": "Pass", "notes": "" },
+    { "id": "dark-theme", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Theme persists across navigation; the persisted custom build resolved its exhaustive-matrix dark asset (red-snapper-24-power-rigid-single-blue-carrier) - v3 persistence and deviating-state resolution proven live. Fresh-profile default-state dark evidence: WEB-035 close-out captures." },
+    { "id": "mobile-home", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "No horizontal scroll at 390px." },
+    { "id": "mobile-shop", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "" },
+    { "id": "mobile-build", "ux": 5, "aesthetics": 5, "verdict": "Pass", "notes": "Complete bicycle, step indicator, clean stacking at 390px." }
+  ],
+  "issues": [
+    {
+      "id": "ISS-1",
+      "type": "Functional",
+      "severity": "P1",
+      "title": "/dealers serves the editorial Visit page; the tested dealer locator is unreachable in production",
+      "detail": "Locally and in CI, /dealers renders the SCN-004 dealer locator (map, filters, /api/dealers, outage handling, axe coverage). In production the design client router owns the path and renders the Visit Finspeed page. /api/dealers itself responds 200 JSON.",
+      "disposition": "Follow-up slice: fix production routing so explicit Next routes win (see ISS-2 root cause), then decide the locator's storefront entry point deliberately."
+    },
+    {
+      "id": "ISS-2",
+      "type": "Content",
+      "severity": "P2",
+      "title": "Site-wide client-shell delivery: no server-rendered content, single generic title on every route",
+      "detail": "Every sampled route (/, /blog, /products/bull-shark, /dealers) returns the same ~175-visible-char shell with title 'Finspeed - Ride Beyond Boundaries'; all content is client-rendered. Suspected WEB-022-era Amplify SPA-fallback rewrite serving the shell for all paths, which also causes ISS-1. Predates this release.",
+      "disposition": "Follow-up slice: audit Amplify rewrite rules (requires aws sso login), restrict fallback to unknown paths so Next SSR/static output serves, restoring per-route titles/meta and the locator route."
+    },
+    {
+      "id": "ISS-3",
+      "type": "Visual",
+      "severity": "P3",
+      "title": "Review sticky bar partially occludes its price at 1440px",
+      "detail": "In the review stage the price glyphs sit partially behind the primary CTA in the sticky action bar (build-review-stock-desktop-light.png).",
+      "disposition": "Polish backlog."
+    },
+    {
+      "id": "ISS-4",
+      "type": "Usability",
+      "severity": "P3",
+      "title": "Preview shows 'Preparing selected bicycle' through stage transitions on production latency",
+      "detail": "Between visual states the stage clears to the preparing treatment until the next 1600px poster decodes; on production round-trips this is visible at each capture point.",
+      "disposition": "Polish backlog: retain the previous poster while the next decodes."
+    },
+    {
+      "id": "ISS-5",
+      "type": "Usability",
+      "severity": "P3",
+      "title": "Distributor sign-in content is not inside a main landmark",
+      "detail": "The preview-only notice is visible but sits outside any main region, which is why the scripted landmark-scoped check missed it. Related to the recorded WEB-036 follow-up on distributor table semantics.",
+      "disposition": "Fold into the existing distributor accessibility follow-up."
+    }
+  ],
+  "summary": {
+    "verdictCounts": { "Pass": 17, "Needs minor tweaks": 0, "Needs major rework": 1 },
+    "releaseView": "The live build is production-worthy for the storefront, configurator, distributor gate, and consent contracts - all verified directly in production with zero console errors. The one major finding (ISS-1/ISS-2) is a pre-existing delivery-layer defect, not a regression from the 2026-07-26 releases."
+  }
+}

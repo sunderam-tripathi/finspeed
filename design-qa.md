@@ -185,3 +185,18 @@ final result: passed
 - `npm run build -w web` passed.
 
 final result: passed
+
+## WEB-037 production UAT addendum (2026-07-26)
+
+### Comparison target
+
+- Route checked: the live production build on `https://www.finspeed.online` (Amplify `main` after the WEB-035/036/REPO-004 merges).
+- Evidence: `specs/proofs/web/WEB-037/` (driver, observations, scored results, 24 captures across desktop/mobile and light/dark).
+
+### Findings
+
+- Storefront, configurator (stock and custom paths), distributor gate, and consent fail-closed all verified directly in production; 45/48 objective checks pass with 0 console errors, and the three scripted failures are adjudicated in the proof (two driver artefacts, one real defect).
+- P1 (pre-existing): `/dealers` serves the editorial Visit page because production delivers the client shell for every route (suspected WEB-022-era Amplify SPA rewrite); the tested dealer locator and all per-route SSR titles/meta are bypassed site-wide. Triaged to a follow-up delivery-layer slice.
+- P3 polish: review sticky-bar price occlusion at 1440px; preview "preparing" treatment through stage transitions; distributor sign-in content outside a main landmark.
+
+final result: passed with findings
