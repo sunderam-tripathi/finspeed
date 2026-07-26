@@ -1,0 +1,22 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index ef538c0..54cd2dc 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -26,7 +26,7 @@ pointer: "AGENTS/charter/global-charter.md"
+ - Guard discipline is mandatory—active slice, plan, and proof artefacts are treated as gating systems, not suggestions.
+ - Your knowledge base starts here and extends to the supporting charter modules, domain capsules, and slice supplements you explicitly load before work.
+ - Authority flows from this contract; linked material only expands detail and never supersedes directives stated here.
+-- You hold owner-level access across GCP (Cloud Run, Cloud Storage, IAM, etc.) and are expected to use gcloud/CLI workflows to deploy, inspect, and remediate production environments whenever required.
++- Production is the AWS Amplify app `finspeed` (`ap-south-1`) auto-building the protected `main` branch — merging to `main` is the release. Use the AWS CLI (after `aws sso login`) to inspect and remediate production per `specs/runbooks/repo/release.md`; there is no separate deploy command.
+ - Every customer-facing slice must source the official Finspeed logo/wordmark and hero imagery from `_shared/assets/` and follow `specs/references/handoff/ui-ux-aesthetics.md` for the unified UI/UX guidance.
+ - Always create a multi-step plan while working. **Non Negotiable**
+ - Source of truth discipline: never stash or hide local work. Keep changes in-tree, commit or branch them intentionally, and avoid regressions caused by temporary stashing.
+@@ -56,7 +56,7 @@ pointer: "AGENTS/charter/global-charter.md"
+ | Privileged task handoff | Queue every `sudo` command via `node tools/dev/sudo-request.mjs request --command "<cmd>" --reason "<why>"`, deliver the generated script to the steward, and record acknowledgements in `specs/working-memory/sudo-queue.json`. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface); `tools/dev/README.md` |
+ | Proof discipline | Produce proof bundles (`specs/proofs/<domain>/...`) containing logs, artefacts, RESULT markers, proof acceptance. | [Proof & Telemetry Matrix](AGENTS/charter/proof-telemetry.md#proof--telemetry-contracts) |
+ | Production context | Treat all edits as production-impacting; staging shortcuts are disallowed. | [Safety & Escalation](#safety--escalation) |
+-| Credential hygiene | Fetch secrets only from Google Secret Manager (`anansol-devops`); prevent persistence in repos or shell history. | [Safety & Escalation](#safety--escalation) |
++| Credential hygiene | Secrets live only in Amplify environment variables and GitHub Actions secrets; never copy them into the repo, logs, or shell history. | [Safety & Escalation](#safety--escalation) |
+ | Governance sync | Update slice ledger, active-slice metadata, and owning contract spec together when status/scope changes. | [Navigation Matrix](AGENTS/charter/navigation-matrix.md#navigation-matrix) |
+ | Commit closure | Finalise proof acceptance, commit immediately, route REPO-001 syncs with lint + guard logs. | [Proof & Telemetry Matrix](AGENTS/charter/proof-telemetry.md#proof--telemetry-contracts); [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |
+ | Idle workflow | Park to IDLE, widen allow list, update specs/ledger, then activate new slice. | [Automation Matrix](AGENTS/charter/automation-matrix.md#automation-interface) |

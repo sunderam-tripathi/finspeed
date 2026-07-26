@@ -5,8 +5,19 @@
     "Ensure commits reference active slice IDs"
   ],
   "scope": {
-    "in": [".githooks/**", "tools/spec/**", "specs/contracts/repo/**", "specs/notes/plans/repo/**", "specs/proofs/repo/**", "AGENTS/**", "specs/project-progress/**"],
-    "out": ["apps/**", "pkg/**"]
+    "in": [
+      ".githooks/**",
+      "tools/spec/**",
+      "specs/contracts/repo/**",
+      "specs/notes/plans/repo/**",
+      "specs/proofs/repo/**",
+      "AGENTS/**",
+      "specs/project-progress/**"
+    ],
+    "out": [
+      "apps/**",
+      "pkg/**"
+    ]
   },
   "acceptance_criteria": [
     "Commit messages include active slice ID when ACTIVE",
@@ -50,6 +61,28 @@
         "specs/proofs/repo/REPO-002/**",
         "AGENTS/**",
         "specs/project-progress/**"
+      ]
+    },
+    {
+      "id": "REPO-004",
+      "title": "Align release documents with the Amplify production path",
+      "done_definition": [
+        "The unused Vercel deploy-web job is removed from CI and the workflow documents the real release path",
+        "A release runbook records the Amplify main-branch auto-deploy, the branch-protection gate, verification, and rollback",
+        "Charter claims that contradict the deployed infrastructure are corrected",
+        "Proof captures the green guard run demonstrating the workflow after the removal"
+      ],
+      "allow": [
+        ".github/workflows/**",
+        "specs/runbooks/repo/**",
+        "specs/contracts/repo/**",
+        "specs/notes/plans/repo/REPO-004.md",
+        "specs/proofs/repo/REPO-004/**",
+        "AGENTS.md",
+        "AGENTS/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**"
       ]
     }
   ]

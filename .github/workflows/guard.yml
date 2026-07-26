@@ -67,35 +67,11 @@ jobs:
           node tools/spec/progress.mjs || true
           node tools/spec/slice-index.mjs || true
 
-  deploy-web:
-    needs: guard
-    # Opt-in. No Vercel secrets are configured, so this job would fail on every
-    # push to main rather than deploy anything. It is also unguarded: the
-    # Production environment has no protection rules, so once VERCEL_TOKEN
-    # exists this deploys straight to production with no approval. Set the
-    # repository variable ENABLE_PRODUCTION_DEPLOY=true to arm it, and add a
-    # required reviewer on the Production environment first. Which host this
-    # should target — Vercel or Amplify — is still undecided.
-    if: github.ref == 'refs/heads/main' && vars.ENABLE_PRODUCTION_DEPLOY == 'true'
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Install
-        run: npm install
-      - name: Build web app for production
-        run: npm run deploy
-      - name: Deploy to Vercel (production)
-        working-directory: apps/web
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx vercel --prod --token "$VERCEL_TOKEN" --yes
+  # There is deliberately no deploy job in this workflow. Merging to main IS
+  # the production release: the AWS Amplify app "finspeed" (d2h8tz7elv2xy8,
+  # ap-south-1) is connected to main with auto-build and serves
+  # https://www.finspeed.online. Branch protection on main requires a pull
+  # request and a green "guard" check (admins included), so nothing reaches
+  # production without this workflow passing first. A second deploy path here
+  # would either double-deploy or drift from Amplify. Verification, rollback,
+  # and history: specs/runbooks/repo/release.md (REPO-004).
