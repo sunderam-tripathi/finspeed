@@ -32,3 +32,16 @@ Branch protection (PR + `guard` + admins) was added the same day; this slice
 makes the written record match that machinery.
 
 final result: passed
+
+## Follow-up executed: unused Production environment deleted (2026-07-27)
+
+The optional owner action recorded in the REPO-004 plan was approved and
+executed by the steward on 2026-07-27: the GitHub `Production` environment —
+unreferenced since the Vercel `deploy-web` job's removal, holding zero
+protection rules and zero secrets (verified immediately before deletion) —
+was deleted via `gh api -X DELETE .../environments/Production`. Captures:
+`artefacts/environments-before-deletion.json` (Preview + Production) and
+`artefacts/environments-after-deletion.json` (Preview only). The `Preview`
+environment belongs to the Vercel pull-request integration and is untouched;
+if that integration ever records a production deployment it may recreate the
+environment, which would be visible in repository settings and harmless.
