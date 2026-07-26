@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Toast } from '../../ui/index.js';
-import { distributorOrderDetails, distributorProducts } from '../../data/distributor.js';
+import { fetchPortal, openPortalSession } from './portal-session.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 import { usePersistentState } from '../../lib/usePersistentState.js';
 import Account from './Account.jsx';
@@ -56,8 +56,30 @@ export default function DistributorApp() {
   const toastTimer = React.useRef(null);
   // The portal is gated on an in-session sign-in rather than on the current
   // path, so a deep link cannot render dealer pricing to a visitor who never
-  // signed in. A reload returns to the sign-in screen by design.
+  // signed in. A reload returns to the sign-in screen by design. Since
+  // WEB-039 the dataset itself lives server-side: sign-in opens a session
+  // token and the portal payload is fetched over it, so pricing is never in
+  // the client bundle.
   const [authenticated, setAuthenticated] = React.useState(false);
+  const [portal, setPortal] = React.useState(null);
+  const [portalError, setPortalError] = React.useState(null);
+  const sessionToken = React.useRef(null);
+
+  const loadPortal = React.useCallback(async () => {
+    setPortalError(null);
+    try {
+      if (!sessionToken.current) sessionToken.current = await openPortalSession();
+      try {
+        setPortal(await fetchPortal(sessionToken.current));
+      } catch (error) {
+        if (!error.expired) throw error;
+        sessionToken.current = await openPortalSession();
+        setPortal(await fetchPortal(sessionToken.current));
+      }
+    } catch {
+      setPortalError('The portal data could not be loaded.');
+    }
+  }, []);
   const atSignIn = normalizedPath === '/distributor/sign-in';
   const signedOut = !authenticated;
 
@@ -101,6 +123,9 @@ export default function DistributorApp() {
       return next;
     });
   }
+
+  const distributorProducts = portal?.products ?? [];
+  const distributorOrderDetails = portal?.orderDetails ?? {};
 
   function reorder(purchaseOrder) {
     const detail = purchaseOrder.detail || distributorOrderDetails[purchaseOrder.no];
@@ -153,10 +178,28 @@ export default function DistributorApp() {
 
   if (signedOut) {
     if (!atSignIn) return <Navigate to="/distributor/sign-in" replace />;
-    return <Auth onEnter={() => { setAuthenticated(true); navigate('/distributor'); }} />;
+    return <Auth onEnter={() => { setAuthenticated(true); loadPortal(); navigate('/distributor'); }} />;
   }
 
   if (atSignIn) return <Navigate to="/distributor" replace />;
+
+  if (!portal) {
+    return (
+      <div className="dist-app-shell" style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-page)' }}>
+        <div role="status" style={{ textAlign: 'center', maxWidth: 420, padding: 'var(--space-6)' }}>
+          <div style={{ font: 'var(--fw-medium) var(--fs-2xs)/1 var(--font-mono)', letterSpacing: 'var(--tracking-wider)', textTransform: 'uppercase', color: 'var(--cyan-electric)' }}>Distributor portal</div>
+          <p style={{ font: 'var(--text-body-md)', color: 'var(--text-secondary)', margin: 'var(--space-4) 0 0' }}>
+            {portalError || 'Loading your pricing, orders and account…'}
+          </p>
+          {portalError ? (
+            <button type="button" className="btn btn--primary" style={{ marginTop: 'var(--space-5)' }} onClick={loadPortal}>
+              Try again
+            </button>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
 
   const [title, subtitle] = headings[route];
   const orderCount = Object.keys(order).length;
@@ -164,18 +207,18 @@ export default function DistributorApp() {
 
   return (
     <div className="dist-app-shell" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-page)' }}>
-      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => { setAuthenticated(false); navigate('/distributor/sign-in'); }} />
+      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => { setAuthenticated(false); setPortal(null); setPortalError(null); sessionToken.current = null; navigate('/distributor/sign-in'); }} />
       <div className="dist-main" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <Topbar title={title} subtitle={subtitle} query={query} onSearch={setQuery} />
         <div className="dist-route-body" style={{ flex: 1, minWidth: 0 }}>
           <Routes>
-            <Route index element={<Dashboard onNav={setRoute} />} />
-            <Route path="price-list" element={<PriceList query={query} order={order} onAdd={addToOrder} onNav={setRoute} />} />
-            <Route path="order-builder" element={<OrderBuilder order={order} onAdd={addToOrder} onRemove={removeLine} onNav={setRoute} onPlace={placeOrder} />} />
-            <Route path="orders" element={<Orders justPlaced={justPlaced} placedOrders={placedOrders} onClearPlaced={() => setJustPlaced(null)} onNav={setRoute} onReorder={reorder} />} />
-            <Route path="invoices" element={<Invoices notify={notify} />} />
-            <Route path="account" element={<Account notify={notify} />} />
-            <Route path="support" element={<Support notify={notify} />} />
+            <Route index element={<Dashboard portal={portal} onNav={setRoute} />} />
+            <Route path="price-list" element={<PriceList portal={portal} query={query} order={order} onAdd={addToOrder} onNav={setRoute} />} />
+            <Route path="order-builder" element={<OrderBuilder portal={portal} order={order} onAdd={addToOrder} onRemove={removeLine} onNav={setRoute} onPlace={placeOrder} />} />
+            <Route path="orders" element={<Orders portal={portal} justPlaced={justPlaced} placedOrders={placedOrders} onClearPlaced={() => setJustPlaced(null)} onNav={setRoute} onReorder={reorder} />} />
+            <Route path="invoices" element={<Invoices portal={portal} notify={notify} />} />
+            <Route path="account" element={<Account portal={portal} notify={notify} />} />
+            <Route path="support" element={<Support portal={portal} notify={notify} />} />
             <Route path="*" element={<Navigate to="/distributor" replace />} />
           </Routes>
         </div>

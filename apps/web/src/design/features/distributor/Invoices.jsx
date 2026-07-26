@@ -1,7 +1,7 @@
 // Finspeed Distributor Portal — Invoices (Net-30 ledger)
 import React from 'react';
 import { Badge, Button, IconButton, Tag } from '../../ui/index.js';
-import { distributorAccount, distributorInvoices, formatInr } from '../../data/distributor.js';
+import { formatInr } from '../../data/distributor.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 function InvStatus({ s }) {
@@ -9,7 +9,8 @@ function InvStatus({ s }) {
   return <Badge tone={map[s]||'neutral'} dot>{s}</Badge>;
 }
 
-function Invoices({ notify }) {
+function Invoices({ portal, notify }) {
+  const { account: distributorAccount, invoices: distributorInvoices } = portal;
   const INR = formatInr;
   const A = distributorAccount;
   const [rows, setRows] = React.useState(distributorInvoices);

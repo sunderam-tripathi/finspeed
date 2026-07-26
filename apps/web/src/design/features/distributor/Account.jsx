@@ -1,7 +1,7 @@
 // Finspeed Distributor Portal — Account (business profile, credit, addresses, team)
 import React from 'react';
 import { Button, Input, Badge, IconButton } from '../../ui/index.js';
-import { distributorAccount, distributorTeam, formatInr } from '../../data/distributor.js';
+import { formatInr } from '../../data/distributor.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 function Field({ label, value }) {
@@ -25,7 +25,8 @@ function Card({ title, action, children, pad=22 }) {
   );
 }
 
-function Account({ notify }) {
+function Account({ portal, notify }) {
+  const { account: distributorAccount, team: distributorTeam } = portal;
   const INR = formatInr;
   const A = distributorAccount;
   const team = distributorTeam;

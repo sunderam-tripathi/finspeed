@@ -106,7 +106,7 @@ function DistAuth({ onEnter }) {
                 <Input label="Phone" placeholder="+91 98100 45678" required />
                 <div style={{ gridColumn:'1 / -1' }}><Input label="Email" type="email" placeholder="you@store.in" required /></div>
                 <Input label="City" placeholder="Noida" required />
-                <Input label="GSTIN" placeholder="09AABCR1234F1Z5" required />
+                <Input label="GSTIN" placeholder="07ABCDE1234F1Z5" required />
                 <div style={{ gridColumn:'1 / -1', marginTop:'var(--space-2)' }}>
                   <Button type="submit" variant="primary" size="lg" full iconRight={<i data-lucide="send" style={{width:17,height:17}}></i>}>Submit application</Button>
                 </div>

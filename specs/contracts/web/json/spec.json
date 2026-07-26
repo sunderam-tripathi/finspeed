@@ -933,6 +933,27 @@
         "specs/working-memory/**",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-039",
+      "title": "Distributor pricing behind a server boundary",
+      "done_definition": [
+        "Dealer prices, margins, and portal records are absent from every client bundle chunk, enforced by an automated build-scan test",
+        "A session-token API gates the portal dataset; unauthenticated requests receive 401",
+        "The portal UX is unchanged for the honest preview flow, including sign-out and reload semantics",
+        "The proof states plainly that with unverified sign-in this is a data boundary and auth-ready seam, not access control",
+        "Full gate suite green; production verified after the merge deploys"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-039.md",
+        "specs/proofs/web/WEB-039/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "design-qa.md"
+      ]
     }
   ]
 }

@@ -1,18 +1,11 @@
 // Finspeed Distributor Portal — Orders (confirmation + history + tracking)
 import React from 'react';
 import { Button, Badge, IconButton } from '../../ui/index.js';
-import {
-  distributorOrderDetails,
-  distributorOrders,
-  distributorProductImage,
-  distributorProducts,
-  distributorStatus,
-  distributorTrackingStages,
-  formatInr,
-} from '../../data/distributor.js';
+import { distributorProductImage, distributorStatus, distributorTrackingStages, formatInr } from '../../data/distributor.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
-function DistOrders({ justPlaced, placedOrders = [], onClearPlaced, onNav, onReorder }) {
+function DistOrders({ portal, justPlaced, placedOrders = [], onClearPlaced, onNav, onReorder }) {
+  const { orderDetails: distributorOrderDetails, orders: distributorOrders, products: distributorProducts } = portal;
   const INR = formatInr;
   const STAGES = distributorTrackingStages;
   const SMAP = distributorStatus;

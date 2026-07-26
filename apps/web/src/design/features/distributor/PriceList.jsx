@@ -1,7 +1,7 @@
 // Finspeed Distributor Portal — Price list (consolidated pricing matrix)
 import React from 'react';
 import { Tag, QuantityStepper, Button, Badge } from '../../ui/index.js';
-import { distributorProductImage, distributorProducts, formatInr } from '../../data/distributor.js';
+import { distributorProductImage, formatInr } from '../../data/distributor.js';
 
 function StockTag({ s }) {
   if (s==='in') return <Badge tone="success" dot>In stock</Badge>;
@@ -9,7 +9,8 @@ function StockTag({ s }) {
   return <Badge tone="danger" dot>Out</Badge>;
 }
 
-function PriceList({ query, order, onAdd, onNav }) {
+function PriceList({ portal, query, order, onAdd, onNav }) {
+  const { products: distributorProducts } = portal;
   const D = distributorProducts, INR = formatInr;
   const [series, setSeries] = React.useState('All');
   const allSeries = ['All', ...Array.from(new Set(D.map(r=>r.series)))];
