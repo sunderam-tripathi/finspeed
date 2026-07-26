@@ -1,0 +1,12 @@
+# hardened condition routing — the exact guard.yml test evaluated per base class
+empty        -> fallback (merge-base with origin/main)
+zeros        -> fallback (merge-base with origin/main)
+unreachable  -> fallback (merge-base with origin/main)
+reachable    -> use reported before
+
+# end-to-end with an unreachable base: fallback resolves and the range lints clean
+merge-base HEAD origin/main = b790a0956e868493f3288f9106382614e55480ab
+Commit a14b873c536398331a7651a04ae42be0a09dd180: OK
+Commit b87f5aa56deb059e89ebb480920e0feda4f68dfe: OK
+All commit messages look good
+# exit=0

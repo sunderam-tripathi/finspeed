@@ -1,0 +1,25 @@
+# Guard run 30177048496 — push of 925964f (hardened step), normal path: reachable non-zero 'before'
+# https://github.com/sunderam-tripathi/finspeed/actions/runs/30177048496
+# Overall conclusion: success (all steps green). Commit message lint step log:
+guard	Commit message lint	﻿2026-07-25T22:11:59.7064661Z ##[group]Run BASE="$BASE_SHA"
+guard	Commit message lint	2026-07-25T22:11:59.7065029Z ^[[36;1mBASE="$BASE_SHA"^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7065397Z ^[[36;1m# A new branch reports an all-zero "before" sha rather than an empty^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7066088Z ^[[36;1m# one, and a force-push can report a "before" that no ref reaches any^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7066561Z ^[[36;1m# more, so the checkout never fetched it. Falling back to the root^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7067010Z ^[[36;1m# commit linted the entire history, and the legacy commits that^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7067471Z ^[[36;1m# predate the convention turned every first push of a branch red.^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7067930Z ^[[36;1m# Whenever the reported base is unusable, lint what is new to the^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7068305Z ^[[36;1m# branch relative to main instead.^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7068691Z ^[[36;1mif [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] \^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7069137Z ^[[36;1m  || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7069530Z ^[[36;1m  git fetch --no-tags origin main^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7069840Z ^[[36;1m  BASE=$(git merge-base HEAD origin/main)^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7070143Z ^[[36;1mfi^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7070470Z ^[[36;1mnode tools/spec/verify-commit-range.mjs --base "$BASE" --head "$HEAD_SHA"^[[0m
+guard	Commit message lint	2026-07-25T22:11:59.7116844Z shell: /usr/bin/bash -e {0}
+guard	Commit message lint	2026-07-25T22:11:59.7117113Z env:
+guard	Commit message lint	2026-07-25T22:11:59.7117352Z   BASE_SHA: a14b873c536398331a7651a04ae42be0a09dd180
+guard	Commit message lint	2026-07-25T22:11:59.7117699Z   HEAD_SHA: 925964fc7146d36cf18aa495898e5bb4109b858d
+guard	Commit message lint	2026-07-25T22:11:59.7117987Z ##[endgroup]
+guard	Commit message lint	2026-07-25T22:11:59.7618833Z Commit 925964fc7146d36cf18aa495898e5bb4109b858d: OK
+guard	Commit message lint	2026-07-25T22:11:59.7620522Z All commit messages look good

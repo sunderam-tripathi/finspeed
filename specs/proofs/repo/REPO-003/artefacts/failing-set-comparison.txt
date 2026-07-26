@@ -1,0 +1,42 @@
+# Failing-commit set comparison: CI runs vs local repro of the old root-commit fallback
+# Extraction: lines 'Commit <sha>: <verdict>' where verdict != OK, deduped+sorted.
+
+run 30175493102 (chore/web-036-proof-close): 30 failing SHAs
+local repro (old fallback, same HEAD):        30 failing SHAs
+diff: IDENTICAL
+
+run 30175379989 (feat/web-035-product-true-configurator): 30 failing SHAs
+local repro (old fallback, same HEAD):        30 failing SHAs
+diff: IDENTICAL
+
+# The 30 nonconforming commits (shared by both runs):
+0647d0f925066def91fcb5f77ecac08b475ee7ec
+13c560cf6db050111ad1c402dd58922fba9eb708
+2bd41e9ddfb0c9415fec06e5c65030f8703d2a91
+361c13651ad04ea84b721f311254b280dabf799f
+3c8c7a8a058ca71c62bad008cb4f5eeb66bee922
+410775fb39c516a821d754cfbe07c8f12130d592
+42f411a382d0995624aaea9c67f562e514e09f02
+4617536c728ab0d0211104813b81893a4d51e8d8
+53887c2a5197a4072f8b7abbf189581f805b88f1
+55d3e4daafe50221edf8e9d745f49aa9ceccb7c5
+590d9e821976beabd99fd9b29006f07dbd9a092a
+654702582a299e80175cff4106db501f8dd8c289
+6a11a306ae5598fde6adbff2eb224f08836a0912
+6d252fb305ff34931868777b6622473fa6586150
+6d293a7a26b2452754b0ebbbe7803ec4724daca3
+7651b5388bad88100b387841b0a7f364cba150de
+84f83455737086a66826a419c38da67822b34171
+886110c4773c05418b5a6650d38f49591f5e2cc1
+934821c15ab5bf5ec85baece5cc049165cf6cf93
+937fe7191bcea6b6daf4f02ead1082346ad63488
+948f0ba3d2626b11edafa92cf6da639679d8db68
+9907c433d1fc8fbec50d1e2f6f831635528811df
+a401e6d2d5730b01801d2e9566df2370c1bc6847
+a971b2b173bce786dadee68a787ebb02468800bb
+ae17d7ccbd883c5b85b3dd07a143310c99d60a44
+bcbfea1cee5f2281903f3d90414bc8d75335e7aa
+c852496f55551062cd3e384ac41b7a297f0b9927
+df4972687e5ecf4aaf9bc76510016e3c17e8b958
+e09aa7327c8b44a2ae3d741686e8d0a3ece625d8
+f9fcedd63c7b9e200a17a8a0c2e0839a72c371a2

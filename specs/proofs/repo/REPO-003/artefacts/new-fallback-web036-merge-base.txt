@@ -1,0 +1,6 @@
+# repro (full history, post-unshallow): NEW fallback BASE=$(git merge-base HEAD origin/main)
+# branch chore/web-036-proof-close — BASE=b790a0956e868493f3288f9106382614e55480ab  HEAD=847187f1b4b421832dea4ed23d5e220ce7133f2a
+Commit 847187f1b4b421832dea4ed23d5e220ce7133f2a: OK
+Commit 674293634979f409dcc74171cc55924eaea5a1f0: OK
+All commit messages look good
+# exit=0
