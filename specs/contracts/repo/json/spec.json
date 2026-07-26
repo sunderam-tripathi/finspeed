@@ -102,6 +102,29 @@
         "specs/project-progress/**",
         "specs/working-memory/**"
       ]
+    },
+    {
+      "id": "REPO-006",
+      "title": "Charter template-debt sweep",
+      "done_definition": [
+        "The charter mandates only machinery that exists and is enforced in this repository",
+        "Docker/compose, Go test, and sudo-queue fictions are removed from charter, matrix, tools README, and Makefile",
+        "The dead sudo-request tool and broken dev-api target are deleted",
+        "Proof records before/after evidence for every removed fiction"
+      ],
+      "allow": [
+        "AGENTS.md",
+        "AGENTS/**",
+        "Makefile",
+        "tools/dev/**",
+        "specs/runbooks/**",
+        "specs/contracts/repo/**",
+        "specs/notes/plans/repo/REPO-006.md",
+        "specs/proofs/repo/REPO-006/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**"
+      ]
     }
   ]
 }

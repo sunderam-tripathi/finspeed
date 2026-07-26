@@ -43,6 +43,12 @@
           "domain": "repo",
           "title": "Correct the AWS auth command in the charter and release runbook",
           "status": "done"
+        },
+        {
+          "id": "REPO-006",
+          "domain": "repo",
+          "title": "Charter template-debt sweep",
+          "status": "done"
         }
       ]
     },
