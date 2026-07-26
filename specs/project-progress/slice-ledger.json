@@ -244,7 +244,7 @@
           "id": "WEB-039",
           "domain": "web",
           "title": "Distributor pricing behind a server boundary",
-          "status": "active"
+          "status": "done"
         }
       ]
     }

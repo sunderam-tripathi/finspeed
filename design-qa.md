@@ -231,3 +231,18 @@ final result: passed with findings
 
 final result: passed — production verified; Amplify rule audit pending
 credentials
+
+## WEB-039 distributor server boundary addendum (2026-07-27)
+
+### Comparison target
+
+- Route checked: `/distributor/*` on production after the PR #14 release, plus the `/api/distributor/*` contract.
+- Evidence: `specs/proofs/web/WEB-039/` (production-results.json 7/7, production-price-list.png, boundary test, access contracts).
+
+### Findings
+
+- Dealer prices, margins, and portal records no longer exist in any served client chunk (build-time scan enforced in CI; deployed chunks re-verified live). The only data path is a no-store API behind a session token with a 401 contract.
+- Portal UX is unchanged for the honest preview flow: sign-in, price list, order builder, sign-out, and reload semantics all behave as before, now over the fetched boundary with honest loading/error states and no client-side fallback.
+- Honest limit recorded everywhere: sign-in stays unverified, so this is a data boundary and the seam for future real authentication — not access control.
+
+final result: passed

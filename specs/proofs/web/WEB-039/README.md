@@ -51,12 +51,18 @@ where genuine credential verification attaches once dealer accounts exist.
 - Full Playwright suite: **76/76** (5 original access contracts unchanged,
   3 new boundary contracts).
 
-## Production verification
+## Production verification (release merged 2026-07-27, PR #14)
 
-Merging to protected `main` releases via Amplify. `production-check.mjs`
-(committed here, re-runnable) verifies the deployed behaviour: 401 without a
-session, token flow serving dealer rows, served-chunk sentinel scan, and the
-signed-in price list rendering API-served pricing. Its results land in
-`production-results.json` in the closing commit.
+`production-check.mjs` against `https://www.finspeed.online`: **7/7 pass**
+(`production-results.json`) — 401 with no-store for unauthenticated and forged
+requests, minted token unlocking dealer rows, all 10 served script chunks free
+of dataset sentinels, and the signed-in price list rendering API-served
+pricing (`production-price-list.png`, visually inspected: full matrix with
+distributor prices and margins, Ravi Stores session, order builder count).
+First run scored 6/7 from a driver defect — `isVisible({ timeout })` samples
+instantly rather than waiting — fixed to `waitFor` and re-run; the screenshot
+from the failing run already showed the rendered price list, so no production
+defect existed at any point.
 
-final result: pending release — all local gates passed
+final result: passed — production boundary verified; access control remains
+deliberately out of scope until real dealer credentials exist
