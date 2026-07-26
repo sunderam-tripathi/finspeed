@@ -1,0 +1,33 @@
+[2m[WebServer] [22m
+[2m[WebServer] [22m> web@0.1.0 dev
+[2m[WebServer] [22m> next dev --webpack --hostname 127.0.0.1 --port 3100
+[2m[WebServer] [22m
+[2m[WebServer] [22m[1m[38;2;173;127;168m▲ Next.js 16.2.10[39m[22m (webpack)
+[2m[WebServer] [22m- Local:         http://127.0.0.1:3100
+[2m[WebServer] [22m- Network:       http://127.0.0.1:3100
+[2m[WebServer] [22m[32m[1m✓[22m[39m Ready in 8.1s
+[2m[WebServer] [22m
+[2m[WebServer] [22m[37m[1m○[22m[39m Compiling / ...
+[2m[WebServer] [22m GET / [32m200[39m in 8.0s[2m (next.js: 7.8s, application-code: 182ms)[22m
+
+Running 5 tests using 1 worker
+
+[2m[WebServer] [22m GET /distributor [32m200[39m in 1337ms[2m (next.js: 1237ms, application-code: 100ms)[22m
+[2m[WebServer] [22m GET /distributor/price-list [32m200[39m in 44ms[2m (next.js: 12ms, application-code: 32ms)[22m
+[2m[WebServer] [22m GET /distributor/order-builder [32m200[39m in 39ms[2m (next.js: 10ms, application-code: 29ms)[22m
+[2m[WebServer] [22m GET /distributor/orders [32m200[39m in 34ms[2m (next.js: 9ms, application-code: 26ms)[22m
+[2m[WebServer] [22m GET /distributor/invoices [32m200[39m in 42ms[2m (next.js: 11ms, application-code: 31ms)[22m
+[2m[WebServer] [22m GET /distributor/account [32m200[39m in 33ms[2m (next.js: 9ms, application-code: 25ms)[22m
+[2m[WebServer] [22m GET /distributor/support [32m200[39m in 48ms[2m (next.js: 9ms, application-code: 39ms)[22m
+  ok 1 [chromium] › tests\distributor-access.spec.ts:32:7 › distributor portal access › every portal path redirects to sign in without a session (10.8s)
+[2m[WebServer] [22m GET /distributor/price-list [32m200[39m in 37ms[2m (next.js: 9ms, application-code: 28ms)[22m
+  ok 2 [chromium] › tests\distributor-access.spec.ts:41:7 › distributor portal access › dealer cost prices and margins stay hidden until sign in (1.2s)
+[2m[WebServer] [22m GET /distributor/sign-in [32m200[39m in 39ms[2m (next.js: 9ms, application-code: 29ms)[22m
+  ok 3 [chromium] › tests\distributor-access.spec.ts:50:7 › distributor portal access › the sign-in screen states that credentials are not verified (1.6s)
+[2m[WebServer] [22m GET /distributor/sign-in [32m200[39m in 36ms[2m (next.js: 8ms, application-code: 28ms)[22m
+  ok 4 [chromium] › tests\distributor-access.spec.ts:59:7 › distributor portal access › signing in opens the portal and signing out closes it again (1.9s)
+[2m[WebServer] [22m GET /distributor/sign-in [32m200[39m in 37ms[2m (next.js: 9ms, application-code: 29ms)[22m
+[2m[WebServer] [22m GET /distributor [32m200[39m in 50ms[2m (next.js: 11ms, application-code: 39ms)[22m
+  ok 5 [chromium] › tests\distributor-access.spec.ts:75:7 › distributor portal access › a reload drops the session rather than leaving the portal open (2.3s)
+
+  5 passed (54.8s)
