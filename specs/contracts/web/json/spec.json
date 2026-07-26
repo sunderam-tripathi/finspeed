@@ -911,6 +911,28 @@
         "specs/working-memory/**",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-038",
+      "title": "Per-route server titles, honest 404s, locator discoverability",
+      "done_definition": [
+        "WEB-037 ISS-1/ISS-2 re-adjudicated with server-delivery evidence: production requests reach Next per-path (no Amplify SPA-fallback rewrite in effect), the dealer locator already renders at /dealers, and the corrected root cause (every route mounts the client-only DesignApp with only a root-layout title) is recorded in the proof",
+        "A single shared route-title map drives both the design app's client document.title and per-route Next metadata exports, so every static route serves a route-specific server-rendered title and description",
+        "The design catch-all serves route metadata for known design paths including real product names, and returns HTTP 404 with the not-found page for unknown paths, matching the client router's NotFound view",
+        "The dealer locator is deliberately linked from the storefront (footer Visit & Support and a Stores-page CTA) with the entry-point decision and rationale recorded",
+        "Amplify app d2h8tz7elv2xy8 rewrite rules audited via the AWS CLI and documented in the proof; any harmful rule removed only with explicit steward approval",
+        "Playwright coverage asserts server-delivered titles and 404 semantics without JavaScript; the full web suite passes in the parity stack and the same checks pass against production after release"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-038.md",
+        "specs/proofs/web/WEB-038/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "design-qa.md"
+      ]
     }
   ]
 }

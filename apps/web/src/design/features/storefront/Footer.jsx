@@ -23,6 +23,7 @@ const footerColumns = [
     heading: 'Visit & Support',
     items: [
       { label: 'Find a store', href: '/stores', route: 'stores' },
+      { label: 'Dealer locator', href: '/dealers', route: 'dealers' },
       { label: 'Our story', href: '/about', route: 'about' },
       { label: 'Contact', href: '/contact', route: 'contact' },
       { label: 'Rider support', href: '/support', route: 'support' },

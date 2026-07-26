@@ -11,6 +11,14 @@ import {
 } from '../../data/storefront.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 import { usePersistentState } from '../../lib/usePersistentState.js';
+import {
+  categoryTitleLabels,
+  pageTitle,
+  productForPath,
+  routeName,
+  routePaths,
+  routeTitleLabels,
+} from '../../route-metadata.js';
 import Account from './Account.jsx';
 import Auth from './Auth.jsx';
 import BuildRide from './BuildRide.jsx';
@@ -26,54 +34,7 @@ import ProductDetail from './ProductDetail.jsx';
 import Search from './Search.jsx';
 import Shop from './Shop.jsx';
 
-const routePaths = {
-  home: '/',
-  shop: '/shop',
-  build: '/build',
-  engineering: '/engineering',
-  about: '/about',
-  contact: '/contact',
-  warranty: '/warranty',
-  assembly: '/assembly',
-  stores: '/stores',
-  dealers: '/dealers',
-  support: '/support',
-  journal: '/blog',
-  stories: '/testimonials',
-  search: '/search',
-  auth: '/sign-in',
-  account: '/account',
-  checkout: '/checkout',
-};
-
 const DEMO_OWNER_EMAIL = demoUser.email.toLowerCase();
-const routeTitleLabels = {
-  home: 'Performance bicycles',
-  shop: 'Shop',
-  build: 'Build your ride',
-  engineering: 'Engineering',
-  about: 'Our story',
-  contact: 'Contact',
-  warranty: 'Warranty',
-  assembly: 'Assembly guide',
-  stores: 'Stores',
-  dealers: 'Dealers',
-  support: 'Support',
-  journal: 'Journal',
-  stories: 'Rider stories',
-  search: 'Search',
-  auth: 'Sign in',
-  account: 'Account',
-  checkout: 'Checkout',
-  product: 'Product',
-};
-
-const categoryTitleLabels = {
-  all: 'Signature range',
-  mountain: 'Mountain bikes',
-  city: 'City bikes',
-  hybrid: 'Hybrid bikes',
-};
 
 function normalizedEmail(value) {
   return String(value || '').trim().toLowerCase();
@@ -81,20 +42,6 @@ function normalizedEmail(value) {
 
 function orderOwnerEmail(order) {
   return normalizedEmail(order?.ownerEmail || order?.customer?.email);
-}
-
-function routeName(pathname) {
-  const normalized = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-  if (normalized.startsWith('/products/')) {
-    const id = decodeURIComponent(normalized.split('/').filter(Boolean).pop() || '');
-    return products.some((product) => product.id === id) ? 'product' : 'not-found';
-  }
-  const aliases = {
-    '/catalog': 'shop',
-    '/models': 'shop',
-    '/brand-story': 'about',
-  };
-  return aliases[normalized] || Object.entries(routePaths).find(([, path]) => path === normalized)?.[0] || 'not-found';
 }
 
 export default function StorefrontApp({ theme, onThemeToggle }) {
@@ -151,8 +98,10 @@ export default function StorefrontApp({ theme, onThemeToggle }) {
     setCartOpen(false);
     const label = route === 'shop'
       ? categoryTitleLabels[filter] || routeTitleLabels.shop
-      : routeTitleLabels[route] || 'Page';
-    document.title = `Finspeed — ${label.charAt(0).toUpperCase() + label.slice(1)}`;
+      : route === 'product'
+        ? productForPath(location.pathname)?.name || routeTitleLabels.product
+        : routeTitleLabels[route] || routeTitleLabels['not-found'];
+    document.title = pageTitle(label);
     const focusFrame = window.requestAnimationFrame(() => {
       mainRef.current?.focus({ preventScroll: true });
     });
