@@ -3,3 +3,8 @@
 > node tools/spec/slice-index.mjs
 
 Index updated at specs/notes/indexes/slice-index.md
+
+> spec:slice-index
+> node tools/spec/slice-index.mjs
+
+Index updated at specs/notes/indexes/slice-index.md

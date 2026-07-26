@@ -74,13 +74,27 @@ testing that hypothesis against production and the code:
 - `specs/working-memory/parity-state.json` — parity session ensured for this
   run.
 
-## Production evidence (appended after the release merge)
+## Production evidence (release merged 2026-07-26, PR #9, main `511b04e`)
 
 - `production-check.mjs` — committed re-runnable driver: per-route titles in
   raw production HTML, 404 for unknown paths, and the corrected locator check
   (form, filters, cards, map pins) with screenshot.
-- `production-results.json` + `screenshots/dealers-locator-production.png` —
-  results of that driver against `https://www.finspeed.online`.
+- `production-results.json` — **11/11 pass** against
+  `https://www.finspeed.online` after the Amplify `main` build of PR #9:
+  distinct titles for `/`, `/dealers`, `/blog`, `/shop`, `/stores`, and
+  `/products/bull-shark` (real product name); `/definitely-not-a-route`
+  returns HTTP 404 with the not-found title; the locator serves its search
+  form, service filters, two location cards, and two map pins.
+- `screenshots/dealers-locator-production.png` — visually inspected (opened
+  and zoomed): search section ("Choose the right stop."), input with PIN
+  placeholder, Search locations CTA, Sales/Service/Test-rides chips,
+  "02 locations / Greater Noida", map with the Krystal Height pin, and the
+  Sarin Farm card with address, service tags, WhatsApp and Directions —
+  the locator running in production, fresh context with the consent banner
+  undecided (fail-closed contract untouched).
+- Home title fingerprint unchanged before/after release
+  (`Finspeed — Ride Beyond Boundaries`), per the recorded home-title
+  decision.
 
 ## Amplify delivery audit (requires `aws sso login`; appended when run)
 
@@ -92,5 +106,7 @@ testing that hypothesis against production and the code:
   documented here; changing rules is out of this slice's executed scope and
   needs explicit steward approval.
 
-RESULT: PENDING — parity gates green; production verification and Amplify
-audit appended after release
+RESULT: PROVISIONAL PASS — parity gates green (73/73) and production
+verification green (11/11, screenshot inspected); the slice stays active
+until the confirmatory Amplify rule audit runs under refreshed AWS
+credentials (`aws sso login`) and its capture is appended here

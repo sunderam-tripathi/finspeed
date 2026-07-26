@@ -1,0 +1,62 @@
+{
+  "base": "https://www.finspeed.online",
+  "executed": "2026-07-26T10:23:59.129Z",
+  "checks": [
+    {
+      "name": "title /",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Ride Beyond Boundaries\""
+    },
+    {
+      "name": "title /dealers",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Dealers\""
+    },
+    {
+      "name": "title /blog",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Journal\""
+    },
+    {
+      "name": "title /shop",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Shop\""
+    },
+    {
+      "name": "title /stores",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Stores\""
+    },
+    {
+      "name": "title /products/bull-shark",
+      "ok": true,
+      "detail": "status=200 title=\"Finspeed — Bull Shark\""
+    },
+    {
+      "name": "unknown path returns 404 with not-found title",
+      "ok": true,
+      "detail": "status=404 title=\"Finspeed — Page not found\""
+    },
+    {
+      "name": "locator search form visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "locator service filters visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "locator renders two location cards",
+      "ok": true,
+      "detail": "count=2"
+    },
+    {
+      "name": "locator map renders two pins",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "summary": "11/11 pass"
+}
