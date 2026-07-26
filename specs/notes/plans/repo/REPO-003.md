@@ -114,6 +114,11 @@
   (`run-normal-push-pass.txt`). The capture commit's own push run repeats that same
   normal path; it is verified before parking but deliberately not re-captured — that is
   where the capture-run regress terminates.
+- 2026-07-26 — Close-out: PR #5 opened for the branch; its pull_request-event guard run
+  30194495011 is green end to end (`run-30194495011-pr-event-pass.txt`), satisfying the
+  awaited PR-event verification of the untouched `base.sha..head.sha` lint path. Ledger
+  done-flip follows in its own commit per the done-phase guard rule; deployment policy
+  stays unchanged per Risks.
 
 ## Artefact References
 - Guard behaviour: `tools/spec/verify-active-slice.mjs`.
