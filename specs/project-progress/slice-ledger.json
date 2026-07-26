@@ -30,7 +30,7 @@
           "id": "REPO-003",
           "domain": "repo",
           "title": "Unblock the guard workflow and restore CI checks",
-          "status": "active"
+          "status": "done"
         }
       ]
     },
