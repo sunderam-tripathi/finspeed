@@ -200,3 +200,34 @@ final result: passed
 - P3 polish: review sticky-bar price occlusion at 1440px; preview "preparing" treatment through stage transitions; distributor sign-in content outside a main landmark.
 
 final result: passed with findings
+
+## WEB-038 delivery-metadata fix addendum (2026-07-26)
+
+### Comparison target
+
+- Route checked: `https://www.finspeed.online` before and after the PR #9
+  release (Amplify `main` build of `511b04e`).
+- Evidence: `specs/proofs/web/WEB-038/` (before-captures, parity logs,
+  production driver results, inspected locator screenshot).
+
+### Findings
+
+- WEB-037's P1 is re-adjudicated: the dealer locator was already live at
+  `/dealers` — the scripted marker word "dealer" no longer exists in the
+  redesigned copy, and the screenshot review misread the locator hero for the
+  Stores page. The real gaps were discoverability (nothing linked `/dealers`)
+  and server metadata (client-only shell with one generic title everywhere;
+  unknown paths returned 200). The suspected Amplify SPA rewrite is refuted by
+  origin evidence; a confirmatory CLI audit of the app's custom rules remains
+  pending AWS reauthentication.
+- Fixed in production and verified live (11/11 driver checks): per-route
+  server titles/descriptions from a single shared map (client and server
+  cannot drift), real product-name titles, HTTP 404 plus a branded not-found
+  page for unknown paths, distributor portal noindex, and locator entry
+  points (footer "Dealer locator", Stores-page CTA) with the header
+  "Visit Finspeed" narrative deliberately kept on `/stores`.
+- The home title stays the indexed brand title in both layers, removing the
+  post-hydration title flip.
+
+final result: passed — production verified; Amplify rule audit pending
+credentials
