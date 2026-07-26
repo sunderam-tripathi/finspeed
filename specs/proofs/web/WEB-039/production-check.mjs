@@ -16,7 +16,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const BASE = process.env.CHECK_BASE || 'https://www.finspeed.online';
-const OUT = path.dirname(fileURLToPath(import.meta.url));
+const OUT = process.env.CHECK_OUT || path.dirname(fileURLToPath(import.meta.url));
 const SENTINELS = ['AABCR1234F', 'INV-8967', 'TK-3421', 'Neha Verma'];
 const results = [];
 const record = (name, ok, detail = '') => {
@@ -62,8 +62,13 @@ const record = (name, ok, detail = '') => {
   await page.getByLabel('Password').fill('preview');
   await page.getByRole('button', { name: 'Enter portal' }).click();
   await page.getByRole('button', { name: 'Price list' }).click();
-  const priceVisible = await page.locator('th', { hasText: 'Distributor price' }).isVisible({ timeout: 20000 }).catch(() => false);
-  const marginVisible = await page.getByText('37.9%').first().isVisible({ timeout: 10000 }).catch(() => false);
+  // waitFor, not isVisible: isVisible samples instantly and ignores timeouts,
+  // which reads as a failure on production latency.
+  const visible = async (locator, timeout) => {
+    try { await locator.waitFor({ state: 'visible', timeout }); return true; } catch { return false; }
+  };
+  const priceVisible = await visible(page.locator('th', { hasText: 'Distributor price' }), 20000);
+  const marginVisible = await visible(page.getByText('37.9%').first(), 10000);
   record('signed-in price list renders API-served dealer pricing', priceVisible && marginVisible);
   await page.screenshot({ path: path.join(OUT, 'production-price-list.png') });
   await browser.close();

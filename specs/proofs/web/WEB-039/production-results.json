@@ -1,0 +1,41 @@
+{
+  "base": "https://www.finspeed.online",
+  "when": "2026-07-26T20:58:50.129Z",
+  "results": [
+    {
+      "name": "unauthenticated portal request returns 401",
+      "ok": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "401 response is no-store",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "session endpoint mints a token",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "token unlocks the portal dataset",
+      "ok": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "sign-in page references script chunks",
+      "ok": true,
+      "detail": "count=10"
+    },
+    {
+      "name": "served chunks are free of portal-data sentinels",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "signed-in price list renders API-served dealer pricing",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
