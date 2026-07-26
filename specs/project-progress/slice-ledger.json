@@ -37,6 +37,12 @@
           "domain": "repo",
           "title": "Align release documents with the Amplify production path",
           "status": "done"
+        },
+        {
+          "id": "REPO-005",
+          "domain": "repo",
+          "title": "Correct the AWS auth command in the charter and release runbook",
+          "status": "active"
         }
       ]
     },

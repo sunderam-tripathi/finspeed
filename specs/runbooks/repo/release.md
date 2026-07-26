@@ -34,7 +34,10 @@ wrong host).
 
 ## Rollback
 
-Requires AWS credentials (`aws sso login`; local sessions expire).
+Requires AWS credentials. This workstation uses the AWS CLI v2 browser sign-in
+(`aws login`, `login_session` configuration — not `aws sso login`, which is
+unconfigured here; established during the WEB-038 Amplify audit). Sessions
+expire; re-run `aws login` when commands report an expired or missing session.
 
 ```powershell
 aws amplify list-jobs --app-id d2h8tz7elv2xy8 --branch-name main --region ap-south-1 --max-items 10

@@ -84,6 +84,24 @@
         "specs/project-progress/**",
         "specs/working-memory/**"
       ]
+    },
+    {
+      "id": "REPO-005",
+      "title": "Correct the AWS auth command in the charter and release runbook",
+      "done_definition": [
+        "Charter and release runbook state the working credential mechanism (aws login browser flow) instead of aws sso login",
+        "Proof records the evidence chain: the WEB-038 audit credential note and the failed aws sso login attempt"
+      ],
+      "allow": [
+        "AGENTS.md",
+        "specs/runbooks/repo/**",
+        "specs/contracts/repo/**",
+        "specs/notes/plans/repo/REPO-005.md",
+        "specs/proofs/repo/REPO-005/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**"
+      ]
     }
   ]
 }
