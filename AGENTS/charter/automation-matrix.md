@@ -17,7 +17,7 @@ Core tools (Node scripts):
 Dev utility tools:
 - `tools/dev/parity-stack.mjs` — manage parity state JSON.
 - `tools/dev/run-managed.mjs` — run long-lived processes with log capture. Always invoke via a timeout wrapper (≤300s, e.g., `timeout 300s node tools/dev/run-managed.mjs ...`) so consoles never hang indefinitely.
-- `tools/dev/sudo-request.mjs` — queue privileged commands for steward.
+- Privileged infrastructure changes (AWS, GitHub settings) are approved interactively per the charter's privileged-action pillar; the template's sudo queue was removed as inapplicable to this workstation.
 
 Git hooks:
 - `.githooks/pre-commit` and `.githooks/pre-push` invoke `verify-active-slice`.

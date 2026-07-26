@@ -1,0 +1,1 @@
+AGENTS/charter/automation-matrix.md:20:- Privileged infrastructure changes (AWS, GitHub settings) are approved interactively per the charter's privileged-action pillar; the template's sudo queue was removed as inapplicable to this workstation.
