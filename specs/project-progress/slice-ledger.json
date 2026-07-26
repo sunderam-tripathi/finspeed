@@ -42,7 +42,7 @@
           "id": "REPO-005",
           "domain": "repo",
           "title": "Correct the AWS auth command in the charter and release runbook",
-          "status": "active"
+          "status": "done"
         }
       ]
     },
