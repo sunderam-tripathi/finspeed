@@ -20,8 +20,10 @@
 
 ## Verification
 
-- `grep -rn "aws sso login" AGENTS.md specs/runbooks/` returns no hits after
-  the change; the historical references in slice plans and proofs are records
-  of what was believed at the time and are deliberately left intact.
+- `grep -rn "aws sso login" AGENTS.md specs/runbooks/` matches only the
+  runbook's explicit negation ("not `aws sso login`, which is unconfigured
+  here") — no document instructs its use. Historical references in slice plans
+  and proofs are records of what was believed at the time and are deliberately
+  left intact.
 
 final result: passed
