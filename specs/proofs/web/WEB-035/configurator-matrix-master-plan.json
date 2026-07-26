@@ -1,0 +1,3641 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-22T03:15:38.580Z",
+  "masterContract": {
+    "required": 224,
+    "present": 224,
+    "missing": 0,
+    "derivedFinishChoices": 5,
+    "themes": 2,
+    "responsiveWidths": 3
+  },
+  "products": [
+    {
+      "productId": "mako-shark",
+      "productName": "Mako Shark",
+      "matrixId": "mako-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "required": 32,
+      "present": 32,
+      "missing": 0
+    },
+    {
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "required": 32,
+      "present": 32,
+      "missing": 0
+    },
+    {
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "required": 32,
+      "present": 32,
+      "missing": 0
+    },
+    {
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    },
+    {
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "required": 16,
+      "present": 16,
+      "missing": 0
+    }
+  ],
+  "masters": [
+    {
+      "id": "shark-blue__power-rigid-single-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-rigid-single-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-rigid-21-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-rigid-21-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-front-single-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-front-single-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-front-21-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__power-front-21-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-rigid-single-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-rigid-single-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-rigid-21-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-rigid-21-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-front-single-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-front-single-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-front-21-none",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "shark-blue__disc-front-21-carrier",
+      "productId": "shark-blue",
+      "productName": "Shark Blue",
+      "matrixId": "shark-blue-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/shark-blue-26-geared-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/shark-blue-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-rigid-single-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-rigid-single-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-rigid-21-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-rigid-21-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-front-single-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-front-single-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-front-21-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__power-front-21-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-rigid-single-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-rigid-single-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-rigid-21-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-rigid-21-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-front-single-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-front-single-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-front-21-none",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "bull-shark__disc-front-21-carrier",
+      "productId": "bull-shark",
+      "productName": "Bull Shark",
+      "matrixId": "bull-shark-exhaustive-r01",
+      "fitWheel": "29-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/bull-shark-29-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/bull-shark-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-rigid-single-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-rigid-single-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-rigid-21-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-rigid-21-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-front-single-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-front-single-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-front-21-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__power-front-21-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-rigid-single-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-rigid-single-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-rigid-21-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-rigid-21-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-front-single-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-front-single-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-front-21-none",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "lemon-shark__disc-front-21-carrier",
+      "productId": "lemon-shark",
+      "productName": "Lemon Shark",
+      "matrixId": "lemon-shark-exhaustive-r01",
+      "fitWheel": "27.5-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lemon-shark-27-5-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lemon-shark-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-rigid-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-rigid-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-rigid-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-rigid-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-front-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-front-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-front-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-power-front-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-rigid-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-rigid-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-rigid-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-rigid-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-front-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-front-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-front-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/masters/tiger-shark-24-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__24-disc-front-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-24-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-rigid-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-rigid-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-rigid-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-rigid-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-front-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-front-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-front-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-power-front-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-rigid-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-rigid-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-rigid-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-rigid-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-front-single-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-front-single-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-front-21-none",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/masters/tiger-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "tiger-shark__26-disc-front-21-carrier",
+      "productId": "tiger-shark",
+      "productName": "Tiger Shark",
+      "matrixId": "tiger-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/audit-references/tiger-shark-26-r01-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-rigid-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-rigid-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-rigid-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-rigid-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-front-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-front-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-front-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-power-front-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-rigid-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-rigid-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-rigid-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-rigid-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-front-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-front-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-front-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__24-disc-front-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/24-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-rigid-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-rigid-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-rigid-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-rigid-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-front-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-front-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-front-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-power-front-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-rigid-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-rigid-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-rigid-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-rigid-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-front-single-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-front-single-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-front-21-none",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "red-snapper__26-disc-front-21-carrier",
+      "productId": "red-snapper",
+      "productName": "Red Snapper",
+      "matrixId": "red-snapper-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/red-snapper-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/red-snapper-exhaustive-r01/masters/26-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-rigid-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-rigid-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-rigid-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-rigid-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-front-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-front-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-front-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-power-front-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-rigid-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-rigid-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-rigid-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-rigid-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-front-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-front-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-front-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__24-disc-front-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-24-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/24-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-rigid-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-rigid-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-rigid-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-rigid-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-front-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-front-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-front-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-power-front-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-rigid-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-rigid-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-rigid-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-rigid-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-front-single-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-front-single-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-front-21-none",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-non-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sea-breeze__26-disc-front-21-carrier",
+      "productId": "sea-breeze",
+      "productName": "Sea Breeze",
+      "matrixId": "sea-breeze-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/sea-breeze-26-ibc-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/sea-breeze-exhaustive-r01/masters/26-disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-rigid-single-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-rigid-single-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-rigid-21-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-rigid-21-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-front-single-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-front-single-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-front-21-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__power-front-21-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-rigid-single-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-rigid-single-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-rigid-21-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-rigid-21-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-front-single-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-front-single-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-front-21-none",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "hammerhead__disc-front-21-carrier",
+      "productId": "hammerhead",
+      "productName": "Hammerhead",
+      "matrixId": "hammerhead-exhaustive-r01",
+      "fitWheel": "24-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/hammerhead-24-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/hammerhead-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-rigid-single-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-rigid-single-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-rigid-21-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-rigid-21-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-front-single-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-front-single-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-front-21-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__power-front-21-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-rigid-single-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-rigid-single-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-rigid-21-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-rigid-21-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-front-single-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-front-single-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-front-21-none",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "great-white-shark__disc-front-21-carrier",
+      "productId": "great-white-shark",
+      "productName": "Great White Shark",
+      "matrixId": "great-white-shark-exhaustive-r01",
+      "fitWheel": "26-inch",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/great-white-shark-26-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/great-white-shark-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-rigid-single-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-rigid-single-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-rigid-21-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-rigid-21-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-front-single-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-front-single-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-front-21-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__power-front-21-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-rigid-single-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-rigid-single-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-rigid-21-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-rigid-21-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-front-single-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-front-single-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-front-21-none",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "stock": true,
+      "present": true
+    },
+    {
+      "id": "lightning-marlin__disc-front-21-carrier",
+      "productId": "lightning-marlin",
+      "productName": "Lightning Marlin",
+      "matrixId": "lightning-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/masters/lightning-marlin-700c-r01/light-cutout-master-3072x2048.webp",
+      "outputPath": "specs/proofs/web/WEB-035/lightning-marlin-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-rigid-single-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-rigid-single-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-rigid-21-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-rigid-21-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-front-single-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-front-single-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-front-21-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__power-front-21-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "power",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/power-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-rigid-single-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-rigid-single-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-rigid-21-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-rigid-21-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "rigid",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-front-single-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-front-single-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-front-single-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "single",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-front-single-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-front-21-none",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "none"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-front-21-none-cutout.png",
+      "stock": false,
+      "present": true
+    },
+    {
+      "id": "sunset-marlin__disc-front-21-carrier",
+      "productId": "sunset-marlin",
+      "productName": "Sunset Marlin",
+      "matrixId": "sunset-marlin-exhaustive-r01",
+      "fitWheel": "700C",
+      "components": {
+        "brakes": "disc",
+        "fork": "front",
+        "drivetrain": "21",
+        "carrier": "carrier"
+      },
+      "canonicalSourcePath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-rigid-21-none-cutout.png",
+      "outputPath": "specs/proofs/web/WEB-035/sunset-marlin-exhaustive-r01/masters/disc-front-21-carrier-cutout.png",
+      "stock": false,
+      "present": true
+    }
+  ],
+  "queue": []
+}

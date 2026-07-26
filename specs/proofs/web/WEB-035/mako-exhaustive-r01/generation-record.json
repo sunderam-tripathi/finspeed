@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "imageGenerationMode": "built-in image_gen with local chroma-key removal; deterministic Sharp resizing and finish tinting",
+  "promptSetSummary": [
+    "Generate Mako Shark side-profile product masters on flat chroma-key background while preserving the exact frame geometry, FINSPEED branding, side-right camera angle, and requested mechanical combination.",
+    "Disc brake variants: keep visible front and rear disc rotors/calipers; change only fork, drivetrain, and carrier state as requested.",
+    "Power brake variants: show rim/power brake hardware instead of disc rotors; keep the same Mako Shark frame identity and angle.",
+    "Carrier variants: add or remove only the IBC frame-mounted rear carrier; preserve all other components.",
+    "Finish variants are deterministic color derivatives from accepted masters, not separate ImageGen guesses."
+  ],
+  "sourceMasters": [
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-front-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-front-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/pwr-front-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-front-single-carrier-cutout.png",
+    "apps/web/public/assets/configurator/v1/mako-shark/side-r/light/poster/mako-shark-27-5-geared-r01-w1600.webp",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/disc-front-21-carrier-cutout.png"
+  ],
+  "outputInventory": "apps/web/public/assets/configurator/v1/mako-shark/side-r/matrix/mako-exhaustive-r01.inventory.json",
+  "proofInventory": "specs/proofs/web/WEB-035/mako-exhaustive-r01/mako-exhaustive-r01.inventory.json",
+  "contactSheets": [
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/mako-exhaustive-catalog-contact-sheet.jpg",
+    "specs/proofs/web/WEB-035/mako-exhaustive-r01/mako-exhaustive-finish-contact-sheet.jpg"
+  ]
+}

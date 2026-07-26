@@ -1,5 +1,41 @@
 # WEB-035 Proof - Product-true configurator and storefront refinements
 
+## Exhaustive Build Your Ride coverage
+
+The configurator now resolves a product-true preview for every selectable state across the full Finspeed range.
+
+- Products: **11**
+- Physical SKUs: **18**
+- Fit and wheel states: **14**
+- Selectable visual states: **1,120**
+- Light and dark themed states: **2,240**
+- Responsive WebP assets at 480, 960, and 1600 pixels: **6,720**
+- Governed physical masters: **224**
+- Missing selectable visual classes: **0**
+
+Every product exposes both brake choices, both fork choices, both drivetrain choices, five finishes, and both carrier states where the public domain permits them. Red Snapper, Sea Breeze, and Tiger Shark additionally resolve their separate wheel-fit families. The runtime resolver, manifest hashes, encoded pixel metrics, canonical subject scale, baseline, and safety margins are validated fail-closed before a matrix can become active.
+
+### Catalog-state visual correction (2026-07-26)
+
+Running the full regression for close-out surfaced nine contract failures: the exhaustive pass had made every state — including untouched catalog defaults on the shop grid, product detail, editorial menu, engineering hero, and build detail crops — resolve to AI-assisted matrix renders instead of the governed Tier A stock photography. Per the asset contract (Tier A verified source covers stock product, catalog, and configurator base), the resolver now keeps the governed stock poster for the exact catalog state of every SKU and uses the exhaustive matrix for every deviating selection. The eighteen hash-bound stock registrations the manifest rewrite had dropped were restored verbatim from the committed manifest as `stockFamilies`, and the validator enforces the split exactly: 2,204 themed matrix states plus 36 stock-shadowed themed catalog states cover the 2,240-state contract.
+
+### Final local verification (close-out gates, 2026-07-26)
+
+- ESLint: **0 errors** (`close-out-gates-2026-07-26/lint.txt`)
+- TypeScript: **clean** (`close-out-gates-2026-07-26/typecheck.txt`)
+- Configurator domain tests: **24 passed, 0 failed** (`close-out-gates-2026-07-26/unit-tests.txt`)
+- Master fidelity audit: **192 passed, 0 failed** assisted masters; governed stock masters remain provenance-bound
+- Asset validator: **PASS** across 6,884 checked files, including all 108 governed stock poster assets hash-verified (`close-out-gates-2026-07-26/asset-validator.txt`)
+- Runtime resolver states matched to manifest: **2,276** (2,204 matrix + 36 stock-shadowed catalog + 36 per-SKU states)
+- Full Playwright regression: **68 passed, 0 failed** (`close-out-gates-2026-07-26/playwright-regression.txt`)
+- Production build: **clean** (`close-out-gates-2026-07-26/build.txt`)
+- Theme/viewport QA: same-day light and dark captures of `/build` at tablet and mobile in `close-out-gates-2026-07-26/`, visually inspected; desktop and route-sweep evidence in `audit-2026-07-21/`
+- In-app browser walkthrough: **PASS** for product, fit, brakes, suspension, gears, finish, carrier, review, light/dark theme, mobile, tablet, and desktop states
+- Browser runtime errors: **0**
+- Deployment: **not performed**
+
+The authoritative counts and per-product breakdown are in `configurator-matrix-coverage.json`; master fidelity evidence is in `configurator-matrix-master-fidelity.json`; the enforced visual geometry and provenance rules are in `asset-contract.md`; the stock-registration restoration script is `close-out-gates-2026-07-26/restore-stock-family-registrations.py`.
+
 ## Homepage city-story theme pair
 
 The homepage city-story section now belongs to the same visual system as the selected site theme instead of presenting one fixed campaign treatment in both modes.

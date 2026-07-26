@@ -9,10 +9,12 @@ its authority is strong enough for the requested use. A missing visual is a
 backlog item, not permission to substitute a similar bicycle or invent a file
 path.
 
-The current manifest seeds the eleven photographed stock models. It does not
-claim that component-, fit-, finish-, or accessory-dependent variants already
-exist. Those classes remain explicitly `missing` until an approved master and
-its derivatives are registered.
+Contract version `2.0.0` covers all eleven products with 224 physical masters,
+1,120 selectable visual states, 2,240 light/dark states, and 6,720 responsive
+WebPs. A matrix becomes runtime-available only after its complete inventory,
+encoded pixels, hashes, dimensions, canonical placement, and resolver reachability
+pass the fail-closed registration preflight. Assisted component states remain
+Tier C and retain the explicit product-owner-review requirement.
 
 ## Source-authority ladder
 
@@ -25,11 +27,11 @@ its derivatives are registered.
 
 The verified light stock chain currently points to
 `apps/web/public/assets/asset-provenance-upscaled.json`, whose source package is
-`Finspeed-Upscaled-Final`. The dark cutouts are deterministic local derivatives
-of those stock masters, but their output hashes still need a dedicated
-provenance record. The current dark studio posters are registered as stock-only
-provisional derivatives. Neither dark lane may be treated as proof that a
-selected component changed.
+`Finspeed-Upscaled-Final`. Each exhaustive inventory records immutable hashes
+and pixel measurements for its transparent light and dark-studio responsive
+derivatives. A visual may imply a selected component change only when the exact
+state key is present in that registered inventory; stock-only substitution is
+forbidden for a supposedly selection-dependent preview.
 
 ## Canonical authoring canvas
 
@@ -41,9 +43,9 @@ All new configurator masters use one registered coordinate system.
 - Camera: axle-height, long-lens/orthographic-feeling side view. No wide-angle
   wheel distortion, pitched horizon, or three-quarter drift.
 - Subject bounds: full bicycle occupies **84% +/- 2%** of canvas width.
-- Ground baseline: both tyre contact points land at **88% +/- 1%** of canvas
+- Ground baseline: both tyre contact points land at **94% +/- 1%** of canvas
   height.
-- Safety: at least **7%** clear above the highest cable/handlebar point and
+- Safety: at least **6%** clear above the highest cable/handlebar point and
   **6%** clear at both horizontal edges.
 - The complete subject must be visible: tyres, mudguards, carrier, handlebar,
   brake cables, pedals, stand, and shadows may not be clipped.
@@ -55,13 +57,10 @@ canvas. They remain valid exact-product fallbacks, but must not be used as
 registration references for a newly generated patch until normalized and
 reviewed.
 
-The first Red Snapper 24-inch IBC assisted pilot is explicitly registered as
-`reviewed-pilot-noncanonical`. Its transparent light derivatives retain stable
-subject geometry across 480/960/1600 widths, but the family predates the 84%
-subject-width and 88% baseline normalization. The manifest records that known
-deviation, and the validator refuses to count the family as canonical. This is
-a temporary, reviewable exception rather than a relaxation of the promotion
-rule for future visual families.
+Contract version `2.0.0` adopts width-first normalization: every bicycle is
+placed at 84% canvas width, capped at 88% canvas height only as a safety limit,
+and grounded at the 94% baseline. This supersedes the earlier 88% baseline and
+invalidates derivatives produced under that older scale contract.
 
 ## Landmark metadata
 
@@ -73,12 +72,12 @@ canvas coordinates (`0..1`). Coordinates are measured from the top-left of the
 {
   "canvas": { "width": 3072, "height": 2048 },
   "view": "side-r",
-  "subjectBounds": { "x": 0.08, "y": 0.07, "width": 0.84, "height": 0.81 },
+  "subjectBounds": { "x": 0.08, "y": 0.06, "width": 0.84, "height": 0.88 },
   "landmarks": {
-    "rearAxle": { "x": 0.255, "y": 0.704 },
-    "frontAxle": { "x": 0.745, "y": 0.704 },
-    "rearContact": { "x": 0.255, "y": 0.88 },
-    "frontContact": { "x": 0.745, "y": 0.88 },
+    "rearAxle": { "x": 0.255, "y": 0.764 },
+    "frontAxle": { "x": 0.745, "y": 0.764 },
+    "rearContact": { "x": 0.255, "y": 0.94 },
+    "frontContact": { "x": 0.745, "y": 0.94 },
     "bottomBracket": { "x": 0.50, "y": 0.69 },
     "headTubeTop": { "x": 0.65, "y": 0.37 },
     "headTubeBottom": { "x": 0.63, "y": 0.47 }
@@ -238,7 +237,7 @@ are a rejection.
   opaque pixels; dark flattened posters must be fully opaque.
 - Transparent-light subject width, baseline, and top/left/right safety metrics
   may shift no more than 0.5 percentage points across responsive derivatives.
-  Families marked `canonical` must also meet the canonical 84% width, 88%
+  Families marked `canonical` must also meet the canonical 84% width, 94%
   baseline, and safety minima. A non-canonical pilot must carry an explicit
   `known-deviation` reason and is counted separately in validator output.
 - Every required selection dimension (`fit`, `brakes`, `fork`, `drivetrain`,

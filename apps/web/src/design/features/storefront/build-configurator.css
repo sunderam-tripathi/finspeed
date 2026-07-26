@@ -162,6 +162,13 @@
   font: var(--text-editorial-price, 600 1.375rem/1.1 var(--font-mono));
 }
 
+.configurator-price small {
+  flex-basis: 100%;
+  color: var(--configurator-warning);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
 /* Seven-stage progress remains usable in the narrow 40% control column. */
 .configurator-progress {
   position: relative;
@@ -305,6 +312,15 @@
   text-transform: uppercase;
 }
 
+.configurator-choice-groups {
+  display: grid;
+  gap: 0;
+}
+
+.configurator-choice-groups .configurator-options--single {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .configurator-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -409,6 +425,12 @@ label.configurator-option {
   min-width: 0;
 }
 
+.configurator-option__title-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
 .configurator-option__copy strong,
 .configurator-option__title {
   display: block;
@@ -435,6 +457,7 @@ label.configurator-option {
 }
 
 .configurator-option__swatch {
+  flex: 0 0 auto;
   width: 26px;
   height: 26px;
   border: 4px solid var(--configurator-panel);
@@ -444,6 +467,7 @@ label.configurator-option {
 
 .configurator-option__status {
   display: inline-flex;
+  grid-column: 2 / -1;
   align-items: center;
   gap: 6px;
   margin-top: 7px;
@@ -452,12 +476,29 @@ label.configurator-option {
   text-transform: uppercase;
 }
 
+.configurator-option__status[data-status="custom-request"] {
+  color: var(--configurator-warning);
+}
+
 .configurator-option__status::before {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: currentColor;
   content: "";
+}
+
+.configurator-option__visual-note {
+  grid-column: 2 / -1;
+  justify-self: start;
+  margin-top: 6px;
+  border: 1px solid color-mix(in srgb, var(--configurator-accent) 36%, transparent);
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: var(--configurator-accent-strong);
+  font: 500 0.625rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* Compatibility and state-change messages */
@@ -610,7 +651,7 @@ label.configurator-option {
 .configurator-actions,
 .configurator-bottom-action {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(132px, 0.85fr);
+  grid-template-columns: minmax(110px, 0.72fr) minmax(178px, 1.28fr);
   gap: 12px;
   margin-top: 28px;
 }
@@ -634,6 +675,7 @@ label.configurator-option {
   letter-spacing: 0.04em;
   text-decoration: none;
   text-transform: uppercase;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -1392,6 +1434,10 @@ label.configurator-option {
     margin-bottom: 14px;
   }
 
+  .configurator-panel__header > p:last-child {
+    display: none;
+  }
+
   .configurator-panel {
     min-height: 0;
     margin-right: -8px;
@@ -1417,6 +1463,23 @@ label.configurator-option {
     margin-top: 3px;
     font-size: 0.7rem;
     line-height: 1.35;
+  }
+
+  .configurator-choice-groups .configurator-fieldset + .configurator-fieldset {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .configurator-choice-groups .configurator-fieldset > legend {
+    margin-bottom: 7px;
+  }
+
+  .configurator-choice-groups .configurator-option {
+    min-height: 58px;
+  }
+
+  .configurator-choice-groups .configurator-option__copy small {
+    display: none;
   }
 
   .configurator-notice,

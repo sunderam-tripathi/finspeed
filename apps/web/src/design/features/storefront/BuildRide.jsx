@@ -16,10 +16,10 @@ const stageCopy = {
   'ride-type': 'Start with the roads and terrain that define most of your riding.',
   model: 'Choose the bicycle that feels right for the way you ride.',
   fit: 'Pick the wheel size and carrier setup that suits your ride.',
-  'ride-setup': 'Review the brakes, fork and gears included with this bicycle.',
-  finish: 'Choose the finish shown for this model.',
-  accessories: 'Review the equipment included with your selected setup.',
-  review: 'One final check before your build moves into your cart.',
+  'ride-setup': 'Choose the brakes, fork and gears that suit your roads. Standard parts are ready to order; alternatives become a custom request.',
+  finish: 'Keep the verified catalog colour or request a more personal finish.',
+  accessories: 'Choose a clean frame or add a practical rear carrier.',
+  review: 'Review every choice. Verified catalog builds can go to your cart; custom builds go to Finspeed for confirmation.',
 };
 
 const buildDetailCards = [
@@ -49,6 +49,7 @@ function normalizedStatusLabel(status) {
   if (!status || status === 'catalog-audited') return 'Available';
   if (status === 'included') return 'Included';
   if (status === 'provisional') return 'Included';
+  if (status === 'custom-request') return 'Custom request';
   if (status.includes('provisional')) return 'Confirm before ordering';
   return status.replaceAll('-', ' ');
 }
@@ -60,8 +61,8 @@ function optionMeta(option) {
   return '';
 }
 
-function buildConfigurationPayload(resolved, summary) {
-  const setup = resolved.model.setup;
+function buildConfigurationPayload(resolved) {
+  const setup = resolved.selections.components;
   const fingerprint = configuredCartFingerprint(resolved);
   return {
     version: resolved.build.version,
@@ -80,12 +81,12 @@ function buildConfigurationPayload(resolved, summary) {
       fork: { ...setup.fork },
       drivetrain: { ...setup.drivetrain },
     },
-    accessories: summary.includedAccessories.map((title) => ({ id: 'ibc-carrier', title })),
+    accessories: resolved.selections.accessories.map(({ id, label }) => ({ id, title: label })),
     base: { id: resolved.model.id, title: resolved.model.name, wheels: resolved.sku.variantLabel },
     brakes: { id: setup.brakes.id, title: setup.brakes.label },
     suspension: { id: setup.fork.id, title: setup.fork.label },
     gears: { id: setup.drivetrain.id, title: setup.drivetrain.label },
-    finish: { id: resolved.build.finish, title: 'Catalog finish' },
+    finish: { id: resolved.build.finish, title: resolved.selections.finish.label },
   };
 }
 
@@ -101,59 +102,56 @@ function ConfiguratorOption({ option, stageId, onSelect }) {
     >
       <input
         type="radio"
-        name={`configurator-${stageId}`}
+        name={`configurator-${stageId}-${option.group || 'choice'}`}
         value={option.id}
         checked={selected}
         disabled={disabled}
-        onChange={() => onSelect(option.id)}
+        onChange={() => onSelect(option.id, option.group)}
       />
       <span className="configurator-option__indicator" aria-hidden="true" />
       <span className="configurator-option__copy">
-        <strong>{option.label}</strong>
+        <span className="configurator-option__title-row">
+          {option.swatch && (
+            <span
+              className="configurator-option__swatch"
+              style={{ backgroundColor: option.swatch }}
+              aria-hidden="true"
+            />
+          )}
+          <strong>{option.label}</strong>
+        </span>
         {option.copy && <small>{option.copy}</small>}
       </span>
       {meta && <span className="configurator-option__meta">{meta}</span>}
-      {status && <span className="configurator-option__status">{status}</span>}
+      {status && <span className="configurator-option__status" data-status={option.status}>{status}</span>}
+      {option.visualPreview === false && (
+        <span className="configurator-option__visual-note">Reference preview</span>
+      )}
     </label>
-  );
-}
-
-function IncludedSpecification({ option, label }) {
-  const status = normalizedStatusLabel(option.status || (option.included ? 'included' : 'catalog-audited'));
-
-  return (
-    <div className="configurator-review__row" data-included-spec="true">
-      <dt>{label}</dt>
-      <dd>
-        <span className="configurator-option__copy configurator-review__value">
-          <strong>{option.label}</strong>
-          {option.copy && <small>{option.copy}</small>}
-        </span>
-        <span className="configurator-option__status">{status}</span>
-      </dd>
-    </div>
   );
 }
 
 function StageOptions({ step, options, onSelect }) {
   if (step.id === 'ride-setup') {
+    const groups = [...new Set(options.map(({ group }) => group))];
     return (
-      <dl className="configurator-review" aria-label="Included ride setup">
-        {options.map((option) => (
-          <IncludedSpecification key={option.group} option={option} label={option.group} />
+      <div className="configurator-choice-groups" aria-label="Ride setup choices">
+        {groups.map((group) => (
+          <fieldset className="configurator-fieldset" key={group}>
+            <legend>{options.find((option) => option.group === group)?.groupLabel}</legend>
+            <div className="configurator-options configurator-options--single">
+              {options.filter((option) => option.group === group).map((option) => (
+                <ConfiguratorOption
+                  key={`${group}-${option.id}`}
+                  option={option}
+                  stageId={step.id}
+                  onSelect={onSelect}
+                />
+              ))}
+            </div>
+          </fieldset>
         ))}
-      </dl>
-    );
-  }
-
-
-  if (options.every((option) => option.locked)) {
-    return (
-      <dl className="configurator-review" aria-label={step.eyebrow}>
-        {options.map((option) => (
-          <IncludedSpecification key={option.id} option={option} label={step.label} />
-        ))}
-      </dl>
+      </div>
     );
   }
 
@@ -209,9 +207,8 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
     activateStep(nextIndex, true);
   }
 
-  function selectOption(optionId) {
-    const before = resolved;
-    const nextBuild = selectBuildOption(before.build, step.id, optionId);
+  function selectOption(optionId, groupId = null) {
+    const nextBuild = selectBuildOption(resolved.build, step.id, optionId, groupId);
     const next = resolveBuild(nextBuild, step.id);
     setStoredBuild(next.build);
     setCartStatus('');
@@ -222,8 +219,13 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
       setChangeNotice(`${next.model.name} selected. Its fit and included setup are now loaded.`);
     } else if (step.id === 'fit') {
       setChangeNotice(`${next.sku.variantLabel} selected at ${formatConfiguratorPrice(next.price)}.`);
-    } else {
-      setChangeNotice('This choice is included with the selected bicycle.');
+    } else if (step.id === 'ride-setup') {
+      const selected = next.options[step.id].find((option) => option.id === optionId && option.group === groupId);
+      setChangeNotice(`${selected?.label || 'Component'} selected.${next.customizationConfirmationRequired ? ' This build will be confirmed by Finspeed.' : ' This is the standard setup.'}`);
+    } else if (step.id === 'finish') {
+      setChangeNotice(`${next.selections.finish.label} selected.${next.customizationConfirmationRequired ? ' Final colour and price will be confirmed by Finspeed.' : ''}`);
+    } else if (step.id === 'accessories') {
+      setChangeNotice(`${optionId === 'ibc-carrier' ? 'Rear carrier' : 'No add-ons'} selected.${next.customizationConfirmationRequired ? ' Fit and price will be confirmed by Finspeed.' : ''}`);
     }
   }
 
@@ -237,7 +239,7 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
       productId: resolved.model.id,
       unitPrice: resolved.price,
       fingerprint: configuredCartFingerprint(resolved),
-      configuration: buildConfigurationPayload(resolved, summary),
+      configuration: buildConfigurationPayload(resolved),
     });
     setCartStatus(`${resolved.model.name} · ${resolved.sku.variantLabel} added to your cart.`);
   }
@@ -254,8 +256,12 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
   const visibleIssues = isReview ? prioritizedIssues : prioritizedIssues.slice(0, 2);
   const hiddenIssueCount = prioritizedIssues.length - visibleIssues.length;
   const hasCriticalIssue = visibleIssues.some(({ severity }) => severity === 'critical');
-  const reviewAction = resolved.identityConfirmationRequired ? confirmWithFinspeed : addConfiguredBuild;
-  const reviewActionLabel = resolved.identityConfirmationRequired ? 'Confirm with Finspeed' : 'Add selected build';
+  const reviewAction = resolved.requestRequired ? confirmWithFinspeed : addConfiguredBuild;
+  const reviewActionLabel = resolved.identityConfirmationRequired
+    ? 'Confirm with Finspeed'
+    : resolved.customizationConfirmationRequired
+      ? 'Request this build'
+      : 'Add selected build';
 
   return (
     <div className="configurator-page">
@@ -266,9 +272,10 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
             <h1 className="configurator-title" id="configurator-title">{resolved.model.name}</h1>
             <p className="configurator-subtitle">Choose your size, setup and finish to suit the way you ride.</p>
             <p className="configurator-price">
-              <span>Selected build</span>
+              <span>{resolved.customizationConfirmationRequired ? 'Base bicycle' : 'Selected build'}</span>
               <strong>{formatConfiguratorPrice(resolved.price)}</strong>
               <span>· {resolved.sku.variantLabel}</span>
+              {resolved.customizationConfirmationRequired && <small>Final custom-build price confirmed by Finspeed.</small>}
             </p>
           </header>
 
@@ -306,12 +313,13 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
                       <dd>
                         {row.value}
                         {row.status === 'provisional' && <small>Confirm before ordering</small>}
+                        {row.status === 'custom-request' && <small>Custom request</small>}
                       </dd>
                     </div>
                   ))}
                 </dl>
                 <div className="configurator-review__total">
-                  <span>Selected build</span>
+                  <span>{summary.priceQualifier}</span>
                   <strong>{summary.priceLabel}</strong>
                 </div>
               </div>
@@ -336,7 +344,7 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
               </div>
             ) : (
               <div className="configurator-notice" data-tone="success" role="status">
-                <p>This setup is available to order.</p>
+                <p>This verified catalog setup is available to order.</p>
               </div>
             )}
           </div>
@@ -350,7 +358,7 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
             <button
               type="button"
               className="configurator-action configurator-action--primary"
-              disabled={isReview && !resolved.commerceReady && !resolved.identityConfirmationRequired}
+              disabled={isReview && !resolved.commerceReady && !resolved.requestRequired}
               onClick={isReview ? reviewAction : continueBuild}
             >
               {isReview ? reviewActionLabel : 'Continue'}
@@ -358,8 +366,8 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
             </button>
           </div>
           <p className="configurator-saved-status" role="status">
-            {cartStatus || (resolved.identityConfirmationRequired
-              ? 'This model is available by enquiry. Contact us and we will confirm the details.'
+            {cartStatus || (resolved.requestRequired
+              ? 'Saved automatically. Finspeed will confirm the requested build before order.'
               : 'Saved automatically on this device.')}
           </p>
         </div>
@@ -398,10 +406,10 @@ function BuildRide({ onNav, onAddConfigured, theme }) {
             </div>
             <div>
               <span>Setup</span>
-              <strong>{resolved.model.setup.drivetrain.label}</strong>
+              <strong>{resolved.selections.components.drivetrain.label}</strong>
             </div>
           </div>
-          {visual.note && <p className="configurator-stage__note">Contact us to confirm this exact setup before ordering.</p>}
+          {visual.note && <p className="configurator-stage__note">{visual.note}</p>}
         </div>
       </section>
 

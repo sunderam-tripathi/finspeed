@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "imageGenerationMode": "built-in image_gen edits with local chroma-key removal; deterministic Sharp finish, theme and responsive derivation",
+  "productId": "tiger-shark",
+  "matrixId": "tiger-shark-exhaustive-r01",
+  "promptSetSummary": [
+    "Generate Tiger Shark side-profile product masters on a flat chroma-key background while preserving the exact frame geometry, wheel size, FINSPEED branding and requested mechanical combination.",
+    "Disc and power-brake states, rigid and suspension forks, single and 21-speed drivetrains, and carrier states must be visibly accurate.",
+    "Finish variants are deterministic colour derivatives from accepted masters rather than separate ImageGen guesses."
+  ],
+  "sourceMasters": [
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-power-front-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/masters/tiger-shark-24-r01/light-cutout-master-3072x2048.webp",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/24-disc-front-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-power-front-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-21-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-rigid-21-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-single-none-cutout.png",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-single-carrier-cutout.png",
+    "specs/proofs/web/WEB-035/masters/tiger-shark-26-r01/light-cutout-master-3072x2048.webp",
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/masters/26-disc-front-21-carrier-cutout.png"
+  ],
+  "outputInventory": "apps/web/public/assets/configurator/v1/tiger-shark/side-r/matrix/tiger-shark-exhaustive-r01.inventory.json",
+  "proofInventory": "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/tiger-shark-exhaustive-r01.inventory.json",
+  "contactSheets": [
+    "specs/proofs/web/WEB-035/tiger-shark-exhaustive-r01/tiger-shark-exhaustive-r01-catalog-contact-sheet.jpg"
+  ]
+}
