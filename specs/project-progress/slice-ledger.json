@@ -154,7 +154,7 @@
           "id": "WEB-016",
           "domain": "web",
           "title": "Dealer locator deploy automation",
-          "status": "active"
+          "status": "done"
         },
         {
           "id": "WEB-017",
@@ -178,19 +178,19 @@
           "id": "WEB-020",
           "domain": "web",
           "title": "Production UAT — core journeys",
-          "status": "planned"
+          "status": "superseded"
         },
         {
           "id": "WEB-021",
           "domain": "web",
           "title": "Production UAT — catalog & content",
-          "status": "planned"
+          "status": "superseded"
         },
         {
           "id": "WEB-022",
           "domain": "web",
           "title": "Claude redesign integration and Amplify release",
-          "status": "active"
+          "status": "done"
         },
         {
           "id": "WEB-034",
