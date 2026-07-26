@@ -31,6 +31,12 @@
           "domain": "repo",
           "title": "Unblock the guard workflow and restore CI checks",
           "status": "done"
+        },
+        {
+          "id": "REPO-004",
+          "domain": "repo",
+          "title": "Align release documents with the Amplify production path",
+          "status": "done"
         }
       ]
     },
