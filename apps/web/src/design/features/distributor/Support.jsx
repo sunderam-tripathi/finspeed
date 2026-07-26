@@ -1,7 +1,6 @@
 // Finspeed Distributor Portal — Support (rep, raise ticket, tickets, FAQ)
 import React from 'react';
 import { Button, Input, Select, Badge, Accordion, IconButton } from '../../ui/index.js';
-import { distributorFaq, distributorRepresentative, distributorTickets } from '../../data/distributor.js';
 import { useLucideIcons } from '../../lib/useLucideIcons.js';
 
 function TicketStatus({ s }) {
@@ -9,7 +8,8 @@ function TicketStatus({ s }) {
   return <Badge tone={map[s]||'neutral'} dot>{s}</Badge>;
 }
 
-function Support({ notify }) {
+function Support({ portal, notify }) {
+  const { faq: distributorFaq, representative: distributorRepresentative, tickets: distributorTickets } = portal;
   const REP = distributorRepresentative;
   const FAQ = distributorFaq;
   const [tickets, setTickets] = React.useState(distributorTickets);

@@ -1,14 +1,15 @@
 // Finspeed Distributor Portal — Dashboard
 import React from 'react';
 import { Badge } from '../../ui/index.js';
-import { distributorOrders, distributorProductImage, distributorProducts, formatInr } from '../../data/distributor.js';
+import { distributorProductImage, formatInr } from '../../data/distributor.js';
 
 function StatusBadge({ s }) {
   const map = { 'Delivered':'success', 'In transit':'brand', 'Processing':'warning' };
   return <Badge tone={map[s]||'neutral'} dot>{s}</Badge>;
 }
 
-function Dashboard({ onNav }) {
+function Dashboard({ portal, onNav }) {
+  const { orders: distributorOrders, products: distributorProducts } = portal;
   const D = distributorProducts, INR = formatInr;
   const avgMargin = (D.reduce((s,r)=>s+r.margin,0)/D.length).toFixed(1);
   const kpis = [

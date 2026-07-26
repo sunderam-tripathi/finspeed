@@ -79,4 +79,48 @@ test.describe('distributor portal access', () => {
     await page.reload();
     await expect(page).toHaveURL(/\/distributor\/sign-in$/);
   });
+
+  test('the portal dataset endpoint refuses requests without a session', async ({ request }) => {
+    const bare = await request.get('/api/distributor/portal');
+    expect(bare.status()).toBe(401);
+    expect((await bare.json()).error).toContain('session');
+
+    const forged = await request.get('/api/distributor/portal', {
+      headers: { Authorization: 'Bearer 9999999999999.deadbeef' },
+    });
+    expect(forged.status()).toBe(401);
+  });
+
+  test('a minted session token unlocks the portal dataset', async ({ request }) => {
+    const session = await request.post('/api/distributor/session');
+    expect(session.status()).toBe(200);
+    expect(session.headers()['cache-control']).toContain('no-store');
+    const { token } = await session.json();
+    expect(typeof token).toBe('string');
+
+    const response = await request.get('/api/distributor/portal', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    expect(response.status()).toBe(200);
+    expect(response.headers()['cache-control']).toContain('no-store');
+    const { portal } = await response.json();
+    expect(portal.products.some((row: { dp: number }) => row.dp === 3300)).toBe(true);
+    expect(portal.orderDetails['PO-2451']).toBeTruthy();
+  });
+
+  test('the portal has no client-side pricing fallback when the dataset API fails', async ({ page }) => {
+    await prepare(page);
+    await page.route('**/api/distributor/portal', (route) => route.abort());
+    await signIn(page);
+
+    await expect(page.getByText('The portal data could not be loaded.')).toBeVisible();
+    await expect(DEALER_PRICE_HEADER(page)).toHaveCount(0);
+    await expect(page.getByText('37.9%')).toHaveCount(0);
+
+    await page.unroute('**/api/distributor/portal');
+    await page.getByRole('button', { name: 'Try again' }).click();
+    await page.getByRole('button', { name: 'Price list' }).click();
+    await expect(DEALER_PRICE_HEADER(page)).toBeVisible();
+    await expect(page.getByText('37.9%')).toBeVisible();
+  });
 });

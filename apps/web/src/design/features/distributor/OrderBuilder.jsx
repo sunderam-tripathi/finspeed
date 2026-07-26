@@ -1,9 +1,10 @@
 // Finspeed Distributor Portal — Order builder
 import React from 'react';
 import { Button, QuantityStepper, Input, IconButton } from '../../ui/index.js';
-import { distributorProductImage, distributorProducts, formatInr } from '../../data/distributor.js';
+import { distributorProductImage, formatInr } from '../../data/distributor.js';
 
-function OrderBuilder({ order, onAdd, onRemove, onNav, onPlace }) {
+function OrderBuilder({ portal, order, onAdd, onRemove, onNav, onPlace }) {
+  const { products: distributorProducts } = portal;
   const D = distributorProducts, INR = formatInr;
   const wrapRef = React.useRef(null);
   const [narrow, setNarrow] = React.useState(false);

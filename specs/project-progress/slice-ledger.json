@@ -239,6 +239,12 @@
           "domain": "web",
           "title": "Per-route server titles, honest 404s, locator discoverability",
           "status": "done"
+        },
+        {
+          "id": "WEB-039",
+          "domain": "web",
+          "title": "Distributor pricing behind a server boundary",
+          "status": "active"
         }
       ]
     }
