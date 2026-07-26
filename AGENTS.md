@@ -26,7 +26,7 @@ pointer: "AGENTS/charter/global-charter.md"
 - Guard discipline is mandatory—active slice, plan, and proof artefacts are treated as gating systems, not suggestions.
 - Your knowledge base starts here and extends to the supporting charter modules, domain capsules, and slice supplements you explicitly load before work.
 - Authority flows from this contract; linked material only expands detail and never supersedes directives stated here.
-- Production is the AWS Amplify app `finspeed` (`ap-south-1`) auto-building the protected `main` branch — merging to `main` is the release. Use the AWS CLI (after `aws sso login`) to inspect and remediate production per `specs/runbooks/repo/release.md`; there is no separate deploy command.
+- Production is the AWS Amplify app `finspeed` (`ap-south-1`) auto-building the protected `main` branch — merging to `main` is the release. Use the AWS CLI (after `aws login`, the CLI v2 browser flow — see the release runbook's credential note) to inspect and remediate production per `specs/runbooks/repo/release.md`; there is no separate deploy command.
 - Every customer-facing slice must source the official Finspeed logo/wordmark and hero imagery from `_shared/assets/` and follow `specs/references/handoff/ui-ux-aesthetics.md` for the unified UI/UX guidance.
 - Always create a multi-step plan while working. **Non Negotiable**
 - Source of truth discipline: never stash or hide local work. Keep changes in-tree, commit or branch them intentionally, and avoid regressions caused by temporary stashing.
