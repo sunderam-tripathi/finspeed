@@ -1,0 +1,27 @@
+{
+  "captured": "2026-07-26T11:19:08.339Z",
+  "app": {
+    "appId": "d2h8tz7elv2xy8",
+    "name": "finspeed",
+    "platform": "WEB_COMPUTE",
+    "defaultDomain": "d2h8tz7elv2xy8.amplifyapp.com",
+    "customRules": [
+      {
+        "source": "/<*>",
+        "target": "/index.html",
+        "status": "404-200"
+      }
+    ],
+    "customHeaders": "",
+    "enableBranchAutoBuild": false,
+    "buildSpecPresent": true
+  },
+  "branchMain": {
+    "branchName": "main",
+    "framework": "Next.js - SSR",
+    "stage": "PRODUCTION",
+    "enableAutoBuild": true,
+    "activeJobId": "0000000409"
+  },
+  "note": "environmentVariables and buildSpec contents deliberately omitted (secret hygiene)."
+}

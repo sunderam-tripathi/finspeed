@@ -96,17 +96,32 @@ testing that hypothesis against production and the code:
   (`Finspeed — Ride Beyond Boundaries`), per the recorded home-title
   decision.
 
-## Amplify delivery audit (requires `aws sso login`; appended when run)
+## Amplify delivery audit (run 2026-07-26 under refreshed credentials)
 
+- Credential note: this workstation authenticates with the AWS CLI v2
+  browser flow `aws login` (config `login_session`, account root), not
+  `aws sso login` as the release runbook stated.
 - `amplify-audit.mjs` — captures `get-app`/`get-branch` delivery configuration
-  (custom rules, platform, framework) with environment variables deliberately
-  stripped.
-- `amplify-rules.json` — captured configuration. Expected outcome per the
-  origin evidence above: no SPA-fallback rewrite. Any rule found is only
-  documented here; changing rules is out of this slice's executed scope and
-  needs explicit steward approval.
+  with environment variables deliberately stripped.
+- `amplify-rules-before.json` — the audit DID find the WEB-022-era rule:
+  `/<*> → /index.html (404-200)` — the **conditional** fallback variant, not
+  the rewrite-everything `200` rule. Consistent with the origin evidence, it
+  was dormant: it never fired for known routes, could not fire pre-WEB-038
+  (the catch-all answered every path 200), and measurably did not fire
+  post-WEB-038 either (unknown page paths and `/_next/static/nope.js` both
+  returned real 404s with the rule still present). It therefore caused
+  neither ISS-1 nor ISS-2.
+- Steward decision: **remove** (approved interactively 2026-07-26) — as a
+  legacy remnant it could only ever mask hard static-layer misses as
+  `200 /index.html`. Applied via
+  `aws amplify update-app --custom-rules '[]'` (delivery config only, no
+  rebuild).
+- `amplify-rules.json` — post-change capture: `customRules: []`, platform
+  `WEB_COMPUTE`, framework "Next.js - SSR", branch auto-build on.
+- Post-change verification: `production-check.mjs` re-run **11/11 pass**;
+  missing-asset probe still 404. No behavior change, config now honest.
 
-RESULT: PROVISIONAL PASS — parity gates green (73/73) and production
-verification green (11/11, screenshot inspected); the slice stays active
-until the confirmatory Amplify rule audit runs under refreshed AWS
-credentials (`aws sso login`) and its capture is appended here
+RESULT: PASS — parity gates green (73/73); production verification green
+(11/11 before and after the rule removal, screenshot inspected); Amplify
+delivery audit captured with the dormant WEB-022-era rule removed under
+explicit steward approval

@@ -1,6 +1,6 @@
 {
   "base": "https://www.finspeed.online",
-  "executed": "2026-07-26T10:23:59.129Z",
+  "executed": "2026-07-26T11:20:49.793Z",
   "checks": [
     {
       "name": "title /",
