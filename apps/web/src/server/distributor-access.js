@@ -10,8 +10,14 @@ import { scryptSync, timingSafeEqual } from 'node:crypto';
 
 const ENV_KEY = 'DISTRIBUTOR_ACCESS_HASH';
 
-export function accessConfiguration(env = process.env) {
-  const raw = env[ENV_KEY];
+export function accessConfiguration(env) {
+  // The literal `process.env.DISTRIBUTOR_ACCESS_HASH` matters: Next.js inlines
+  // only literal references into the server bundle at build time, and the
+  // Amplify compute runtime does not receive .env.production (it lives outside
+  // the deployed .next artifact). A dynamic `env[ENV_KEY]` lookup silently
+  // resolved to undefined in production — WEB-040 build log 413. Tests still
+  // inject an explicit env object.
+  const raw = env ? env[ENV_KEY] : process.env.DISTRIBUTOR_ACCESS_HASH;
   if (!raw) return { configured: false };
   const parts = raw.split('$');
   if (parts.length !== 6 || parts[0] !== 'scrypt') return { configured: false, malformed: true };
@@ -28,7 +34,9 @@ export function accessConfiguration(env = process.env) {
   }
 }
 
-export function verifyAccessPassphrase(passphrase, env = process.env) {
+export function verifyAccessPassphrase(passphrase, env) {
+  // Pass `env` through undefined so accessConfiguration takes the inlinable
+  // literal path in production (see the note there); tests inject explicitly.
   const config = accessConfiguration(env);
   if (!config.configured) return { ok: false, configured: false };
   if (typeof passphrase !== 'string' || passphrase.length === 0 || passphrase.length > 256) {
