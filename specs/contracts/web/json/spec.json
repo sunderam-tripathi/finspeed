@@ -954,6 +954,28 @@
         "specs/working-memory/**",
         "design-qa.md"
       ]
+    },
+    {
+      "id": "WEB-040",
+      "title": "Invited-access verification for the distributor portal",
+      "done_definition": [
+        "The session seam verifies a steward-managed access passphrase (scrypt, timing-safe); wrong passphrases are rejected with an inline error",
+        "An unconfigured deployment fails closed with an honest not-configured state, never silently open",
+        "The steward sets the secret with a merge-safe script that never exposes plaintext or existing env values",
+        "Portal copy states the new truth: access by invitation, sample data, dealer IDs not yet account-linked",
+        "Full gates green; production verified in both the unconfigured and configured states"
+      ],
+      "allow": [
+        "apps/web/**",
+        "scripts/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-040.md",
+        "specs/proofs/web/WEB-040/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "design-qa.md"
+      ]
     }
   ]
 }
