@@ -64,22 +64,39 @@ export default function DistributorApp() {
   const [portal, setPortal] = React.useState(null);
   const [portalError, setPortalError] = React.useState(null);
   const sessionToken = React.useRef(null);
+  // Kept in memory for transparent re-session on token expiry; dropped on
+  // reload and sign-out along with everything else, by design.
+  const passphraseRef = React.useRef(null);
 
   const loadPortal = React.useCallback(async () => {
     setPortalError(null);
     try {
-      if (!sessionToken.current) sessionToken.current = await openPortalSession();
+      if (!sessionToken.current) sessionToken.current = await openPortalSession(passphraseRef.current);
       try {
         setPortal(await fetchPortal(sessionToken.current));
       } catch (error) {
         if (!error.expired) throw error;
-        sessionToken.current = await openPortalSession();
+        sessionToken.current = await openPortalSession(passphraseRef.current);
         setPortal(await fetchPortal(sessionToken.current));
       }
     } catch {
       setPortalError('The portal data could not be loaded.');
     }
   }, []);
+
+  async function enterPortal(passphrase) {
+    try {
+      const token = await openPortalSession(passphrase);
+      passphraseRef.current = passphrase;
+      sessionToken.current = token;
+      setAuthenticated(true);
+      navigate('/distributor');
+      loadPortal();
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: error.message || 'Sign-in failed. Try again.' };
+    }
+  }
   const atSignIn = normalizedPath === '/distributor/sign-in';
   const signedOut = !authenticated;
 
@@ -178,7 +195,7 @@ export default function DistributorApp() {
 
   if (signedOut) {
     if (!atSignIn) return <Navigate to="/distributor/sign-in" replace />;
-    return <Auth onEnter={() => { setAuthenticated(true); loadPortal(); navigate('/distributor'); }} />;
+    return <Auth onEnter={enterPortal} />;
   }
 
   if (atSignIn) return <Navigate to="/distributor" replace />;
@@ -207,7 +224,7 @@ export default function DistributorApp() {
 
   return (
     <div className="dist-app-shell" style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-page)' }}>
-      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => { setAuthenticated(false); setPortal(null); setPortalError(null); sessionToken.current = null; navigate('/distributor/sign-in'); }} />
+      <Sidebar route={route} onNav={setRoute} orderCount={orderCount} onSignOut={() => { setAuthenticated(false); setPortal(null); setPortalError(null); sessionToken.current = null; passphraseRef.current = null; navigate('/distributor/sign-in'); }} />
       <div className="dist-main" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <Topbar title={title} subtitle={subtitle} query={query} onSearch={setQuery} />
         <div className="dist-route-body" style={{ flex: 1, minWidth: 0 }}>

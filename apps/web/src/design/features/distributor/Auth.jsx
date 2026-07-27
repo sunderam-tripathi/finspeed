@@ -6,10 +6,22 @@ import { useLucideIcons } from '../../lib/useLucideIcons.js';
 function DistAuth({ onEnter }) {
   const [mode, setMode] = React.useState('signin'); // 'signin' | 'apply'
   const [submitted, setSubmitted] = React.useState(false);
+  const [passphrase, setPassphrase] = React.useState('');
+  const [error, setError] = React.useState(null);
+  const [pending, setPending] = React.useState(false);
   const [ref] = React.useState(()=> 'APP-' + Math.floor(10000 + Math.random()*90000));
   useLucideIcons();
 
-  function submit(e){ e.preventDefault(); onEnter && onEnter(); }
+  async function submit(e){
+    e.preventDefault();
+    if (pending || !onEnter) return;
+    setPending(true); setError(null);
+    const result = await onEnter(passphrase);
+    if (!result || !result.ok) {
+      setError((result && result.error) || 'Sign-in failed. Try again.');
+      setPending(false);
+    }
+  }
   function apply(e){ e.preventDefault(); setSubmitted(true); }
 
   const stat = (n,l) => (
@@ -80,7 +92,12 @@ function DistAuth({ onEnter }) {
               <p style={{ font:'var(--text-body-sm)', color:'var(--text-muted)', margin:'0 0 var(--space-6)' }}>Access pricing, order builder and invoices.</p>
               <form onSubmit={submit} style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)' }}>
                 <Input label="Dealer ID or email" placeholder="ravi@ravistores.in" autoComplete="username" required iconLeft={<i data-lucide="building-2" style={{width:17,height:17}}></i>} />
-                <Input label="Password" type="password" placeholder="••••••••" autoComplete="current-password" required iconLeft={<i data-lucide="lock" style={{width:17,height:17}}></i>} />
+                <Input label="Access passphrase" type="password" placeholder="••••••••" autoComplete="current-password" required value={passphrase} onChange={(e)=>setPassphrase(e.target.value)} iconLeft={<i data-lucide="lock" style={{width:17,height:17}}></i>} />
+                {error ? (
+                  <p role="alert" style={{ display:'flex', gap:8, alignItems:'flex-start', font:'var(--fw-medium) var(--fs-sm)/1.4 var(--font-body)', color:'var(--danger, #b3261e)', margin:0 }}>
+                    <i data-lucide="alert-circle" style={{ width:16, height:16, marginTop:1, flex:'none' }}></i>{error}
+                  </p>
+                ) : null}
                 <div className="dist-auth-options" style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'calc(-1 * var(--space-1))' }}>
                   <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', font:'var(--fw-regular) var(--fs-sm)/1 var(--font-body)', color:'var(--text-body)' }}>
                     <input type="checkbox" defaultChecked style={{ accentColor:'var(--brand)', width:16, height:16 }} /> Keep me signed in
@@ -88,12 +105,12 @@ function DistAuth({ onEnter }) {
                   <button type="button" style={{ background:'none', border:'none', padding:0, cursor:'pointer', font:'var(--fw-semibold) var(--fs-sm)/1 var(--font-body)', color:'var(--brand-ink)' }}>Forgot password?</button>
                 </div>
                 <div style={{ marginTop:'var(--space-2)' }}>
-                  <Button type="submit" variant="primary" size="lg" full iconRight={<i data-lucide="arrow-right" style={{width:18,height:18}}></i>}>Enter portal</Button>
+                  <Button type="submit" variant="primary" size="lg" full disabled={pending} iconRight={<i data-lucide="arrow-right" style={{width:18,height:18}}></i>}>{pending ? 'Checking…' : 'Enter portal'}</Button>
                 </div>
               </form>
               <p style={{ display:'flex', gap:8, alignItems:'flex-start', font:'var(--fw-regular) var(--fs-xs)/1.5 var(--font-body)', color:'var(--text-faint)', margin:'var(--space-4) 0 0' }}>
                 <i data-lucide="info" style={{ width:15, height:15, marginTop:2, flex:'none' }}></i>
-                Preview only. Credentials are not verified and no live dealer account is opened. The portal shows sample pricing and orders that stay in this browser.
+                Access is limited to invited partners and the passphrase is verified. Dealer IDs are not yet linked to individual accounts, and the portal shows sample pricing and orders that stay in this browser.
               </p>
             </React.Fragment>
           ) : (

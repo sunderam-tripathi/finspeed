@@ -245,6 +245,12 @@
           "domain": "web",
           "title": "Distributor pricing behind a server boundary",
           "status": "done"
+        },
+        {
+          "id": "WEB-040",
+          "domain": "web",
+          "title": "Invited-access verification for the distributor portal",
+          "status": "active"
         }
       ]
     }

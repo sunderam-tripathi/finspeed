@@ -25,6 +25,14 @@ export default defineConfig({
         reuseExistingServer: !process.env.CI,
         timeout: 180 * 1000,
         stdout: 'pipe',
-        stderr: 'pipe'
+        stderr: 'pipe',
+        env: {
+          ...process.env,
+          // Dev/CI invitation passphrase is the well-known word "preview"
+          // (WEB-040). Production uses a steward-set secret; this hash never
+          // gates anything real.
+          DISTRIBUTOR_ACCESS_HASH:
+            'scrypt$16384$8$1$Zmluc3BlZWQtZGV2LXByZQ$x65US9uga_xLKxytyfAhVT_i7ZPVkOBp6J1KVhkoiGY'
+        }
       }
 });
