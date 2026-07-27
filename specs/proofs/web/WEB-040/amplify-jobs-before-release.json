@@ -1,0 +1,35 @@
+{
+    "jobSummaries": [
+        {
+            "jobArn": "arn:aws:amplify:ap-south-1:660883642048:apps/d2h8tz7elv2xy8/branches/main/jobs/0000000409",
+            "jobId": "409",
+            "commitId": "a401e6d2d5730b01801d2e9566df2370c1bc6847",
+            "commitMessage": "fix(web): align header build CTA",
+            "commitTime": "2026-07-21T15:06:10.972000+05:30",
+            "startTime": "2026-07-21T15:06:11.211000+05:30",
+            "status": "SUCCEED",
+            "endTime": "2026-07-21T15:09:39.990000+05:30"
+        },
+        {
+            "jobArn": "arn:aws:amplify:ap-south-1:660883642048:apps/d2h8tz7elv2xy8/branches/main/jobs/0000000408",
+            "jobId": "408",
+            "commitId": "590d9e821976beabd99fd9b29006f07dbd9a092a",
+            "commitMessage": "WEB-035 complete storefront visual audit",
+            "commitTime": "2026-07-21T03:45:45.146000+05:30",
+            "startTime": "2026-07-21T03:45:45.384000+05:30",
+            "status": "SUCCEED",
+            "endTime": "2026-07-21T03:50:28.280000+05:30"
+        },
+        {
+            "jobArn": "arn:aws:amplify:ap-south-1:660883642048:apps/d2h8tz7elv2xy8/branches/main/jobs/0000000407",
+            "jobId": "407",
+            "commitId": "590d9e874a77d644f512364fa3023ab9a057d0b1",
+            "commitMessage": "WEB-035 complete storefront visual audit",
+            "commitTime": "2026-07-21T03:43:09.132000+05:30",
+            "startTime": "2026-07-21T03:43:09.300000+05:30",
+            "status": "FAILED",
+            "endTime": "2026-07-21T03:44:07.750000+05:30"
+        }
+    ],
+    "NextToken": "eyJuZXh0VG9rZW4iOiBudWxsLCAiYm90b190cnVuY2F0ZV9hbW91bnQiOiAzfQ=="
+}
