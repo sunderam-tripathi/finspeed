@@ -974,7 +974,8 @@
         "specs/notes/indexes/**",
         "specs/project-progress/**",
         "specs/working-memory/**",
-        "design-qa.md"
+        "design-qa.md",
+        "amplify.yml"
       ]
     }
   ]
