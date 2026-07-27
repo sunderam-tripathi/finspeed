@@ -1,0 +1,27 @@
+{
+  "base": "https://www.finspeed.online",
+  "state": "unconfigured",
+  "when": "2026-07-27T06:33:14.893Z",
+  "results": [
+    {
+      "name": "unconfigured deployment refuses sessions with 503",
+      "ok": true,
+      "detail": "status=503"
+    },
+    {
+      "name": "503 carries the honest not-configured error",
+      "ok": true,
+      "detail": "Distributor access is not configured on this deployment."
+    },
+    {
+      "name": "portal dataset stays 401 without a token",
+      "ok": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "sign-in shows the invited-access notice",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

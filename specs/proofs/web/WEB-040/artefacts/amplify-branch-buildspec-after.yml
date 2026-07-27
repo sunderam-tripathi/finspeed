@@ -1,0 +1,27 @@
+version: 1
+applications:
+  - appRoot: apps/web
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - nvm install 22
+            - nvm use 22
+            - npm ci
+        build:
+          commands:
+            # Amplify environment variables exist only at build time; the
+            # Next.js server runtime reads .env.production, so hand over the
+            # distributor access hash here (server-only, never NEXT_PUBLIC_).
+            # Absent variable (CI, previews, local) is a no-op and the portal
+            # stays honestly fail-closed (WEB-040).
+            - env | grep -E '^DISTRIBUTOR_ACCESS_HASH=' >> .env.production || true
+            - npm run build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - ../../node_modules/**/*
+          - .next/cache/**/*

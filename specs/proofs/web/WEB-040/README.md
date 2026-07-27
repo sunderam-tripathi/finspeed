@@ -56,3 +56,36 @@ sign-in notice states the new truth, deliberately replacing the WEB-036
   holds the passphrase.
 
 final result: pending release — all local gates passed
+
+## 2026-07-27 production rollout: unresolved, fail-closed throughout
+
+The unconfigured state verified 4/4 (`production-results-unconfigured.json`,
+`production-signin-unconfigured.png`). The configured state is **not reached**:
+after the steward set the passphrase, four successive Amplify releases
+(411-414) left the session endpoint answering the honest 503.
+
+Eliminated by direct test, in order:
+1. App-level Amplify env var — never reaches build (branch vars shadow it).
+2. Repo `amplify.yml` env pipe — a console **branch** buildspec was overriding
+   the repo file (`artefacts/amplify-branch-buildspec-before.yml` /
+   `-after.yml`); synced, pipe then ran (build log 413 confirms).
+3. Branch-level env var — added alongside the existing 11 (values never
+   printed); still 503.
+4. Literal `process.env` reference so Next could inline at build (PR #19);
+   still 503, while `portal no-token: 401` proves the new code is deployed.
+
+Conclusion: the Amplify WEB_COMPUTE **runtime** never receives the variable —
+build-container env, `.env.production` (outside the deployed `.next`
+artefact), and build-time inlining are all excluded. The build log's
+`Failed to set up process.env.secrets` warning is consistent.
+
+Recommended next step: a prebuild step writes the hash into a generated,
+gitignored server module imported by `distributor-access.js` (with a
+`process.env` fallback for local/CI), placing the value inside the deployed
+server bundle deterministically.
+
+**Platform note:** production `www.finspeed.online` is served by Vercel, not
+Amplify (see the platform-restoration work of the same date); these probes ran
+against the Amplify host directly, which is why they are meaningful at all.
+
+final result: incomplete — portal remains honestly fail-closed in production
