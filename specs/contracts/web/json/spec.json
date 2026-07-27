@@ -977,6 +977,26 @@
         "design-qa.md",
         "amplify.yml"
       ]
+    },
+    {
+      "id": "WEB-041",
+      "title": "Legal and policy pages",
+      "done_definition": [
+        "Privacy, terms, returns/refunds and shipping policies are served as static server-rendered routes readable without JavaScript",
+        "Each carries its own metadata and cross-links to the others and to contact",
+        "The consent banner's missing privacy link (WEB-036 follow-up) is satisfiable",
+        "Content is business-accurate where verifiable and flagged for steward legal review before gateway submission"
+      ],
+      "allow": [
+        "apps/web/**",
+        "specs/contracts/web/**",
+        "specs/notes/plans/web/WEB-041.md",
+        "specs/proofs/web/WEB-041/**",
+        "specs/notes/indexes/**",
+        "specs/project-progress/**",
+        "specs/working-memory/**",
+        "design-qa.md"
+      ]
     }
   ]
 }
