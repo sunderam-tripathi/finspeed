@@ -251,6 +251,12 @@
           "domain": "web",
           "title": "Invited-access verification for the distributor portal",
           "status": "active"
+        },
+        {
+          "id": "WEB-041",
+          "domain": "web",
+          "title": "Legal and policy pages",
+          "status": "active"
         }
       ]
     }
